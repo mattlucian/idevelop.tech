@@ -5,14 +5,10 @@ import Footer from "../components/Astro/Footer.astro";
 import Header from "../components/Astro/Header.astro";
 import "../styles/global.css";
 
-import type { LayoutProps } from "../types/layout";
-import {
-  defaultSEO,
-  defaultTheme,
-  defaultArticle,
-} from "../constants/defaults";
+import type { BlogLayoutProps } from "../types/blog";
+import { defaultSEO, defaultTheme } from "../constants/defaults";
 
-const props = Astro.props as LayoutProps;
+const props = Astro.props as BlogLayoutProps;
 const seo = {
   ...defaultSEO,
   ...props.seo,
@@ -21,10 +17,7 @@ const theme = {
   ...defaultTheme,
   ...props.theme,
 };
-const article = {
-  ...defaultArticle,
-  ...props.article,
-};
+const blog = props.blog;
 
 const titleTemplate = seo.tagline
   ? `%s - I Develop Tech | ${seo.tagline}`
@@ -63,12 +56,12 @@ const titleTemplate = seo.tagline
           type: "image/png",
         },
         article: {
-          publishedTime: "string",
-          modifiedTime: "string",
-          expirationTime: "string",
-          authors: [""],
-          section: "string",
-          tags: [""],
+          publishedTime: blog?.publishedTime,
+          modifiedTime: blog?.modifiedTime,
+          expirationTime: blog?.expirationTime,
+          authors: blog?.authors,
+          section: blog?.section,
+          tags: blog?.tags,
         },
       }}
       twitter={{

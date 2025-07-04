@@ -1,7 +1,6 @@
 export interface LayoutProps {
   seo?: Partial<PageSEO>;
   theme?: Partial<PageTheme>;
-  article?: Partial<PageArticle>;
 }
 
 export interface PageTheme {
@@ -23,13 +22,4 @@ export interface PageSEO {
   socialDescription: string;
   image: string;
   altImageText: string;
-}
-
-export interface PageArticle {
-  publishedTime: string;
-  modifiedTime: string;
-  expirationTime: string;
-  authors: string[];
-  section: string;
-  tags: string[];
 }
