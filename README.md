@@ -1,73 +1,35 @@
-# 🚀 Ultimate Astro - Modern Multi-Framework Showcase
-
-<div align="center">
-
-[![Ultimate Astro](https://github.com/user-attachments/assets/19ceca2e-af6f-498a-b1e1-00f36718fc48)](https://ultimate-astro-template.vercel.app)
-
-![Astro](https://astro.build/assets/press/astro-icon-light-gradient.svg)
-
-[![Available at](https://img.shields.io/badge/Available%20at-Astro%20Themes-purple?style=for-the-badge&link=https://astro.build/themes/details/ultimate-astro-theme-multiframework-heaven/)](https://astro.build/themes/details/ultimate-astro-theme-multiframework-heaven/)
-
-[![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)](https://astro.build)
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org)
-[![Svelte](https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00)](https://svelte.dev)
-[![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D)](https://vuejs.org)
-[![Solid](https://img.shields.io/badge/Solid-2C4F7C?style=for-the-badge&logo=solid&logoColor=white)](https://www.solidjs.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-
-</div>
+# idevelop.tech
 
 ## 🌟 Overview
 
-Ultimate Astro is a cutting-edge template that seamlessly integrates multiple frontend frameworks within the Astro ecosystem. Perfect for developers who want to experiment with different frameworks or build hybrid applications.
+This is a simple website to showcase I Develop Tech LLC's services & information.
 
 ## 🚀 Quick Start
 
-1. **Clone and Install**
+1. **Clone & Install**
 
    ```bash
-    git clone https://github.com/Marve10s/UltimateAstroTemplate.git
+   git clone https://github.com/mattlucian/idevelop.tech.git
    ```
 
    ```bash
-    cd UltimateAstroTemplate
+   cd idevelop.tech
    ```
 
    ```bash
-    npm install
+   npm i
    ```
 
-   **Or Fork and Install**
-
-   1.1 Click the 'Fork' button in the top right corner of this repository
-
-   1.2 Clone your forked repository
+2. **Dev**
 
    ```bash
-    git clone https://github.com/YOUR_USERNAME/UltimateAstroTemplate.git
-   ```
-
-   1.3 Navigate and install dependencies
-
-   ```bash
-    cd UltimateAstroTemplate && npm install
-   ```
-
-2. **Development**
-
-   ```bash
-    npm run dev
+   npm run dev
    ```
 
 3. **Build**
    ```bash
-    npm run build
+   npm run build
    ```
-
-## ⭐ Star Power 
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Marve10s/UltimateAstroTemplate&type=Date)](https://www.star-history.com/#Marve10s/UltimateAstroTemplate&Date)
 
 ## 📁 Project Structure
 
@@ -78,11 +40,7 @@ Ultimate Astro is a cutting-edge template that seamlessly integrates multiple fr
 │   ├── assets/      # Project assets
 │   ├── components/  # UI components
 │   │   ├── Astro/   # Astro components
-│   │   ├── React/   # React components
-│   │   ├── Solid/   # Solid components
-│   │   ├── Svelte/  # Svelte components
-│   │   ├── Vue/     # Vue components
-│   │   └── ui/      # Shared UI components
+│   │   └── Vue/     # Vue components
 │   ├── data/        # Data files
 │   ├── icons/       # Icon components
 │   ├── layouts/     # Layout templates
@@ -90,23 +48,6 @@ Ultimate Astro is a cutting-edge template that seamlessly integrates multiple fr
 │   └── styles/      # Global styles
 └── package.json
 ```
-
-## 📊 Performance
-
-<div>
-
-[![PageSpeed Desktop](https://img.shields.io/badge/PageSpeed%20Desktop-99-success?style=for-the-badge&logo=pagespeed-insights)](https://pagespeed.web.dev/analysis/https-ultimate-astro-template-vercel-app/2tzke5pokx?form_factor=desktop)
-
-| Metric            | Score   |
-| ----------------- | ------- |
-| 🚀 Performance    | 99/100  |
-| ♿ Accessibility  | 97/100  |
-| 🏗️ Best Practices | 100/100 |
-| 🔍 SEO            | 100/100 |
-
-[View Full Report](https://pagespeed.web.dev/analysis/https-ultimate-astro-template-vercel-app/2tzke5pokx?form_factor=desktop)
-
-</div>
 
 ## 🛠️ Customization
 
@@ -121,35 +62,31 @@ Modify `tailwind.config.cjs` to customize:
 
 ### Components
 
-- Add framework-specific components in respective directories
-- Use shared components in `ui/` for cross-framework functionality
+- Add Vue components in Vue directory
+- Add Astro components in the Astro directory
 - Leverage Astro's partial hydration with `client:*` directives
-
-## 🎨 Share Your Creation
-
-Have you modified my template? I'd love to see it! Share your creation with me:
-
-- Create a [GitHub issue](https://github.com/Marve10s/UltimateAstroTemplate/issues) with screenshots and demo link
-
-All theme contributions will be reviewed and credited appropriately.
-
-### 🌟 Community Showcases
-
-Check out these amazing modifications by our community:
-
-[Ismael Treviño](https://github.com/Ismola) - Modified background to have different orb colors | Changes are live! ✅
-
-[Ismael Treviño](https://github.com/Ismola) - Added DevContainer | Changes are live! 🚀
-
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+##
+
+<div align="center">
+
+[![Original Theme available at](https://img.shields.io/badge/Available%20at-Astro%20Themes-purple?style=for-the-badge&link=https://astro.build/themes/details/ultimate-astro-theme-multiframework-heaven/)](https://astro.build/themes/details/ultimate-astro-theme-multiframework-heaven/)
+
+[![Astro](https://img.shields.io/badge/Astro-0C1222?style=for-the-badge&logo=astro&logoColor=FDFDFE)](https://astro.build)
+[![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vue.js&logoColor=4FC08D)](https://vuejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+
+</div>
 
 <div align="center">
 
 Made with ❤️ using [Astro](https://astro.build)
+
+Original Theme designed by [Marve10s](https://github.com/Marve10s)
 
 </div>

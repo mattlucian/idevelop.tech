@@ -1,0 +1,324 @@
+---
+import { links } from "../../constants/navigation";
+import { github } from "../../constants/config";
+import CTAButton from "./CTAButton.astro";
+
+const currentPath = Astro.url.pathname;
+const isActivePath = (path: string) => {
+  const normalizedCurrent = currentPath.replace(/\/+$/, "").toLowerCase();
+  const normalizedPath = path.replace(/\/+$/, "").toLowerCase();
+  return path === "/"
+    ? normalizedCurrent === "" || normalizedCurrent === "/"
+    : normalizedCurrent.endsWith(normalizedPath);
+};
+---
+
+<header class="top-0 left-0 right-0 z-50">
+  <nav class="container mx-auto px-4 py-6">
+    {/* Desktop Navigation */}
+    <div
+      class="hidden lg:grid grid-cols-[0.5fr_auto_0.5fr] xl:grid-cols-[1fr_auto_1fr] items-center"
+    >
+      <div></div>
+
+      {/* Navigation Links */}
+      <div
+        class="bg-gray-900/50 backdrop-blur-md px-2 lg:px-3 xl:px-6 py-2 lg:py-2.5 rounded-full border border-gray-800/50"
+      >
+        {
+          links.map((link, index) => (
+            <>
+              {index !== 0 && (
+                <span class="mx-1.5 lg:mx-2 xl:mx-4 text-gray-600">|</span>
+              )}
+
+              {link.children?.length ? (
+                /* Dropdown trigger */
+                <div class="relative inline-block hover-trigger">
+                  <button
+                    class:list={[
+                      "relative px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 text-[11px] lg:text-xs xl:text-sm font-medium font-sans transition-all duration-300",
+                      isActivePath(link.path)
+                        ? "text-white bg-gray-800/80 rounded-lg border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.3)]"
+                        : "text-gray-400 hover:text-white",
+                    ]}
+                  >
+                    {link.label}
+                  </button>
+
+                  <div class="dropdown-panel absolute top-full left-0 w-48 mt-0 bg-gray-900/90 rounded-lg border border-gray-700/50 shadow-lg opacity-0 pointer-events-none transition-opacity duration-500 ease-out">
+                    {link.children.map((child) => (
+                      <a
+                        href={child.path}
+                        class="block  px-3 py-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700/50 transition-all duration-300 text-sm"
+                      >
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a
+                  href={link.path}
+                  class:list={[
+                    "relative px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 text-[11px] lg:text-xs xl:text-sm font-medium font-sans transition-all duration-300",
+                    isActivePath(link.path)
+                      ? "text-white bg-gray-800/80 rounded-lg border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.3)]"
+                      : "text-gray-400 hover:text-white",
+                  ]}
+                >
+                  <span class="relative z-10">{link.label}</span>
+                  {isActivePath(link.path) && (
+                    <span
+                      class="absolute bottom-0 left-0 h-[2px] w-full"
+                      style={`background-color: ${link.color}`}
+                    />
+                  )}
+                </a>
+              )}
+            </>
+          ))
+        }
+      </div>
+
+      {/* GitHub Links */}
+      <div class="flex justify-end items-center gap-3 lg:gap-4 xl:gap-6">
+        <a
+          href={`https://github.com/${github.username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="p-1.5 lg:p-2 text-gray-400 hover:text-white bg-gray-900/50 backdrop-blur-md rounded-full border border-gray-800/50 transition-all duration-300 hover:scale-110 flex items-center"
+          aria-label="GitHub Profile"
+        >
+          <svg
+            class="lg:w-[18px] lg:h-[18px] xl:w-[20px] xl:h-[20px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+            ></path>
+          </svg>
+        </a>
+
+        <CTAButton />
+      </div>
+    </div>
+
+    {/* Mobile Navigation */}
+    <div class="lg:hidden flex justify-between items-center">
+      <button
+        id="mobile-menu-button"
+        class="p-2 text-gray-400 hover:text-white"
+        aria-label="Toggle Menu"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+
+      <div
+        id="mobile-menu"
+        class="hidden fixed inset-0 bg-gray-900/95 backdrop-blur-md"
+        style="z-index: 100;"
+      >
+        <div class="container mx-auto px-4 py-8">
+          <div class="flex justify-end">
+            <button
+              id="mobile-menu-close"
+              class="p-2 text-gray-400 hover:text-white"
+              aria-label="Close Menu"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <nav class="mt-8 flex flex-col gap-4">
+            {
+              links.map((link) => (
+                <div>
+                  <a
+                    href={link.path}
+                    class:list={[
+                      "px-4 py-2 rounded-lg transition-all duration-200",
+                      isActivePath(link.path)
+                        ? "bg-gray-800 text-white"
+                        : "text-gray-400 hover:text-white hover:bg-gray-800/50",
+                    ]}
+                  >
+                    {link.label}
+                    {isActivePath(link.path) && (
+                      <span
+                        class="block h-[2px] mt-1 w-12"
+                        style={`background-color: ${link.color}`}
+                      />
+                    )}
+                  </a>
+
+                  {link.children?.length && (
+                    <div class="ml-4 mt-2 flex flex-col gap-2">
+                      {link.children.map((child) => (
+                        <a
+                          href={child.path}
+                          class:list={[
+                            "px-4 py-1 rounded text-sm transition-all duration-200",
+                            isActivePath(child.path)
+                              ? "bg-gray-700 text-white"
+                              : "text-gray-400 hover:text-white hover:bg-gray-700/50",
+                          ]}
+                        >
+                          {child.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            }
+
+            <div class="mt-6 flex flex-col gap-4">
+              <a
+                href={`https://github.com/${github.username}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800/50 transition-all duration-200"
+              >
+                <svg
+                  class="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                  ></path>
+                </svg>
+                GitHub Profile
+              </a>
+              <CTAButton />
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function setupMobileMenu() {
+    const button = document.getElementById("mobile-menu-button");
+    const closeButton = document.getElementById("mobile-menu-close");
+    const menu = document.getElementById("mobile-menu");
+    const body = document.body;
+
+    if (
+      !button ||
+      !closeButton ||
+      !menu ||
+      !button.parentNode ||
+      !closeButton.parentNode
+    ) {
+      console.warn("Mobile menu elements not found");
+      return;
+    }
+
+    // Create new buttons with event listeners
+    const newButton = button.cloneNode(true) as HTMLButtonElement;
+    const newCloseButton = closeButton.cloneNode(true) as HTMLButtonElement;
+
+    const toggleMenu = () => {
+      menu.classList.toggle("hidden");
+      body.style.overflow = menu.classList.contains("hidden") ? "" : "hidden";
+    };
+
+    // Add event listeners to new buttons
+    newButton.addEventListener("click", toggleMenu);
+    newCloseButton.addEventListener("click", toggleMenu);
+
+    // Replace old buttons with new ones
+    button.parentNode.replaceChild(newButton, button);
+    closeButton.parentNode.replaceChild(newCloseButton, closeButton);
+
+    // Close menu when clicking outside
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target === menu) {
+        toggleMenu();
+      }
+    };
+    menu.addEventListener("click", handleOutsideClick);
+
+    // Close menu on escape key
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !menu.classList.contains("hidden")) {
+        toggleMenu();
+      }
+    };
+    document.addEventListener("keydown", handleEscKey);
+
+    // Cleanup function
+    return () => {
+      menu.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("keydown", handleEscKey);
+    };
+  }
+
+  let cleanup: (() => void) | undefined;
+
+  // Run setup immediately if document is already loaded
+  if (document.readyState === "complete") {
+    cleanup = setupMobileMenu();
+  } else {
+    // Otherwise wait for DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", () => {
+      cleanup = setupMobileMenu();
+    });
+  }
+
+  // Setup after each navigation with View Transitions
+  document.addEventListener("astro:page-load", () => {
+    if (cleanup) {
+      cleanup();
+    }
+    cleanup = setupMobileMenu();
+  });
+
+  // Cleanup when leaving page
+  document.addEventListener("astro:before-swap", () => {
+    if (cleanup) {
+      cleanup();
+    }
+    const menu = document.getElementById("mobile-menu");
+    const body = document.body;
+    if (menu && !menu.classList.contains("hidden")) {
+      menu.classList.add("hidden");
+      body.style.overflow = "";
+    }
+  });
+</script>

@@ -14,3 +14,14 @@ body {
 .font-cal {
   font-family: 'Cal Sans', 'Inter', system-ui, -apple-system, sans-serif;
 }
+
+.hover-trigger:hover .dropdown-panel {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.hover\:glow:hover {
+  text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+

@@ -3,21 +3,18 @@ import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Vue/Hero.vue";
 import Features from "../components/Vue/Features.vue";
 import { getPageUrl } from "../utils/url";
-import type { LayoutProps } from "../types/layout";
 
-const props: LayoutProps = {
-  seo: {
-    title: "Home",
-    url: getPageUrl(Astro),
-  },
-  theme: {
-    primaryBallColor: "#4caf50",
-    secondaryBallColor: "#81c784",
-  },
+const seo = {
+  title: "About",
+  url: getPageUrl(Astro),
+};
+const theme = {
+  primaryBallColor: "#4caf50",
+  secondaryBallColor: "#81c784",
 };
 ---
 
-<Layout seo={props.seo} theme={props.theme}>
+<Layout seo={seo} theme={theme}>
   <main>
     <Hero client:only="vue" />
     <Features client:only="vue" />

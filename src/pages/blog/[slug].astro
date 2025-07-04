@@ -1,0 +1,20 @@
+---
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import { getCollection } from "astro:content";
+
+const { slug } = Astro.params;
+
+const posts = await getCollection("blog");
+
+const post = posts.find((p) => p.slug === slug);
+
+if (!post) {
+  throw new Error(`Post not found for slug: ${slug}`);
+}
+
+const { Content, data } = await post.render();
+---
+
+<BlogLayout seo={data}>
+  <Content />
+</BlogLayout>
