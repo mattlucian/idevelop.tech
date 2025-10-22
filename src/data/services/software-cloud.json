@@ -1,0 +1,126 @@
+{
+  "title": "Software & Cloud Engineering",
+  "tagline": "Scalable solutions built for growth",
+  "overview": "Build modern, cloud-native applications that scale with your business. From architecture to deployment, get enterprise-quality engineering without enterprise costs.",
+  "stats": [
+    { "value": "$50k", "label": "Cloud Spend" },
+    { "value": "50%", "label": "Cost Saved" },
+    { "value": "99.9%", "label": "Uptime" }
+  ],
+  "tags": ["AWS Cloud", "Full-Stack Development", "SaaS Apps", "DevOps & CI/CD"],
+  "sections": [
+    {
+      "heading": "Cloud Architecture & AWS",
+      "tagline": "Build on infrastructure that scales",
+      "benefits": [
+        "AWS architecture design and implementation",
+        "Container orchestration with ECS and Fargate",
+        "Serverless solutions for cost efficiency",
+        "Database optimization (RDS, DynamoDB, Aurora)"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "AWS Architecture Pattern",
+          "code": "┌─────────────────────────────────────┐\n│  CloudFront CDN (Global delivery)   │\n└──────────────┬──────────────────────┘\n               │\n┌──────────────▼──────────────────────┐\n│  Load Balancer (High availability)  │\n└──────────────┬──────────────────────┘\n               │\n      ┌────────┴────────┐\n      │                 │\n┌─────▼─────┐    ┌──────▼──────┐\n│  ECS/     │    │  Lambda     │\n│  Fargate  │    │  Functions  │\n└─────┬─────┘    └──────┬──────┘\n      │                 │\n      └────────┬────────┘\n               │\n┌──────────────▼──────────────────────┐\n│  RDS/DynamoDB (Managed databases)   │\n└─────────────────────────────────────┘\n\nResult: Scalable, cost-optimized infrastructure"
+        }
+      },
+      "cta": "Build on reliable, scalable AWS infrastructure"
+    },
+    {
+      "heading": "Full-Stack Application Development",
+      "tagline": "Modern applications built right",
+      "benefits": [
+        "Backend development (Java, C#, Node.js, Python)",
+        "Frontend development (Vue.js, React, TypeScript)",
+        "RESTful and GraphQL API architecture",
+        "Test-driven development for code quality"
+      ],
+      "visual": {
+        "type": "before-after",
+        "data": {
+          "before": {
+            "title": "Legacy Application",
+            "items": [
+              "Monolithic architecture hard to scale",
+              "Long deployment cycles and downtime",
+              "Manual testing and frequent bugs",
+              "Limited API capabilities"
+            ]
+          },
+          "after": {
+            "title": "Modern Architecture",
+            "items": [
+              "Microservices that scale independently",
+              "Zero-downtime deployments",
+              "Automated testing and CI/CD",
+              "Robust API with full documentation"
+            ]
+          }
+        }
+      },
+      "cta": "Modernize your application architecture"
+    },
+    {
+      "heading": "DevOps & CI/CD Pipelines",
+      "tagline": "Ship faster with confidence",
+      "benefits": [
+        "Automated testing and deployment pipelines",
+        "Infrastructure as Code (CloudFormation, Terraform)",
+        "Docker containerization for consistency",
+        "Blue-green and canary deployment strategies"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "CI/CD Pipeline",
+          "steps": [
+            { "icon": "💻", "label": "Code", "desc": "Push to GitHub" },
+            { "icon": "🧪", "label": "Test", "desc": "Automated tests" },
+            { "icon": "📦", "label": "Build", "desc": "Create artifacts" },
+            { "icon": "🚀", "label": "Deploy", "desc": "Release to prod" }
+          ]
+        }
+      },
+      "cta": "Automate your deployment process"
+    },
+    {
+      "heading": "Monitoring & Performance",
+      "tagline": "Catch issues before your users do",
+      "benefits": [
+        "DataDog and CloudWatch implementation",
+        "Custom metrics and alerting",
+        "Application performance monitoring (APM)",
+        "Log aggregation and analysis"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Observability Stack",
+          "code": "/**\n * MONITORING & ALERTING SETUP\n * Coverage: Application + Infrastructure\n */\n\n// Application Metrics\n✓ Response time tracking\n✓ Error rate monitoring  \n✓ Database query performance\n✓ API endpoint analytics\n\n// Infrastructure Metrics\n✓ CPU/Memory utilization\n✓ Network throughput\n✓ Auto-scaling triggers\n✓ Cost monitoring\n\n// Alerting Rules\nIF error_rate > 1% THEN notify #oncall\nIF response_time > 2s THEN investigate  \nIF cpu_usage > 80% THEN scale_up\n\n// Result: Issues caught and resolved proactively"
+        }
+      },
+      "cta": "Maintain reliability with comprehensive monitoring"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "name": "Flxpoint",
+      "url": "https://flxpoint.com",
+      "logo": "/images/partners/flxpoint-logo-dark.png",
+      "description": "Distributed eCommerce operations platform built on AWS with millions of daily operations"
+    },
+    {
+      "name": "Inventory Source",
+      "url": "https://inventorysource.com",
+      "logo": "/images/partners/inventorysource.gif",
+      "description": "Easily connect to your suppliers - eCommerce automation platform built on AWS"
+    }
+  ],
+  "testimonial": {
+    "quote": "Matt was able to help us accelerate our roadmap by efficiently executing on multiple supplier integrations!",
+    "author": "Travis",
+    "role": "CEO",
+    "company": "Flxpoint"
+  }
+}

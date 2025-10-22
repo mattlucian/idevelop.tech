@@ -1,0 +1,131 @@
+{
+  "title": "Web & Brand Design",
+  "tagline": "Beautiful, functional websites that drive results",
+  "overview": "Your website should work as hard as you do. Professional design on platforms like Shopify, WordPress, and custom solutions that align with your brand and convert visitors.",
+  "stats": [
+    { "value": "20+", "label": "Sites" },
+    { "value": "3x", "label": "Avg Growth" },
+    { "value": "Mobile", "label": "First" }
+  ],
+  "tags": ["Shopify", "WordPress", "Site Migration", "UX/UI Design"],
+  "sections": [
+    {
+      "heading": "E-Commerce Platform Design",
+      "tagline": "Build stores that convert browsers into buyers",
+      "benefits": [
+        "Shopify and WooCommerce expertise",
+        "Mobile-responsive design for all devices",
+        "Optimized checkout flow to reduce cart abandonment",
+        "Payment gateway integration and testing"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "eCommerce Design Process",
+          "steps": [
+            { "icon": "🎨", "label": "Design", "desc": "Brand-aligned mockups" },
+            { "icon": "🛠️", "label": "Build", "desc": "Theme customization" },
+            { "icon": "🧪", "label": "Test", "desc": "Cross-device testing" },
+            { "icon": "🚀", "label": "Launch", "desc": "Go live & optimize" }
+          ]
+        }
+      },
+      "cta": "Create an online store that drives sales"
+    },
+    {
+      "heading": "Brand-Focused User Experience",
+      "tagline": "Design that reflects your unique identity",
+      "benefits": [
+        "User journey mapping and flow optimization",
+        "Accessibility compliance for inclusive design",
+        "Conversion rate optimization strategies",
+        "Analytics setup to measure performance"
+      ],
+      "visual": {
+        "type": "before-after",
+        "data": {
+          "before": {
+            "title": "Generic Template",
+            "items": [
+              "Off-the-shelf design that looks like competitors",
+              "Poor user experience and navigation",
+              "Low conversion rates",
+              "Brand message gets lost"
+            ]
+          },
+          "after": {
+            "title": "Custom Brand Experience",
+            "items": [
+              "Unique design aligned with your brand",
+              "Intuitive navigation and user flows",
+              "Optimized for conversions",
+              "Clear brand differentiation"
+            ]
+          }
+        }
+      },
+      "cta": "Stand out from competitors with custom design"
+    },
+    {
+      "heading": "Website Migration & Modernization",
+      "tagline": "Move to better platforms without losing momentum",
+      "benefits": [
+        "Platform migration with SEO preservation",
+        "301 redirects to maintain search rankings",
+        "Content transfer and optimization",
+        "Performance improvements and speed optimization"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Migration Checklist",
+          "code": "Pre-Migration:\n☐ Content audit and inventory\n☐ SEO baseline metrics\n☐ URL mapping strategy\n☐ Backup current site\n\nMigration:\n☑ Content transfer\n☑ Theme/design implementation  \n☑ 301 redirect setup\n☑ Testing on staging environment\n\nPost-Migration:\n☑ SEO monitoring\n☑ Performance validation\n☑ Analytics verification\n☑ User acceptance testing\n\nResult: Improved site, preserved rankings"
+        }
+      },
+      "cta": "Upgrade your website with minimal disruption"
+    },
+    {
+      "heading": "Ongoing Design Support",
+      "tagline": "Keep your website fresh and optimized",
+      "benefits": [
+        "Regular design updates and improvements",
+        "New landing pages for campaigns",
+        "Performance monitoring and optimization",
+        "Data-driven design iterations"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Continuous Improvement Cycle",
+          "steps": [
+            { "icon": "📊", "label": "Analyze", "desc": "Review metrics" },
+            { "icon": "💡", "label": "Identify", "desc": "Find opportunities" },
+            { "icon": "✏️", "label": "Optimize", "desc": "Make improvements" },
+            { "icon": "📈", "label": "Measure", "desc": "Track results" }
+          ]
+        }
+      },
+      "cta": "Continuously improve your online presence"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "name": "Safari SA",
+      "url": "https://safarisa.net",
+      "logo": "/images/partners/safarisa_net.avif",
+      "description": "Website built on Shopify for Optics & Safari Products provider"
+    },
+    {
+      "name": "Masdun",
+      "url": "https://masdun.co.za",
+      "logo": "/images/partners/masdun_co_za.avif",
+      "description": "Frame and picture album eCommerce business"
+    }
+  ],
+  "testimonial": {
+    "quote": "[Matt's] expertise, knowledge, and experience in systems, software, and all technical aspects are exceptional",
+    "author": "Neil",
+    "role": "CEO",
+    "company": "SafariSA"
+  }
+}

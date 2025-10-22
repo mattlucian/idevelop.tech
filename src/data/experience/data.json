@@ -1,0 +1,556 @@
+{
+  "title": "Data Engineering",
+  "overview": "6+ years building and scaling a custom data integration platform processing 200M+ records across 100+ active integrations. Architected event-driven pipelines using Kafka for real-time processing, implemented high-performance Redis caching strategies, and tuned PostgreSQL for high-throughput transactional workloads. Deep expertise in ETL design, data pipeline automation, and integration monitoring.",
+  "badges": [
+    {
+      "label": "Experience",
+      "value": "6+ Years",
+      "icon": "⏱️"
+    },
+    {
+      "label": "Integrations",
+      "value": "100+",
+      "icon": "🔗"
+    },
+    {
+      "label": "Scale",
+      "value": "200M+ Records",
+      "icon": "📊"
+    },
+    {
+      "label": "Technologies",
+      "value": "PostgreSQL, Redis, Kafka",
+      "icon": "🔧"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Caching Strategies",
+      "subtitle": "Redis/ElastiCache for high-performance data access",
+      "topics": [
+        {
+          "title": "Redis Cache Architecture",
+          "subtitle": "High-performance caching with LRU eviction",
+          "skillTags": [
+            "Redis Cluster",
+            "LRU Eviction",
+            "Cache Key Patterns",
+            "TTL Management",
+            "Memory Optimization"
+          ],
+          "intro": "Designed and implemented Redis caching layer for high-traffic e-commerce integration platform. Used ElastiCache for Redis with cluster mode enabled for horizontal scaling. Cache reduced database load by 70%+ and improved API response times from 500ms to under 50ms for cached queries.",
+          "sections": [
+            {
+              "heading": "Cache Architecture Design",
+              "content": "Implemented multi-tier caching strategy: (1) In-memory application cache for ultra-frequent lookups (customer context, configuration), (2) Redis cluster for shared cache across services (product data, inventory counts, pricing), (3) Database query result caching for expensive joins and aggregations. Each tier had appropriate TTLs and invalidation strategies."
+            },
+            {
+              "heading": "LRU Eviction Strategy",
+              "content": "Configured Redis with allkeys-lru eviction policy to automatically remove least recently used keys when memory full. This allowed cache to self-manage under load without manual intervention. Monitored eviction rates to size cluster appropriately - high eviction = need more memory. Aimed for <5% eviction rate during peak traffic."
+            },
+            {
+              "heading": "Cache Key Design Patterns",
+              "content": "Established key naming conventions for maintainability and pattern-based invalidation: namespace:entity:id format (e.g., \"product:123\", \"inventory:store:456:sku:789\"). Used Redis key expiration for time-based data. Implemented versioned keys for schema changes: \"product:v2:123\" allowed gradual migration without downtime."
+            },
+            {
+              "heading": "TTL Management Strategy",
+              "content": "Different data types had different staleness tolerance: (1) Product catalog: 15-minute TTL (infrequent changes), (2) Inventory levels: 30-second TTL (frequent updates), (3) Configuration data: 5-minute TTL (rare changes), (4) Session data: 24-hour TTL (user-based). Tuned TTLs based on update frequency vs staleness impact analysis."
+            },
+            {
+              "heading": "Memory Optimization Techniques",
+              "content": "Reduced cache memory footprint through: (1) Storing only essential fields in cached objects (full hydration on cache miss), (2) Using Redis hashes for structured data vs serialized JSON (more efficient), (3) Compressing large payloads before caching (see Cache Performance Optimization topic), (4) Implementing lazy loading patterns (cache populated on first access, not proactively)."
+            },
+            {
+              "heading": "Cache Warming & Pre-loading",
+              "content": "Implemented cache warming for predictable workloads: pre-loaded frequently accessed products, customer data, and configurations on application startup or cache cluster restart. Prevented thundering herd problem where all services simultaneously query database after cache clear. Used background jobs to refresh high-value cache entries before expiration."
+            }
+          ]
+        },
+        {
+          "title": "Cache Performance Optimization",
+          "subtitle": "Maximizing efficiency through compression and diff detection",
+          "skillTags": [
+            "Payload Compression",
+            "Diff Detection",
+            "Hit Rate Optimization",
+            "Connection Pooling",
+            "Monitoring"
+          ],
+          "intro": "Optimized cache performance through payload compression, intelligent change detection, and strategic cache warming. Reduced cache memory footprint by 60% while improving hit rates to 95%+. Implemented diff detection processing billions of comparisons per hour to minimize unnecessary updates.",
+          "sections": [
+            {
+              "heading": "Payload Compression Strategy",
+              "content": "Implemented GZIP compression for large cached objects (>1KB). Trade-off: slight CPU cost for compression/decompression vs significant memory savings and faster network transfer. Particularly effective for product catalog data, order details, and integration response caching. Monitored CPU impact - stayed under 5% additional overhead while reducing cache cluster size by 40%."
+            },
+            {
+              "heading": "Diff Detection at Scale",
+              "content": "Built high-performance diff detection system processing billions of record comparisons per hour. Used to determine what changed between integration runs, avoiding unnecessary database writes and downstream processing. Strategy: (1) Generate MD5 hashes of record representations, (2) Compare hashes (not full objects) for initial filtering, (3) Deep comparison only when hashes differ, (4) Batch diff operations for efficiency."
+            },
+            {
+              "heading": "Change Detection Implementation",
+              "content": "Cached previous integration run results and compared against current data before processing. Example: inventory sync receiving 10M records but only 50K actually changed - diff detection prevented 9.95M unnecessary updates. Saved massive database I/O and downstream event processing. Used bloom filters for existence checks and Redis sorted sets for efficient range comparisons."
+            },
+            {
+              "heading": "Cache Hit Rate Optimization",
+              "content": "Achieved 95%+ hit rates through strategic techniques: (1) Analyzed access patterns to identify frequently queried data, (2) Implemented predictive pre-loading for common workflows, (3) Used cache-aside pattern with smart refresh logic, (4) Monitored miss patterns to identify gaps in caching strategy. Low hit rates indicated poor TTL tuning or insufficient cache coverage."
+            },
+            {
+              "heading": "Connection Pooling & Client Optimization",
+              "content": "Configured Redis client connection pooling to prevent connection exhaustion under load. Pool sizes tuned based on application concurrency needs. Used pipelining for batch operations to reduce network round-trips. Implemented retry logic with exponential backoff for transient failures. Monitored connection metrics (active, idle, wait time) to right-size pools."
+            },
+            {
+              "heading": "Cache Monitoring & Alerting",
+              "content": "Comprehensive cache observability: (1) Hit/miss rates by key pattern, (2) Eviction rates and memory usage, (3) Command latency percentiles (p50, p95, p99), (4) Connection pool saturation, (5) Network throughput. Alerts on: hit rate drops below 85%, eviction rate exceeds 10%, latency p99 >100ms, memory usage >80%. Enabled proactive optimization before user impact."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Event-Driven Architecture",
+      "subtitle": "Kafka, SQS, SNS, EventBridge for async processing",
+      "topics": [
+        {
+          "title": "Event-Driven Architecture (Kafka)",
+          "subtitle": "Real-time inventory events and streaming data pipelines",
+          "skillTags": [
+            "Kafka Cluster Design",
+            "Topic Partitioning Strategy",
+            "Consumer Groups",
+            "Event Schema Design",
+            "Dead Letter Queues"
+          ],
+          "intro": "Architected Kafka-based event streaming platform processing millions of inventory events daily. Real-time data pipeline enabled sub-second propagation of inventory updates across multiple systems. Used for inventory synchronization, order fulfillment triggers, and analytics streaming.",
+          "sections": [
+            {
+              "heading": "Kafka Cluster Architecture",
+              "content": "Deployed multi-broker Kafka cluster on AWS MSK (Managed Streaming for Kafka) for reliability and reduced operational overhead. Three-broker minimum for fault tolerance with replication factor of 2. Configured topic partitions based on throughput requirements and consumer parallelism needs. Used ZooKeeper ensemble for cluster coordination."
+            },
+            {
+              "heading": "Inventory Event Pipeline",
+              "content": "Primary use case: real-time inventory updates from suppliers propagated to e-commerce systems. Event flow: (1) Integration job fetches inventory data, (2) Publishes inventory change events to Kafka topic, (3) Multiple consumers process events: update database, trigger pricing recalculations, send notifications, update search indexes. Average latency: 200-500ms from event production to full propagation."
+            },
+            {
+              "heading": "Topic Partitioning Strategy",
+              "content": "Partitioned topics by customer ID or supplier ID to ensure ordering guarantees within partition while enabling parallel processing across partitions. Sizing: calculated required throughput (messages/sec), multiplied by message size, added 50% headroom. Created enough partitions to match consumer instances for maximum parallelism. Example: 24 partitions for high-volume inventory topic supporting 24 parallel consumers."
+            },
+            {
+              "heading": "Consumer Group Patterns",
+              "content": "Multiple consumer groups subscribed to same topics for different purposes: (1) Database writer consumer group updated persistence layer, (2) Cache invalidation consumer group cleared Redis entries, (3) Analytics consumer group streamed to data warehouse, (4) Notification consumer group sent alerts. Each group processed independently with own offsets and processing logic."
+            },
+            {
+              "heading": "Event Schema Evolution",
+              "content": "Used Avro schemas with schema registry for event serialization. Enabled backward/forward compatibility as event structure evolved. Versioned schemas allowed gradual rollout of changes without breaking existing consumers. Enforced schema validation on produce to catch issues early. Maintained schema documentation in registry for discoverability."
+            },
+            {
+              "heading": "Error Handling & Dead Letter Queues",
+              "content": "Implemented retry logic with exponential backoff for transient failures. After max retries, published failed events to dead letter topic for manual investigation. Monitored DLQ depth - growing queue indicated systemic processing issues. Used separate consumer to replay DLQ events after fixes deployed. Prevented poison messages from blocking partition processing."
+            }
+          ]
+        },
+        {
+          "title": "AWS SQS for Job Queuing",
+          "subtitle": "Asynchronous batch processing and job orchestration",
+          "skillTags": [
+            "Queue Architecture",
+            "FIFO vs Standard Queues",
+            "Visibility Timeout Tuning",
+            "Dead Letter Queue Handling",
+            "Message Batching"
+          ],
+          "intro": "Leveraged AWS SQS for asynchronous job processing across integration platform. Decoupled job producers from workers, enabling elastic scaling based on queue depth. Processed millions of messages monthly with automatic retry and dead-letter handling for failed jobs.",
+          "sections": [
+            {
+              "heading": "Queue Architecture Design",
+              "content": "Separated queues by job type and priority: high-priority order processing queue, standard integration sync queue, low-priority reporting queue. Each queue had dedicated worker pool scaling independently based on depth. Enabled prioritization of critical workflows without blocking lower-priority work. Used SNS fan-out to multiple SQS queues for parallel processing paths."
+            },
+            {
+              "heading": "FIFO vs Standard Queue Selection",
+              "content": "Used FIFO queues when ordering critical (e.g., inventory update sequence for same product) and throughput under 3K messages/second. Standard queues for high-throughput, order-flexible workloads (e.g., bulk product imports, report generation). Standard queues offered better scaling but at-least-once delivery required idempotency in consumers. Designed consumers to handle duplicates gracefully."
+            },
+            {
+              "heading": "Visibility Timeout Optimization",
+              "content": "Tuned visibility timeout based on typical job processing time plus buffer. If job took 5 minutes average, set timeout to 8 minutes to prevent premature re-processing while allowing timely retry on actual failures. Workers extended visibility timeout for long-running jobs using ChangeMessageVisibility API. Monitored message receive counts - high counts indicated timeout too short or jobs failing repeatedly."
+            },
+            {
+              "heading": "Dead Letter Queue Strategy",
+              "content": "Configured DLQs with maxReceiveCount threshold (typically 3-5 attempts). After threshold, SQS automatically moved message to DLQ for investigation. Created CloudWatch alarms on DLQ depth. Implemented DLQ processing: logged failures with context, categorized error types, automated retry for transient issues after cooldown period. Prevented poison messages from exhausting retry cycles."
+            },
+            {
+              "heading": "Message Batching & Throughput",
+              "content": "Used batch send/receive APIs for efficiency: sent up to 10 messages per API call, received up to 10 messages per poll. Reduced API costs and improved throughput. Workers used long polling (WaitTimeSeconds=20) to minimize empty receives and connection overhead. Monitored ApproximateNumberOfMessages metric to scale worker fleet dynamically via auto-scaling groups."
+            },
+            {
+              "heading": "Cost Optimization Practices",
+              "content": "Optimized SQS costs through: (1) Batch operations to reduce API call volume, (2) Long polling to eliminate empty receive charges, (3) Appropriate message retention (shortened from default 4 days to 1 day for ephemeral jobs), (4) Right-sized visibility timeouts to prevent unnecessary re-processing. Monitored per-queue costs to identify optimization opportunities."
+            }
+          ]
+        },
+        {
+          "title": "SNS & EventBridge Integration",
+          "subtitle": "Multi-channel notifications and event-driven system integration",
+          "skillTags": [
+            "SNS Topic Fan-Out",
+            "SMS & Slack Notifications",
+            "EventBridge Event Bus",
+            "Cross-Service Integration",
+            "Event Filtering & Routing"
+          ],
+          "intro": "Implemented AWS SNS for multi-channel alerting (SMS, email, Slack) and EventBridge for event-driven service integration. SNS enabled real-time notifications to stakeholders, while EventBridge provided flexible event routing between internal services and external SaaS applications.",
+          "sections": [
+            {
+              "heading": "SNS Alert Architecture",
+              "content": "Created topic-per-alert-type structure: critical production alerts, integration failures, cost anomalies, security events. Subscribers configured per topic based on role and escalation needs. Critical alerts went to SMS + Slack + PagerDuty, non-critical to email + Slack only. Used SNS message attributes for filtering - allowed subscribers to receive subset of messages without separate topics."
+            },
+            {
+              "heading": "Slack Integration Implementation",
+              "content": "Built Lambda function subscribed to SNS topics that formatted messages and posted to Slack via webhooks. Enriched notifications with context: links to dashboards, runbook suggestions, relevant logs. Used Slack threading to group related alerts (e.g., multiple component failures for same incident). Color-coded by severity: red for critical, orange for warning, blue for info. Enabled quick team response and reduced alert fatigue."
+            },
+            {
+              "heading": "SMS Notification Strategy",
+              "content": "Reserved SMS for truly critical production incidents requiring immediate attention (database outages, payment processing failures, security breaches). Rate-limited to prevent SMS spam during cascading failures. Implemented de-duplication window to prevent repeated messages for same incident. Kept message content concise due to SMS length limits - linked to detailed incident page for full context."
+            },
+            {
+              "heading": "EventBridge Event Bus Design",
+              "content": "Leveraged EventBridge as central event router for service-to-service communication. Published domain events to custom event bus: order.created, inventory.updated, integration.completed. Consuming services created rules to route relevant events to their processing queues. Decoupled services - producers didn't need knowledge of consumers. Easy to add new consumers without modifying producers."
+            },
+            {
+              "heading": "Event Pattern Matching & Filtering",
+              "content": "Used EventBridge rule patterns for intelligent routing: matched on event type, source, metadata attributes. Example: route high-value order events (>$1000) to priority processing queue, standard orders to regular queue. Content-based filtering reduced unnecessary processing and improved efficiency. Patterns supported complex logic: AND/OR conditions, prefix matching, numeric comparisons."
+            },
+            {
+              "heading": "Cross-Service Integration Patterns",
+              "content": "EventBridge enabled loose coupling between services: (1) Order service published order events, inventory service subscribed to decrement stock, (2) Integration service published completion events, analytics service subscribed for reporting, (3) Used EventBridge schema registry to document event contracts. Services evolved independently as long as schemas maintained compatibility. Added API destinations for webhook delivery to external systems."
+            },
+            {
+              "heading": "Monitoring & Reliability",
+              "content": "Monitored SNS/EventBridge metrics: publish success rate, delivery failures, latency. Set up DLQs for failed event deliveries. Implemented event replay capability by archiving events to S3 - enabled recovery from processing bugs. Tested disaster recovery by replaying archived events to rebuild downstream state. Created CloudWatch dashboards showing event flow across system for end-to-end visibility."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data Integration & ETL",
+      "subtitle": "Custom integration framework and batch processing",
+      "topics": [
+        {
+          "title": "Flxpoint Integration Framework",
+          "subtitle": "Custom-built platform for multi-tenant integrations",
+          "skillTags": [
+            "Framework Architecture",
+            "Multi-Tenant Design",
+            "Plugin System",
+            "Integration Lifecycle",
+            "Configuration Management"
+          ],
+          "intro": "Designed and built custom integration framework (\"Flxpoint\") processing 200M+ records annually across 100+ active integrations. Multi-tenant SaaS platform enabling merchants to connect e-commerce systems with supplier/marketplace APIs. Supported diverse protocols (REST, SOAP, FTP, EDI) through adapter pattern.",
+          "sections": [
+            {
+              "heading": "Framework Architecture Overview",
+              "content": "Three-layer architecture: (1) Adapter layer: protocol-specific connectors (HTTP, SFTP, EDI), (2) Transform layer: data mapping and normalization, (3) Processing layer: business logic and workflow orchestration. Each integration configured via admin UI defining: data source, field mappings, schedules, error handling rules. Framework handled common concerns: authentication, rate limiting, retry logic, logging."
+            },
+            {
+              "heading": "Multi-Tenant Isolation",
+              "content": "Designed for tenant isolation and fair resource sharing. Each customer's integrations ran in isolated execution contexts with dedicated credentials, configurations, and error tracking. Implemented resource quotas to prevent single tenant from monopolizing system resources. Used database row-level security and application-layer checks to ensure data isolation. Scheduled jobs distributed across tenant pool to balance load."
+            },
+            {
+              "heading": "Adapter Plugin System",
+              "content": "Built extensible adapter system supporting new integration types without framework changes. Each adapter implemented standard interface: authenticate(), fetch(), transform(), validate(). Shipped 20+ pre-built adapters for common platforms (Shopify, Amazon, BigCommerce, NetSuite). Enabled custom adapters for proprietary supplier systems. Adapters packaged as plugins with isolated dependencies."
+            },
+            {
+              "heading": "Integration Lifecycle Management",
+              "content": "Managed complete integration lifecycle: (1) Setup: configuration wizard guiding credential entry, mapping definition, (2) Testing: sandbox mode for validation before production, (3) Activation: scheduled or real-time triggers, (4) Monitoring: health checks, error tracking, performance metrics, (5) Maintenance: version upgrades, mapping adjustments. Provided customer-facing dashboard showing integration status and activity logs."
+            },
+            {
+              "heading": "Configuration Management",
+              "content": "Stored integration configurations in PostgreSQL with versioning for audit trail and rollback capability. Configurations included: connection credentials (encrypted), field mappings (source to target), transformation rules (data formatting), schedules (cron expressions), error handling policies (retry counts, alert thresholds). Used JSON Schema validation to enforce configuration correctness before activation."
+            },
+            {
+              "heading": "Framework Scalability",
+              "content": "Scaled horizontally through worker pool architecture: job queue fed workers pulling tasks concurrently. Workers stateless - enabled elastic scaling based on queue depth. Used AWS Batch for compute orchestration, auto-scaling worker count 10-100 based on load. Database connection pooling and caching prevented bottlenecks. Achieved 99.9% uptime processing thousands of integration runs daily."
+            }
+          ]
+        },
+        {
+          "title": "Multi-Source Adapters (Files, REST, SOAP, EDI)",
+          "subtitle": "Supporting diverse data source protocols",
+          "skillTags": [
+            "REST API Adapters",
+            "SOAP/XML Processing",
+            "File-Based Integration",
+            "EDI/X12 Parsing",
+            "Protocol Abstraction"
+          ],
+          "intro": "Built adapters supporting diverse integration protocols: REST APIs (JSON), SOAP/XML web services, file transfers (CSV, Excel, FTP/SFTP), and EDI/X12 documents. Abstracted protocol differences behind common interface enabling unified processing pipeline regardless of data source.",
+          "sections": [
+            {
+              "heading": "REST API Adapter Implementation",
+              "content": "Most common integration type - REST APIs for modern SaaS platforms. Handled OAuth2 authentication flows, API key management, request signing. Implemented automatic pagination for large result sets (cursor-based, offset-based, page number patterns). Built-in rate limiting with retry after backoff. Used HTTP/2 for improved throughput where supported. Cached responses for read-heavy scenarios with configurable TTLs."
+            },
+            {
+              "heading": "SOAP/XML Web Services",
+              "content": "Supported legacy enterprise systems requiring SOAP protocol. Used WSDL parsing to generate client code for strongly-typed service interaction. Handled WS-Security for authentication (username tokens, X.509 certificates). Processed large XML documents efficiently using streaming parsers (SAX) rather than DOM to manage memory. Dealt with inconsistent namespace handling across vendor implementations."
+            },
+            {
+              "heading": "File-Based Integration (FTP/SFTP)",
+              "content": "Many suppliers provided data via scheduled file drops on FTP/SFTP servers. Built polling system checking for new files on configured schedules. Supported multiple formats: CSV (most common), fixed-width, Excel (XLSX), XML. Implemented file processing patterns: download, validate, parse, transform, archive. Used AWS S3 for file staging and archival. Handled large files (>1GB) through streaming processing to avoid memory exhaustion."
+            },
+            {
+              "heading": "EDI/X12 Document Processing",
+              "content": "Implemented EDI (Electronic Data Interchange) adapter for B2B transactions following ANSI X12 standards. Common document types: 850 (Purchase Order), 855 (PO Acknowledgment), 856 (Advance Ship Notice), 810 (Invoice). Used EDI parsing library to convert hierarchical segment structure to JSON for processing. Validated documents against transaction set specifications. Generated acknowledgment documents (997 Functional Acknowledgment) per EDI protocol requirements."
+            },
+            {
+              "heading": "Protocol Abstraction Layer",
+              "content": "Created uniform adapter interface abstracting protocol details: connect(), authenticate(), fetch(query), transform(data). This allowed downstream processing logic to be protocol-agnostic. Adapter factory pattern selected appropriate implementation based on integration configuration. Enabled easy addition of new protocols without modifying core framework. Business logic dealt with normalized data models, not transport specifics."
+            },
+            {
+              "heading": "Error Handling & Resilience",
+              "content": "Each adapter implemented robust error handling: connection failures, authentication errors, malformed data, rate limiting. Used circuit breaker pattern to fast-fail when external service down. Logged detailed error context for troubleshooting: request/response payloads, timestamps, external service response codes. Implemented automatic retry with exponential backoff for transient failures. Permanent failures routed to DLQ for manual investigation."
+            }
+          ]
+        },
+        {
+          "title": "AWS Batch Job Orchestration",
+          "subtitle": "Scalable container-based batch processing",
+          "skillTags": [
+            "Batch Architecture",
+            "Job Definitions",
+            "Compute Environments",
+            "Job Queues & Scheduling",
+            "Container Optimization"
+          ],
+          "intro": "Leveraged AWS Batch for scalable, container-based integration job execution. Managed compute infrastructure automatically scaled from 0-100+ instances based on workload. Orchestrated thousands of daily integration jobs with configurable resource allocation, priority queuing, and dependency management.",
+          "sections": [
+            {
+              "heading": "AWS Batch Architecture",
+              "content": "Three-component architecture: (1) Job Definitions: container specs, resource requirements (CPU/memory), environment variables, (2) Compute Environments: EC2 instances or Fargate for serverless, scaling policies, (3) Job Queues: priority-based queues routing jobs to compute environments. Jobs submitted to queues, scheduler placed them on available compute based on resources and priority."
+            },
+            {
+              "heading": "Job Definition Strategy",
+              "content": "Created job definitions per integration type with appropriate resource allocations: lightweight API sync (0.5 vCPU, 1GB RAM), standard file processing (1 vCPU, 2GB RAM), heavy transformation jobs (4 vCPU, 8GB RAM). Used parameter substitution to pass tenant-specific configuration at runtime. Versioned job definitions enabled gradual rollout of changes and easy rollback."
+            },
+            {
+              "heading": "Compute Environment Optimization",
+              "content": "Primarily used EC2 compute with spot instances for 70% cost savings. Configured spot instance fleet across multiple instance types and AZs for availability. Reserved on-demand instances for critical workflows requiring guaranteed capacity. Sized compute environment with min=0 for automatic scale-down during low utilization. Used placement groups for network-intensive jobs requiring low latency inter-instance communication."
+            },
+            {
+              "heading": "Job Queue & Priority Management",
+              "content": "Implemented multi-queue architecture by priority: (1) High-priority queue: real-time order sync, critical inventory updates (p0), (2) Standard queue: scheduled integrations, nightly batch jobs (p50), (3) Low-priority queue: backfills, reporting, analytics (p100). Higher priority jobs preempted lower priority when resources constrained. Prevented starvation by monitoring low-priority queue depth and temporarily boosting priority."
+            },
+            {
+              "heading": "Container Image Optimization",
+              "content": "Optimized Docker images for fast startup and efficient resource usage: (1) Used slim base images (Alpine Linux) reducing image size 80%, (2) Multi-stage builds to exclude build tools from runtime image, (3) Cached dependencies in image layers to avoid repeated downloads, (4) Pushed images to ECR (Elastic Container Registry) in same region as Batch for fast pulls. Reduced job startup time from 2 minutes to under 30 seconds."
+            },
+            {
+              "heading": "Job Monitoring & Retry Logic",
+              "content": "Monitored job execution metrics: queue time, run time, success/failure rates. Set CloudWatch alarms on: queue depth >1000 (capacity issue), failed job rate >5% (integration issues). Configured automatic retry for failed jobs: 3 attempts with increasing delays. Jobs exceeding retry limit marked failed and alert sent. Used job exit codes to distinguish transient failures (retry) from permanent failures (manual investigation)."
+            },
+            {
+              "heading": "Cost Optimization",
+              "content": "Reduced Batch costs through: (1) Spot instances for non-critical workloads, (2) Right-sized resource requests preventing over-provisioning, (3) Scheduled scaling to reduce compute during off-peak hours, (4) Short job timeout to prevent hung jobs consuming resources, (5) Efficient container images reducing storage and network costs. Monitored per-job cost attribution to identify optimization opportunities."
+            }
+          ]
+        },
+        {
+          "title": "Integration Monitoring & Error Tracking",
+          "subtitle": "Comprehensive observability, logging, and error management",
+          "skillTags": [
+            "Execution Tracking",
+            "Error Classification",
+            "Performance Metrics",
+            "Alerting Strategy",
+            "Self-Healing Patterns"
+          ],
+          "intro": "Built comprehensive monitoring system tracking every integration execution with detailed telemetry, multi-dimensional error categorization, and automated alerting. Enabled rapid troubleshooting, proactive issue detection, and continuous reliability improvements. Drove error rate from 8% to under 2% through systematic monitoring and remediation.",
+          "sections": [
+            {
+              "heading": "Integration Execution Tracking",
+              "content": "Created integration_runs table recording each execution: run ID, customer ID, integration type, start/end time, status (success/partial/failed), records processed, errors encountered. Standardized metadata: timing (duration), volume (records created/updated/failed), performance (API calls, cache hits), errors (count, types, affected records). Used for troubleshooting, SLA reporting, and customer billing."
+            },
+            {
+              "heading": "Error Classification & Monitoring",
+              "content": "Categorized errors across multiple dimensions: Type (authentication, connection, validation), Severity (critical/major/minor), Scope (system-wide/customer-specific), Recoverability (transient/permanent). Tracked error rates at platform, customer, and integration levels. Set dynamic thresholds alerting when error rate exceeded 2x baseline. Classification enabled targeted alerting and prioritization."
+            },
+            {
+              "heading": "Alerting Strategy & Escalation",
+              "content": "Tiered alerting based on error severity: Critical system-wide errors triggered immediate SMS + Slack to on-call engineer. Customer-specific issues sent Slack notification + ticket creation. Minor transient errors aggregated in daily digest. Prevented alert fatigue by grouping related errors into single incident. Auto-resolved alerts when error rate returned to normal."
+            },
+            {
+              "heading": "Performance Metrics & Baselines",
+              "content": "Tracked performance metrics over time: average execution time, records per second throughput, error rates, API latency. Used CloudWatch custom metrics for visualization. Set baselines per integration type - alerts triggered when performance deviated significantly. Enabled proactive optimization before customer complaints. Customer dashboard exposed execution history and metrics for transparency."
+            },
+            {
+              "heading": "Self-Healing Patterns",
+              "content": "Implemented automatic remediation for common errors: Rate limiting (exponential backoff), Transient connection failures (circuit breaker), Stale tokens (automatic refresh), Downstream outages (pause and resume). Built dashboards for rapid root cause identification with error timelines, affected customers, and links to detailed logs. Reduced manual intervention by 60% and mean time to resolution from hours to minutes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Database Architecture",
+      "subtitle": "PostgreSQL optimization and data modeling",
+      "topics": [
+        {
+          "title": "Schema Migration with Flyway",
+          "subtitle": "Version-controlled database evolution",
+          "skillTags": [
+            "Migration Strategy",
+            "Rollback Safety",
+            "Multi-Environment",
+            "Zero-Downtime Migrations",
+            "Migration Testing"
+          ],
+          "intro": "Used Flyway for database schema version control and automated migrations across environments. Enabled safe, repeatable schema evolution with full audit trail. Applied 500+ migrations over 6 years without production downtime through careful planning and testing.",
+          "sections": [
+            {
+              "heading": "Flyway Migration Strategy",
+              "content": "Organized migrations chronologically with V{version}__{description}.sql naming. Each migration immutable once applied to production - corrections required new migration. Migrations ran automatically on application startup in dev/staging, manually triggered in production after review. Used repeatable migrations (R__) for views and functions that could be replaced. Maintained backwards compatibility across multiple application versions during rolling deployments."
+            },
+            {
+              "heading": "Zero-Downtime Migration Patterns",
+              "content": "Employed multi-phase approach for breaking changes: (1) Phase 1: Add new column/table (old app ignores), (2) Phase 2: Deploy app version writing to both old and new, (3) Phase 3: Backfill historical data, (4) Phase 4: Deploy app version reading from new only, (5) Phase 5: Drop old column/table after validation period. Each phase independently deployable and rollbackable. Required patience but eliminated downtime."
+            },
+            {
+              "heading": "Rollback Safety Considerations",
+              "content": "Designed migrations for safe rollback: avoided data-destructive operations (DROP TABLE) until confirmed unnecessary. Used feature flags to switch between old/new code paths independent of schema. Created restore scripts alongside migrations for quick recovery. Practiced rollbacks in staging to validate procedures. Maintained database backups before major migrations with point-in-time recovery capability."
+            },
+            {
+              "heading": "Multi-Environment Consistency",
+              "content": "Used Flyway to ensure schema consistency across dev, staging, production environments. Same migrations applied in same order to all environments. Validated migrations in dev first, then staging, finally production. Prevented schema drift that caused environment-specific bugs. Flyway metadata table (schema_version) tracked migration state per environment."
+            },
+            {
+              "heading": "Large Data Migration Techniques",
+              "content": "For migrations touching millions of rows: (1) Used batched updates to avoid long-running transactions, (2) Added appropriate indexes before data migration, removed if temporary, (3) Ran during low-traffic windows when possible, (4) Monitored database load during migration, (5) Split large migrations into smaller incremental changes. Example: backfilled 50M rows in batches of 10K with 1-second delay between batches to prevent replication lag."
+            },
+            {
+              "heading": "Migration Testing & Validation",
+              "content": "Comprehensive testing before production: (1) Unit tested migrations on database copy, (2) Validated data integrity after migration (row counts, constraints), (3) Tested application functionality against new schema, (4) Measured migration execution time, (5) Verified rollback procedure. Created automated test suite validating migration idempotency and data correctness."
+            }
+          ]
+        },
+        {
+          "title": "Hot vs Cold Table Separation",
+          "subtitle": "Data lifecycle management and performance optimization",
+          "skillTags": [
+            "Hot Table Design",
+            "Cold Storage Strategy",
+            "Data Migration",
+            "Query Routing",
+            "Cost Optimization"
+          ],
+          "intro": "Separated frequently accessed \"hot\" data from infrequently accessed \"cold\" data into different tables. Hot tables optimized for fast queries with aggressive indexing and caching. Cold tables optimized for storage efficiency with compression. Improved query performance 10x while reducing database costs 40%.",
+          "sections": [
+            {
+              "heading": "Hot vs Cold Criteria",
+              "content": "Defined data temperature based on access patterns: Hot (last 90 days, accessed daily, <100ms target), Warm (90 days to 1 year, accessed weekly, <1s acceptable), Cold (>1 year, rarely accessed, <10s acceptable). Most queries targeted hot data (95%), but cold data comprised bulk of storage (70%). Separation enabled independent optimization strategies."
+            },
+            {
+              "heading": "Hot Table Optimization",
+              "content": "Optimized hot tables for query performance: aggressive indexing on frequently filtered columns, smaller row counts enabled faster scans, higher memory allocation for caching, more frequent VACUUM and ANALYZE for statistics freshness. Automated nightly data migration from hot to warm to cold with transactional integrity. Application-level query routing targeted appropriate table based on date filters."
+            },
+            {
+              "heading": "Cost-Performance Benefits",
+              "content": "Quantified improvements: 90% of queries 10x faster (targeted hot table), database size reduced 40% through compression and archival, lower Aurora I/O charges from smaller working set, improved cache hit rates. Initial implementation: 2 weeks. Payback: immediate."
+            }
+          ]
+        },
+        {
+          "title": "Index & Query Optimization",
+          "subtitle": "Strategic indexing and query tuning for high performance",
+          "skillTags": [
+            "Query Pattern Analysis",
+            "Composite Indexes",
+            "Execution Plan Optimization",
+            "N+1 Query Prevention",
+            "Performance Monitoring"
+          ],
+          "intro": "Developed data-driven indexing strategy and systematically optimized database queries. Analyzed slow query logs, execution plans, and workload patterns to identify optimization opportunities. Reduced 95th percentile query latency from 2 seconds to under 200ms. Achieved 90% reduction in database load while supporting 3x user growth.",
+          "sections": [
+            {
+              "heading": "Query Pattern Analysis",
+              "content": "Used pg_stat_statements to collect query statistics: execution frequency, average/max duration, total time consumed. Identified high-impact queries (slow queries running frequently). Examined execution plans (EXPLAIN ANALYZE) for sequential scans on large tables. Prioritized indexing efforts based on potential impact: query time * execution frequency."
+            },
+            {
+              "heading": "Index Strategy & Implementation",
+              "content": "Single column indexes for commonly filtered columns, foreign keys, and sorted columns. Composite indexes for multi-column filters with proper column ordering (most selective first). Partial indexes for subset queries (active records, recent data). Covering indexes (INCLUDE clause) to avoid table access. Monitored index usage via pg_stat_user_indexes - removed unused indexes. Used concurrent index creation to avoid blocking writes."
+            },
+            {
+              "heading": "Execution Plan Optimization",
+              "content": "Addressed common execution plan issues: Sequential scans on large tables (added indexes), Nested loops with high row counts (rewrote to hash joins), Suboptimal join orders (rewrote queries), Expensive sorts (added ORDER BY indexes). Sometimes query rewrite more effective than indexing. Tested multiple approaches and measured with EXPLAIN ANALYZE."
+            },
+            {
+              "heading": "N+1 Query Prevention",
+              "content": "Eliminated N+1 antipattern through eager loading (JOINs), batch loading (WHERE IN), and ORM configuration. Example: fetching 100 orders with items - N+1 = 101 queries, optimized = 1 query with JOIN. 100x fewer round-trips. Optimized JOINs: indexed foreign keys, appropriate JOIN types, filtered before joining, denormalized heavily joined data when appropriate."
+            },
+            {
+              "heading": "Connection Pooling & Database Tuning",
+              "content": "Implemented connection pooling (HikariCP) with optimized sizing. Tuned PostgreSQL parameters: shared_buffers (25% RAM), effective_cache_size (50-75% RAM), work_mem, maintenance_work_mem. Ensured fresh statistics via auto-vacuum and manual ANALYZE after bulk loads. Monitored index effectiveness and query performance metrics via CloudWatch."
+            }
+          ]
+        },
+        {
+          "title": "Table Partitioning Strategies",
+          "subtitle": "Managing large tables efficiently",
+          "skillTags": [
+            "Time-Based Partitioning",
+            "Partition Maintenance",
+            "Query Performance"
+          ],
+          "intro": "Implemented PostgreSQL table partitioning for tables exceeding hundreds of millions of rows. Used time-based partitioning for transactional data, enabling efficient archival and query optimization. Reduced query times by 90% through partition pruning.",
+          "sections": [
+            {
+              "heading": "Time-Based Partition Implementation",
+              "content": "Used PostgreSQL declarative partitioning: defined parent table, created child partitions per month (integration_logs_2023_01, integration_logs_2023_02). Queries against parent table automatically routed to appropriate partitions via partition pruning. Automated partition creation for upcoming months via scheduled job."
+            },
+            {
+              "heading": "Partition Maintenance & Query Optimization",
+              "content": "Automated lifecycle management: create next month's partition 1 week before needed, archive partitions older than 90 days to S3, drop archived partitions to reclaim space. Queries including partition key in WHERE clause benefited from partition pruning - scanning only relevant partitions. Example: date range query scanned only June partition vs entire year, reducing query time from 45 seconds to 2 seconds."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Search & Indexing",
+      "subtitle": "Full-text search for product catalogs and orders",
+      "topics": [
+        {
+          "title": "Search Architecture",
+          "subtitle": "Apache SOLR and ElasticSearch for scalable full-text search",
+          "skillTags": [
+            "Search Platform Selection",
+            "Distributed Architecture",
+            "Index Management",
+            "Relevance Tuning",
+            "Data Synchronization"
+          ],
+          "intro": "Implemented full-text search across product catalogs and order data using Apache SOLR and ElasticSearch. Both platforms provided distributed search capabilities with sharding, replication, and horizontal scaling. Processed millions of documents with sub-second query response times. Enabled faceted search, autocomplete, and relevance-ranked results.",
+          "sections": [
+            {
+              "heading": "Search Platform Options",
+              "content": "Evaluated Apache SOLR and ElasticSearch as search platform options. Both offered: distributed architecture with sharding and replication, full-text search with relevance ranking, faceted search and aggregations, horizontal scalability, rich query DSL. SOLR provided mature ecosystem and strong operational tooling. ElasticSearch offered simpler API and better developer experience. Selection depended on team expertise and specific use case requirements."
+            },
+            {
+              "heading": "Distributed Architecture",
+              "content": "Deployed multi-node clusters for high availability and performance: multiple nodes distributed queries and provided failover, collections sharded across nodes for horizontal scaling, replication (typically 2-3 replicas) for availability and load distribution. Coordination layer (ZooKeeper for SOLR, built-in for ElasticSearch) managed cluster state and configuration. Load balancers distributed queries across healthy nodes."
+            },
+            {
+              "heading": "Index Management & Data Sync",
+              "content": "Implemented robust data synchronization pipeline keeping search indexes current with PostgreSQL source data: event-driven delta updates via Kafka for real-time changes (inventory, pricing), scheduled indexing jobs for less critical updates, nightly full reindex for data consistency. Validated index consistency by comparing document counts and sampling records. Achieved sub-minute propagation of critical updates."
+            },
+            {
+              "heading": "Relevance Tuning",
+              "content": "Optimized search relevance through field boosting, synonym expansion, and fuzzy matching. Weighted fields by importance (SKU boost=10, product name boost=5, description boost=1). Configured synonym lists for product terminology and common misspellings. Enabled fuzzy matching for typo tolerance. Iteratively tuned based on user behavior analytics. Achieved 85%+ search success rate (users finding desired result in first 3 results)."
+            },
+            {
+              "heading": "Scaling & Operations",
+              "content": "Scaled clusters horizontally to handle growth: added nodes and replicas for query scaling, added shards for index size scaling. Monitored cluster health: CPU, memory, heap usage, query latency, indexing throughput. Configured appropriate cache sizing and commit strategies. Balanced freshness (frequent commits) vs throughput (batching). Deployed on AWS EC2 with CPU-optimized instances and SSD storage for performance."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

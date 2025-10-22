@@ -1,0 +1,126 @@
+{
+  "title": "Cloud Computing Consultations",
+  "tagline": "Expert cloud guidance without enterprise costs",
+  "overview": "Navigate the cloud with confidence. Get expert guidance on AWS infrastructure, cost optimization, and migration strategies without hiring a full-time cloud team.",
+  "stats": [
+    { "value": "AWS", "label": "Expert" },
+    { "value": "30%", "label": "Avg Savings" },
+    { "value": "Fast", "label": "Migration" }
+  ],
+  "tags": ["AWS Consulting", "Cloud Migration", "Cost Optimization", "Architecture Review"],
+  "sections": [
+    {
+      "heading": "Cloud Strategy & Planning",
+      "tagline": "Start your cloud journey with a clear roadmap",
+      "benefits": [
+        "AWS cost analysis and budgeting guidance",
+        "Right-sizing recommendations for your workload",
+        "Migration strategy and timeline planning",
+        "Security and compliance assessment"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Cloud Adoption Journey",
+          "steps": [
+            { "icon": "🔍", "label": "Assess", "desc": "Current state" },
+            { "icon": "📋", "label": "Plan", "desc": "Migration strategy" },
+            { "icon": "🚀", "label": "Execute", "desc": "Move to cloud" },
+            { "icon": "📈", "label": "Optimize", "desc": "Ongoing savings" }
+          ]
+        }
+      },
+      "cta": "Start your cloud journey with expert guidance"
+    },
+    {
+      "heading": "AWS Cost Optimization",
+      "tagline": "Reduce your cloud bill without sacrificing performance",
+      "benefits": [
+        "Identify unused and underutilized resources",
+        "Reserved Instance and Savings Plan recommendations",
+        "Auto-scaling configuration for efficiency",
+        "Monthly cost monitoring and reporting"
+      ],
+      "visual": {
+        "type": "before-after",
+        "data": {
+          "before": {
+            "title": "Unoptimized Cloud Spend",
+            "items": [
+              "Resources running 24/7 unnecessarily",
+              "No reserved instances or savings plans",
+              "Oversized instances for actual workload",
+              "No visibility into cost drivers"
+            ]
+          },
+          "after": {
+            "title": "Optimized Cloud Strategy",
+            "items": [
+              "Resources scale with demand",
+              "Reserved capacity for predictable workloads",
+              "Right-sized instances matching needs",
+              "Clear cost tracking and alerts"
+            ]
+          }
+        }
+      },
+      "cta": "Cut your cloud costs while improving performance"
+    },
+    {
+      "heading": "Cloud Migration Support",
+      "tagline": "Move to the cloud with minimal disruption",
+      "benefits": [
+        "Application assessment and migration planning",
+        "Database migration with minimal downtime",
+        "Cutover planning and rollback strategies",
+        "Post-migration optimization and monitoring"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Migration Checklist",
+          "code": "Pre-Migration:\n☐ Inventory existing infrastructure\n☐ Identify dependencies and requirements\n☐ Calculate current costs vs cloud costs\n☐ Plan migration waves by priority\n\nMigration Phase:\n☑ Set up AWS account structure\n☑ Configure networking and security\n☑ Migrate data and applications\n☑ Test thoroughly in new environment\n\nPost-Migration:\n☑ Monitor performance and costs\n☑ Optimize resource allocation\n☑ Train team on cloud management\n☑ Decommission old infrastructure\n\nResult: Successful cloud migration with reduced costs"
+        }
+      },
+      "cta": "Migrate to the cloud with confidence"
+    },
+    {
+      "heading": "Architecture Review & Recommendations",
+      "tagline": "Get expert feedback on your cloud setup",
+      "benefits": [
+        "Review current AWS architecture for best practices",
+        "Security and compliance recommendations",
+        "Performance bottleneck identification",
+        "Disaster recovery and backup strategy review"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Architecture Review Areas",
+          "code": "/**\n * COMPREHENSIVE CLOUD REVIEW\n * Get actionable recommendations\n */\n\n// Cost Efficiency\n✓ Resource utilization analysis\n✓ Reserved capacity opportunities\n✓ Service alternatives for cost savings\n\n// Security & Compliance\n✓ IAM policy review\n✓ Network security assessment\n✓ Data encryption verification\n\n// Performance & Reliability\n✓ Auto-scaling configuration\n✓ Database query optimization\n✓ Backup and disaster recovery\n\n// Operational Excellence\n✓ Monitoring and alerting setup\n✓ Deployment automation\n✓ Documentation and runbooks\n\n// Result: Clear roadmap for cloud improvements"
+        }
+      },
+      "cta": "Get expert review of your cloud infrastructure"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "name": "Flxpoint",
+      "url": "https://flxpoint.com",
+      "logo": "/images/partners/flxpoint-logo-dark.png",
+      "description": "AWS infrastructure supporting millions of daily eCommerce operations"
+    },
+    {
+      "name": "Inventory Source",
+      "url": "https://inventorysource.com",
+      "logo": "/images/partners/inventorysource.gif",
+      "description": "Cloud-based eCommerce automation platform on AWS"
+    }
+  ],
+  "testimonial": {
+    "quote": "Matt was able to help us accelerate our roadmap by efficiently executing on multiple supplier integrations!",
+    "author": "Travis",
+    "role": "CEO",
+    "company": "Flxpoint"
+  }
+}

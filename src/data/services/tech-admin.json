@@ -1,0 +1,131 @@
+{
+  "title": "Tech Admin",
+  "tagline": "Your outsourced IT department - without the overhead",
+  "overview": "Stop wrestling with technology. Focus on growing your business while I handle your tech infrastructure, integrations, and daily operations.",
+  "stats": [
+    { "value": "10+", "label": "Years" },
+    { "value": "8+", "label": "Clients" },
+    { "value": "100%", "label": "Satisfaction" }
+  ],
+  "tags": ["System Integration", "Documentation", "Ongoing Support", "Process Automation"],
+  "sections": [
+    {
+      "heading": "Complete System Setup",
+      "tagline": "From selection to deployment",
+      "benefits": [
+        "Expert guidance on platform selection tailored to your business needs",
+        "Complete configuration of CRM, email, eCommerce, and marketing tools",
+        "Secure user access management with role-based permissions",
+        "Comprehensive testing before launch"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Implementation Process",
+          "steps": [
+            { "icon": "💬", "label": "Discovery", "desc": "Understand your needs" },
+            { "icon": "🎯", "label": "Selection", "desc": "Choose the right tools" },
+            { "icon": "⚙️", "label": "Setup", "desc": "Configure everything" },
+            { "icon": "🚀", "label": "Deploy", "desc": "Go live" }
+          ]
+        }
+      },
+      "cta": "Get your tech stack up and running properly"
+    },
+    {
+      "heading": "Process Automation",
+      "tagline": "Reduce manual work and human error",
+      "benefits": [
+        "Automatic data synchronization between your business tools",
+        "Custom workflows that handle repetitive tasks",
+        "Real-time notifications for important events",
+        "Reduced data entry errors across systems"
+      ],
+      "visual": {
+        "type": "before-after",
+        "data": {
+          "before": {
+            "title": "Manual Processes",
+            "items": [
+              "Manual data entry across multiple systems",
+              "Hours spent on repetitive tasks",
+              "Data inconsistencies between platforms",
+              "Delayed notifications and updates"
+            ]
+          },
+          "after": {
+            "title": "Automated Workflows",
+            "items": [
+              "Automatic data sync across all systems",
+              "Time focused on high-value activities",
+              "Consistent data everywhere",
+              "Real-time updates and alerts"
+            ]
+          }
+        }
+      },
+      "cta": "Eliminate repetitive tasks and focus on growth"
+    },
+    {
+      "heading": "Concise Documentation",
+      "tagline": "Enable your team to work independently",
+      "benefits": [
+        "Step-by-step process guides for common tasks",
+        "Video tutorials for visual learners",
+        "Searchable knowledge base for quick reference",
+        "Documentation that evolves with your business"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Documentation Deliverables",
+          "steps": [
+            { "icon": "📝", "label": "Process Guides", "desc": "Written procedures" },
+            { "icon": "🎥", "label": "Video Tutorials", "desc": "Visual walkthroughs" },
+            { "icon": "🔍", "label": "Knowledge Base", "desc": "Searchable reference" },
+            { "icon": "🔄", "label": "Updates", "desc": "Kept current" }
+          ]
+        }
+      },
+      "cta": "Reduce training time and improve consistency"
+    },
+    {
+      "heading": "Ongoing Support & Optimization",
+      "tagline": "Continuous improvement and expert guidance",
+      "benefits": [
+        "Responsive technical support when issues arise",
+        "Proactive monitoring and maintenance",
+        "Regular optimization to improve efficiency",
+        "Strategic guidance as your needs evolve"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Service Documentation",
+          "code": "/**\n * ONGOING SUPPORT SERVICES\n * Last updated: Continuous\n * Status: Active monitoring ●\n */\n\n// Support & Troubleshooting\n- Technical issue resolution      // <- Responsive assistance\n- Bug fixes and error handling    // <- Root cause analysis\n- System configuration updates    // <- Optimization included\n\n/* PROACTIVE MAINTENANCE */\n✓ Performance monitoring          // Real-time alerts\n✓ Security updates                // Applied regularly\n✓ Data integrity checks           // Automated validation\n\n// Ongoing Optimization\nTODO: Review workflow efficiency  // Monthly assessment\nTODO: Analyze cost optimization   // Quarterly review\nTODO: Technology recommendations  // As needed\n\n// Questions? → Direct access to technical expertise"
+        }
+      },
+      "cta": "Keep your systems running smoothly"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "name": "Volition America",
+      "url": "https://volitionamerica.com",
+      "logo": "/images/partners/volition-america-dark.png",
+      "description": "Patriotic eCommerce brand leveraging multiple backend tech systems"
+    },
+    {
+      "name": "Mr. Mochas Pet Supplies",
+      "url": "https://mrmochaspet.com",
+      "logo": "/images/partners/mrmochas-dark-logo.png",
+      "description": "Healthy Pet Supplies eCommerce brand with physical storefront"
+    }
+  ],
+  "testimonial": {
+    "quote": "I can't believe how great the site looks now and the additional functionalities we have! I'm very happy with the way things turned out!",
+    "author": "Pam",
+    "role": "Owner",
+    "company": "Mr Mochas Pet"
+  }
+}

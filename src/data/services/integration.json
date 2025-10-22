@@ -1,0 +1,126 @@
+{
+  "title": "Integration Services",
+  "tagline": "Connect your systems for seamless data flow",
+  "overview": "Stop copying data between systems. Build robust integrations that keep your business tools synchronized automatically.",
+  "stats": [
+    { "value": "100+", "label": "Integrations" },
+    { "value": "1M+", "label": "Daily Ops" },
+    { "value": "99.9%", "label": "Uptime" }
+  ],
+  "tags": ["API Development", "Data Sync", "Data Mapping", "Enterprise Integration"],
+  "sections": [
+    {
+      "heading": "Custom API Development",
+      "tagline": "Build the connections your business needs",
+      "benefits": [
+        "RESTful and GraphQL API design following industry standards",
+        "Secure authentication with OAuth and JWT",
+        "Comprehensive error handling and retry logic",
+        "Complete API documentation for your team"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "API Integration Pattern",
+          "code": "// Your Business Systems\nShopify Store ──┐\nCRM Platform  ──┼──> Central API ──> Data Processing\nEmail Marketing─┤                      │\nAccounting    ──┘                      ↓\n                              Synchronized Data\n\nFeatures:\n✓ Real-time data sync\n✓ Automatic retry on failure\n✓ Detailed logging & monitoring\n✓ Rate limiting protection"
+        }
+      },
+      "cta": "Build reliable connections between your tools"
+    },
+    {
+      "heading": "Real-Time Data Synchronization",
+      "tagline": "Keep your data consistent everywhere",
+      "benefits": [
+        "Event-driven architecture for instant updates",
+        "Automatic conflict resolution strategies",
+        "Data validation at every step",
+        "Monitoring and alerts for any sync issues"
+      ],
+      "visual": {
+        "type": "before-after",
+        "data": {
+          "before": {
+            "title": "Disconnected Systems",
+            "items": [
+              "Manual data exports and imports",
+              "Data conflicts and duplicates",
+              "Hours spent reconciling information",
+              "Outdated data in different systems"
+            ]
+          },
+          "after": {
+            "title": "Connected Platform",
+            "items": [
+              "Automatic bidirectional sync",
+              "Single source of truth",
+              "Real-time updates across all tools",
+              "Consistent data everywhere"
+            ]
+          }
+        }
+      },
+      "cta": "Eliminate data inconsistencies across your business"
+    },
+    {
+      "heading": "Complex Data Transformation",
+      "tagline": "Map data between any format or schema",
+      "benefits": [
+        "Custom business logic for data mapping",
+        "Format conversion (JSON, XML, CSV, EDI)",
+        "Data enrichment and validation",
+        "Handling of edge cases and exceptions"
+      ],
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Data Transformation Pipeline",
+          "steps": [
+            { "icon": "📥", "label": "Extract", "desc": "Pull from source" },
+            { "icon": "🔄", "label": "Transform", "desc": "Map & validate" },
+            { "icon": "✅", "label": "Validate", "desc": "Check quality" },
+            { "icon": "📤", "label": "Load", "desc": "Send to target" }
+          ]
+        }
+      },
+      "cta": "Handle complex data mapping with confidence"
+    },
+    {
+      "heading": "Enterprise System Integration",
+      "tagline": "Connect with ERP, CRM, and accounting platforms",
+      "benefits": [
+        "Experience with Salesforce, SAP, NetSuite, Sage Intacct",
+        "Legacy system modernization and API wrapping",
+        "Enterprise-grade security and compliance",
+        "Scalable architecture for growing data volumes"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Enterprise Integration Map",
+          "code": "Platform Integrations:\n\n💼 ERP Systems\n   • SAP, NetSuite, Microsoft Dynamics\n   • Custom enterprise platforms\n\n👥 CRM Platforms  \n   • Salesforce, HubSpot\n   • Custom relationship management\n\n💰 Accounting\n   • Sage Intacct, QuickBooks\n   • Xero, FreshBooks\n\n🛍️ eCommerce\n   • Shopify, WooCommerce, BigCommerce\n   • Custom storefronts\n\nAll with secure, scalable architecture"
+        }
+      },
+      "cta": "Integrate enterprise platforms seamlessly"
+    }
+  ],
+  "portfolioItems": [
+    {
+      "name": "Sage Intacct",
+      "url": "https://www.sage.com/en-us/sage-business-cloud/intacct/",
+      "logo": "/images/partners/sageintacct.png",
+      "description": "Built an integration into Sage Intacct for eCommerce accounting purposes"
+    },
+    {
+      "name": "Gordon Truck Centers",
+      "url": "https://gordontruckcenters.com",
+      "logo": "/images/partners/gordontruckcenters_dark.png",
+      "description": "Enterprise system integration for truck dealership operations"
+    }
+  ],
+  "testimonial": {
+    "quote": "This has been a great experience and it's been a pleasure to work with you! We're impressed with the output.",
+    "author": "Brian",
+    "role": "VP",
+    "company": "Gordon Truck Centers"
+  }
+}
