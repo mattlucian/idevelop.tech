@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
-import { useViewToggle } from './composables/useViewToggle'
-import Navigation from './components/Navigation.vue'
+import { computed } from 'vue'
+import { RouterView, useRoute } from 'vue-router'
+import Navigation from './components/layout/Navigation.vue'
+import Footer from './components/layout/Footer.vue'
 
-const { themeClasses } = useViewToggle()
+const route = useRoute()
+
+// Hide footer on hire-me page
+const showFooter = computed(() => route.name !== 'hire-me')
 </script>
 
 <template>
-  <div id="app" :class="themeClasses" class="min-h-screen transition-colors duration-300">
+  <div id="app" class="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-100">
     <Navigation />
     <RouterView />
+    <Footer v-if="showFooter" />
   </div>
 </template>

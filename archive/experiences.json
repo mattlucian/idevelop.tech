@@ -1,0 +1,1271 @@
+{
+  "domains": [
+    {
+      "id": "software",
+      "title": "Software Engineering",
+      "overview": "10+ years of full-stack development experience building scalable eCommerce platforms handling billions of transactions. Led complete platform rebuilds and new projects from initial architecture through production deployment. Currently leveraging AI tools to accelerate development velocity and code quality.",
+      "badges": [
+        {
+          "label": "Experience",
+          "value": "10+ Years",
+          "icon": "⏱️"
+        },
+        {
+          "label": "Approach",
+          "value": "Full-Stack",
+          "icon": "💻"
+        },
+        {
+          "label": "Development",
+          "value": "AI Enabled",
+          "icon": "🤖"
+        },
+        {
+          "label": "Languages",
+          "value": "Java, C#, Vue.js",
+          "icon": "🎯"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Backend Development",
+          "subtitle": "Server-side architecture & APIs",
+          "topics": [
+            {
+              "title": "API Architecture & Design",
+              "subtitle": "REST, GraphQL, SOAP, and integration patterns",
+              "skillTags": [
+                "RESTful Design",
+                "GraphQL Implementation",
+                "SOAP Integration",
+                "OpenAPI/Swagger",
+                "API Versioning & Evolution",
+                "Rate Limiting"
+              ],
+              "intro": "Extensive experience designing and implementing APIs across multiple protocols and patterns. Built 100+ integrations handling billions of requests with focus on developer experience, versioning, and backward compatibility."
+            },
+            {
+              "title": "System Architecture Patterns",
+              "subtitle": "Monolith, microservices, and macro services",
+              "skillTags": [
+                "Macro Services Pattern",
+                "Service Boundaries",
+                "Dependency Management",
+                "Domain Design"
+              ],
+              "intro": "Evolved large-scale eCommerce platform from monolith to balanced macro-service architecture. Deep understanding of trade-offs between monolithic, microservices, and hybrid patterns."
+            },
+            {
+              "title": "Languages & Frameworks",
+              "subtitle": "Core backend technologies",
+              "skillTags": ["Java & Spring Boot", "C# & .NET Core", "Node.js & TypeScript"],
+              "intro": "10+ years of experience building enterprise-grade backend systems across multiple languages and frameworks. Primary expertise in Java Spring Boot ecosystem, with extensive experience in C# .NET and Node.js for various use cases."
+            },
+            {
+              "title": "Data Access & Persistence",
+              "subtitle": "Database integration patterns",
+              "skillTags": [
+                "JPA/Hibernate",
+                "Entity Framework",
+                "Query Optimization",
+                "Transaction Management"
+              ],
+              "intro": "Deep experience with ORM frameworks and database integration patterns. Optimized data access layers for high-performance transactional systems."
+            },
+            {
+              "title": "Build Systems",
+              "subtitle": "Build automation & dependency management",
+              "skillTags": ["Maven", "Gradle", "NPM/Yarn", "Multi-Module Builds"],
+              "intro": "Extensive experience configuring and optimizing build systems for Java and Node.js projects. Implemented multi-module builds and dependency management strategies."
+            }
+          ]
+        },
+        {
+          "name": "Frontend Development",
+          "subtitle": "Modern UI/UX implementation",
+          "topics": [
+            {
+              "title": "Modern Frameworks",
+              "subtitle": "Vue.js, React, and Angular for enterprise applications",
+              "skillTags": [
+                "Vue.js 3 Composition API",
+                "React.js",
+                "Angular",
+                "Component Architecture"
+              ],
+              "intro": "Built production web applications using Vue.js, React, and Angular. Primary expertise in Vue.js for building responsive, component-based SPAs. Experience spans entire frontend stack from component design to state management and API integration."
+            },
+            {
+              "title": "Build & Bundling",
+              "subtitle": "Webpack, Vite, and modern build pipelines",
+              "skillTags": ["Webpack", "Vite", "NPM Scripts", "Code Splitting"],
+              "intro": "Configured modern build tools including Webpack and Vite for frontend applications. Optimized build pipelines for development experience and production performance. Implemented code splitting, tree shaking, and asset optimization."
+            },
+            {
+              "title": "State Management",
+              "subtitle": "Vuex, component state, and data flow patterns",
+              "skillTags": ["Vuex Store", "Component State", "Props & Events", "Reactivity"],
+              "intro": "Managed application state using Vuex for complex applications and component-level state for simpler use cases. Designed state architecture balancing centralization with component autonomy. Implemented unidirectional data flow patterns for predictable state changes."
+            },
+            {
+              "title": "Styling & UI",
+              "subtitle": "CSS, SCSS, and responsive design",
+              "skillTags": ["CSS/SCSS", "Tailwind CSS", "Scoped Styling", "Responsive Design"],
+              "intro": "Implemented modern CSS approaches including preprocessors, utility-first frameworks, and component-scoped styling. Built responsive, mobile-first designs adapting to various screen sizes. Maintained consistent styling through design systems and component libraries."
+            }
+          ]
+        },
+        {
+          "name": "Testing & Quality",
+          "subtitle": "Automated testing strategies",
+          "topics": [
+            {
+              "title": "Test Strategy & Coverage",
+              "subtitle": "Comprehensive testing pyramid with 80%+ unit coverage",
+              "skillTags": [
+                "80%+ Unit Coverage",
+                "Integration Testing",
+                "E2E Testing",
+                "JUnit, Mockito"
+              ],
+              "intro": "Strong advocate for comprehensive testing at all levels following the test pyramid approach. Built test suites with high coverage while maintaining fast execution times and rapid feedback loops."
+            },
+            {
+              "title": "Quality Gates & Metrics",
+              "subtitle": "SonarCloud enforcement with 70%+ coverage minimum",
+              "skillTags": ["SonarCloud", "70%+ Coverage", "PR Blocking", "Tech Debt Tracking"],
+              "intro": "Implemented comprehensive quality gates using SonarCloud to enforce code quality standards, maintain test coverage, and reduce technical debt systematically through quarterly initiatives."
+            },
+            {
+              "title": "Bug Management & Reduction",
+              "subtitle": "Systematic approach reducing 20+ bugs/week to controlled flow",
+              "skillTags": [
+                "Bug Tracking",
+                "70% Reduction",
+                "Proactive Monitoring",
+                "Error Dashboards"
+              ],
+              "intro": "Developed comprehensive bug management and reduction strategy that transformed reactive bug firefighting (20+ urgent bugs weekly) into controlled, proactive process through 6-12 month systematic investment in monitoring, testing, and technical debt reduction."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cloud",
+      "title": "Cloud Engineering",
+      "overview": "7+ years designing and managing AWS infrastructure with monthly spend of $50k+. Successfully migrated legacy on-premise systems to AWS, achieving 50% cost reduction while expanding platform capabilities. Deep hands-on expertise in ECS, RDS, S3, ElastiCache, and other core AWS services.",
+      "badges": [
+        {
+          "label": "Experience",
+          "value": "7+ Years",
+          "icon": "⏱️"
+        },
+        {
+          "label": "Monthly Spend",
+          "value": "$50k",
+          "icon": "💰"
+        },
+        {
+          "label": "Cost Savings",
+          "value": "50% Reduction",
+          "icon": "📊"
+        },
+        {
+          "label": "Platform",
+          "value": "AWS",
+          "icon": "☁️"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Compute & Container Services",
+          "subtitle": "Scalable application hosting",
+          "topics": [
+            {
+              "title": "Amazon ECS & Fargate",
+              "subtitle": "Container orchestration with auto-scaling",
+              "skillTags": [
+                "Fargate vs EC2 Launch Types",
+                "~10 Services, 1000-2000 Tasks",
+                "CPU/Memory/Network Auto-Scaling",
+                "Task Definition Sizing",
+                "Auto Scaling Groups",
+                "Instance Type Selection"
+              ],
+              "intro": "Managed ~10 ECS services in production running 1000-2000 Fargate tasks, primarily for batch job processing. Leveraged both EC2 and Fargate launch types based on feature availability and cost optimization strategies."
+            },
+            {
+              "title": "AWS Lambda Strategy",
+              "subtitle": "Serverless for low-traffic and IoT use cases",
+              "skillTags": [
+                "Low-Traffic APIs",
+                "IoT Integrations",
+                "Cold Start Challenges",
+                "VPC Access",
+                "When NOT to Use Lambda"
+              ],
+              "intro": "Used Lambda selectively for low-traffic APIs and IoT stack interactions. Understood Lambda's limitations for large-scale efforts and made informed architectural decisions about when serverless fits vs containers."
+            },
+            {
+              "title": "AWS Batch for Job Processing",
+              "subtitle": "Scalable batch compute with Fargate",
+              "skillTags": [
+                "Compute Environment Sizing",
+                "On-Demand vs Spot Strategy",
+                "Job Definition Optimization",
+                "State Management Challenges",
+                "Cost Optimization via Reservations"
+              ],
+              "intro": "Leveraged AWS Batch for scalable job processing across thousands of integrations. Focused on compute environment sizing, job definition optimization, and cost savings through reserved capacity rather than Spot instances."
+            }
+          ]
+        },
+        {
+          "name": "Storage Solutions",
+          "subtitle": "Data persistence and object storage",
+          "topics": [
+            {
+              "title": "Relational Databases",
+              "subtitle": "RDS and Aurora PostgreSQL with HA",
+              "skillTags": [
+                "Aurora PostgreSQL",
+                "Multi-AZ Deployments",
+                "Read Replicas",
+                "Automated Backups",
+                "Point-in-Time Recovery",
+                "Snapshot Management"
+              ],
+              "intro": "Managed production RDS instances including Aurora PostgreSQL with multi-AZ configurations for high availability. Implemented comprehensive backup and recovery strategies ensuring data durability and business continuity."
+            },
+            {
+              "title": "Object & Cache Storage",
+              "subtitle": "S3 and ElastiCache for distributed systems",
+              "skillTags": [
+                "S3 Lifecycle Policies",
+                "Versioning & Replication",
+                "ElastiCache Redis Clusters",
+                "Cache Compression",
+                "Intelligent Tiering"
+              ],
+              "intro": "Leveraged S3 for scalable object storage and ElastiCache for distributed caching. Implemented lifecycle policies, versioning, and cache optimization strategies to balance performance with cost."
+            },
+            {
+              "title": "NoSQL Storage",
+              "subtitle": "DynamoDB for flexible data models",
+              "skillTags": [
+                "DynamoDB Use Cases",
+                "Flexible Schema",
+                "Scalability & Performance",
+                "Relational vs NoSQL Trade-offs",
+                "TTL & Cost Management"
+              ],
+              "intro": "Leveraged DynamoDB for use cases requiring flexible schema, high write throughput, or automatic TTL expiration. Understood trade-offs between relational and NoSQL databases to select appropriate storage technology for each workload."
+            }
+          ]
+        },
+        {
+          "name": "Networking & Delivery",
+          "subtitle": "Network architecture and content delivery",
+          "topics": [
+            {
+              "title": "VPC Architecture",
+              "subtitle": "Virtual private cloud design",
+              "skillTags": [
+                "Subnets & Routing",
+                "NAT Gateways",
+                "VPC Peering",
+                "Transit Gateway",
+                "Security Groups",
+                "Network ACLs"
+              ],
+              "intro": "Designed VPC architectures with proper subnet segmentation, routing, and security controls. Implemented multi-tier network designs separating public and private resources with appropriate access controls."
+            },
+            {
+              "title": "CloudFront (CDN)",
+              "subtitle": "Content delivery network",
+              "skillTags": [
+                "Edge Locations",
+                "Origin Configuration",
+                "Cache Behaviors",
+                "SSL/TLS",
+                "Custom Error Pages"
+              ],
+              "intro": "Configured CloudFront distributions for static asset delivery and dynamic content acceleration. Implemented caching strategies, SSL/TLS termination, and origin failover for global content delivery."
+            },
+            {
+              "title": "Route53 (DNS)",
+              "subtitle": "Domain name system and traffic routing",
+              "skillTags": [
+                "Health Checks",
+                "Routing Policies",
+                "DNS Failover",
+                "Traffic Management",
+                "Alias Records"
+              ],
+              "intro": "Managed DNS infrastructure using Route53 with health checks, routing policies, and failover configurations. Implemented traffic management strategies for high availability and disaster recovery scenarios."
+            },
+            {
+              "title": "Load Balancing (ALB, NLB)",
+              "subtitle": "Application and network load balancers",
+              "skillTags": [
+                "Target Groups",
+                "Health Checks",
+                "SSL Termination",
+                "Path-Based Routing",
+                "Connection Draining"
+              ],
+              "intro": "Configured Application Load Balancers for HTTP/HTTPS traffic with advanced routing capabilities. Implemented health checks, SSL termination, and target group management for high availability and zero-downtime deployments."
+            }
+          ]
+        },
+        {
+          "name": "Scalability & Resilience",
+          "subtitle": "Building systems that scale and recover",
+          "topics": [
+            {
+              "title": "Disaster Recovery & Fault Tolerance",
+              "subtitle": "12-hour RTO and business continuity",
+              "skillTags": [
+                "Multi-AZ Deployments",
+                "Backup Strategies",
+                "12-Hour RTO Planning",
+                "Fault Tolerance Design",
+                "Circuit Breakers",
+                "Graceful Degradation"
+              ],
+              "intro": "Designed and implemented disaster recovery strategies with 12-hour RTO. Built fault-tolerant systems with multi-AZ deployments, automated failover capabilities, and comprehensive backup strategies across all critical services."
+            },
+            {
+              "title": "Redundancy & Load Distribution",
+              "subtitle": "Multi-AZ architecture and traffic management",
+              "skillTags": [
+                "Cross-Zone Load Balancing",
+                "Target Group Configuration",
+                "Service Redundancy",
+                "Stateless Design",
+                "Session Management"
+              ],
+              "intro": "Implemented redundancy patterns across compute, networking, and data layers to eliminate single points of failure. Designed stateless applications enabling seamless horizontal scaling and load distribution."
+            }
+          ]
+        },
+        {
+          "name": "Cost Optimization",
+          "subtitle": "Resource efficiency and savings strategies",
+          "topics": [
+            {
+              "title": "Infrastructure Right-sizing",
+              "subtitle": "Optimal resource allocation and monitoring",
+              "skillTags": [
+                "CloudWatch Metrics Analysis",
+                "Compute Optimizer Recommendations",
+                "Usage Pattern Analysis",
+                "Performance vs Cost Trade-offs",
+                "Memory Profiling"
+              ],
+              "intro": "Implemented data-driven right-sizing strategies using CloudWatch metrics and AWS Compute Optimizer. Continuously monitored resource utilization to identify over-provisioned resources and optimize allocation without sacrificing performance."
+            },
+            {
+              "title": "Reserved Instances & Savings Plans",
+              "subtitle": "Long-term cost commitments and coverage",
+              "skillTags": [
+                "RI Strategy & Analysis",
+                "Compute Savings Plans",
+                "Coverage Optimization",
+                "95%+ Utilization Targets",
+                "Reservation Planning"
+              ],
+              "intro": "Achieved 95%+ reserved capacity utilization through careful analysis and planning of Reserved Instances and Savings Plans. Balanced commitment level with flexibility requirements to maximize savings on predictable baseline capacity."
+            },
+            {
+              "title": "Cost Monitoring & Optimization Practices",
+              "subtitle": "Proactive cost management and alerting",
+              "skillTags": [
+                "Cost Anomaly Detection",
+                "Budget Alerts",
+                "Tag-Based Cost Allocation",
+                "Service-Level Cost Tracking",
+                "Optimization Opportunities"
+              ],
+              "intro": "Implemented comprehensive cost monitoring and alerting systems to track spending patterns, detect anomalies, and identify optimization opportunities. Used tagging strategies for detailed cost allocation and accountability."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "devops",
+      "title": "DevOps",
+      "overview": "6+ years building automated CI/CD pipelines with GitHub Actions, CodeBuild, and CodeDeploy using multi-stage testing gates. Implemented comprehensive observability stack with DataDog and GrayLog including APMs, custom dashboards, and intelligent anomaly detection. Integrated alerting across PagerDuty and Slack for rapid incident response.",
+      "badges": [
+        {
+          "label": "Experience",
+          "value": "6+ Years",
+          "icon": "⏱️"
+        },
+        {
+          "label": "CI/CD",
+          "value": "CI/CD Focus",
+          "icon": "🔄"
+        },
+        {
+          "label": "Monitoring",
+          "value": "Anomaly Detection",
+          "icon": "📊"
+        },
+        {
+          "label": "Tools",
+          "value": "DataDog, CodeBuild, GitHub",
+          "icon": "🔧"
+        }
+      ],
+      "categories": [
+        {
+          "name": "CI/CD & Build Systems",
+          "subtitle": "Multi-stage pipelines with automated quality gates",
+          "topics": [
+            {
+              "title": "AWS CodePipeline & CodeBuild",
+              "subtitle": "Multi-stage automated pipelines",
+              "skillTags": [
+                "Source → Build → Test → Deploy",
+                "CodeBuild for Tests & Artifacts",
+                "Multi-Environment Deployments",
+                "Build Time Optimization",
+                "Parallel Processing"
+              ],
+              "intro": "Built automated CI/CD pipelines using AWS CodePipeline and CodeBuild, implementing multi-stage deployments from GitHub to production with integrated testing and quality gates."
+            },
+            {
+              "title": "GitHub Actions & Integration",
+              "subtitle": "PR automation and quality checks",
+              "skillTags": [
+                "Branch Protection Rules",
+                "PR Content Validation",
+                "GitHub-Hosted Runners",
+                "AI Code Review Experimentation",
+                "Complementing CodePipeline"
+              ],
+              "intro": "Used GitHub Actions to enforce branch protection, automate PR quality checks, and prevent direct commits to main branch. Experimented with AI-powered code review but found limited value at the time."
+            },
+            {
+              "title": "Build Tool Optimization",
+              "subtitle": "Maven, NPM, and dependency management",
+              "skillTags": [
+                "S3 Maven Repository",
+                "AWS Auth Integration",
+                "Build Caching",
+                "Private Repository Strategy"
+              ],
+              "intro": "Deep expertise with Maven and NPM build tooling, including custom S3-based Maven repository to replace Artifactory, saving costs and improving security."
+            },
+            {
+              "title": "Deployment Strategies & Rollback",
+              "subtitle": "Blue/green, rolling updates, and safe deployments",
+              "skillTags": [
+                "Blue/Green Deployments",
+                "Rolling Updates",
+                "Backwards-Compatible Changes",
+                "Flyway Migration Strategy",
+                "Multi-Stage Deployment Safety"
+              ],
+              "intro": "Implemented deployment strategies based on application state requirements. Emphasized deployment frequency capability (hourly) vs actual frequency (weekly) to enable rapid incident response. Comprehensive rollback philosophy centered on backwards compatibility."
+            }
+          ]
+        },
+        {
+          "name": "Monitoring & Observability",
+          "subtitle": "DataDog APM, logs, and intelligent alerting",
+          "topics": [
+            {
+              "title": "DataDog Alerts & Metrics",
+              "subtitle": "Application performance monitoring with anomaly detection",
+              "skillTags": [
+                "APM & Tracing",
+                "Custom Metrics",
+                "WatchDog Anomaly Detection",
+                "Alert Thresholds",
+                "Integration with PagerDuty/Slack"
+              ],
+              "intro": "Implemented comprehensive monitoring and alerting using DataDog APM, custom metrics, and WatchDog anomaly detection. Configured intelligent alerts that catch issues before customer impact while minimizing false positives."
+            },
+            {
+              "title": "Log Sampling & Retention",
+              "subtitle": "GrayLog and DataDog log management",
+              "skillTags": [
+                "GrayLog for Complete Retention",
+                "DataDog for Sampled Logs",
+                "Log Parsing & Structured Logging",
+                "Cost vs Coverage Trade-offs",
+                "Query & Search Capabilities"
+              ],
+              "intro": "Implemented dual logging strategy using GrayLog for complete log retention and DataDog for sampled logs with APM correlation. Balanced cost, retention requirements, and query capabilities through strategic log routing and sampling."
+            },
+            {
+              "title": "System Performance Dashboards",
+              "subtitle": "Custom monitoring visualizations",
+              "skillTags": [
+                "Service-Level Dashboards",
+                "Infrastructure Metrics",
+                "Business Metrics",
+                "Error Tracking & Analysis",
+                "Real-Time Monitoring"
+              ],
+              "intro": "Built comprehensive custom dashboards combining infrastructure metrics, application performance, and business KPIs. Designed for both real-time monitoring and historical analysis to support operations and strategic decision-making."
+            }
+          ]
+        },
+        {
+          "name": "Containerization",
+          "subtitle": "Docker and ECS container management",
+          "topics": [
+            {
+              "title": "Docker & ECS Container Management",
+              "subtitle": "Container build, deployment, and orchestration",
+              "skillTags": [
+                "Docker Build & Optimization",
+                "Amazon ECS Deployments",
+                "ECR Image Management",
+                "Container Best Practices"
+              ],
+              "intro": "Extensive experience with Docker containerization and Amazon ECS orchestration for production workloads. Built optimized container images and managed ECS deployments for scalable, reliable service delivery."
+            }
+          ]
+        },
+        {
+          "name": "Incident Response",
+          "subtitle": "Alerting, on-call, and incident management",
+          "topics": [
+            {
+              "title": "Incident Alerting Integrations",
+              "subtitle": "PagerDuty, Slack, and Statuspage automation",
+              "skillTags": [
+                "PagerDuty On-Call Management",
+                "Slack Alert Channels",
+                "Statuspage Customer Communication",
+                "Alert Routing & Escalation",
+                "Multi-Channel Strategy"
+              ],
+              "intro": "Implemented comprehensive incident alerting across PagerDuty for on-call escalation, Slack for team awareness, and Statuspage for customer communication. Configured intelligent routing and escalation to ensure rapid response while minimizing alert fatigue."
+            },
+            {
+              "title": "AWS Runbooks",
+              "subtitle": "Documented incident response procedures",
+              "skillTags": [
+                "Runbook Creation",
+                "Common Incident Scenarios",
+                "Step-by-Step Remediation",
+                "Runbook Maintenance",
+                "Team Training"
+              ],
+              "intro": "Created comprehensive runbooks documenting incident response procedures for common failure scenarios. Enabled rapid response by providing step-by-step remediation guides accessible during high-pressure incidents. Reduced mean time to resolution and enabled junior engineers to handle incidents independently."
+            },
+            {
+              "title": "Post-Mortem Analysis",
+              "subtitle": "Learning from incidents and preventing recurrence",
+              "skillTags": [
+                "Blameless Post-Mortems",
+                "Root Cause Analysis",
+                "Action Items",
+                "Knowledge Sharing",
+                "Incident Trends"
+              ],
+              "intro": "Conducted blameless post-mortems after significant incidents to understand root causes and prevent recurrence. Fostered learning culture focused on system improvements rather than individual blame. Tracked incident trends to identify systemic issues requiring architectural changes."
+            }
+          ]
+        },
+        {
+          "name": "Infrastructure as Code",
+          "subtitle": "IaC prototyping and governance",
+          "topics": [
+            {
+              "title": "IaC Tools & Prototyping",
+              "subtitle": "CloudFormation, Terraform, and serverless IaC",
+              "skillTags": [
+                "CloudFormation Prototyping",
+                "Terraform Experimentation",
+                "SST.dev for Serverless",
+                "IAM Governance"
+              ],
+              "intro": "Experience with Infrastructure as Code tools for prototyping and automation. Primarily used CloudFormation and experimented with Terraform and modern serverless frameworks."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "title": "Data Engineering",
+      "overview": "6+ years building and scaling a custom data integration platform processing 200M+ records across 100+ active integrations. Architected event-driven pipelines using Kafka for real-time processing, implemented high-performance Redis caching strategies, and tuned PostgreSQL for high-throughput transactional workloads. Deep expertise in ETL design, data pipeline automation, and integration monitoring.",
+      "badges": [
+        {
+          "label": "Experience",
+          "value": "6+ Years",
+          "icon": "⏱️"
+        },
+        {
+          "label": "Integrations",
+          "value": "100+",
+          "icon": "🔗"
+        },
+        {
+          "label": "Scale",
+          "value": "200M+ Records",
+          "icon": "📊"
+        },
+        {
+          "label": "Technologies",
+          "value": "PostgreSQL, Redis, Kafka",
+          "icon": "🔧"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Caching Strategies",
+          "subtitle": "Redis/ElastiCache for high-performance data access",
+          "topics": [
+            {
+              "title": "Redis Cache Architecture",
+              "subtitle": "High-performance caching with LRU eviction",
+              "skillTags": [
+                "Redis Cluster",
+                "LRU Eviction",
+                "Cache Key Patterns",
+                "TTL Management",
+                "Memory Optimization"
+              ],
+              "intro": "Designed and implemented Redis caching layer for high-traffic e-commerce integration platform. Used ElastiCache for Redis with cluster mode enabled for horizontal scaling. Cache reduced database load by 70%+ and improved API response times from 500ms to under 50ms for cached queries."
+            },
+            {
+              "title": "Cache Performance Optimization",
+              "subtitle": "Maximizing efficiency through compression and diff detection",
+              "skillTags": [
+                "Payload Compression",
+                "Diff Detection",
+                "Hit Rate Optimization",
+                "Connection Pooling",
+                "Monitoring"
+              ],
+              "intro": "Optimized cache performance through payload compression, intelligent change detection, and strategic cache warming. Reduced cache memory footprint by 60% while improving hit rates to 95%+. Implemented diff detection processing billions of comparisons per hour to minimize unnecessary updates."
+            }
+          ]
+        },
+        {
+          "name": "Event-Driven Architecture",
+          "subtitle": "Kafka, SQS, SNS, EventBridge for async processing",
+          "topics": [
+            {
+              "title": "Event-Driven Architecture (Kafka)",
+              "subtitle": "Real-time inventory events and streaming data pipelines",
+              "skillTags": [
+                "Kafka Cluster Design",
+                "Topic Partitioning Strategy",
+                "Consumer Groups",
+                "Event Schema Design",
+                "Dead Letter Queues"
+              ],
+              "intro": "Architected Kafka-based event streaming platform processing millions of inventory events daily. Real-time data pipeline enabled sub-second propagation of inventory updates across multiple systems. Used for inventory synchronization, order fulfillment triggers, and analytics streaming."
+            },
+            {
+              "title": "AWS SQS for Job Queuing",
+              "subtitle": "Asynchronous batch processing and job orchestration",
+              "skillTags": [
+                "Queue Architecture",
+                "FIFO vs Standard Queues",
+                "Visibility Timeout Tuning",
+                "Dead Letter Queue Handling",
+                "Message Batching"
+              ],
+              "intro": "Leveraged AWS SQS for asynchronous job processing across integration platform. Decoupled job producers from workers, enabling elastic scaling based on queue depth. Processed millions of messages monthly with automatic retry and dead-letter handling for failed jobs."
+            },
+            {
+              "title": "SNS & EventBridge Integration",
+              "subtitle": "Multi-channel notifications and event-driven system integration",
+              "skillTags": [
+                "SNS Topic Fan-Out",
+                "SMS & Slack Notifications",
+                "EventBridge Event Bus",
+                "Cross-Service Integration",
+                "Event Filtering & Routing"
+              ],
+              "intro": "Implemented AWS SNS for multi-channel alerting (SMS, email, Slack) and EventBridge for event-driven service integration. SNS enabled real-time notifications to stakeholders, while EventBridge provided flexible event routing between internal services and external SaaS applications."
+            }
+          ]
+        },
+        {
+          "name": "Data Integration & ETL",
+          "subtitle": "Custom integration framework and batch processing",
+          "topics": [
+            {
+              "title": "Flxpoint Integration Framework",
+              "subtitle": "Custom-built platform for multi-tenant integrations",
+              "skillTags": [
+                "Framework Architecture",
+                "Multi-Tenant Design",
+                "Plugin System",
+                "Integration Lifecycle",
+                "Configuration Management"
+              ],
+              "intro": "Designed and built custom integration framework (\"Flxpoint\") processing 200M+ records annually across 100+ active integrations. Multi-tenant SaaS platform enabling merchants to connect e-commerce systems with supplier/marketplace APIs. Supported diverse protocols (REST, SOAP, FTP, EDI) through adapter pattern."
+            },
+            {
+              "title": "Multi-Source Adapters (Files, REST, SOAP, EDI)",
+              "subtitle": "Supporting diverse data source protocols",
+              "skillTags": [
+                "REST API Adapters",
+                "SOAP/XML Processing",
+                "File-Based Integration",
+                "EDI/X12 Parsing",
+                "Protocol Abstraction"
+              ],
+              "intro": "Built adapters supporting diverse integration protocols: REST APIs (JSON), SOAP/XML web services, file transfers (CSV, Excel, FTP/SFTP), and EDI/X12 documents. Abstracted protocol differences behind common interface enabling unified processing pipeline regardless of data source."
+            },
+            {
+              "title": "AWS Batch Job Orchestration",
+              "subtitle": "Scalable container-based batch processing",
+              "skillTags": [
+                "Batch Architecture",
+                "Job Definitions",
+                "Compute Environments",
+                "Job Queues & Scheduling",
+                "Container Optimization"
+              ],
+              "intro": "Leveraged AWS Batch for scalable, container-based integration job execution. Managed compute infrastructure automatically scaled from 0-100+ instances based on workload. Orchestrated thousands of daily integration jobs with configurable resource allocation, priority queuing, and dependency management."
+            },
+            {
+              "title": "Integration Monitoring & Error Tracking",
+              "subtitle": "Comprehensive observability, logging, and error management",
+              "skillTags": [
+                "Execution Tracking",
+                "Error Classification",
+                "Performance Metrics",
+                "Alerting Strategy",
+                "Self-Healing Patterns"
+              ],
+              "intro": "Built comprehensive monitoring system tracking every integration execution with detailed telemetry, multi-dimensional error categorization, and automated alerting. Enabled rapid troubleshooting, proactive issue detection, and continuous reliability improvements. Drove error rate from 8% to under 2% through systematic monitoring and remediation."
+            }
+          ]
+        },
+        {
+          "name": "Database Architecture",
+          "subtitle": "PostgreSQL optimization and data modeling",
+          "topics": [
+            {
+              "title": "Schema Migration with Flyway",
+              "subtitle": "Version-controlled database evolution",
+              "skillTags": [
+                "Migration Strategy",
+                "Rollback Safety",
+                "Multi-Environment",
+                "Zero-Downtime Migrations",
+                "Migration Testing"
+              ],
+              "intro": "Used Flyway for database schema version control and automated migrations across environments. Enabled safe, repeatable schema evolution with full audit trail. Applied 500+ migrations over 6 years without production downtime through careful planning and testing."
+            },
+            {
+              "title": "Hot vs Cold Table Separation",
+              "subtitle": "Data lifecycle management and performance optimization",
+              "skillTags": [
+                "Hot Table Design",
+                "Cold Storage Strategy",
+                "Data Migration",
+                "Query Routing",
+                "Cost Optimization"
+              ],
+              "intro": "Separated frequently accessed \"hot\" data from infrequently accessed \"cold\" data into different tables. Hot tables optimized for fast queries with aggressive indexing and caching. Cold tables optimized for storage efficiency with compression. Improved query performance 10x while reducing database costs 40%."
+            },
+            {
+              "title": "Index & Query Optimization",
+              "subtitle": "Strategic indexing and query tuning for high performance",
+              "skillTags": [
+                "Query Pattern Analysis",
+                "Composite Indexes",
+                "Execution Plan Optimization",
+                "N+1 Query Prevention",
+                "Performance Monitoring"
+              ],
+              "intro": "Developed data-driven indexing strategy and systematically optimized database queries. Analyzed slow query logs, execution plans, and workload patterns to identify optimization opportunities. Reduced 95th percentile query latency from 2 seconds to under 200ms. Achieved 90% reduction in database load while supporting 3x user growth."
+            },
+            {
+              "title": "Table Partitioning Strategies",
+              "subtitle": "Managing large tables efficiently",
+              "skillTags": [
+                "Time-Based Partitioning",
+                "Partition Maintenance",
+                "Query Performance"
+              ],
+              "intro": "Implemented PostgreSQL table partitioning for tables exceeding hundreds of millions of rows. Used time-based partitioning for transactional data, enabling efficient archival and query optimization. Reduced query times by 90% through partition pruning."
+            }
+          ]
+        },
+        {
+          "name": "Search & Indexing",
+          "subtitle": "Full-text search for product catalogs and orders",
+          "topics": [
+            {
+              "title": "Search Architecture",
+              "subtitle": "Apache SOLR and ElasticSearch for scalable full-text search",
+              "skillTags": [
+                "Search Platform Selection",
+                "Distributed Architecture",
+                "Index Management",
+                "Relevance Tuning",
+                "Data Synchronization"
+              ],
+              "intro": "Implemented full-text search across product catalogs and order data using Apache SOLR and ElasticSearch. Both platforms provided distributed search capabilities with sharding, replication, and horizontal scaling. Processed millions of documents with sub-second query response times. Enabled faceted search, autocomplete, and relevance-ranked results."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security Engineering",
+      "overview": "4+ years of security engineering experience as startup CTO. Prepped organization for SOC2 audit and passed security audits from Amazon Marketplace and Deloitte. Built comprehensive security protocols, vulnerability scanning workflows, and monitoring systems. Deep expertise in application security, remediation processes, PII protection frameworks, and vendor security assessments.",
+      "badges": [
+        {
+          "label": "Experience",
+          "value": "4+ Years",
+          "icon": "⏱️"
+        },
+        {
+          "label": "Compliance",
+          "value": "SOC2 Experience",
+          "icon": "🛡️"
+        },
+        {
+          "label": "Protection",
+          "value": "PII Protection",
+          "icon": "🔒"
+        },
+        {
+          "label": "Focus",
+          "value": "Scanning, Remediation, Audits",
+          "icon": "🎯"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Access Control & Secrets",
+          "subtitle": "Identity management and sensitive data protection",
+          "topics": [
+            {
+              "title": "IAM & Access Governance",
+              "subtitle": "AWS IAM roles, policies, and least privilege access",
+              "skillTags": [
+                "IAM Role Design",
+                "Service-Specific Policies",
+                "Cross-Account Access",
+                "Access Review Process",
+                "MFA Enforcement"
+              ],
+              "intro": "Implemented comprehensive IAM governance using AWS IAM for access control across services and resources. Designed role-based access following least privilege principles. Enforced MFA for human users and used service roles for applications. Conducted regular access reviews ensuring permissions remained appropriate."
+            },
+            {
+              "title": "Secrets Management",
+              "subtitle": "AWS Secrets Manager and Parameter Store for credentials",
+              "skillTags": [
+                "Secrets Manager vs Parameter Store",
+                "Application Integration",
+                "Rotation Policies",
+                "Environment-Specific Secrets",
+                "Encryption"
+              ],
+              "intro": "Managed application secrets using AWS Secrets Manager and Systems Manager Parameter Store. Eliminated hardcoded credentials from code and configuration files. Implemented automatic rotation for database credentials. Used encryption at rest and in transit for all secrets. Scoped secret access through IAM policies."
+            },
+            {
+              "title": "Vendor Security Posturing",
+              "subtitle": "Third-party security assessment and due diligence",
+              "skillTags": [
+                "Vendor Security Questionnaires",
+                "SOC2 Report Review",
+                "Data Access Evaluation",
+                "Vendor Approval Process",
+                "Ongoing Monitoring"
+              ],
+              "intro": "Established vendor security assessment process for all third-party tools and services accessing company data. Reviewed SOC2 reports, completed security questionnaires, and evaluated data access requirements. Maintained approved vendor list and reassessed vendors annually. Process became more rigorous post-SOC2 certification as vendor security became part of compliance scope."
+            },
+            {
+              "title": "Least Privilege Principles",
+              "subtitle": "Minimal permissions and regular access audits",
+              "skillTags": [
+                "Permission Scoping",
+                "Temporary Elevated Access",
+                "Service Account Management",
+                "Access Audit Process",
+                "Permission Removal"
+              ],
+              "intro": "Implemented least privilege access across systems - users and services granted minimum permissions required for their function. Started with minimal access and added permissions as needed rather than starting broad and trying to restrict. Regularly audited and removed unnecessary permissions. Used temporary elevated access for one-time administrative tasks."
+            }
+          ]
+        },
+        {
+          "name": "Compliance & Governance",
+          "subtitle": "SOC2, audits, and regulatory requirements",
+          "topics": [
+            {
+              "title": "SOC2 & Audit Preparation",
+              "subtitle": "Compliance certification and audit readiness",
+              "skillTags": [
+                "SOC2 Decision & Timeline",
+                "Pre-Audit Preparation",
+                "Control Implementation",
+                "Working with Auditors",
+                "Audit Findings & Remediation"
+              ],
+              "intro": "Led organization through SOC2 Type II audit preparation and certification as startup CTO. Prepared for 6+ months implementing required controls, documenting policies, and establishing evidence collection processes. Worked closely with auditors during 3-month audit period providing evidence and responding to findings. Passed initial audit with minor observations and established ongoing compliance program."
+            },
+            {
+              "title": "PII, GDPR, and Privacy",
+              "subtitle": "Data privacy and protection",
+              "skillTags": [
+                "PII Data Classification",
+                "Data Discovery & Mapping",
+                "Encryption & Protection",
+                "Data Retention & Deletion",
+                "Privacy by Design"
+              ],
+              "intro": "Implemented comprehensive PII protection framework identifying, classifying, and securing personally identifiable information across systems. Conducted data mapping exercises cataloging PII storage locations. Implemented encryption for PII at rest and in transit. Established data retention policies and deletion procedures. Designed systems with privacy considerations from the start."
+            },
+            {
+              "title": "Immutable Audit Logs",
+              "subtitle": "Compliance audit trails",
+              "skillTags": [
+                "CloudTrail Configuration",
+                "Log Storage & Protection",
+                "Log File Validation",
+                "Retention & Lifecycle",
+                "Audit Log Monitoring"
+              ],
+              "intro": "Implemented immutable audit logging using AWS CloudTrail for all AWS account activity and application-level logging for business events. Configured log file validation preventing tampering. Stored logs in dedicated S3 bucket with restricted access and lifecycle policies. Enabled log monitoring and alerting for security-relevant events. Audit logs critical for SOC2 compliance and security investigations."
+            }
+          ]
+        },
+        {
+          "name": "Application Security",
+          "subtitle": "Secure coding and vulnerability management",
+          "topics": [
+            {
+              "title": "Secure Coding Practices",
+              "subtitle": "OWASP Top 10, code review, and security training",
+              "skillTags": [
+                "OWASP Top 10 Awareness",
+                "Secure Code Review",
+                "Input Validation & Sanitization",
+                "Security Training",
+                "Secrets in Code Prevention"
+              ],
+              "intro": "Established secure coding practices across engineering team focusing on OWASP Top 10 vulnerabilities. Integrated security considerations into code review process. Implemented input validation and output encoding preventing injection attacks. Conducted security training for engineers building awareness. Prevented secrets from being committed to code repositories."
+            },
+            {
+              "title": "Security Scans & Remediation",
+              "subtitle": "Vulnerability scanning, dependency checks, and pen testing",
+              "skillTags": [
+                "Dependency Scanning",
+                "Container Security",
+                "Static Code Analysis",
+                "Vulnerability Remediation SLAs",
+                "Penetration Testing"
+              ],
+              "intro": "Implemented automated security scanning across code, dependencies, and infrastructure. Used Snyk and Dependabot for dependency vulnerability detection. Configured SonarCloud for static code analysis catching security anti-patterns. Established remediation SLAs based on severity - critical vulnerabilities fixed within days, lower severity on regular schedule. Conducted periodic penetration testing identifying real-world attack vectors."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "leadership",
+      "title": "Leadership & Strategy",
+      "overview": "5+ years of technical leadership experience advancing from Lead Developer to CTO at a SaaS startup. Grew engineering organization from 5 to 20+ staff, managed $1M+ annual technology budget, and successfully led SOC2 compliance initiative. Developed strategic frameworks for AI adoption, technical debt management, architecture governance, and build-vs-buy decisions.",
+      "badges": [
+        {
+          "label": "Experience",
+          "value": "5+ Years",
+          "icon": "⏱️"
+        },
+        {
+          "label": "Budget",
+          "value": "$1M",
+          "icon": "💰"
+        },
+        {
+          "label": "Team",
+          "value": "20+ Staff",
+          "icon": "👥"
+        },
+        {
+          "label": "Focus",
+          "value": "CTO, AI Strategy, Team Building",
+          "icon": "🎯"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Technical Leadership",
+          "subtitle": "Engineering metrics and technology strategy",
+          "topics": [
+            {
+              "title": "Engineering Metrics & KPIs",
+              "subtitle": "Deployment frequency, uptime, error rates, and velocity",
+              "skillTags": [
+                "Deployment Frequency",
+                "MTTR & Uptime",
+                "Error Rates & Quality",
+                "Velocity & Throughput",
+                "Test Coverage"
+              ],
+              "intro": "Tracked key engineering metrics to drive data-driven decision making and demonstrate technical progress to executive team. Focused on metrics that balanced velocity (delivering features) with quality (reliability and maintainability). Used metrics to identify bottlenecks and justify investments in technical debt and tooling."
+            },
+            {
+              "title": "Technology Roadmapping",
+              "subtitle": "Quarterly and annual technical planning",
+              "skillTags": [
+                "Quarterly Tech Roadmap",
+                "Annual Planning",
+                "Innovation vs Maintenance",
+                "Technology Evaluation",
+                "Roadmap Communication"
+              ],
+              "intro": "Developed quarterly and annual technology roadmaps balancing feature development, technical debt, infrastructure improvements, and innovation. Aligned technical strategy with company objectives while maintaining system health and team productivity. Communicated roadmap to engineering teams and executive stakeholders for alignment."
+            },
+            {
+              "title": "Stakeholder Management",
+              "subtitle": "Cross-functional collaboration with executives and product",
+              "skillTags": [
+                "Executive Communication",
+                "Product Partnership",
+                "Customer Escalations",
+                "Technical Translation",
+                "Managing Expectations"
+              ],
+              "intro": "Managed relationships with key stakeholders including CEO, product leadership, sales, and major customers. Translated technical concepts to business language and business requirements to technical strategy. Balanced competing priorities and managed expectations around timelines, tradeoffs, and technical constraints."
+            }
+          ]
+        },
+        {
+          "name": "Architecture & Technical Strategy",
+          "subtitle": "Architecture governance and decision frameworks",
+          "topics": [
+            {
+              "title": "Architecture Recommendations & Evolution",
+              "subtitle": "Monolith to macro-services and system design leadership",
+              "skillTags": [
+                "Macro Services Pattern",
+                "Service Boundaries",
+                "Monolith Evolution",
+                "Architecture Review Process",
+                "Documentation"
+              ],
+              "intro": "Led architectural evolution from monolithic application to macro-services architecture. Provided architecture guidance and recommendations for new services and major features. Balanced theoretical best practices with pragmatic startup constraints. Fostered architecture discussion culture while maintaining final decision authority."
+            },
+            {
+              "title": "Technical Debt Management Framework",
+              "subtitle": "Tracking, prioritizing, and systematically reducing debt",
+              "skillTags": [
+                "Debt Categorization",
+                "Quarterly Tech Debt Initiatives",
+                "SonarCloud Tracking",
+                "Prioritization Framework",
+                "Executive Communication"
+              ],
+              "intro": "Developed framework for identifying, tracking, and systematically paying down technical debt. Balanced technical debt work with feature development based on system health and ops burden. Used quarterly tech debt initiatives to make sustained progress on accumulated debt. Translated technical debt to business impact for executive buy-in."
+            },
+            {
+              "title": "Build vs Buy Decision Process",
+              "subtitle": "Strategic technology and vendor selection",
+              "skillTags": [
+                "Decision Criteria",
+                "Cost Analysis",
+                "Build vs Buy Examples",
+                "Vendor Evaluation",
+                "Long-term Considerations"
+              ],
+              "intro": "Developed framework for build vs buy decisions balancing cost, time-to-market, strategic differentiation, and operational complexity. Generally preferred buy for commodity functionality and build for core differentiators. Considered total cost of ownership including maintenance and opportunity cost."
+            },
+            {
+              "title": "Deprecation & Migration Strategies",
+              "subtitle": "Legacy system sunset and technology upgrades",
+              "skillTags": [
+                "Deprecation Planning",
+                "Migration Approaches",
+                "Backward Compatibility",
+                "User Communication",
+                "Measuring Success"
+              ],
+              "intro": "Managed deprecation of legacy systems and migration to new technologies through phased approaches minimizing disruption. Emphasized backward compatibility and smooth transitions over big-bang rewrites. Communicated changes clearly to internal and external stakeholders with appropriate notice periods."
+            }
+          ]
+        },
+        {
+          "name": "Team Building & Scaling",
+          "subtitle": "Hiring and career development",
+          "topics": [
+            {
+              "title": "Hiring & Interviewing",
+              "subtitle": "Technical screens, system design, and culture fit assessment",
+              "skillTags": [
+                "Interview Process",
+                "Technical Assessment",
+                "System Design Interviews",
+                "Culture Fit Evaluation",
+                "Recruiter Partnerships"
+              ],
+              "intro": "Scaled engineering team from 5 to 20+ engineers through systematic hiring process. Developed multi-stage interview evaluating technical skills, problem-solving ability, communication, and culture fit. Partnered with technical recruiters while maintaining internal sourcing. Balanced hiring speed with quality standards."
+            },
+            {
+              "title": "Employee Career Ladders",
+              "subtitle": "Junior, Mid, Senior, Staff levels with clear expectations",
+              "skillTags": [
+                "Career Level Framework",
+                "Promotion Criteria",
+                "Growth Conversations",
+                "Compensation Bands",
+                "Individual Contributor vs Management"
+              ],
+              "intro": "Developed career ladder framework defining expectations and growth path from Junior through Staff Engineer levels. Created clear criteria for promotions balancing technical skills, impact, and leadership. Conducted regular growth conversations keeping engineers informed of progress and areas for development. Enabled transparent career progression without requiring management path."
+            },
+            {
+              "title": "Team Culture & Values",
+              "subtitle": "Collaboration, learning, customer focus, and blameless culture",
+              "skillTags": [
+                "Core Values",
+                "Blameless Culture",
+                "Collaboration Practices",
+                "Learning & Growth",
+                "Remote-Friendly Environment"
+              ],
+              "intro": "Built engineering culture emphasizing collaboration over competition, learning over ego, and customer impact over technical perfection. Fostered blameless incident culture where failures viewed as learning opportunities. Created environment where engineers felt safe asking questions, making mistakes, and challenging ideas. Culture scaled from 5 to 20+ engineers through intentional values reinforcement."
+            },
+            {
+              "title": "Onboarding & Training",
+              "subtitle": "30-60-90 day ramp, mentorship, and documentation",
+              "skillTags": [
+                "Onboarding Program Structure",
+                "First Week Setup",
+                "30-60-90 Day Goals",
+                "Mentorship Pairing",
+                "Documentation & Resources"
+              ],
+              "intro": "Developed structured onboarding program ramping new engineers from initial setup through productive contribution within 60-90 days. Paired new hires with mentors for guidance and knowledge transfer. Maintained onboarding documentation reducing repetitive setup questions. Balanced structured ramp with flexibility for experienced engineers."
+            }
+          ]
+        },
+        {
+          "name": "Innovation & Empowerment",
+          "subtitle": "Fostering innovation and team autonomy",
+          "topics": [
+            {
+              "title": "Team Empowerment Practices",
+              "subtitle": "Autonomy, ownership, and decision-making authority",
+              "skillTags": [
+                "Ownership & Accountability",
+                "Decision-Making Authority",
+                "Reducing Bottlenecks",
+                "Failure Tolerance",
+                "Bottom-Up Innovation"
+              ],
+              "intro": "Empowered teams through ownership, autonomy, and decision-making authority within guardrails. Reduced leadership bottlenecks by pushing decisions down to engineers closest to problems. Encouraged experimentation and tolerated failures as learning opportunities. Balanced autonomy with alignment to company objectives."
+            },
+            {
+              "title": "SCRUM & Retrospectives for Ideas",
+              "subtitle": "Agile practices and continuous improvement",
+              "skillTags": [
+                "Sprint Structure",
+                "Retrospective Format",
+                "Action Item Follow-Through",
+                "Continuous Improvement",
+                "Team Self-Organization"
+              ],
+              "intro": "Implemented SCRUM framework for sprint planning and execution. Used retrospectives as forum for continuous improvement and capturing team ideas. Focused on action item follow-through ensuring improvements actually happened. Adapted SCRUM practices to startup context - pragmatic over dogmatic application."
+            }
+          ]
+        },
+        {
+          "name": "Operations & Budget",
+          "subtitle": "Resource allocation and vendor management",
+          "topics": [
+            {
+              "title": "Budget Management & Cost Optimization",
+              "subtitle": "$1M annual budget with 50%+ infrastructure cost reduction",
+              "skillTags": [
+                "50/50 Tech-People Budget Split",
+                "$100k→$40k AWS Optimization",
+                "Cost Anomaly Alerting",
+                "Growth-Based Forecasting",
+                "Reserved Instance Strategy"
+              ],
+              "intro": "Managed $1M annual technology budget split evenly between technology costs (cloud, tools, SaaS) and people costs (staff, contractors, recruiting). Led comprehensive optimization initiative reducing AWS costs from $100k/month to under $40k through database tuning, integration efficiency, and strategic reservations."
+            },
+            {
+              "title": "Vendor Management & Negotiations",
+              "subtitle": "Strategic partnerships with AWS, DataDog, Atlassian, GitHub",
+              "skillTags": [
+                "AWS Partnership & re:Invent",
+                "Enterprise Discounts & Credits",
+                "Startup Positioning Leverage",
+                "Security Due Diligence",
+                "Recruiter Rate Negotiations"
+              ],
+              "intro": "Managed relationships with key technology vendors (AWS, DataDog, Atlassian, Google Workspace, GitHub), negotiating discounts, credits, and strategic partnerships. Leveraged startup positioning for favorable rates and educational resources. Built vendor evaluation framework ensuring security, compliance, and cost-effectiveness."
+            },
+            {
+              "title": "Resource Allocation & Planning",
+              "subtitle": "Balancing north stars, team goals, and operational demands",
+              "skillTags": [
+                "Top-Down North Stars",
+                "Bottom-Up Team Goals",
+                "Ops Time Factoring",
+                "Cross-Team Coordination",
+                "Annual Team Rebalancing"
+              ],
+              "intro": "Balanced top-down strategic direction (\"north stars\") with bottom-up team goal setting and operational realities. Coordinated cross-functional initiatives through JIRA dependency tracking while allowing teams autonomy within their domains. Factored operational burden into planning to prevent over-commitment and enable sustainable pace."
+            }
+          ]
+        },
+        {
+          "name": "Product Strategy",
+          "subtitle": "Product vision and technical roadmapping",
+          "topics": [
+            {
+              "title": "Product Roadmap Alignment",
+              "subtitle": "Syncing technical and product strategies",
+              "skillTags": [
+                "Roadmap Collaboration",
+                "Enabling vs Blocking",
+                "Customer-Driven Priorities",
+                "Technical Enablers",
+                "Trade-off Discussions"
+              ],
+              "intro": "Collaborated closely with product leadership to align technical and product roadmaps. Ensured technical capabilities enabled product vision while advocating for technical investments required for long-term success. Balanced customer feature requests with infrastructure and technical debt needs. Translated product requirements into technical initiatives."
+            },
+            {
+              "title": "Technical Feasibility Analysis",
+              "subtitle": "Evaluating complexity, effort, and risks",
+              "skillTags": [
+                "Feasibility Assessment",
+                "Effort Estimation",
+                "Risk Identification",
+                "Proof of Concepts",
+                "Alternative Approaches"
+              ],
+              "intro": "Evaluated technical feasibility of proposed features and initiatives. Provided effort estimates and risk assessments informing prioritization decisions. Recommended alternative approaches when original proposals technically infeasible or prohibitively expensive. Validated assumptions through proof of concepts for high-risk initiatives."
+            },
+            {
+              "title": "Feature Prioritization",
+              "subtitle": "Impact vs effort, customer value, and strategic alignment",
+              "skillTags": [
+                "Prioritization Framework",
+                "Value vs Effort Analysis",
+                "Strategic vs Tactical Balance",
+                "Customer Impact Assessment",
+                "Tech Debt vs Features"
+              ],
+              "intro": "Collaborated with product on feature prioritization using impact vs effort frameworks. Balanced customer-requested features with strategic initiatives and technical debt. Advocated for technical investments enabling long-term product velocity. Made data-driven prioritization decisions considering customer value, effort, and strategic alignment."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

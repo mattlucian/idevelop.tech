@@ -1,0 +1,10 @@
+# robots.txt for idevelop.tech
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://idevelop.tech/sitemap.xml
+
+# Disallow component showcase (internal development page)
+Disallow: /components

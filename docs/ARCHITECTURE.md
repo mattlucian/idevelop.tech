@@ -7,362 +7,522 @@ This document captures the key architectural decisions made during the developme
 ## Technology Stack
 
 ### Core Framework
+
 - **Vue.js 3.5.22** with Composition API
 - **TypeScript 5.9** for type safety
 - **Vue Router 4.5.1** for navigation
 - **Tailwind CSS 4.1.14** for styling
 
 ### Build Tools
+
 - **Vite 7.1.7** - Fast build tool and dev server
 - **vue-tsc** - TypeScript checker for Vue
 - **ESLint + Prettier** - Code quality and formatting
 
 ### Node Version
+
 - Required: Node 20.19.0+ or 22.12.0+
 
 ## Component Architecture
 
+### Component Organization Structure
+
+Components are organized into 7 categories based on functionality and reusability:
+
+```
+/src/components/
+├── elements/              # Basic UI building blocks (10 components)
+│   ├── buttons/          # Button variants
+│   ├── badges/           # Badge and icon badge components
+│   ├── interactive/      # Interactive effects (typewriter)
+│   └── [utilities]       # CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner
+├── cards/                # Card-based components (7 components)
+├── ui/                   # Complex UI components (6 components)
+├── display/              # Data display components (1 component)
+├── layout/               # Global layout components (2 components)
+└── themes/               # Content theme components (5 components)
+```
+
+**Total: 31 reusable components**
+
+### Component Categories
+
+#### 1. Elements (`/components/elements/`)
+
+**Purpose:** Atomic UI building blocks used across the application
+
+**Buttons** (`elements/buttons/`):
+
+- `PrimaryButton.vue` - Solid gradient CTA buttons
+- `SecondaryButton.vue` - Subtle gradient action buttons
+- `IconButton.vue` - Circular close/back navigation buttons
+
+**Badges** (`elements/badges/`):
+
+- `Badge.vue` - Tag pills for skills/technologies
+- `IconBadge.vue` - Circular icon containers
+
+**Interactive** (`elements/interactive/`):
+
+- `TypewriterText.vue` - Animated typewriter effect
+
+**Utilities** (`elements/`):
+
+- `CheckItem.vue` - Checkmark list items
+- `ContactInfoItem.vue` - Contact info display rows
+- `SocialIcon.vue` - Social media icon links
+- `LoadingSpinner.vue` - Loading indicators
+
+#### 2. Cards (`/components/cards/`)
+
+**Purpose:** Card-based content containers
+
+- `ServiceCard.vue` - Service offering cards with hero images
+- `IconCard.vue` - Feature cards with centered icons
+- `ThinIconCard.vue` - Compact cards with left-aligned icons
+- `InfoCard.vue` - Wrapper cards for grouped content
+- `TestimonialCard.vue` - Client testimonial display
+- `PortfolioItem.vue` - Portfolio work items
+- `AttributionCard.vue` - Image attribution credits
+
+#### 3. UI (`/components/ui/`)
+
+**Purpose:** Complex, reusable UI components
+
+**Panel System:**
+
+- `PanelSidebar.vue` - Fixed sidebar for navigation
+- `PanelContent.vue` - Fixed content display panel
+- `PanelMobile.vue` - Mobile full-screen panel
+
+**Section Components:**
+
+- `SectionClickable.vue` - Numbered section buttons
+- `SectionHeader.vue` - Section titles with icons
+
+**Utilities:**
+
+- `ShowcaseContent.vue` - Component showcase helper
+
+#### 4. Display (`/components/display/`)
+
+**Purpose:** Data visualization components
+
+- `Timeline.vue` - Vertical timeline for sequential steps
+
+#### 5. Layout (`/components/layout/`)
+
+**Purpose:** Global application layout
+
+- `Navigation.vue` - Site navigation with dynamic theming
+- `Footer.vue` - Site footer with links and copyright
+
+#### 6. Themes (`/components/themes/`)
+
+**Purpose:** Content layout themes for service/tech pages
+
+- `DefaultTheme.vue` - Standard layout with stats and benefits
+- `OverviewTheme.vue` - Data-driven overview sections
+- `ProcessTheme.vue` - Workflow visualization (supports 3 styles)
+- `OptionsTheme.vue` - Side-by-side option cards
+- `TechTheme.vue` - Technical/experience content display
+
 ### State Management Pattern
 
-**Decision:** Use Vue Composition API with shared reactive state instead of Vuex/Pinia.
+**Decision:** Use Vue Composition API with composables instead of Vuex/Pinia.
 
 **Rationale:**
-- Simple state requirements (only view toggle currently)
+
+- Simple state requirements
 - Composition API provides sufficient reactivity
 - Avoids adding another dependency
 - Easy to upgrade to Pinia later if needed
 
 **Implementation:**
-- `useViewToggle` composable (`src/composables/useViewToggle.ts`)
-- Shared `ref` across components
-- Computed properties for derived state
-- Clean separation of concerns
 
-### Component Organization
+- Composables in `src/composables/`:
+  - `useServiceData.ts` - Service data loading
+  - `useServiceConfig.ts` - Service configuration
+  - `useMeta.ts` - Meta tag management
 
-**Single Responsibility Components:**
+### View Architecture
 
-1. **Layout Components**
-   - `App.vue` - Root application wrapper
-   - `Navigation.vue` - Top navigation bar
-   - `ViewToggle.vue` - Business/Technical toggle button
+**Page Components** (`/src/views/`):
 
-2. **Page Components**
-   - `ServicesView.vue` - Home page with service cards and drill-down panels
-   - `HireMeView.vue` - Contact/hiring page
-   - `ExperienceView.vue` - Experience overview and domain detail browser
-   - `ComponentShowcase.vue` - Design system showcase
+1. **HomeView.vue** (formerly ServicesView)
+   - Service cards grid
+   - Service detail panels (sidebar + content)
+   - URL-based service selection
 
-3. **Content Components**
-   - `ServiceCard.vue` - Service card with hero image and stats
-   - `TypewriterText.vue` - Animated typewriter text effect
-   - `DomainLayoutSidebar.vue` - Domain content with sidebar navigation
-   - `TopicContent.vue` - Individual topic content display
-   - `CategoryView.vue` - Category display component
+2. **HireMeView.vue**
+   - Contact information
+   - Calendly integration
+   - Professional background
+
+3. **TechView.vue** (formerly TechExperienceView)
+   - Technical expertise browser
+   - Domain/category/topic navigation
+   - Query parameter-based routing
+
+4. **ServiceView.vue** (formerly ServiceDetailView)
+   - Individual service detail pages
+   - Dynamic theme support
+   - Sidebar navigation
+
+5. **ComponentView.vue** (formerly ComponentShowcase)
+   - Design system showcase
+
+6. **AttributionsView.vue**
+   - Image attribution credits
 
 ## Routing Strategy
-
-### Query Parameter Navigation
-
-**Decision:** Use query parameters on `/experience` route instead of separate routes for each domain.
-
-**Rationale:**
-- Simpler routing structure
-- Single component handles all domain detail views
-- Easy URL sharing (e.g., `/experience?domain=software`)
-- No need to manage multiple routes for similar content
-
-**Implementation:**
-- Base route: `/experience` loads `ExperienceView.vue`
-- Domain selection adds query parameter: `/experience?domain=software`
-- Component watches `route.query.domain` to load appropriate data
-- Data loaded dynamically from `/data/experience/` JSON files
 
 ### Current Route Structure
 
 ```
-/                              -> ServicesView (home with service cards)
-/hire-me                       -> HireMeView
-/components                    -> ComponentShowcase
-/experience                    -> ExperienceView (domain overview)
-/experience?domain=software    -> ExperienceView (shows software domain details)
-/experience?domain=cloud       -> ExperienceView (shows cloud domain details)
-/experience?domain=devops      -> ExperienceView (shows devops domain details)
-/experience?domain=leadership  -> ExperienceView (shows leadership domain details)
-/experience?domain=data        -> ExperienceView (shows data domain details)
-/experience?domain=security    -> ExperienceView (shows security domain details)
+/                          -> HomeView (services grid)
+/services/:serviceId       -> ServiceView (service details)
+/hire-me                   -> HireMeView
+/tech                      -> TechView (expertise overview)
+/tech?domain=software      -> TechView (software domain details)
+/components                -> ComponentView
+/attributions              -> AttributionsView
 ```
 
-### Future Route Structure (Not Yet Implemented)
+### Query Parameter Navigation
 
-```
-/software/backend                    -> CategoryView (Level 2)
-/software/backend/languages          -> TopicView (Level 3)
-/software/backend/languages/java     -> TechnologyView (Level 4)
+**Decision:** Use query parameters for tech domain navigation instead of separate routes.
+
+**Rationale:**
+
+- Simpler routing structure
+- Single component handles all domain detail views
+- Easy URL sharing (e.g., `/tech?domain=software`)
+- No need to manage multiple routes for similar content
+
+**Implementation:**
+
+- Base route: `/tech` loads `TechView.vue`
+- Domain selection adds query parameter: `/tech?domain=software`
+- Component watches `route.query.domain` to load appropriate data
+- Data loaded dynamically from `/data/experiences.json`
+
+### Scroll Behavior
+
+**Custom scroll handling** configured in router:
+
+```javascript
+scrollBehavior(to, from, savedPosition) {
+  // Initial load: scroll to top
+  if (!from.name) return { top: 0 }
+
+  // Same route: don't scroll
+  if (to.name === from.name) return false
+
+  // Home ↔ Service detail: preserve scroll
+  const servicesRoutes = ['home', 'service-detail']
+  if (servicesRoutes.includes(to.name) && servicesRoutes.includes(from.name)) {
+    return { left: window.scrollX, top: window.scrollY }
+  }
+
+  // Browser back/forward: restore position
+  if (savedPosition) return savedPosition
+
+  // New navigation: scroll to top
+  return { top: 0 }
+}
 ```
 
 ## Data Strategy
 
-### JSON over Markdown (Current Approach)
+### Data Organization
 
-**Decision:** Use structured JSON files instead of parsing markdown files.
-
-**Rationale:**
-- Faster development velocity (no markdown parser setup)
-- Easier data validation with TypeScript
-- Better IDE support and autocomplete
-- Simpler component rendering logic
-- Direct mapping to TypeScript interfaces
-
-**Trade-offs:**
-- Content authoring is less friendly (JSON vs Markdown)
-- No rich text editing experience (plain JSON)
-- Manual formatting required for complex content
-
-### Data Loading Pattern
-
-**Vite Static Import Requirements:**
-```javascript
-// Cannot use dynamic imports with Vite
-// ❌ const module = await import(`../../data/${file}`)
-
-// Must use explicit switch statement
-// ✅
-switch (domain.path) {
-  case 'software.json':
-    module = await import('../data/experience/software.json?raw')
-    break
-  case 'cloud.json':
-    module = await import('../data/experience/cloud.json?raw')
-    break
-  // ... other domains
-}
 ```
-
-**Reason:** Vite requires static analysis of imports at build time.
-
-## Data Structure
+/src/data/
+├── services/              # Service offerings (6 files)
+│   ├── tech-admin.json
+│   ├── integration.json
+│   ├── ai-enablement.json
+│   ├── ecommerce-ops.json
+│   ├── web-design.json
+│   └── cloud-consulting.json
+└── experiences.json       # Technical expertise (all domains)
+```
 
 ### Type System
 
-TypeScript interfaces defined in `src/types/experience.ts`:
+TypeScript interfaces organized by usage:
+
+**Shared Types** (`/src/types/shared/`):
+
+- `element.ts` - Element component types (Badge)
+- `card.ts` - Card component types (Step)
+- `ui.ts` - UI component types (Topic, PanelColorScheme)
+- `display.ts` - Display types (StepDisplay, Display)
+
+**Domain Types** (`/src/types/`):
+
+- `service.ts` - Service data structure
+- `tech.ts` - Technical expertise structure
+
+### Service Data Structure
 
 ```typescript
-interface Badge {
-  label: string
-  value: string
-  icon: string
-}
-
-interface Section {
-  heading: string
-  content: string
-}
-
-interface Topic {
+interface ServiceContent {
   title: string
-  subtitle: string
-  skillTags: string[]
-  intro: string
-  sections: Section[]
+  tagline: string
+  overview: string
+  stats: ServiceStat[]
+  tags: string[]
+  whatIOffer?: string[]
+  howItWorks?: string[]
+  sections: ServiceSection[]
+  portfolioItems: PortfolioItem[]
+  testimonial: Testimonial
 }
 
-interface Category {
-  name: string
-  subtitle: string
-  topics: Topic[]
+interface ServiceSection {
+  heading: string
+  tagline?: string
+  content?: string
+  benefits?: string[]
+  visual?: Display
+  cta?: string
+  theme?: 'default' | 'process' | 'overview' | 'options'
 }
+```
 
-interface ExperienceContent {
+### Tech Data Structure
+
+```typescript
+interface TechContent {
   title: string
   overview: string
   badges: Badge[]
   categories: Category[]
 }
+
+interface Expertise {
+  title: string
+  subtitle: string
+  skillTags: string[]
+  intro: string
+  sections: Topic[]
+}
 ```
 
-### Content Hierarchy
+### Theme System
 
-```
-Domain (e.g., "Software Engineering")
-├── Overview
-├── Badges (metadata)
-└── Categories (e.g., "Backend Development")
-    └── Topics (e.g., "API Architecture")
-        └── Sections (e.g., "RESTful Design")
-```
-
-### Dynamic Overview Generation
-
-**Pattern:** Overview category is generated programmatically from domain metadata.
-
-**Implementation:**
-```javascript
-const overviewCategory = computed(() => ({
-  name: "Overview",
-  subtitle: "Domain summary and experience",
-  topics: [{
-    title: "Summary",
-    subtitle: config.subtitle,
-    skillTags: domainData.value.badges.map(badge => badge.value),
-    intro: domainData.value.overview,
-    sections: domainData.value.badges.map(badge => ({
-      heading: badge.label,
-      content: badge.value
-    }))
-  }]
-}))
-```
+**Decision:** Use component-based themes instead of conditional rendering.
 
 **Rationale:**
-- Avoids duplication in JSON files
-- Single source of truth for domain metadata
-- Consistent overview structure across all domains
+
+- Each section can specify a `theme` property
+- Theme components are self-contained
+- Easy to add new themes without modifying parent components
+- Clean separation of layout logic
+
+**Available Themes:**
+
+- `default` - Standard layout with stats, benefits, visuals
+- `process` - Workflow visualization (boxed, boxed-inline, timeline)
+- `overview` - Data-driven overview with stats and features
+- `options` - Side-by-side option cards
+
+**Implementation:**
+
+```javascript
+const themeComponents: Record<string, Component> = {
+  default: DefaultTheme,
+  process: ProcessTheme,
+  overview: OverviewTheme,
+  options: OptionsTheme
+}
+
+const currentTheme = computed(() => {
+  const theme = section.value?.theme || 'default'
+  return themeComponents[theme] || DefaultTheme
+})
+```
 
 ## Styling Architecture
 
-### Tailwind CSS Configuration
+### Color Scheme Strategy
 
-**Approach:** Minimal custom configuration, leverage Tailwind defaults.
+**Dual Theme System:**
 
-**Configuration:**
-- Standard content paths
-- No custom theme extensions
-- No custom plugins
-- Typography plugin available but not yet used
+- **Services/Business Pages:** Cyan (`cyan-400`, `cyan-500`) + purple accents
+- **Tech/Experience Pages:** Emerald (`emerald-400`, `emerald-500`) accents
 
-### Color Scheme
+**Dynamic Theming:**
 
-**Technical View (Dark Theme):**
+- Navigation logo and "Hire Me" button adapt to page context
+- All components support `color-scheme` or `color` prop
+- Consistent color abstraction across all 31 components
+
+**Color Implementation:**
+
+```typescript
+interface Props {
+  colorScheme?: 'cyan' | 'emerald'
+}
+
+const colorClasses = {
+  cyan: {
+    border: 'border-cyan-500',
+    text: 'text-cyan-400',
+    bg: 'bg-cyan-500/10',
+  },
+  emerald: {
+    border: 'border-emerald-500',
+    text: 'text-emerald-400',
+    bg: 'bg-emerald-500/10',
+  },
+}
+```
+
+### Base Colors
+
+**Dark Theme (Global):**
+
 - Background: `#0a0a0a` (near black)
-- Text: `text-gray-100`
-- Accent backgrounds: `#333333`, `#1a1a1a`
-
-**Business View (Light Theme):**
-- Background: `bg-gray-50`
-- Text: `text-gray-900`
-
-**View Toggle:**
-- Active state: `bg-white text-gray-900`
-- Inactive state: `text-gray-300`
-- Glassmorphism effect: `bg-white/10 backdrop-blur-md`
+- Secondary backgrounds: `#1a1a1a`, `#0f0f0f`
+- Borders: `#333333`, `#2a2a2a`
+- Text: `text-white`, `text-gray-300`, `text-gray-400`
 
 ### Responsive Design
 
 **Mobile-First Approach:**
-- Base styles for mobile
-- Desktop enhancements via Tailwind responsive prefixes
-- Modal overlay for mobile topic viewing
-- Sidebar layout for desktop
+
+- Base styles for 320px+ (ultra-mobile)
+- Tablet adjustments at 768px
+- Desktop enhancements at 1024px+
+- Large desktop optimizations at 1440px+
+
+**Breakpoint Strategy:**
+
+- Mobile: Full-screen modals, stacked layouts
+- Tablet: Transition layouts, partial sidebars
+- Desktop: Fixed panels, multi-column layouts
 
 ## Component Communication
 
 ### Props-Down Pattern
 
 **Parent to Child:**
+
 - Props with TypeScript interfaces
-- defineProps with type checking
+- `defineProps<Props>()` with type checking
 - No prop mutation
+- Sensible defaults via `withDefaults()`
 
 **Example:**
+
 ```typescript
 interface Props {
   title: string
-  overview: string
-  categories: Category[]
-  badges?: Badge[]
+  colorScheme?: 'cyan' | 'emerald'
 }
 
-const props = defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  colorScheme: 'cyan',
+})
 ```
 
 ### Events-Up Pattern
 
 **Child to Parent:**
-- Not heavily used yet
-- Click handlers defined in parent, passed to child
-- Direct state mutation in shared composables
 
-### Shared State via Composables
+- Typed emits via `defineEmits<{ ... }>()`
+- Click handlers for navigation
+- Event bubbling for nested components
 
-**View Toggle:**
-- Shared reactive state across all components
-- Import `useViewToggle()` where needed
-- Consistent API: `{ currentView, setView, toggleView, isBusinessView, isTechnicalView, themeClasses }`
+**Example:**
+
+```typescript
+defineEmits<{
+  click: []
+  close: []
+}>()
+```
+
+### Composables for Shared Logic
+
+**Current Composables:**
+
+- `useServiceData()` - Service data loading and caching
+- `useServiceConfig()` - Service card configuration
+- `useMeta()` - SEO meta tag management
 
 ## Build Configuration
 
 ### Vite Setup
 
 **Standard configuration:**
-- Vue plugin
+
+- Vue plugin with JSX support
 - Vue DevTools plugin (development only)
 - Path alias: `@` -> `./src`
 
-**No custom configuration for:**
-- Asset handling
-- Code splitting
-- Environment variables
+**Asset Handling:**
+
+- Static assets in `/public/`
+- Image optimization ready
+- SVG inline support
 
 ### TypeScript Configuration
 
-**Strict mode:** Enabled via Vue defaults
-**Type checking:** Run separately via `vue-tsc --build`
-**Build process:** Type check + Vite build run in parallel
+**Strict mode:** Enabled
+**Type checking:** Separate process via `vue-tsc --build`
+**Build process:** Type check + Vite build
 
-## Future Architectural Considerations
+## Key Architectural Principles
 
-### Level 2-4 Navigation
+1. **Component Reusability:** If a pattern appears 2-3+ times, extract it into a component
+2. **Type Safety:** TypeScript interfaces for all data structures and component props
+3. **Data-Driven Design:** Components render based on data structure, not hardcoded content
+4. **Progressive Enhancement:** Start simple, add complexity only when needed
+5. **Separation of Concerns:** Content (JSON), presentation (Vue), styling (Tailwind)
+6. **Color Abstraction:** All components support dual color schemes (cyan/emerald)
+7. **Folder Organization:** Components categorized by functionality (elements, cards, ui, etc.)
 
-**Options to consider:**
-1. Continue single-component pattern with nested routing
-2. Separate components per level
-3. Recursive component that handles any depth
-
-**Recommendation:** Start with option 1 (single-component pattern) for consistency.
-
-### Markdown Integration
-
-**Options:**
-1. Add markdown parser (marked, markdown-it)
-2. Keep JSON, add tooling to convert markdown → JSON
-3. Hybrid: JSON for structure, markdown for content fields
-
-**Recommendation:** Option 3 provides best balance of structure and authoring experience.
+## Future Considerations
 
 ### State Management
 
 **When to consider Pinia:**
-- Multiple users of shared state beyond view toggle
-- Need for dev tools time-travel debugging
-- Complex state mutations
-- Persistence requirements
 
-**Current assessment:** Not needed yet, but keep Composition API patterns compatible.
+- Multiple complex state domains
+- Need for dev tools time-travel debugging
+- Persistence requirements
+- Team scaling
+
+**Current assessment:** Composables are sufficient for current needs.
+
+### Performance Optimizations
+
+**Potential improvements:**
+
+- Code splitting by route
+- Lazy loading for theme components
+- Image optimization pipeline
+- Bundle size analysis
 
 ### Mobile Optimizations
 
 **Considerations:**
-- Currently uses modal for mobile topic viewing
-- Consider dedicated mobile routes for deep linking
-- Performance optimization for JSON loading
-- Image optimization for badges/icons (when added)
 
-## Key Principles
-
-1. **Data-Driven Design:** Components render based on data structure, not hardcoded content
-2. **Type Safety:** TypeScript interfaces for all data structures
-3. **Component Reuse:** Single components serve multiple routes via configuration
-4. **Progressive Enhancement:** Start simple, add complexity only when needed
-5. **Developer Experience:** Fast dev server, hot reload, TypeScript autocomplete
-6. **Separation of Concerns:** Content (JSON), presentation (Vue), styling (Tailwind)
+- Service Worker for offline support
+- Progressive Web App features
+- Touch gesture enhancements
+- Mobile-specific navigation patterns
 
 ## Related Documentation
 
-- `IMPLEMENTATION-STATUS.md` - Current implementation state
-- `DATA-STRUCTURE.md` - Detailed data schema documentation
-- `COMPONENTS.md` - Component library catalog
-- `DESIGN-SYSTEM.md` - Design patterns and guidelines
-- `RESPONSIVE-DESIGN.md` - Responsive design strategy
-- `ATTRIBUTIONS.md` - Image attribution tracking
-- `CLAUDE.md` - Claude Code project instructions
+- **[COMPONENTS.md](./COMPONENTS.md)** - Complete component catalog
+- **[COMPONENT-RULES.md](./COMPONENT-RULES.md)** - Component creation guidelines
+- **[THEMES.md](./THEMES.md)** - Theme system documentation
+- **[DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)** - Design patterns and styling
+- **[DATA-STRUCTURE.md](./DATA-STRUCTURE.md)** - Detailed data schema
+- **[IMPLEMENTATION-STATUS.md](./IMPLEMENTATION-STATUS.md)** - Current status
+- **[CLAUDE.md](../CLAUDE.md)** - Project instructions for AI assistance

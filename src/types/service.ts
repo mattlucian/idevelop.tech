@@ -1,44 +1,7 @@
 // Type definitions for service content structure
+import type { Display } from './shared/display'
 
-export interface WorkflowStep {
-  icon: string
-  label: string
-  desc: string
-}
-
-export interface WorkflowVisual {
-  type: 'workflow'
-  data: {
-    title: string
-    steps: WorkflowStep[]
-  }
-}
-
-export interface BeforeAfterSection {
-  title?: string
-  items?: string[]
-}
-
-export interface DiagramVisual {
-  type: 'diagram' | 'before-after'
-  data: {
-    title: string
-    before: BeforeAfterSection | string[]
-    after: BeforeAfterSection | string[]
-  }
-}
-
-export interface CodeVisual {
-  type: 'code'
-  data: {
-    title: string
-    code: string
-  }
-}
-
-export type Visual = WorkflowVisual | DiagramVisual | CodeVisual
-
-export interface ServiceStats {
+export interface ServiceStat {
   value: string
   label: string
 }
@@ -62,16 +25,19 @@ export interface ServiceSection {
   tagline?: string
   content?: string
   benefits?: string[]
-  visual?: Visual
+  visual?: Display
   cta?: string
+  theme?: 'default' | 'process' | 'overview' | 'options'
 }
 
 export interface ServiceContent {
   title: string
   tagline: string
   overview: string
-  stats: ServiceStats[]
+  stats: ServiceStat[]
   tags: string[]
+  whatIOffer?: string[]
+  howItWorks?: string[]
   sections: ServiceSection[]
   portfolioItems: PortfolioItem[]
   testimonial: Testimonial

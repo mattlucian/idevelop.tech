@@ -4,11 +4,99 @@
   "overview": "Navigate the cloud with confidence. Get expert guidance on AWS infrastructure, cost optimization, and migration strategies without hiring a full-time cloud team.",
   "stats": [
     { "value": "AWS", "label": "Expert" },
-    { "value": "30%", "label": "Avg Savings" },
-    { "value": "Fast", "label": "Migration" }
+    { "value": "Cost", "label": "Optimized" },
+    { "value": "Scalable", "label": "Solutions" }
   ],
   "tags": ["AWS Consulting", "Cloud Migration", "Cost Optimization", "Architecture Review"],
+  "whatIOffer": [
+    "7+ years AWS expertise in cloud infrastructure and cost optimization",
+    "Cloud migration support with minimal downtime and clear rollback strategies",
+    "Architecture reviews covering security, performance, and disaster recovery",
+    "Disaster recovery planning and continuous monitoring setup"
+  ],
+  "howItWorks": [
+    "Free consultation to understand your cloud needs and challenges",
+    "Fixed-fee proposal based on estimated hours (no surprise charges)",
+    "Regular progress updates with architecture diagrams and recommendations",
+    "Documentation and knowledge transfer included for projects over 10 hours"
+  ],
   "sections": [
+    {
+      "heading": "Overview",
+      "tagline": "Expert cloud guidance without enterprise costs",
+      "theme": "overview",
+      "benefits": [
+        "7+ years AWS expertise in cloud infrastructure and cost optimization",
+        "Cloud migration support with minimal downtime and clear rollback strategies",
+        "Architecture reviews covering security, performance, and disaster recovery",
+        "Fixed-fee projects or retainer-based consulting for ongoing optimization"
+      ],
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Cloud Computing Consultations",
+          "code": "/**\n * CLOUD CONSULTING (AWS)\n * 7+ years AWS experience\n * Navigate cloud with confidence\n */\n\n// Core Services\n✓ Cloud strategy & planning\n✓ AWS cost optimization\n✓ Cloud migration support\n✓ Architecture review & recommendations\n\n// AWS Expertise\n→ EC2, ECS, Fargate, Lambda\n→ RDS, Aurora, DynamoDB\n→ S3, CloudFront, Route53\n→ VPC, security groups, IAM\n→ CloudWatch, Cost Explorer\n\n// Common Deliverables\n→ Cost analysis & savings plans\n→ Migration roadmaps & execution\n→ Architecture diagrams\n→ Security & compliance review\n→ Disaster recovery planning\n\n// Engagement Options\n→ Fixed-fee projects\n→ Retainer for ongoing optimization\n\n// Result: Optimized cloud infrastructure"
+        }
+      },
+      "cta": "Get expert AWS guidance without full-time costs"
+    },
+    {
+      "heading": "Engagement Options",
+      "tagline": "Start with a free consultation, then choose what works best for your needs",
+      "theme": "options",
+      "visual": {
+        "type": "options",
+        "data": {
+          "options": [
+            {
+              "icon": "📋",
+              "title": "Project-Based",
+              "description": "Focused engagements for specific goals",
+              "items": [
+                "Starting at 10+ hours",
+                "Clear scope and deliverables",
+                "Fixed-fee pricing (no overages)",
+                "Regular progress updates",
+                "Documentation included",
+                "No long-term commitment"
+              ]
+            },
+            {
+              "icon": "🔄",
+              "title": "Retainer Model",
+              "description": "Ongoing partnership for flexible needs",
+              "items": [
+                "6+ months, 10-30 hrs/month",
+                "Burst capacity when needed",
+                "Fast response times (<1 hour)",
+                "Strategic + hands-on work",
+                "Continuous optimization",
+                "Preferred scheduling"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "heading": "Cloud Consulting Process",
+      "tagline": "Transparent process from consultation to completion",
+      "theme": "process",
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Cloud Consulting Timeline",
+          "style": "boxed",
+          "steps": [
+            { "icon": "🔍", "label": "Assess", "desc": "Review infrastructure" },
+            { "icon": "📋", "label": "Strategy", "desc": "Design cloud roadmap" },
+            { "icon": "⚙️", "label": "Execute", "desc": "Implement changes" },
+            { "icon": "📊", "label": "Monitor", "desc": "Track & optimize" }
+          ]
+        }
+      },
+      "cta": "Expert AWS guidance with architecture diagrams and documentation"
+    },
     {
       "heading": "Cloud Strategy & Planning",
       "tagline": "Start your cloud journey with a clear roadmap",

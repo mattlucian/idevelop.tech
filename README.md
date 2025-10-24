@@ -41,25 +41,26 @@ npm run format       # Format code with Prettier
 
 Comprehensive project documentation is located in the `/docs` directory:
 
-| Document | Purpose |
-|----------|---------|
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Technical stack, application structure, routing, state management |
-| **[DATA-STRUCTURE.md](docs/DATA-STRUCTURE.md)** | JSON schemas, content hierarchy, type definitions |
-| **[DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md)** | Colors, typography, spacing, animation guidelines |
-| **[COMPONENTS.md](docs/COMPONENTS.md)** | Component library catalog with usage examples |
-| **[RESPONSIVE-DESIGN.md](docs/RESPONSIVE-DESIGN.md)** | Breakpoint strategy, mobile-first patterns, testing checklist |
-| **[CONFIGURATION.md](docs/CONFIGURATION.md)** | Configuration files reference and modification guide |
-| **[IMPLEMENTATION-STATUS.md](docs/IMPLEMENTATION-STATUS.md)** | Completed features, roadmap, TODOs |
-| **[ATTRIBUTIONS.md](docs/ATTRIBUTIONS.md)** | Third-party image credits and attribution process |
+| Document                                                      | Purpose                                                           |
+| ------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)**                   | Technical stack, application structure, routing, state management |
+| **[DATA-STRUCTURE.md](docs/DATA-STRUCTURE.md)**               | JSON schemas, content hierarchy, type definitions                 |
+| **[DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md)**                 | Colors, typography, spacing, animation guidelines                 |
+| **[COMPONENTS.md](docs/COMPONENTS.md)**                       | Component library catalog with usage examples                     |
+| **[THEMES.md](docs/THEMES.md)**                               | Service detail theme system - creating custom layouts             |
+| **[RESPONSIVE-DESIGN.md](docs/RESPONSIVE-DESIGN.md)**         | Breakpoint strategy, mobile-first patterns, testing checklist     |
+| **[CONFIGURATION.md](docs/CONFIGURATION.md)**                 | Configuration files reference and modification guide              |
+| **[IMPLEMENTATION-STATUS.md](docs/IMPLEMENTATION-STATUS.md)** | Completed features, roadmap, TODOs                                |
 
 ### When to Use Each Document
 
 **Building features?** → ARCHITECTURE.md, COMPONENTS.md
 **Styling components?** → DESIGN-SYSTEM.md, RESPONSIVE-DESIGN.md
 **Managing content?** → DATA-STRUCTURE.md
+**Customizing service layouts?** → THEMES.md
 **Modifying configs?** → CONFIGURATION.md
 **Tracking progress?** → IMPLEMENTATION-STATUS.md
-**Adding images?** → ATTRIBUTIONS.md
+**Adding images?** → Update `/src/views/AttributionsView.vue` with attribution card
 
 ---
 
@@ -70,8 +71,9 @@ Comprehensive project documentation is located in the `/docs` directory:
   /components            # Reusable Vue components
   /views                 # Page-level components
   /data
-    /services            # Service offering data (JSON)
-    /experience          # Technical expertise data (JSON)
+    /services            # Individual service files (6 files)
+    services.json        # Service configuration/metadata
+    tech.json            # All technical expertise domains
   /types                 # TypeScript type definitions
   /composables           # Vue composables
   /router                # Vue Router configuration
@@ -89,7 +91,7 @@ Comprehensive project documentation is located in the `/docs` directory:
 ### Adding New Content
 
 **Services:** Create JSON in `/src/data/services/`, follow `ServiceContent` schema
-**Experience:** Create JSON in `/src/data/experience/`, follow `ExperienceContent` schema
+**Tech Domains:** Edit `tech.json` to add domains, categories, or expertise following `TechContent` schema
 **Images:** Place in `/public/images/brand/` or `/public/images/partners/` as appropriate
 
 See [DATA-STRUCTURE.md](docs/DATA-STRUCTURE.md) for complete schemas and examples.
@@ -123,9 +125,11 @@ When making changes that affect documentation:
 ### Browser DevTools
 
 **Chromium (Chrome, Edge, Brave):**
+
 - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
 
 **Firefox:**
+
 - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
 
 ### Type Support for `.vue` Files

@@ -1,477 +1,280 @@
-# Component Library Documentation
+# Component Library
 
-This document catalogs all reusable components in the idevelop.tech application.
+Quick reference for all reusable components in the idevelop.tech application. For detailed prop documentation, see the component source files.
 
-## Core Components
+> **📘 Component Creation Rule**: If you create the same UI pattern 2-3+ times, extract it into a component. See [COMPONENT-RULES.md](./COMPONENT-RULES.md) for details.
 
-### TypewriterText.vue
+---
 
-**Location:** `/src/components/TypewriterText.vue`
+## Elements
 
-**Purpose:** Creates an animated typewriter effect that cycles through multiple phrases with typing and deleting animations.
+### Buttons
 
-**Props:**
+#### PrimaryButton
+
+**Purpose**: Solid gradient CTA buttons for primary actions
+**File**: [`/src/components/elements/buttons/PrimaryButton.vue`](../src/components/elements/buttons/PrimaryButton.vue)
+
+#### SecondaryButton
+
+**Purpose**: Subtle gradient buttons for secondary actions
+**File**: [`/src/components/elements/buttons/SecondaryButton.vue`](../src/components/elements/buttons/SecondaryButton.vue)
+
+#### IconButton
+
+**Purpose**: Circular buttons for close/back navigation
+**File**: [`/src/components/elements/buttons/IconButton.vue`](../src/components/elements/buttons/IconButton.vue)
+
+### Badges
+
+#### Badge
+
+**Purpose**: Small tag pills for skills, technologies, or categories
+**File**: [`/src/components/elements/badges/Badge.vue`](../src/components/elements/badges/Badge.vue)
+**Variants**: default, teal, cyan, purple, emerald, muted
+**Note**: Use `emerald` variant for Experience/technical pages
+
+#### IconBadge
+
+**Purpose**: Circular containers for icons/emojis with background colors
+**File**: [`/src/components/elements/badges/IconBadge.vue`](../src/components/elements/badges/IconBadge.vue)
+**Sizes**: sm, md, lg, xl
+**Colors**: cyan, teal, purple, green, emerald, neutral
+**Note**: Use `emerald` color for Experience/technical pages
+
+### Interactive
+
+#### TypewriterText
+
+**Purpose**: Animated typewriter effect that cycles through phrases
+**File**: [`/src/components/elements/interactive/TypewriterText.vue`](../src/components/elements/interactive/TypewriterText.vue)
+
+### Utility Elements
+
+#### CheckItem
+
+**Purpose**: Checkmark list items for feature/achievement lists
+**File**: [`/src/components/elements/CheckItem.vue`](../src/components/elements/CheckItem.vue)
+**Colors**: cyan, emerald
+
+#### ContactInfoItem
+
+**Purpose**: Contact information rows with icon badges and labels
+**File**: [`/src/components/elements/ContactInfoItem.vue`](../src/components/elements/ContactInfoItem.vue)
+**Colors**: cyan, emerald
+
+#### SocialIcon
+
+**Purpose**: Social media icon links (LinkedIn, GitHub)
+**File**: [`/src/components/elements/SocialIcon.vue`](../src/components/elements/SocialIcon.vue)
+**Platforms**: linkedin, github
+
+#### LoadingSpinner
+
+**Purpose**: Animated loading spinner with optional message
+**File**: [`/src/components/elements/LoadingSpinner.vue`](../src/components/elements/LoadingSpinner.vue)
+**Sizes**: sm, md, lg
+**Colors**: cyan, emerald
+
+---
+
+## Cards
+
+### ServiceCard
+
+**Purpose**: Service offering cards with hero images, stats, and tags
+**File**: [`/src/components/cards/ServiceCard.vue`](../src/components/cards/ServiceCard.vue)
+
+### IconCard
+
+**Purpose**: Feature/benefit cards with centered icons and gradient backgrounds
+**File**: [`/src/components/cards/IconCard.vue`](../src/components/cards/IconCard.vue)
+**Colors**: cyan, emerald
+
+### ThinIconCard
+
+**Purpose**: Compact cards with left-aligned icons for dense information
+**File**: [`/src/components/cards/ThinIconCard.vue`](../src/components/cards/ThinIconCard.vue)
+**Colors**: cyan, emerald
+
+### InfoCard
+
+**Purpose**: Wrapper cards with optional title and icon for grouped content
+**File**: [`/src/components/cards/InfoCard.vue`](../src/components/cards/InfoCard.vue)
+**Variants**: default, tight
+
+### TestimonialCard
+
+**Purpose**: Client testimonials with decorative quote mark and author info
+**File**: [`/src/components/cards/TestimonialCard.vue`](../src/components/cards/TestimonialCard.vue)
+**Colors**: cyan, emerald
+
+### PortfolioItem
+
+**Purpose**: Portfolio work items with logo, description, and external link
+**File**: [`/src/components/cards/PortfolioItem.vue`](../src/components/cards/PortfolioItem.vue)
+**Colors**: cyan, emerald
+
+### AttributionCard
+
+**Purpose**: Image attribution cards for photographer credits
+**File**: [`/src/components/cards/AttributionCard.vue`](../src/components/cards/AttributionCard.vue)
+
+---
+
+## UI Components
+
+### Panel Components
+
+#### PanelSidebar
+
+**Purpose**: Fixed sidebar panel for service/tech detail navigation
+**File**: [`/src/components/ui/PanelSidebar.vue`](../src/components/ui/PanelSidebar.vue)
+**Colors**: cyan, emerald
+
+#### PanelContent
+
+**Purpose**: Fixed content panel for displaying selected section details
+**File**: [`/src/components/ui/PanelContent.vue`](../src/components/ui/PanelContent.vue)
+**Colors**: cyan, emerald
+**Header Styles**: decorative, simple
+
+#### PanelMobile
+
+**Purpose**: Full-screen mobile panel for section content
+**File**: [`/src/components/ui/PanelMobile.vue`](../src/components/ui/PanelMobile.vue)
+**Colors**: cyan, emerald
+
+### Section Components
+
+#### SectionClickable
+
+**Purpose**: Numbered section buttons with badges and hover states
+**File**: [`/src/components/ui/SectionClickable.vue`](../src/components/ui/SectionClickable.vue)
+**Colors**: cyan, emerald
+
+#### SectionHeader
+
+**Purpose**: Section titles with SVG icons
+**File**: [`/src/components/ui/SectionHeader.vue`](../src/components/ui/SectionHeader.vue)
+**Colors**: cyan, emerald
+
+### Utility UI
+
+#### ShowcaseContent
+
+**Purpose**: Reusable showcase content component for ComponentView
+**File**: [`/src/components/ui/ShowcaseContent.vue`](../src/components/ui/ShowcaseContent.vue)
+
+---
+
+## Display Components
+
+### Timeline
+
+**Purpose**: Vertical timeline with connecting line for sequential steps
+**File**: [`/src/components/display/Timeline.vue`](../src/components/display/Timeline.vue)
+
+---
+
+## Layout Components
+
+### Navigation
+
+**Purpose**: Global site navigation with mobile menu
+**File**: [`/src/components/layout/Navigation.vue`](../src/components/layout/Navigation.vue)
+**Features**:
+
+- Dynamic color theming: Logo and "Hire Me" button switch from cyan (business) to emerald (technical) on Tech pages
+- Contextual navigation: Shows "</>" button on Services pages, "Back to business" button on Tech pages
+
+### Footer
+
+**Purpose**: Site footer with social links, navigation, and copyright
+**File**: [`/src/components/layout/Footer.vue`](../src/components/layout/Footer.vue)
+
+---
+
+## Theme Components
+
+**See [THEMES.md](./THEMES.md) for complete documentation on the theme system.**
+
+Theme components provide custom layouts for service/tech detail pages. Each section can specify a `"theme"` property to use a different layout.
+
+### DefaultTheme
+
+**Purpose**: Standard detail layout with stats, benefits, visuals, and CTA
+**File**: [`/src/components/themes/DefaultTheme.vue`](../src/components/themes/DefaultTheme.vue)
+
+### OverviewTheme
+
+**Purpose**: Data-driven overview layout for introduction sections
+**File**: [`/src/components/themes/OverviewTheme.vue`](../src/components/themes/OverviewTheme.vue)
+
+### ProcessTheme
+
+**Purpose**: Workflow visualization theme with multiple style variants
+**File**: [`/src/components/themes/ProcessTheme.vue`](../src/components/themes/ProcessTheme.vue)
+**Style Variants**: boxed, boxed-inline, timeline
+
+### OptionsTheme
+
+**Purpose**: Side-by-side option cards for presenting multiple choices
+**File**: [`/src/components/themes/OptionsTheme.vue`](../src/components/themes/OptionsTheme.vue)
+
+### TechTheme
+
+**Purpose**: Default theme for technical/experience content display
+**File**: [`/src/components/themes/TechTheme.vue`](../src/components/themes/TechTheme.vue)
+
+---
+
+## Quick Reference
+
+### Component Count by Folder
+
+| Folder                   | Count  | Components                                                                                     |
+| ------------------------ | ------ | ---------------------------------------------------------------------------------------------- |
+| **elements/buttons**     | 3      | PrimaryButton, SecondaryButton, IconButton                                                     |
+| **elements/badges**      | 2      | Badge, IconBadge                                                                               |
+| **elements/interactive** | 1      | TypewriterText                                                                                 |
+| **elements** (misc)      | 4      | CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner                                         |
+| **cards**                | 7      | ServiceCard, IconCard, ThinIconCard, InfoCard, TestimonialCard, PortfolioItem, AttributionCard |
+| **ui**                   | 6      | PanelSidebar, PanelContent, PanelMobile, SectionClickable, SectionHeader, ShowcaseContent      |
+| **display**              | 1      | Timeline                                                                                       |
+| **layout**               | 2      | Navigation, Footer                                                                             |
+| **themes**               | 5      | DefaultTheme, OverviewTheme, ProcessTheme, OptionsTheme, TechTheme                             |
+| **Total**                | **31** |                                                                                                |
+
+---
+
+## Finding Component Props
+
+All components use TypeScript interfaces with JSDoc comments. To see available props:
+
+1. **In VS Code**: Hover over the component in your template
+2. **In Component File**: Look at the interface definition at the top of the `<script>` section
+3. **TypeScript Autocomplete**: Start typing props and see suggestions
+
+**Example from PrimaryButton.vue:**
+
 ```typescript
 interface Props {
-  phrases: string[]        // Array of phrases to cycle through
-  typingSpeed?: number     // Milliseconds per character when typing (default: 100)
-  deletingSpeed?: number   // Milliseconds per character when deleting (default: 50)
-  pauseDuration?: number   // Milliseconds to pause at end of phrase (default: 2000)
-}
-```
-
-**Usage:**
-```vue
-<TypewriterText
-  :phrases="['managing your tech stack', 'integrating your systems', 'AI training & adoption']"
-  :typing-speed="80"
-  :deleting-speed="40"
-  :pause-duration="2000"
-  class="text-cyan-400 font-semibold"
-/>
-```
-
-**Styling Notes:**
-- Responsive min-width: `min-w-0 sm:min-w-[240px]`
-- Includes blinking cursor: `<span class="animate-pulse">|</span>`
-- Text alignment controlled by parent
-
-**Best Practices:**
-- Keep phrases similar length for visual consistency
-- Use in 2-column grid with static text for alignment
-- Adjust speeds based on average phrase length
-
----
-
-### Navigation.vue
-
-**Location:** `/src/components/Navigation.vue`
-
-**Purpose:** Global navigation bar with logo, links, and mobile menu.
-
-**Features:**
-- Sticky positioning at top of viewport
-- Mobile hamburger menu
-- Responsive hide/show of navigation items
-- Active route highlighting
-
-**Styling:**
-- Dark background with blur effect
-- Cyan accent colors
-- Fixed height: varies by screen size
-
----
-
-### ServiceCard.vue
-
-**Location:** `/src/components/ServiceCard.vue`
-
-**Purpose:** Reusable service card component with hero image and stats.
-
-**Props:**
-```typescript
-interface Props {
-  service: ServiceCard
-  selected?: boolean
-}
-```
-
-**Features:**
-- Hero image with gradient overlay
-- Stat boxes in 3-column grid
-- Skill tags
-- Hover effects and animations
-- Click to select/expand
-
----
-
-### DomainLayoutSidebar.vue
-
-**Location:** `/src/components/DomainLayoutSidebar.vue`
-
-**Purpose:** Layout component for domain detail pages with sidebar navigation.
-
-**Features:**
-- Category and topic sidebar navigation
-- Mobile-responsive (drawer on mobile)
-- Topic selection and display
-- Content area for selected topic
-
----
-
-### TopicContent.vue
-
-**Location:** `/src/components/TopicContent.vue`
-
-**Purpose:** Renders structured topic content with sections.
-
-**Features:**
-- Skill tags display
-- Intro text with styled border
-- Multiple content sections
-- Responsive typography
-
----
-
-### CategoryView.vue
-
-**Location:** `/src/components/CategoryView.vue`
-
-**Purpose:** Display component for experience domain categories.
-
-**Features:**
-- Category cards with topics
-- Grid layout
-- Responsive design
-
----
-
-## View Components
-
-### ServicesView.vue
-
-**Location:** `/src/views/ServicesView.vue`
-
-**Purpose:** Home page with service cards and drill-down detail panels.
-
-**Key Features:**
-- 6 service cards with hero images
-- Responsive 1-2 column grid
-- Slide-out detail panels on desktop
-- Full-screen detail view on mobile
-- URL-based service selection (query params)
-- Preserved scroll position when opening services
-
-**Service Card Structure:**
-```typescript
-interface ServiceCard {
-  name: string           // URL-safe identifier
-  path: string          // Data file path
-  icon: string          // Emoji icon
-  label: string         // Display label
-  title: string         // Card title
-  tagline: string       // Subtitle
-  stats: { value: string; label: string }[]  // Stat boxes
-  tags: string[]        // Skill tags
-  borderColor: string   // Tailwind border class
-  bgColor: string       // Tailwind bg class
-  visualStyle: string   // Visual style identifier
-  heroImage?: string    // Hero image URL
-}
-```
-
-**Data Structure:**
-```typescript
-interface ServiceContent {
-  title: string
-  tagline: string
-  overview: string
-  stats: { value: string; label: string }[]
-  tags: string[]
-  sections: Section[]
-  portfolioItems?: PortfolioItem[]
-  testimonial?: Testimonial
-}
-```
-
-**Responsive Behavior:**
-- **Mobile**: Full-screen drill-down, vertical stacking
-- **Tablet**: 2-column cards, optimized text sizing
-- **Desktop**: Side panel with backdrop blur, preserved scroll
-
----
-
-### HireMeView.vue
-
-**Location:** `/src/views/HireMeView.vue`
-
-**Purpose:** Contact/hire page with service details and contact form.
-
----
-
-### ExperienceView.vue
-
-**Location:** `/src/views/ExperienceView.vue`
-
-**Purpose:** Experience overview page showing all technical expertise domains (Software, Cloud, DevOps, Data, Security, Leadership).
-
-**Key Features:**
-- 6 domain cards with stats and tags
-- Card-based navigation to detailed domain pages
-- Responsive grid layout
-
----
-
-### ComponentShowcase.vue
-
-**Location:** `/src/views/ComponentShowcase.vue`
-
-**Purpose:** Visual catalog of all components for development reference.
-
-**Should Include:**
-- TypewriterText with various configurations
-- Service card examples
-- Stat box patterns
-- CTA button variations
-- Gradient text examples
-- Hero image patterns
-
----
-
-## Design Patterns
-
-### Hero Image Cards
-
-**Pattern:** Service card with background hero image and gradient overlay
-
-**Implementation:**
-```vue
-<div class="relative h-48 md:h-56 overflow-hidden">
-  <!-- Hero Image -->
-  <img
-    :src="service.heroImage"
-    :alt="service.title"
-    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-  />
-
-  <!-- Gradient Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/60 to-[#0a0a0a]"></div>
-</div>
-```
-
-**Notes:**
-- Always use gradient overlay for text readability
-- Scale on hover for interactivity
-- Use `object-cover` to maintain aspect ratio
-
----
-
-### Stat Boxes
-
-**Pattern:** 3-column grid of value/label pairs
-
-**Implementation:**
-```vue
-<div class="grid grid-cols-3 gap-1 md:gap-2 mb-3 md:mb-4">
-  <div v-for="stat in stats" :key="stat.label"
-    class="bg-[#0f0f0f] rounded-lg p-1 md:p-2 lg:p-3 text-center border border-[#2a2a2a]">
-    <div class="text-[13px] md:text-[15px] lg:text-[19px] font-bold text-cyan-400 mb-0.5">
-      {{ stat.value }}
-    </div>
-    <div class="text-[6px] sm:text-[8px] md:text-[7px] lg:text-[9px] text-gray-500 md:uppercase tracking-tighter md:tracking-wide leading-[0.65rem] md:leading-tight break-words">
-      {{ stat.label }}
-    </div>
-  </div>
-</div>
-```
-
-**Mobile Optimizations:**
-- Ultra-small text (6-8px) to prevent overflow
-- Lowercase on mobile, uppercase on desktop
-- Minimal padding and gaps
-- Word breaking enabled
-- Tighter tracking and line-height
-
----
-
-### Gradient Text
-
-**Pattern:** Text with gradient fill effect
-
-**Implementation:**
-```vue
-<h1 class="text-3xl font-bold">
-  <span class="text-white">Regular Text. </span>
-  <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-purple-400">
-    Gradient Text.
-  </span>
-</h1>
-```
-
-**Hover Variant:**
-```vue
-<h3 class="text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-purple-400 transition-all">
-  Hover Me
-</h3>
-```
-
----
-
-### CTA Buttons
-
-**Pattern:** Full-width mobile, auto-width desktop
-
-**Implementation:**
-```vue
-<div class="inline-block w-full md:w-auto">
-  <div class="flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-3.5 lg:py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-lg text-white font-semibold text-sm md:text-base group-hover:shadow-lg group-hover:shadow-cyan-500/50 transition-all">
-    <span>Button Text</span>
-    <svg class="hidden md:inline w-5 h-5 group-hover:translate-x-1 transition-transform">
-      <!-- Arrow icon -->
-    </svg>
-  </div>
-</div>
-```
-
-**Notes:**
-- Icon hidden on mobile to save space
-- Shadow glow on hover
-- Arrow translates on hover
-
----
-
-### Tag Pills
-
-**Pattern:** Inline skill/technology tags
-
-**Implementation:**
-```vue
-<div class="flex gap-1 md:gap-1.5 flex-wrap mb-3 md:mb-4">
-  <span
-    v-for="tag in tags"
-    :key="tag"
-    class="px-2 md:px-2.5 py-0.5 md:py-1 text-[9px] md:text-[11px] font-semibold rounded-md bg-gradient-to-r from-cyan-500/15 to-purple-500/15 text-cyan-300 border border-cyan-500/30"
-  >
-    {{ tag }}
-  </span>
-</div>
-```
-
----
-
-### Decorative Blur Elements
-
-**Pattern:** Background blur orbs for visual interest
-
-**Implementation:**
-```vue
-<!-- Static blur -->
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-32 bg-cyan-500/5 blur-3xl rounded-full"></div>
-
-<!-- Interactive blur -->
-<div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl group-hover:bg-cyan-500/10 transition-all duration-500"></div>
-```
-
-**Notes:**
-- Use low opacity (5-10%)
-- Position absolutely
-- Blur-3xl for soft edges
-- Can intensify on hover
-
----
-
-## Data Patterns
-
-### Service Data Files
-
-**Location:** `/src/data/services/*.json`
-
-**Structure:**
-```json
-{
-  "title": "Service Title",
-  "tagline": "Short description",
-  "overview": "Longer description paragraph",
-  "stats": [
-    { "value": "Expert", "label": "On Retainer" }
-  ],
-  "tags": ["Skill 1", "Skill 2"],
-  "sections": [
-    {
-      "heading": "Section Title",
-      "tagline": "Section subtitle",
-      "benefits": ["Benefit 1", "Benefit 2"],
-      "visual": {
-        "type": "workflow",
-        "data": { /* type-specific structure */ }
-      },
-      "cta": "Call to action text"
-    }
-  ],
-  "portfolioItems": [
-    {
-      "name": "Company Name",
-      "url": "https://...",
-      "logo": "/images/partners/logo.avif",
-      "description": "What was built"
-    }
-  ],
-  "testimonial": {
-    "quote": "Testimonial text",
-    "author": "Person Name",
-    "role": "Job Title",
-    "company": "Company Name"
-  }
+  /** Show arrow icon on desktop (default: true) */
+  showArrow?: boolean
+  /** Full width on mobile, auto on desktop (default: true) */
+  responsive?: boolean
+  /** Disabled state */
+  disabled?: boolean
 }
 ```
 
 ---
 
-## Component Development Guidelines
+## Related Documentation
 
-### Creating New Components
-
-1. **Create in `/src/components/`**
-2. **Use Composition API with TypeScript**
-3. **Define props interface**
-4. **Export for use in other components**
-5. **Add to ComponentShowcase.vue**
-6. **Document in this file**
-
-### Component Template
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-
-interface Props {
-  // Define props
-}
-
-const props = defineProps<Props>()
-
-// Component logic
-</script>
-
-<template>
-  <!-- Component markup -->
-</template>
-
-<style scoped>
-/* Component-specific styles (if needed) */
-/* Prefer Tailwind classes */
-</style>
-```
-
-### Testing Checklist
-- [ ] Works at 320px width
-- [ ] Works at 768px width
-- [ ] Works at 1024px+ width
-- [ ] Hover states function
-- [ ] Focus states visible
-- [ ] Props validated
-- [ ] TypeScript types correct
-- [ ] Added to showcase
-
----
-
-## Future Components to Build
-
-### Planned Components
-- [ ] TestimonialCard
-- [ ] PortfolioCard
-- [ ] SkillTag
-- [ ] StatBox (extracted)
-- [ ] SectionHeading
-- [ ] VisualRenderer (for different visual types)
-- [ ] BenefitList
-- [ ] WorkflowDiagram
-- [ ] BeforeAfterComparison
-- [ ] CodeBlock
-
-### Enhancement Ideas
-- [ ] Loading skeletons
-- [ ] Error states
-- [ ] Empty states
-- [ ] Toast notifications
-- [ ] Modal dialogs
-- [ ] Form components
+- **[COMPONENT-RULES.md](./COMPONENT-RULES.md)** - ⚠️ Mandatory component creation rules
+- **[THEMES.md](./THEMES.md)** - Service/tech detail theme system guide
+- **[DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)** - Design patterns and styling guidelines
+- **[RESPONSIVE-DESIGN.md](./RESPONSIVE-DESIGN.md)** - Responsive breakpoints and strategies
+- **[CLAUDE.md](../CLAUDE.md)** - Project overview and development guidelines

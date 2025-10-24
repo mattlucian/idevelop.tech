@@ -24,12 +24,14 @@ This document provides an overview of all configuration files in the project roo
 **Purpose:** Defines project metadata, dependencies, and npm scripts.
 
 **When to modify:**
+
 - Adding/removing dependencies: `npm install <package>` or manually edit
 - Creating new npm scripts (e.g., custom build commands)
 - Updating project metadata (name, version, description)
 - Changing Node.js version requirements
 
 **Common changes:**
+
 ```json
 {
   "scripts": {
@@ -52,11 +54,13 @@ This document provides an overview of all configuration files in the project roo
 **Purpose:** Locks exact versions of all dependencies for reproducible builds.
 
 **When to modify:**
+
 - **DON'T manually edit this file!**
 - Auto-updated when running `npm install`
 - Commit this file to version control
 
 **Common actions:**
+
 - `npm install` - Updates when dependencies change
 - `npm ci` - Clean install from lockfile (CI/CD environments)
 
@@ -71,6 +75,7 @@ This document provides an overview of all configuration files in the project roo
 **Purpose:** Configures Vite build tool and development server.
 
 **When to modify:**
+
 - Adding path aliases (like `@/components`)
 - Configuring plugins
 - Adjusting build output settings
@@ -78,20 +83,21 @@ This document provides an overview of all configuration files in the project roo
 - Customizing dev server port
 
 **Common changes:**
+
 ```typescript
 export default defineConfig({
   server: {
     port: 3000, // Change dev server port
     proxy: {
-      '/api': 'http://localhost:8080' // Proxy API calls
-    }
+      '/api': 'http://localhost:8080', // Proxy API calls
+    },
   },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@components': fileURLToPath(new URL('./src/components', import.meta.url))
-    }
-  }
+      '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
+    },
+  },
 })
 ```
 
@@ -104,6 +110,7 @@ export default defineConfig({
 **Purpose:** Main HTML entry point for the application.
 
 **When to modify:**
+
 - Adding meta tags (SEO, social media)
 - Including external scripts/stylesheets
 - Changing page title
@@ -111,11 +118,12 @@ export default defineConfig({
 - Setting up analytics
 
 **Common changes:**
+
 ```html
 <head>
-  <meta name="description" content="Your site description">
-  <meta property="og:title" content="Your Site">
-  <link rel="icon" href="/favicon.ico">
+  <meta name="description" content="Your site description" />
+  <meta property="og:title" content="Your Site" />
+  <link rel="icon" href="/favicon.ico" />
   <script async src="https://analytics.example.com/script.js"></script>
 </head>
 ```
@@ -129,11 +137,13 @@ export default defineConfig({
 **Purpose:** TypeScript declarations for environment variables and Vite client types.
 
 **When to modify:**
+
 - Adding custom environment variable types
 - Declaring types for `.vue` files
 - Adding global type declarations
 
 **Common changes:**
+
 ```typescript
 /// <reference types="vite/client" />
 
@@ -158,12 +168,14 @@ interface ImportMeta {
 **Purpose:** Configures ESLint for code linting and quality rules.
 
 **When to modify:**
+
 - Disabling/enabling specific rules
 - Adding custom rules for your project
 - Configuring Vue-specific linting
 - Adjusting TypeScript linting rules
 
 **Common changes:**
+
 ```typescript
 export default [
   // ... existing config
@@ -171,9 +183,9 @@ export default [
     rules: {
       'no-console': 'warn', // Warn on console.log
       'vue/multi-word-component-names': 'off', // Disable rule
-      '@typescript-eslint/no-explicit-any': 'error' // Enforce no 'any'
-    }
-  }
+      '@typescript-eslint/no-explicit-any': 'error', // Enforce no 'any'
+    },
+  },
 ]
 ```
 
@@ -186,11 +198,13 @@ export default [
 **Purpose:** Configures Prettier code formatter.
 
 **When to modify:**
+
 - Changing code formatting style (tabs vs spaces, quote style, etc.)
 - Setting line length
 - Adjusting formatting preferences
 
 **Common changes:**
+
 ```json
 {
   "semi": false,
@@ -210,12 +224,14 @@ export default [
 **Purpose:** Maintains consistent coding styles across different editors and IDEs.
 
 **When to modify:**
+
 - Setting indent style (spaces vs tabs)
 - Configuring line endings
 - Setting charset encoding
 - File-specific formatting rules
 
 **Common changes:**
+
 ```ini
 [*]
 indent_style = space
@@ -239,6 +255,7 @@ trim_trailing_whitespace = false
 **Purpose:** Base TypeScript configuration that extends app and node configs.
 
 **When to modify:**
+
 - Rarely modified directly (use tsconfig.app.json or tsconfig.node.json instead)
 - Adjusting shared compiler options
 
@@ -251,12 +268,14 @@ trim_trailing_whitespace = false
 **Purpose:** TypeScript configuration for application source code.
 
 **When to modify:**
+
 - Adjusting strict mode settings
 - Adding/removing included paths
 - Configuring path mappings
 - Enabling/disabling type checking features
 
 **Common changes:**
+
 ```json
 {
   "compilerOptions": {
@@ -281,6 +300,7 @@ trim_trailing_whitespace = false
 **Purpose:** TypeScript configuration for Node.js scripts (like Vite config).
 
 **When to modify:**
+
 - Adjusting module resolution for build scripts
 - Adding types for Node.js
 
@@ -295,6 +315,7 @@ trim_trailing_whitespace = false
 **Purpose:** Configures Tailwind CSS framework.
 
 **When to modify:**
+
 - Extending color palette
 - Adding custom utilities
 - Configuring content sources
@@ -302,6 +323,7 @@ trim_trailing_whitespace = false
 - Customizing breakpoints or spacing
 
 **Common changes:**
+
 ```javascript
 export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -310,17 +332,15 @@ export default {
       colors: {
         brand: {
           primary: '#00ff00',
-          secondary: '#0000ff'
-        }
+          secondary: '#0000ff',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif']
-      }
-    }
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/typography')
-  ]
+  plugins: [require('@tailwindcss/typography')],
 }
 ```
 
@@ -333,19 +353,21 @@ export default {
 **Purpose:** Configures PostCSS CSS processing.
 
 **When to modify:**
+
 - Adding PostCSS plugins
 - Configuring Autoprefixer
 - Setting up CSS transformations
 
 **Common changes:**
+
 ```javascript
 export default {
   plugins: {
     tailwindcss: {},
     autoprefixer: {
-      overrideBrowserslist: ['> 1%', 'last 2 versions']
-    }
-  }
+      overrideBrowserslist: ['> 1%', 'last 2 versions'],
+    },
+  },
 }
 ```
 
@@ -360,15 +382,18 @@ export default {
 **Purpose:** VS Code workspace settings and recommendations.
 
 **Files:**
+
 - `settings.json` - Workspace-specific VS Code settings
 - `extensions.json` - Recommended VS Code extensions
 
 **When to modify:**
+
 - Adding workspace-specific editor settings
 - Recommending extensions for team members
 - Configuring file nesting patterns
 
 **Common settings.json changes:**
+
 ```json
 {
   "editor.formatOnSave": true,
@@ -391,12 +416,14 @@ export default {
 **Purpose:** Specifies files/directories Git should ignore.
 
 **When to modify:**
+
 - Adding build artifacts to ignore
 - Ignoring environment-specific files
 - Excluding IDE-specific files
 - Ignoring local configuration
 
 **Common additions:**
+
 ```
 # Environment variables
 .env.local
@@ -424,11 +451,13 @@ build/
 **Purpose:** Defines attributes for path patterns (line endings, diff behavior, etc.).
 
 **When to modify:**
+
 - Enforcing line ending consistency
 - Configuring merge strategies for specific files
 - Setting up LFS (Large File Storage)
 
 **Common patterns:**
+
 ```
 # Normalize line endings
 * text=auto
@@ -447,18 +476,18 @@ build/
 
 ## Quick Reference Matrix
 
-| Configuration | Primary Purpose | Frequency of Changes |
-|--------------|----------------|---------------------|
-| `package.json` | Dependencies & scripts | Frequent |
-| `package-lock.json` | Dependency locking | Auto-managed |
-| `vite.config.ts` | Build configuration | Occasional |
-| `tsconfig.*.json` | TypeScript settings | Rare |
-| `eslint.config.ts` | Linting rules | Occasional |
-| `.prettierrc.json` | Code formatting | Rare |
-| `tailwind.config.js` | CSS framework | Occasional |
-| `.editorconfig` | Editor consistency | Rare |
-| `.gitignore` | Version control | Occasional |
-| `index.html` | HTML entry point | Occasional |
+| Configuration        | Primary Purpose        | Frequency of Changes |
+| -------------------- | ---------------------- | -------------------- |
+| `package.json`       | Dependencies & scripts | Frequent             |
+| `package-lock.json`  | Dependency locking     | Auto-managed         |
+| `vite.config.ts`     | Build configuration    | Occasional           |
+| `tsconfig.*.json`    | TypeScript settings    | Rare                 |
+| `eslint.config.ts`   | Linting rules          | Occasional           |
+| `.prettierrc.json`   | Code formatting        | Rare                 |
+| `tailwind.config.js` | CSS framework          | Occasional           |
+| `.editorconfig`      | Editor consistency     | Rare                 |
+| `.gitignore`         | Version control        | Occasional           |
+| `index.html`         | HTML entry point       | Occasional           |
 
 ---
 

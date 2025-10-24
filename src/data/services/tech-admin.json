@@ -1,111 +1,167 @@
 {
   "title": "Tech Admin",
-  "tagline": "Your outsourced IT department - without the overhead",
-  "overview": "Stop wrestling with technology. Focus on growing your business while I handle your tech infrastructure, integrations, and daily operations.",
+  "tagline": "Expert tech guidance without the full-time cost",
+  "overview": "Get strategic tech planning combined with hands-on execution. I'll document your stack, identify gaps, build automation, and handle technical initiatives - all on a flexible retainer with fast response times.",
   "stats": [
-    { "value": "10+", "label": "Years" },
-    { "value": "8+", "label": "Clients" },
-    { "value": "100%", "label": "Satisfaction" }
+    { "value": "Expert", "label": "On Retainer" },
+    { "value": "Affordable", "label": "Access" },
+    { "value": "Quick", "label": "Implementation" }
   ],
   "tags": ["System Integration", "Documentation", "Ongoing Support", "Process Automation"],
+  "whatIOffer": [
+    "Retainer-based access to 10+ years full-stack expertise",
+    "Fast response times (under 1 hour during business hours)",
+    "Flexible capacity: steady support or burst initiatives",
+    "Document your tech stack and create actionable roadmaps"
+  ],
+  "howItWorks": [
+    "Strategic planning & capability assessments",
+    "Hands-on execution: automation, migrations, integrations",
+    "Ongoing support & continuous optimization",
+    "Identify gaps and prioritize improvements"
+  ],
   "sections": [
     {
-      "heading": "Complete System Setup",
-      "tagline": "From selection to deployment",
-      "benefits": [
-        "Expert guidance on platform selection tailored to your business needs",
-        "Complete configuration of CRM, email, eCommerce, and marketing tools",
-        "Secure user access management with role-based permissions",
-        "Comprehensive testing before launch"
-      ],
+      "heading": "Overview",
+      "tagline": "Expert tech guidance without the full-time cost",
+      "theme": "overview",
       "visual": {
-        "type": "workflow",
+        "type": "code",
         "data": {
-          "title": "Implementation Process",
-          "steps": [
-            { "icon": "💬", "label": "Discovery", "desc": "Understand your needs" },
-            { "icon": "🎯", "label": "Selection", "desc": "Choose the right tools" },
-            { "icon": "⚙️", "label": "Setup", "desc": "Configure everything" },
-            { "icon": "🚀", "label": "Deploy", "desc": "Go live" }
+          "title": "What I Offer",
+          "code": "/**\n * TECH ADMIN SERVICES\n * Retainer Model: X hours/month (flexible allocation)\n * Response Time: <1 hour during business hours\n * Availability: 9am-5pm EST + ad-hoc meetings\n */\n\n// Strategic Planning\n- Document current tech stack\n- Identify capability weaknesses\n- Define future technology goals\n- Create phased execution roadmap\n\n// Technical Execution\n✓ Build automation workflows          // Streamline operations\n✓ Handle migrations & integrations     // Connect your systems\n✓ Assist with operational tasks       // Sales prep, configs, etc.\n✓ Maintain & optimize systems         // Keep things running\n\n// Limitations & Transparency\n⚠ Not a daily operations manager      // Limited hours/company\n⚠ Best for: Strategic + hands-on work // Not full-time coverage\n✓ Great for: Burst initiatives        // Accelerate progress\n\n// Breadth of Expertise\n📊 10+ years full-stack development\n☁️ 7+ years AWS cloud architecture\n🔄 6+ years CI/CD & DevOps automation\n🔗 100+ integrations & data pipelines\n\n→ Visit /experience for detailed expertise"
+        }
+      },
+      "cta": "Get expert technical guidance without the overhead of a full-time hire"
+    },
+    {
+      "heading": "Engagement Options",
+      "tagline": "Start with a free consultation, then choose what works best for your needs",
+      "theme": "options",
+      "visual": {
+        "type": "options",
+        "data": {
+          "options": [
+            {
+              "icon": "📋",
+              "title": "Project-Based",
+              "description": "Focused engagements for specific goals",
+              "items": [
+                "Starting at 10+ hours",
+                "Clear scope and deliverables",
+                "Fixed-fee pricing (no overages)",
+                "Regular progress updates",
+                "Documentation included",
+                "No long-term commitment"
+              ]
+            },
+            {
+              "icon": "🔄",
+              "title": "Retainer Model",
+              "description": "Ongoing partnership for flexible needs",
+              "items": [
+                "6+ months, 10-30 hrs/month",
+                "Burst capacity when needed",
+                "Fast response times (<1 hour)",
+                "Strategic + hands-on work",
+                "Continuous optimization",
+                "Preferred scheduling"
+              ]
+            }
           ]
         }
       },
-      "cta": "Get your tech stack up and running properly"
+      "cta": "Let's discuss which engagement model fits your business"
     },
     {
-      "heading": "Process Automation",
-      "tagline": "Reduce manual work and human error",
-      "benefits": [
-        "Automatic data synchronization between your business tools",
-        "Custom workflows that handle repetitive tasks",
-        "Real-time notifications for important events",
-        "Reduced data entry errors across systems"
-      ],
+      "heading": "Onboarding & Documentation",
+      "tagline": "Deep dive into your systems and future goals",
+      "theme": "process",
+      "visual": {
+        "type": "workflow",
+        "data": {
+          "title": "Discovery Process",
+          "style": "timeline",
+          "steps": [
+            {
+              "icon": "🔍",
+              "label": "Tech Stack Review",
+              "desc": "Comprehensive assessment of your current tools, systems, and integrations"
+            },
+            {
+              "icon": "🎯",
+              "label": "Business Goals",
+              "desc": "Understand your growth plans to anticipate future technical needs"
+            },
+            {
+              "icon": "📝",
+              "label": "Documentation",
+              "desc": "Create clear reference materials for your team and future planning"
+            },
+            {
+              "icon": "📊",
+              "label": "Gap Analysis & Planning",
+              "desc": "Identify capability gaps and prioritize improvements for your roadmap"
+            }
+          ]
+        }
+      },
+      "cta": "Get clarity on your technology landscape"
+    },
+    {
+      "heading": "Gap Analysis & Planning",
+      "tagline": "Turn tech pain points into actionable opportunities",
+      "theme": "default",
       "visual": {
         "type": "before-after",
         "data": {
           "before": {
-            "title": "Manual Processes",
+            "title": "Common Challenges",
             "items": [
-              "Manual data entry across multiple systems",
-              "Hours spent on repetitive tasks",
-              "Data inconsistencies between platforms",
-              "Delayed notifications and updates"
+              "Manual data entry consuming hours each week",
+              "Disconnected systems causing data inconsistencies",
+              "Processes breaking as your business scales",
+              "No roadmap for infrastructure growth"
             ]
           },
           "after": {
-            "title": "Automated Workflows",
+            "title": "With Gap Analysis",
             "items": [
-              "Automatic data sync across all systems",
-              "Time focused on high-value activities",
-              "Consistent data everywhere",
-              "Real-time updates and alerts"
+              "Automation opportunities identified and prioritized",
+              "Integration roadmap with phased implementation",
+              "Critical fixes addressed before they escalate",
+              "Scalability plan aligned with business goals"
             ]
           }
         }
       },
-      "cta": "Eliminate repetitive tasks and focus on growth"
+      "cta": "Discover what's holding your business back"
     },
     {
-      "heading": "Concise Documentation",
-      "tagline": "Enable your team to work independently",
-      "benefits": [
-        "Step-by-step process guides for common tasks",
-        "Video tutorials for visual learners",
-        "Searchable knowledge base for quick reference",
-        "Documentation that evolves with your business"
-      ],
-      "visual": {
-        "type": "workflow",
-        "data": {
-          "title": "Documentation Deliverables",
-          "steps": [
-            { "icon": "📝", "label": "Process Guides", "desc": "Written procedures" },
-            { "icon": "🎥", "label": "Video Tutorials", "desc": "Visual walkthroughs" },
-            { "icon": "🔍", "label": "Knowledge Base", "desc": "Searchable reference" },
-            { "icon": "🔄", "label": "Updates", "desc": "Kept current" }
-          ]
-        }
-      },
-      "cta": "Reduce training time and improve consistency"
-    },
-    {
-      "heading": "Ongoing Support & Optimization",
-      "tagline": "Continuous improvement and expert guidance",
-      "benefits": [
-        "Responsive technical support when issues arise",
-        "Proactive monitoring and maintenance",
-        "Regular optimization to improve efficiency",
-        "Strategic guidance as your needs evolve"
-      ],
+      "heading": "Recommendations",
+      "tagline": "Prioritized roadmap for tech improvements",
+      "theme": "default",
       "visual": {
         "type": "code",
         "data": {
-          "title": "Service Documentation",
-          "code": "/**\n * ONGOING SUPPORT SERVICES\n * Last updated: Continuous\n * Status: Active monitoring ●\n */\n\n// Support & Troubleshooting\n- Technical issue resolution      // <- Responsive assistance\n- Bug fixes and error handling    // <- Root cause analysis\n- System configuration updates    // <- Optimization included\n\n/* PROACTIVE MAINTENANCE */\n✓ Performance monitoring          // Real-time alerts\n✓ Security updates                // Applied regularly\n✓ Data integrity checks           // Automated validation\n\n// Ongoing Optimization\nTODO: Review workflow efficiency  // Monthly assessment\nTODO: Analyze cost optimization   // Quarterly review\nTODO: Technology recommendations  // As needed\n\n// Questions? → Direct access to technical expertise"
+          "title": "Sample Recommendations Report",
+          "code": "/**\n * RECOMMENDATIONS REPORT\n * Priority: Impact vs Effort Analysis\n */\n\n// HIGH PRIORITY (Quick Wins)\n✓ Integrate accounting system          // Save 5 hrs/week\n✓ Automate order notifications         // Reduce errors by 90%\n✓ Fix failing inventory sync           // Critical for Q4 event\n\n// MEDIUM PRIORITY (Strategic)\n- Implement backup automation           // 2 weeks effort\n- Migrate to scalable hosting          // Prep for growth\n- Build customer portal                // 3-month project\n\n// FUTURE CONSIDERATIONS\n- Advanced analytics dashboard          // After data cleanup\n- Mobile app development               // Year 2 roadmap\n\n/* PHASED APPROACH */\nPhase 1 (Month 1-2): Quick wins + critical fixes\nPhase 2 (Month 3-4): Strategic improvements\nPhase 3 (Month 5+): Long-term enhancements\n\n→ Each recommendation includes ROI estimate"
         }
       },
-      "cta": "Keep your systems running smoothly"
+      "cta": "Get a clear roadmap for tech improvement"
+    },
+    {
+      "heading": "Ongoing Support & Optimization",
+      "tagline": "Proactive maintenance and continuous improvement",
+      "theme": "default",
+      "visual": {
+        "type": "code",
+        "data": {
+          "title": "Retainer Support Activities",
+          "code": "/**\n * ONGOING SUPPORT MODEL\n * Base: 10 hrs/month | Burst: Up to 30 hrs/month\n * Response Time: <1 hour during business hours\n */\n\n// Regular Activities\n- Monitor system performance\n- Answer technical questions\n- Implement small improvements\n- Troubleshoot issues as they arise\n\n/* OPTIMIZATION OPPORTUNITIES */\n✓ Identify cost savings            // Quarterly review\n✓ Recommend technology updates     // As relevant\n✓ Optimize workflows              // Based on usage\n✓ Plan for scaling                // Before you need it\n\n// Support Examples\n→ \"Can you add this field to our form?\"\n→ \"System X is running slow, can you investigate?\"\n→ \"We're launching a sale, can you help prep?\"\n→ \"Is there a better way to handle this process?\"\n\n// Flexible Hour Allocation\n10 hrs/month: Steady maintenance\n20-30 hrs/month: When pushing initiatives"
+        }
+      },
+      "cta": "Get reliable ongoing technical support"
     }
   ],
   "portfolioItems": [

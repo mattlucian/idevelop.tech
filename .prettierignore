@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+dist-ssr
+coverage
+
+# Archives (old data files, kept for reference)
+archive
+
+# Generated files
+*.tsbuildinfo
+
+# Logs
+*.log
