@@ -20,6 +20,13 @@ Quick reference for all reusable components in the idevelop.tech application. Fo
 **Purpose**: Subtle gradient buttons for secondary actions
 **File**: [`/src/components/elements/buttons/SecondaryButton.vue`](../src/components/elements/buttons/SecondaryButton.vue)
 
+#### OutlineButton
+
+**Purpose**: Outline style navigation buttons with cyan/emerald variants
+**File**: [`/src/components/elements/buttons/OutlineButton.vue`](../src/components/elements/buttons/OutlineButton.vue)
+**Colors**: cyan, emerald
+**Note**: Used for "Hire Me", "</>", "Back to business", and "Keep browsing" buttons
+
 #### IconButton
 
 **Purpose**: Circular buttons for close/back navigation
@@ -134,16 +141,11 @@ Quick reference for all reusable components in the idevelop.tech application. Fo
 
 #### PanelContent
 
-**Purpose**: Fixed content panel for displaying selected section details
+**Purpose**: Responsive content panel for displaying selected section details (works on both mobile and desktop)
 **File**: [`/src/components/ui/PanelContent.vue`](../src/components/ui/PanelContent.vue)
 **Colors**: cyan, emerald
 **Header Styles**: decorative, simple
-
-#### PanelMobile
-
-**Purpose**: Full-screen mobile panel for section content
-**File**: [`/src/components/ui/PanelMobile.vue`](../src/components/ui/PanelMobile.vue)
-**Colors**: cyan, emerald
+**Note**: Handles both mobile (full-screen) and desktop (side panel) layouts with single component
 
 ### Section Components
 
@@ -161,10 +163,16 @@ Quick reference for all reusable components in the idevelop.tech application. Fo
 
 ### Utility UI
 
-#### ShowcaseContent
+#### SelectableItem
 
-**Purpose**: Reusable showcase content component for ComponentView
-**File**: [`/src/components/ui/ShowcaseContent.vue`](../src/components/ui/ShowcaseContent.vue)
+**Purpose**: Selectable list items with hover and active states
+**File**: [`/src/components/ui/SelectableItem.vue`](../src/components/ui/SelectableItem.vue)
+**Colors**: cyan, emerald
+
+#### ComponentShowcaseSection
+
+**Purpose**: Section wrapper for organizing component examples
+**File**: [`/src/components/ui/ComponentShowcaseSection.vue`](../src/components/ui/ComponentShowcaseSection.vue)
 
 ---
 
@@ -185,8 +193,9 @@ Quick reference for all reusable components in the idevelop.tech application. Fo
 **File**: [`/src/components/layout/Navigation.vue`](../src/components/layout/Navigation.vue)
 **Features**:
 
-- Dynamic color theming: Logo and "Hire Me" button switch from cyan (business) to emerald (technical) on Tech pages
-- Contextual navigation: Shows "</>" button on Services pages, "Back to business" button on Tech pages
+- Dynamic color theming: Logo and "Hire Me" button switch from cyan (business) to emerald (technical) on Tech/Components/Attributions pages
+- Contextual navigation: Shows "</>" button on Services pages, "Back to business" button on Tech/Components/Attributions pages
+- Uses OutlineButton component for all navigation buttons
 
 ### Footer
 
@@ -233,18 +242,18 @@ Theme components provide custom layouts for service/tech detail pages. Each sect
 
 ### Component Count by Folder
 
-| Folder                   | Count  | Components                                                                                     |
-| ------------------------ | ------ | ---------------------------------------------------------------------------------------------- |
-| **elements/buttons**     | 3      | PrimaryButton, SecondaryButton, IconButton                                                     |
-| **elements/badges**      | 2      | Badge, IconBadge                                                                               |
-| **elements/interactive** | 1      | TypewriterText                                                                                 |
-| **elements** (misc)      | 4      | CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner                                         |
-| **cards**                | 7      | ServiceCard, IconCard, ThinIconCard, InfoCard, TestimonialCard, PortfolioItem, AttributionCard |
-| **ui**                   | 6      | PanelSidebar, PanelContent, PanelMobile, SectionClickable, SectionHeader, ShowcaseContent      |
-| **display**              | 1      | Timeline                                                                                       |
-| **layout**               | 2      | Navigation, Footer                                                                             |
-| **themes**               | 5      | DefaultTheme, OverviewTheme, ProcessTheme, OptionsTheme, TechTheme                             |
-| **Total**                | **31** |                                                                                                |
+| Folder                   | Count  | Components                                                                                                    |
+| ------------------------ | ------ | ------------------------------------------------------------------------------------------------------------- |
+| **elements/buttons**     | 4      | PrimaryButton, SecondaryButton, OutlineButton, IconButton                                                     |
+| **elements/badges**      | 2      | Badge, IconBadge                                                                                              |
+| **elements/interactive** | 1      | TypewriterText                                                                                                |
+| **elements** (misc)      | 4      | CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner                                                        |
+| **cards**                | 7      | ServiceCard, IconCard, ThinIconCard, InfoCard, TestimonialCard, PortfolioItem, AttributionCard                |
+| **ui**                   | 5      | PanelSidebar, PanelContent, SectionClickable, SectionHeader, SelectableItem, ComponentShowcaseSection         |
+| **display**              | 1      | Timeline                                                                                                      |
+| **layout**               | 2      | Navigation, Footer                                                                                            |
+| **themes**               | 5      | DefaultTheme, OverviewTheme, ProcessTheme, OptionsTheme, TechTheme                                            |
+| **Total**                | **31** |                                                                                                               |
 
 ---
 

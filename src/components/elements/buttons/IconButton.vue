@@ -38,9 +38,9 @@ const iconSizes = {
   <button
     @click="emit('click')"
     :class="[
-      'rounded-lg bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-[#333333] hover:border-cyan-500 flex items-center justify-center transition-all group z-50',
+      'rounded-lg bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-[#333333] hover:border-cyan-500 flex items-center justify-center transition-all group',
       sizeClasses[size],
-      absolutePosition ? 'absolute top-5 right-5' : '',
+      absolutePosition ? 'absolute top-5 right-5 z-[60]' : '',
       !absolutePosition && size === 'sm' ? 'flex-shrink-0' : '',
     ]"
   >

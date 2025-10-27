@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useMeta } from '../composables/useMeta'
 import PanelSidebar from '../components/ui/PanelSidebar.vue'
 import PanelContent from '../components/ui/PanelContent.vue'
-import PanelMobile from '../components/ui/PanelMobile.vue'
+import SelectableItem from '../components/ui/SelectableItem.vue'
 import TechTheme from '../components/themes/TechTheme.vue'
 import type { TechContent, Expertise } from '../types/tech'
 
@@ -73,6 +73,16 @@ const goBackToTopics = () => {
   selectedTopicIndex.value = -1
 }
 
+const handlePanelClose = () => {
+  // On desktop (1024px+), go back to home
+  // On mobile, return to topics list
+  if (window.innerWidth >= 1024) {
+    goBack()
+  } else {
+    goBackToTopics()
+  }
+}
+
 // Load data when component mounts
 onMounted(() => {
   loadTechData()
@@ -116,38 +126,17 @@ onUnmounted(() => {
 
             <!-- Topics in this category -->
             <div class="space-y-2 mb-6">
-              <button
+              <SelectableItem
                 v-for="(topic, topicIndex) in category.topics"
                 :key="topicIndex"
-                @click="selectTopic(categoryIndex, topicIndex)"
-                :class="[
-                  'w-full text-left p-3 rounded-lg border transition-all',
+                :title="topic.title"
+                :subtitle="topic.subtitle"
+                :is-selected="
                   selectedCategoryIndex === categoryIndex && selectedTopicIndex === topicIndex
-                    ? 'bg-[#1a1a1a] border-emerald-700 shadow-sm'
-                    : 'bg-[#0f0f0f] border-[#333333] hover:border-gray-600',
-                ]"
-              >
-                <h4
-                  :class="[
-                    'text-sm font-semibold mb-0.5',
-                    selectedCategoryIndex === categoryIndex && selectedTopicIndex === topicIndex
-                      ? 'text-emerald-400'
-                      : 'text-white',
-                  ]"
-                >
-                  {{ topic.title }}
-                </h4>
-                <p
-                  :class="[
-                    'text-xs',
-                    selectedCategoryIndex === categoryIndex && selectedTopicIndex === topicIndex
-                      ? 'text-emerald-300'
-                      : 'text-gray-400',
-                  ]"
-                >
-                  {{ topic.subtitle }}
-                </p>
-              </button>
+                "
+                color-scheme="emerald"
+                @click="selectTopic(categoryIndex, topicIndex)"
+              />
             </div>
           </div>
         </PanelSidebar>
@@ -160,7 +149,7 @@ onUnmounted(() => {
           ref="contentPanelRef"
           color-scheme="emerald"
           header-style="simple"
-          @close="goBack"
+          @close="handlePanelClose"
         >
           <template #header>
             <div class="mb-2">
@@ -186,46 +175,6 @@ onUnmounted(() => {
             </div>
           </div>
         </PanelContent>
-      </Transition>
-
-      <!-- Mobile/Tablet Content Modal (full-screen) -->
-      <Transition
-        enter-active-class="transition-opacity duration-300"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity duration-300"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <PanelMobile
-          v-if="domainData && selectedTopic"
-          color-scheme="emerald"
-          @close="goBackToTopics"
-        >
-          <template #header>
-            <div class="mb-1">
-              <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">{{
-                selectedCategory?.name
-              }}</span>
-            </div>
-            <h2 class="text-lg font-bold text-white">{{ selectedTopic?.title }}</h2>
-          </template>
-
-          <!-- Topic Content -->
-          <div v-if="selectedTopic && selectedCategory">
-            <div
-              v-if="selectedTopic.skillTags || selectedTopic.intro || selectedTopic.sections"
-              class="prose prose-sm max-w-none"
-            >
-              <div class="text-sm leading-relaxed text-gray-300">
-                <TechTheme :section="selectedTopic" />
-              </div>
-            </div>
-            <div v-else>
-              <p class="text-sm italic text-gray-500">Detailed content coming soon...</p>
-            </div>
-          </div>
-        </PanelMobile>
       </Transition>
     </div>
   </div>

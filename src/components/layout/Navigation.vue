@@ -1,4 +1,23 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import OutlineButton from '../elements/buttons/OutlineButton.vue'
+
+const route = useRoute()
+const router = useRouter()
+const isMobileMenuOpen = ref(false)
+
+const isHomePage = computed(() => route.name === 'home' || route.name === 'service-detail')
+const isTechPage = computed(() => route.name === 'tech' || route.path.startsWith('/tech') || route.name === 'components' || route.name === 'attributions')
+const isHireMePage = computed(() => route.name === 'hire-me')
+
+const handleBackNavigation = () => {
+  router.back()
+  isMobileMenuOpen.value = false
+}
+</script>
+
 <template>
   <header class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]">
     <div class="w-full px-6 h-16 flex items-center justify-center relative">
@@ -53,35 +72,25 @@
         <!-- Page-specific navigation (Desktop) -->
         <div class="hidden sm:flex items-center gap-3" :class="{ 'mr-4': !isHireMePage }">
           <!-- Back to business button (shown on Tech and Hire Me pages) -->
-          <button
+          <OutlineButton
             v-if="isTechPage || isHireMePage"
             @click="router.back()"
-            class="px-4 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/15 border-2 border-cyan-500 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 rounded-md text-sm font-semibold transition-all"
+            color-scheme="cyan"
           >
             {{ isHireMePage ? 'Keep browsing' : 'Back to business' }}
-          </button>
+          </OutlineButton>
 
           <!-- Experience button (shown on Home page) -->
-          <router-link
-            v-if="isHomePage"
-            to="/tech"
-            class="px-4 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/15 border-2 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300 rounded-md text-sm font-semibold transition-all"
-          >
-            &lt;/&gt;
+          <router-link v-if="isHomePage" to="/tech">
+            <OutlineButton color-scheme="emerald">&lt;/&gt;</OutlineButton>
           </router-link>
         </div>
 
         <!-- Hire Me Button (Desktop) - hidden on hire-me page -->
-        <router-link
-          v-if="!isHireMePage"
-          to="/hire-me"
-          :class="
-            isTechPage
-              ? 'hidden sm:block px-4 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/15 border-2 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300 rounded-md text-sm font-semibold transition-colors antialiased'
-              : 'hidden sm:block px-4 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/15 border-2 border-cyan-500 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 rounded-md text-sm font-semibold transition-colors antialiased'
-          "
-        >
-          Hire Me
+        <router-link v-if="!isHireMePage" to="/hire-me" class="hidden sm:block">
+          <OutlineButton :color-scheme="isTechPage ? 'emerald' : 'cyan'">
+            Hire Me
+          </OutlineButton>
         </router-link>
       </div>
     </div>
@@ -101,21 +110,22 @@
       >
         <div class="px-6 py-4 space-y-3">
           <!-- Services/Tech Links -->
-          <button
+          <OutlineButton
             v-if="isTechPage || isHireMePage"
             @click="handleBackNavigation"
-            class="w-full px-4 py-2.5 bg-cyan-500/10 hover:bg-cyan-500/15 border-2 border-cyan-500 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 rounded-md text-sm font-semibold transition-all text-center"
+            color-scheme="cyan"
+            :full-width="true"
           >
             {{ isHireMePage ? 'Keep browsing' : 'Back to business' }}
-          </button>
+          </OutlineButton>
 
           <router-link
             v-if="isHomePage"
             to="/tech"
             @click="isMobileMenuOpen = false"
-            class="block px-4 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/15 border-2 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300 rounded-md text-sm font-semibold transition-all text-center"
+            class="block"
           >
-            &lt;/&gt;
+            <OutlineButton color-scheme="emerald" :full-width="true">&lt;/&gt;</OutlineButton>
           </router-link>
 
           <!-- Hire Me Button - hidden on hire-me page -->
@@ -123,34 +133,14 @@
             v-if="!isHireMePage"
             to="/hire-me"
             @click="isMobileMenuOpen = false"
-            :class="
-              isTechPage
-                ? 'block px-4 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/15 border-2 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300 rounded-md text-sm font-semibold transition-colors antialiased text-center'
-                : 'block px-4 py-2.5 bg-cyan-500/10 hover:bg-cyan-500/15 border-2 border-cyan-500 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 rounded-md text-sm font-semibold transition-colors antialiased text-center'
-            "
+            class="block"
           >
-            Hire Me
+            <OutlineButton :color-scheme="isTechPage ? 'emerald' : 'cyan'" :full-width="true">
+              Hire Me
+            </OutlineButton>
           </router-link>
         </div>
       </div>
     </Transition>
   </header>
 </template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-
-const route = useRoute()
-const router = useRouter()
-const isMobileMenuOpen = ref(false)
-
-const isHomePage = computed(() => route.name === 'home' || route.name === 'service-detail')
-const isTechPage = computed(() => route.name === 'tech' || route.path.startsWith('/tech'))
-const isHireMePage = computed(() => route.name === 'hire-me')
-
-const handleBackNavigation = () => {
-  router.back()
-  isMobileMenuOpen.value = false
-}
-</script>

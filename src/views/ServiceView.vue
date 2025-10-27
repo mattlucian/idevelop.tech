@@ -6,9 +6,8 @@ import { useServiceConfig } from '../composables/useServiceConfig'
 import { useMeta } from '../composables/useMeta'
 import PanelSidebar from '../components/ui/PanelSidebar.vue'
 import PanelContent from '../components/ui/PanelContent.vue'
-import PanelMobile from '../components/ui/PanelMobile.vue'
 import SectionHeader from '../components/ui/SectionHeader.vue'
-import SectionClickable from '../components/ui/SectionClickable.vue'
+import SelectableItem from '../components/ui/SelectableItem.vue'
 import TestimonialCard from '../components/cards/TestimonialCard.vue'
 import PortfolioItem from '../components/cards/PortfolioItem.vue'
 import DefaultTheme from '../components/themes/DefaultTheme.vue'
@@ -66,6 +65,16 @@ const goBack = () => {
 const goBackToSections = () => {
   // Clear section selection to return to sections list (used on mobile)
   selectedSectionIndex.value = -1
+}
+
+const handlePanelClose = () => {
+  // On desktop (1024px+), go back to home
+  // On mobile, return to sections list
+  if (window.innerWidth >= 1024) {
+    goBack()
+  } else {
+    goBackToSections()
+  }
 }
 
 // Load service data on mount and when serviceId changes
@@ -179,11 +188,11 @@ onUnmounted(() => {
               color-scheme="cyan"
             />
             <div class="space-y-2">
-              <SectionClickable
+              <SelectableItem
                 v-for="(section, sectionIndex) in serviceData.sections.slice(1)"
                 :key="sectionIndex"
-                :section-number="sectionIndex + 1"
-                :heading="section.heading"
+                :number="sectionIndex + 1"
+                :title="section.heading"
                 :is-selected="selectedSectionIndex === sectionIndex + 1"
                 color-scheme="cyan"
                 @click="selectSection(sectionIndex + 1)"
@@ -228,7 +237,7 @@ onUnmounted(() => {
           ref="contentPanelRef"
           color-scheme="cyan"
           header-style="decorative"
-          @close="goBack"
+          @close="handlePanelClose"
         >
           <template #header>
             <h2
@@ -245,39 +254,6 @@ onUnmounted(() => {
             :service-data="serviceData"
           />
         </PanelContent>
-      </Transition>
-
-      <!-- Mobile/Tablet Content Modal (full-screen) -->
-      <Transition
-        enter-active-class="transition-opacity duration-300"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity duration-300"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <PanelMobile
-          v-if="selectedSection && serviceData"
-          color-scheme="cyan"
-          @close="goBackToSections"
-        >
-          <template #header>
-            <div class="mb-1">
-              <span
-                class="text-[10px] font-bold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400"
-                >{{ serviceData.title }}</span
-              >
-            </div>
-            <h2 class="text-lg font-bold text-white">{{ selectedSection.heading }}</h2>
-          </template>
-
-          <!-- Dynamic Theme Component (same as desktop) -->
-          <component
-            :is="currentThemeComponent"
-            :section="selectedSection"
-            :service-data="serviceData"
-          />
-        </PanelMobile>
       </Transition>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useMeta } from '../composables/useMeta'
-import SecondaryButton from '../components/elements/buttons/SecondaryButton.vue'
+import PrimaryButton from '../components/elements/buttons/PrimaryButton.vue'
 import InfoCard from '../components/cards/InfoCard.vue'
 import ContactInfoItem from '../components/elements/ContactInfoItem.vue'
 import SocialIcon from '../components/elements/SocialIcon.vue'
@@ -69,9 +69,9 @@ onUnmounted(() => {
                 rel="noopener noreferrer"
                 class="block"
               >
-                <SecondaryButton :show-arrow="false" :full-width="true">
+                <PrimaryButton :full-width="true">
                   Schedule a Call
-                </SecondaryButton>
+                </PrimaryButton>
               </a>
             </div>
 

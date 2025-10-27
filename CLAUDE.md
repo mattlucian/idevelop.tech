@@ -84,17 +84,17 @@ Components are organized into 7 categories by functionality:
 
 ```
 /src/components/
-├── elements/              # Basic UI building blocks (10 components)
-│   ├── buttons/          # PrimaryButton, SecondaryButton, IconButton
+├── elements/              # Basic UI building blocks (11 components)
+│   ├── buttons/          # PrimaryButton, SecondaryButton, OutlineButton, IconButton
 │   ├── badges/           # Badge, IconBadge
 │   ├── interactive/      # TypewriterText
 │   └── [utilities]       # CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner
 ├── cards/                # Card-based components (7 components)
 │   # ServiceCard, IconCard, ThinIconCard, InfoCard
 │   # TestimonialCard, PortfolioItem, AttributionCard
-├── ui/                   # Complex UI components (6 components)
-│   # PanelSidebar, PanelContent, PanelMobile
-│   # SectionClickable, SectionHeader, ShowcaseContent
+├── ui/                   # Complex UI components (5 components)
+│   # PanelSidebar, PanelContent (responsive - handles mobile & desktop)
+│   # SectionClickable, SectionHeader, SelectableItem, ComponentShowcaseSection
 ├── display/              # Data display components (1 component)
 │   # Timeline
 ├── layout/               # Global layout components (2 components)
@@ -122,9 +122,9 @@ Components are organized into 7 categories by functionality:
 
 ### Existing Reusable Components (31 Total):
 
-**Elements (10):**
+**Elements (11):**
 
-- Buttons: `PrimaryButton`, `SecondaryButton`, `IconButton`
+- Buttons: `PrimaryButton`, `SecondaryButton`, `OutlineButton`, `IconButton`
 - Badges: `Badge`, `IconBadge`
 - Interactive: `TypewriterText`
 - Utilities: `CheckItem`, `ContactInfoItem`, `SocialIcon`, `LoadingSpinner`
@@ -134,11 +134,11 @@ Components are organized into 7 categories by functionality:
 - `ServiceCard`, `IconCard`, `ThinIconCard`, `InfoCard`
 - `TestimonialCard`, `PortfolioItem`, `AttributionCard`
 
-**UI Components (6):**
+**UI Components (5):**
 
-- Panels: `PanelSidebar`, `PanelContent`, `PanelMobile`
-- Sections: `SectionClickable`, `SectionHeader`
-- Showcase: `ShowcaseContent`
+- Panels: `PanelSidebar`, `PanelContent` (responsive - mobile & desktop)
+- Sections: `SectionClickable`, `SectionHeader`, `SelectableItem`
+- Showcase: `ComponentShowcaseSection`
 
 **Display (1):**
 

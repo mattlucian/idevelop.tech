@@ -4,7 +4,7 @@ import { useServiceConfig } from '../composables/useServiceConfig'
 import { useMeta } from '../composables/useMeta'
 import TypewriterText from '../components/elements/interactive/TypewriterText.vue'
 import ServiceCard from '../components/cards/ServiceCard.vue'
-import SecondaryButton from '../components/elements/buttons/SecondaryButton.vue'
+import PrimaryButton from '../components/elements/buttons/PrimaryButton.vue'
 
 const router = useRouter()
 
@@ -97,7 +97,7 @@ useMeta({
               <!-- CTA Button -->
               <div class="flex-shrink-0">
                 <router-link to="/hire-me">
-                  <SecondaryButton> Get in touch → </SecondaryButton>
+                  <PrimaryButton>Get in touch</PrimaryButton>
                 </router-link>
               </div>
             </div>

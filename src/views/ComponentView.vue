@@ -1,362 +1,570 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import ShowcaseContent from '../components/ui/ShowcaseContent.vue'
+import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
+import type { Step } from '../types/shared/card'
+import type { Testimonial } from '../types/service'
 
-const expertisePhrases: string[] = [
-  'managing your tech stack',
-  'integrating your systems',
-  'AI training & adoption',
-]
+// Layout components
+import PanelSidebar from '../components/ui/PanelSidebar.vue'
+import PanelContent from '../components/ui/PanelContent.vue'
 
-interface ComponentItem {
+// Elements
+import PrimaryButton from '../components/elements/buttons/PrimaryButton.vue'
+import OutlineButton from '../components/elements/buttons/OutlineButton.vue'
+import IconButton from '../components/elements/buttons/IconButton.vue'
+import Badge from '../components/elements/badges/Badge.vue'
+import IconBadge from '../components/elements/badges/IconBadge.vue'
+import TypewriterText from '../components/elements/interactive/TypewriterText.vue'
+import CheckItem from '../components/elements/CheckItem.vue'
+import ContactInfoItem from '../components/elements/ContactInfoItem.vue'
+import LoadingSpinner from '../components/elements/LoadingSpinner.vue'
+import SocialIcon from '../components/elements/SocialIcon.vue'
+
+// Cards
+import ServiceCard from '../components/cards/ServiceCard.vue'
+import IconCard from '../components/cards/IconCard.vue'
+import ThinIconCard from '../components/cards/ThinIconCard.vue'
+import TestimonialCard from '../components/cards/TestimonialCard.vue'
+import InfoCard from '../components/cards/InfoCard.vue'
+import AttributionCard from '../components/cards/AttributionCard.vue'
+import PortfolioItem from '../components/cards/PortfolioItem.vue'
+
+// Display
+import Timeline from '../components/display/Timeline.vue'
+
+// UI Components
+import SectionHeader from '../components/ui/SectionHeader.vue'
+import SelectableItem from '../components/ui/SelectableItem.vue'
+import ComponentShowcaseSection from '../components/ui/ComponentShowcaseSection.vue'
+
+interface SubSection {
+  title: string
+  description: string
+  slotName: string
+}
+
+const router = useRouter()
+const contentPanelRef = ref<InstanceType<typeof PanelContent> | null>(null)
+const selectedComponentId = ref<string | null>(null)
+
+// Computed property to get the currently selected component info
+const selectedComponent = computed(() => {
+  if (!selectedComponentId.value) return null
+  for (const category of categories) {
+    const component = category.components.find((c) => c.id === selectedComponentId.value)
+    if (component) return component
+  }
+  return null
+})
+
+interface Component {
   id: string
   name: string
   description: string
-  category: string
 }
 
-const components: ComponentItem[] = [
-  // Design Foundation
-  {
-    id: 'colors',
-    name: 'Color Palette',
-    description: 'Core colors and gradients',
-    category: 'Design Foundation',
-  },
-  {
-    id: 'typography',
-    name: 'Typography',
-    description: 'Font sizes and responsive scaling',
-    category: 'Design Foundation',
-  },
-  {
-    id: 'spacing',
-    name: 'Spacing System',
-    description: 'Padding, margins, and gaps',
-    category: 'Design Foundation',
-  },
+interface ComponentCategory {
+  name: string
+  components: Component[]
+}
 
-  // Interactive Components
+const categories: ComponentCategory[] = [
   {
-    id: 'typewriter',
-    name: 'TypewriterText',
-    description: 'Animated typing effect component',
-    category: 'Interactive Components',
+    name: 'Elements',
+    components: [
+      { id: 'buttons', name: 'Buttons', description: 'Primary, outline, and icon buttons' },
+      { id: 'badges', name: 'Badges', description: 'Text badges and icon badges' },
+      { id: 'typewriter', name: 'Typewriter Text', description: 'Animated typing effect' },
+      { id: 'check-item', name: 'Check Item', description: 'List item with checkmark' },
+      { id: 'contact-info', name: 'Contact Info Item', description: 'Contact information display' },
+      { id: 'loading-spinner', name: 'Loading Spinner', description: 'Loading indicator' },
+      { id: 'social-icon', name: 'Social Icon', description: 'Social media icons' },
+    ],
   },
   {
-    id: 'gradient-text',
-    name: 'Gradient Text',
-    description: 'Text with gradient fill effects',
-    category: 'Interactive Components',
+    name: 'Cards',
+    components: [
+      { id: 'service-card', name: 'Service Card', description: 'Service offering card' },
+      { id: 'icon-card', name: 'Icon Card', description: 'Boxed icon grid' },
+      { id: 'thin-icon-card', name: 'Thin Icon Card', description: 'Inline icon cards' },
+      { id: 'testimonial-card', name: 'Testimonial Card', description: 'Customer testimonials' },
+      { id: 'info-card', name: 'Info Card', description: 'Information display card' },
+      { id: 'attribution-card', name: 'Attribution Card', description: 'Image attribution card' },
+      { id: 'portfolio-item', name: 'Portfolio Item', description: 'Portfolio project card' },
+    ],
   },
   {
-    id: 'cta-button',
-    name: 'CTA Buttons',
-    description: 'Call-to-action button patterns',
-    category: 'Interactive Components',
+    name: 'Display',
+    components: [{ id: 'timeline', name: 'Timeline', description: 'Vertical timeline component' }],
   },
   {
-    id: 'button-variants',
-    name: 'Button Variants',
-    description: 'CTA, Service, and Dark button styles',
-    category: 'Interactive Components',
-  },
-  {
-    id: 'button-groups',
-    name: 'Button Groups',
-    description: 'Multiple buttons in a row',
-    category: 'Interactive Components',
-  },
-
-  // Data Display
-  {
-    id: 'stat-boxes',
-    name: 'Stat Boxes',
-    description: '3-column value/label grid',
-    category: 'Data Display',
-  },
-  {
-    id: 'tag-pills',
-    name: 'Tag Pills',
-    description: 'Skill and technology tags',
-    category: 'Data Display',
-  },
-  {
-    id: 'badge-grid',
-    name: 'Badge Grid',
-    description: 'Metric and statistic display',
-    category: 'Data Display',
-  },
-  {
-    id: 'icon-badges',
-    name: 'Icon Badges',
-    description: 'Circular icon containers',
-    category: 'Data Display',
-  },
-  {
-    id: 'icon-list',
-    name: 'Icon Lists',
-    description: 'Lists with checkmarks or icons',
-    category: 'Data Display',
-  },
-
-  // Layout Patterns
-  {
-    id: 'cards',
-    name: 'Card Variants',
-    description: 'Service cards and experience cards',
-    category: 'Layout Patterns',
-  },
-  {
-    id: 'side-panel',
-    name: 'Side Panel Page Layout',
-    description: 'Complete implementation with mobile modal',
-    category: 'Layout Patterns',
-  },
-
-  // Content Elements
-  {
-    id: 'section-heading',
-    name: 'Section Headings',
-    description: 'Headers with underlines',
-    category: 'Content Elements',
-  },
-  {
-    id: 'intro-box',
-    name: 'Intro Box',
-    description: 'Highlighted overview text',
-    category: 'Content Elements',
-  },
-  {
-    id: 'border-accent',
-    name: 'Border Accent Boxes',
-    description: 'Left/top border highlights',
-    category: 'Content Elements',
-  },
-  {
-    id: 'blur-decoration',
-    name: 'Decorative Blurs',
-    description: 'Background blur orbs',
-    category: 'Content Elements',
-  },
-  {
-    id: 'navigation',
-    name: 'Navigation',
-    description: 'Header with mobile menu',
-    category: 'Content Elements',
-  },
-  {
-    id: 'scrollbar',
-    name: 'Custom Scrollbar',
-    description: 'Styled scrollbar pattern',
-    category: 'Content Elements',
-  },
-
-  // Workflow Components
-  {
-    id: 'workflow-boxed',
-    name: 'WorkflowBoxed',
-    description: 'Centered icon cards in 2-column grid',
-    category: 'Workflow Components',
-  },
-  {
-    id: 'workflow-boxed-inline',
-    name: 'WorkflowBoxedInline',
-    description: 'Icon left, content right cards',
-    category: 'Workflow Components',
-  },
-  {
-    id: 'workflow-timeline',
-    name: 'Timeline',
-    description: 'Vertical timeline with connecting line',
-    category: 'Display Components',
+    name: 'UI Components',
+    components: [
+      { id: 'section-header', name: 'Section Header', description: 'Page section headers' },
+      {
+        id: 'panels',
+        name: 'Panel Components',
+        description: 'Layout panels for views',
+      },
+    ],
   },
 ]
 
-const selectedComponentId = ref<string>('colors')
-const showMobileModal = ref<boolean>(false)
+const typewriterPhrases = ['component library', 'design system', 'reusable patterns']
 
-const selectedComponent = computed(() => components.find((c) => c.id === selectedComponentId.value))
+// Subsection configurations for each component
+const buttonSubsections: SubSection[] = [
+  {
+    title: 'Primary Button',
+    description: 'Our main button component with gradient border styling',
+    slotName: 'primary-button',
+  },
+  {
+    title: 'Outline Button',
+    description: 'Outline button with cyan and emerald color variants',
+    slotName: 'outline-button',
+  },
+  {
+    title: 'Icon Button',
+    description: 'Compact icon-only buttons with hover effects',
+    slotName: 'icon-button',
+  },
+]
 
-const categories = computed(() => {
-  const cats = new Map<string, ComponentItem[]>()
-  components.forEach((comp) => {
-    if (!cats.has(comp.category)) {
-      cats.set(comp.category, [])
-    }
-    cats.get(comp.category)!.push(comp)
-  })
-  return cats
+const badgeSubsections: SubSection[] = [
+  {
+    title: 'Badge Variants',
+    description: 'Text badges with different color schemes',
+    slotName: 'badge-variants',
+  },
+  {
+    title: 'Icon Badges',
+    description: 'Badges with icon and text combinations',
+    slotName: 'icon-badges',
+  },
+]
+
+// Example data
+const serviceCardExample = {
+  icon: '🎨',
+  label: 'Design',
+  title: 'Web Design',
+  tagline: 'Professional websites that drive real business results',
+  stats: [
+    { value: '10+', label: 'Projects' },
+    { value: '50+', label: 'Components' },
+    { value: '100%', label: 'Satisfaction' },
+  ],
+  tags: ['Vue.js', 'TypeScript', 'Tailwind CSS'],
+  heroImage: 'https://images.unsplash.com/photo-1542744173-b3cd6377db95',
+}
+
+const iconCardSteps: Step[] = [
+  {
+    icon: '⚡',
+    label: 'Fast Performance',
+    desc: 'Lightning-fast load times and smooth interactions',
+  },
+  {
+    icon: '🎯',
+    label: 'Precise Solutions',
+    desc: 'Targeted approaches for your specific needs',
+  },
+]
+
+const thinIconCardSteps: Step[] = [
+  {
+    icon: '📈',
+    label: 'Growth',
+    desc: 'Scale your business',
+  },
+  {
+    icon: '🔒',
+    label: 'Security',
+    desc: 'Protected systems',
+  },
+  {
+    icon: '⚙️',
+    label: 'Automation',
+    desc: 'Streamlined workflows',
+  },
+]
+
+const testimonialExample: Testimonial = {
+  quote: 'This is an example testimonial showcasing the component in action.',
+  author: 'John Doe',
+  role: 'CEO',
+  company: 'Example Corp',
+}
+
+const timelineSteps: Step[] = [
+  {
+    icon: '1️⃣',
+    label: 'Discovery',
+    desc: 'Understand your needs and requirements',
+  },
+  {
+    icon: '2️⃣',
+    label: 'Planning',
+    desc: 'Design the solution architecture',
+  },
+  {
+    icon: '3️⃣',
+    label: 'Implementation',
+    desc: 'Build and deploy the solution',
+  },
+  {
+    icon: '✅',
+    label: 'Launch',
+    desc: 'Go live and provide ongoing support',
+  },
+]
+
+const selectComponent = async (componentId: string) => {
+  selectedComponentId.value = componentId
+
+  // Scroll the content panel to top
+  await nextTick()
+  if (contentPanelRef.value) {
+    contentPanelRef.value.scrollToTop()
+  }
+}
+
+const goBack = () => {
+  router.push({ name: 'home' })
+}
+
+const goBackToComponents = () => {
+  selectedComponentId.value = null
+}
+
+const handlePanelClose = () => {
+  // On desktop (1024px+), go back to home
+  // On mobile, return to components list
+  if (window.innerWidth >= 1024) {
+    goBack()
+  } else {
+    goBackToComponents()
+  }
+}
+
+// Auto-select first component on desktop
+onMounted(() => {
+  if (window.innerWidth >= 1024) {
+    selectedComponentId.value = 'buttons'
+  }
+  document.body.style.overflow = 'hidden'
 })
 
-const selectComponent = (id: string) => {
-  selectedComponentId.value = id
-  showMobileModal.value = true
-}
-
-const closeMobileModal = () => {
-  showMobileModal.value = false
-}
+onUnmounted(() => {
+  document.body.style.overflow = ''
+})
 </script>
 
 <template>
-  <div class="min-h-screen pt-16 bg-[#0a0a0a] text-white">
-    <!-- Mobile Modal Overlay -->
-    <Transition name="fade">
-      <div
-        v-if="showMobileModal"
-        class="lg:hidden fixed top-16 left-0 right-0 bottom-0 bg-[#0a0a0a] z-40 flex flex-col"
-      >
-        <!-- Close Button Header (sticky at top) -->
-        <div
-          class="sticky top-0 bg-[#0a0a0a] border-b border-[#333333] p-3 flex items-center gap-3 z-10"
+  <div class="min-h-screen pt-20 bg-[#0a0a0a] text-white">
+    <div class="w-full">
+      <!-- Background overlay -->
+      <div class="fixed inset-0 top-16 bg-[#0a0a0a]/95 z-50 cursor-pointer" @click="goBack"></div>
+
+      <!-- Component List Sidebar -->
+      <Transition name="slide-left">
+        <PanelSidebar
+          color-scheme="cyan"
+          :hide-on-mobile="!!selectedComponentId"
+          @click="$event.stopPropagation()"
         >
-          <button
-            @click="closeMobileModal"
-            class="text-cyan-400 hover:text-cyan-300 transition-colors"
-          >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <h2 class="text-xl font-bold text-white">{{ selectedComponent?.name }}</h2>
-        </div>
+          <div class="px-6 py-8">
+            <h2
+              class="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+            >
+              Component Library
+            </h2>
+            <p class="text-gray-400 text-sm mb-8">Organized by directory structure</p>
 
-        <!-- Mobile Modal Content (scrollable) -->
-        <div class="flex-1 overflow-y-auto p-4">
-          <div class="space-y-6">
-            <ShowcaseContent
-              :selected-component-id="selectedComponentId"
-              :expertise-phrases="expertisePhrases"
-            />
-          </div>
-        </div>
-      </div>
-    </Transition>
-
-    <div class="fixed top-16 inset-0 flex">
-      <!-- Left Panel - Component List -->
-      <div
-        class="w-full lg:w-96 border-r border-[#333333] overflow-y-auto scrollbar-visible bg-[#0a0a0a]"
-      >
-        <div class="p-6">
-          <div class="mb-6">
-            <h1 class="text-2xl lg:text-3xl font-bold mb-2">
-              <span class="text-white">Design System </span>
-              <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-purple-400"
-                >Library</span
-              >
-            </h1>
-            <p class="text-sm text-gray-400">Browse all components and patterns</p>
-          </div>
-
-          <!-- Component Categories -->
-          <div class="space-y-6">
-            <div v-for="[category, items] in categories" :key="category">
-              <div class="mb-3">
-                <div class="flex items-center gap-2 mb-2">
-                  <svg
-                    class="w-4 h-4 text-cyan-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                    />
-                  </svg>
-                  <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">
-                    {{ category }}
-                  </h3>
+            <!-- Categories and Components -->
+            <div class="space-y-8">
+              <div v-for="category in categories" :key="category.name">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">
+                  {{ category.name }}
+                </h3>
+                <div class="space-y-1">
+                  <SelectableItem
+                    v-for="component in category.components"
+                    :key="component.id"
+                    :title="component.name"
+                    :subtitle="component.description"
+                    :is-selected="selectedComponentId === component.id"
+                    color-scheme="cyan"
+                    @click="selectComponent(component.id)"
+                  />
                 </div>
-              </div>
-
-              <div class="space-y-2">
-                <button
-                  v-for="item in items"
-                  :key="item.id"
-                  @click="selectComponent(item.id)"
-                  :class="[
-                    'w-full text-left p-3 rounded-lg border-2 transition-all group',
-                    selectedComponentId === item.id
-                      ? 'bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border-cyan-500'
-                      : 'bg-[#1a1a1a] border-[#2a2a2a] hover:border-cyan-500/50 hover:bg-[#1f1f1f]',
-                  ]"
-                >
-                  <h4
-                    :class="[
-                      'text-sm font-semibold mb-1',
-                      selectedComponentId === item.id
-                        ? 'text-cyan-400'
-                        : 'text-white group-hover:text-cyan-400',
-                    ]"
-                  >
-                    {{ item.name }}
-                  </h4>
-                  <p
-                    :class="[
-                      'text-xs',
-                      selectedComponentId === item.id ? 'text-cyan-300' : 'text-gray-400',
-                    ]"
-                  >
-                    {{ item.description }}
-                  </p>
-                </button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </PanelSidebar>
+      </Transition>
 
-      <!-- Right Panel - Component Display -->
-      <div class="hidden lg:block flex-1 overflow-y-auto scrollbar-visible">
-        <div class="max-w-4xl mx-auto p-8">
-          <!-- Component Header -->
-          <div class="mb-8">
-            <h2 class="text-3xl font-bold text-white mb-2">{{ selectedComponent?.name }}</h2>
+      <!-- Content Panel -->
+      <Transition name="slide-right">
+        <PanelContent
+          v-if="selectedComponentId"
+          ref="contentPanelRef"
+          @close="handlePanelClose"
+          @click="$event.stopPropagation()"
+        >
+          <template #header>
+            <h1
+              class="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+            >
+              {{ selectedComponent?.name }}
+            </h1>
             <p class="text-gray-400">{{ selectedComponent?.description }}</p>
-          </div>
+          </template>
 
-          <!-- Component Content -->
-          <div class="space-y-8">
-            <ShowcaseContent
-              :selected-component-id="selectedComponentId"
-              :expertise-phrases="expertisePhrases"
+          <!-- Buttons -->
+          <ComponentShowcaseSection
+            v-if="selectedComponentId === 'buttons'"
+            :subsections="buttonSubsections"
+          >
+            <template #primary-button>
+              <PrimaryButton>Default</PrimaryButton>
+              <PrimaryButton color-scheme="emerald">Emerald</PrimaryButton>
+              <PrimaryButton color-scheme="purple">Purple</PrimaryButton>
+            </template>
+            <template #outline-button>
+              <OutlineButton color-scheme="cyan">Hire Me</OutlineButton>
+              <OutlineButton color-scheme="emerald">&lt;/&gt;</OutlineButton>
+              <OutlineButton color-scheme="cyan">Keep browsing</OutlineButton>
+              <OutlineButton color-scheme="cyan">Back to business</OutlineButton>
+            </template>
+            <template #icon-button>
+              <IconButton icon="←" />
+              <IconButton icon="→" />
+              <IconButton icon="✕" />
+              <IconButton icon="⚙️" />
+            </template>
+          </ComponentShowcaseSection>
+
+          <!-- Badges -->
+          <ComponentShowcaseSection
+            v-if="selectedComponentId === 'badges'"
+            :subsections="badgeSubsections"
+          >
+            <template #badge-variants>
+              <Badge variant="default">Default (Cyan/Purple)</Badge>
+              <Badge variant="teal">Teal</Badge>
+              <Badge variant="cyan">Cyan</Badge>
+              <Badge variant="purple">Purple</Badge>
+              <Badge variant="emerald">Emerald</Badge>
+              <Badge variant="muted">Muted</Badge>
+            </template>
+            <template #icon-badges>
+              <IconBadge icon="⚡" />
+              <IconBadge icon="🚀" color-scheme="emerald" />
+              <IconBadge icon="🎨" color-scheme="purple" />
+              <IconBadge icon="📊" size="lg" />
+            </template>
+          </ComponentShowcaseSection>
+
+          <!-- Typewriter -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'typewriter'">
+            <div class="text-2xl">
+              I develop
+              <TypewriterText :phrases="typewriterPhrases" class="text-cyan-400" />
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Check Item -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'check-item'">
+            <ul class="space-y-2">
+              <CheckItem>Systems handling billions of transactions</CheckItem>
+              <CheckItem>50% infrastructure cost reduction</CheckItem>
+              <CheckItem color="emerald">Cloud-native architecture design</CheckItem>
+              <CheckItem color="emerald">Full-stack development</CheckItem>
+            </ul>
+          </ComponentShowcaseSection>
+
+          <!-- Contact Info Item -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'contact-info'">
+            <div class="space-y-3">
+              <ContactInfoItem icon="📧" label="Email">
+                <a href="mailto:matt@idevelop.tech" class="text-cyan-400 hover:text-cyan-300">
+                  matt@idevelop.tech
+                </a>
+              </ContactInfoItem>
+              <ContactInfoItem icon="📍" label="Location">
+                Florida, USA
+              </ContactInfoItem>
+              <ContactInfoItem icon="💼" label="Status" color="emerald">
+                Available for consulting
+              </ContactInfoItem>
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Loading Spinner -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'loading-spinner'">
+            <div class="space-y-8">
+              <div class="flex gap-6 items-center">
+                <LoadingSpinner size="sm" />
+                <LoadingSpinner size="md" />
+                <LoadingSpinner size="lg" />
+              </div>
+              <div class="flex gap-6">
+                <LoadingSpinner message="Loading calendar..." />
+                <LoadingSpinner color="emerald" message="Processing..." />
+              </div>
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Social Icon -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'social-icon'">
+            <div class="flex gap-4">
+              <SocialIcon platform="linkedin" url="https://www.linkedin.com/in/matt-lucian/" />
+              <SocialIcon platform="github" url="https://github.com/mattlucian" />
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Service Card -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'service-card'">
+            <ServiceCard v-bind="serviceCardExample" />
+          </ComponentShowcaseSection>
+
+          <!-- Icon Card -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'icon-card'">
+            <IconCard :steps="iconCardSteps" />
+          </ComponentShowcaseSection>
+
+          <!-- Thin Icon Card -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'thin-icon-card'">
+            <ThinIconCard :steps="thinIconCardSteps" />
+          </ComponentShowcaseSection>
+
+          <!-- Testimonial Card -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'testimonial-card'">
+            <TestimonialCard :testimonial="testimonialExample" />
+          </ComponentShowcaseSection>
+
+          <!-- Info Card -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'info-card'">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <InfoCard title="Information Card" icon="ℹ️">
+                <p class="text-gray-400">
+                  This card displays important information with a clean layout.
+                </p>
+              </InfoCard>
+              <InfoCard title="Key Feature" icon="🔑">
+                <p class="text-gray-400">Important information displayed clearly</p>
+              </InfoCard>
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Attribution Card -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'attribution-card'">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <AttributionCard
+                title="Cloud Consulting"
+                imageUrl="https://images.unsplash.com/photo-1451187580459-43490279c0fa"
+                imageAlt="Global network visualization"
+                description="A stunning view of Earth from space with network connections"
+                photographer="NASA"
+                photographerUrl="https://unsplash.com/@nasa"
+                photoUrl="https://unsplash.com/photos/Q1p7bh3SHj8"
+              />
+              <AttributionCard
+                title="eCommerce Operations"
+                imageUrl="https://images.unsplash.com/photo-1472851294608-062f824d29cc"
+                imageAlt="Shopping cart"
+                description="Modern eCommerce shopping experience"
+                photographer="Justus Menke"
+                photographerUrl="https://unsplash.com/@justusmenke"
+                photoUrl="https://unsplash.com/photos/Bk6BkiSDHkc"
+              />
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Portfolio Item -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'portfolio-item'">
+            <div class="space-y-4">
+              <PortfolioItem
+                :item="{
+                  name: 'Shopify',
+                  description: 'Complete commerce platform',
+                  logo: 'https://cdn.worldvectorlogo.com/logos/shopify.svg',
+                  url: 'https://shopify.com',
+                }"
+                color-scheme="cyan"
+              />
+              <PortfolioItem
+                :item="{
+                  name: 'AWS',
+                  description: 'Cloud infrastructure platform',
+                  logo: 'https://cdn.worldvectorlogo.com/logos/amazon-web-services-2.svg',
+                  url: 'https://aws.amazon.com',
+                }"
+                color-scheme="emerald"
+              />
+            </div>
+          </ComponentShowcaseSection>
+
+          <!-- Timeline -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'timeline'">
+            <Timeline :steps="timelineSteps" />
+          </ComponentShowcaseSection>
+
+          <!-- Section Header -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'section-header'">
+            <SectionHeader
+              title="Example Section"
+              icon="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
-          </div>
-        </div>
-      </div>
+            <p class="text-sm text-gray-400 mt-2">This is how the section header looks</p>
+          </ComponentShowcaseSection>
+
+          <!-- Panels -->
+          <ComponentShowcaseSection v-if="selectedComponentId === 'panels'">
+            <div class="space-y-4">
+              <p class="text-gray-400">
+                Panel components (PanelContent, PanelSidebar) are used in views for layout and are
+                not showcased individually.
+              </p>
+              <p class="text-gray-400">
+                <strong class="text-white">This page uses them!</strong> The left sidebar is
+                PanelSidebar and this content area is PanelContent (which works on both mobile and
+                desktop).
+              </p>
+            </div>
+          </ComponentShowcaseSection>
+        </PanelContent>
+      </Transition>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* Visible scrollbar styling */
-.scrollbar-visible::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: transform 0.3s ease-out;
 }
 
-.scrollbar-visible::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 4px;
+.slide-left-enter-from {
+  transform: translateX(-100%);
 }
 
-.scrollbar-visible::-webkit-scrollbar-thumb {
-  background: #333333;
-  border-radius: 4px;
+.slide-left-leave-to {
+  transform: translateX(-100%);
 }
 
-.scrollbar-visible::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: transform 0.3s ease-out;
+}
+
+.slide-right-enter-from {
+  transform: translateX(100%);
+}
+
+.slide-right-leave-to {
+  transform: translateX(100%);
 }
 </style>
