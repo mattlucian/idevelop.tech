@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Step } from '../../types/shared/card'
+import IconFlowStep from './IconFlowStep.vue'
 
 interface Props {
   title?: string
@@ -22,17 +23,16 @@ defineProps<Props>()
       ></div>
 
       <div class="space-y-8">
-        <div v-for="(step, index) in steps" :key="index" class="relative flex items-start gap-4">
-          <div
-            class="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border-2 border-cyan-500/40 flex items-center justify-center z-10 bg-[#0a0a0a]"
-          >
-            <span class="text-xl">{{ step.icon }}</span>
-          </div>
-          <div class="flex-1 pt-2">
-            <h5 class="text-base font-bold text-white mb-1">{{ step.label }}</h5>
-            <p class="text-sm text-gray-400">{{ step.desc }}</p>
-          </div>
-        </div>
+        <IconFlowStep
+          v-for="(step, index) in steps"
+          :key="index"
+          :emoji="step.icon"
+          :label="step.label"
+          :desc="step.desc"
+          variant="timeline"
+          filter-style="grayscale"
+          class="relative"
+        />
       </div>
     </div>
   </div>

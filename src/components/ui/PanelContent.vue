@@ -43,9 +43,7 @@ defineExpose({
     @click.stop
   >
     <!-- Mobile: full-screen scrollable container, Desktop: fixed panel with internal scroll -->
-    <div
-      class="h-full overflow-y-auto lg:overflow-hidden scrollbar-visible lg:scrollbar-hidden"
-    >
+    <div class="h-full overflow-y-auto lg:overflow-hidden scrollbar-visible lg:scrollbar-hidden">
       <div
         class="bg-[#1a1a1a] border border-[#333333] rounded-xl lg:flex lg:flex-col lg:h-full lg:relative lg:overflow-hidden"
       >

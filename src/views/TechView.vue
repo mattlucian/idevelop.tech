@@ -5,8 +5,10 @@ import { useMeta } from '../composables/useMeta'
 import PanelSidebar from '../components/ui/PanelSidebar.vue'
 import PanelContent from '../components/ui/PanelContent.vue'
 import SelectableItem from '../components/ui/SelectableItem.vue'
-import TechTheme from '../components/themes/TechTheme.vue'
+import Badge from '../components/elements/badges/Badge.vue'
 import type { TechContent, Expertise } from '../types/tech'
+import { techContent } from '../data/tech'
+import { SITE } from '@/constants'
 
 // Set meta tags for Tech Experience page
 useMeta({
@@ -16,8 +18,8 @@ useMeta({
   ogTitle: 'Technical Experience - Matt Myers | I Develop Tech',
   ogDescription:
     'Explore my technical experience in software development, cloud infrastructure, DevOps practices, and engineering leadership.',
-  ogUrl: 'https://idevelop.tech/tech',
-  ogImage: 'https://idevelop.tech/images/brand/og-image.png',
+  ogUrl: `${SITE.url}/tech`,
+  ogImage: SITE.ogImage,
 })
 
 const router = useRouter()
@@ -36,8 +38,7 @@ const selectedTopic = computed<Expertise | undefined>(
 // Load tech experience data
 const loadTechData = async () => {
   try {
-    const module = await import('../data/tech.json?raw')
-    domainData.value = JSON.parse(module.default)
+    domainData.value = techContent
 
     // Auto-select first topic on desktop/tablet (1024px+)
     if (window.innerWidth >= 1024) {
@@ -64,8 +65,8 @@ const selectTopic = async (categoryIndex: number, topicIndex: number) => {
 }
 
 const goBack = () => {
-  // Navigate to home page
-  router.push({ name: 'home' })
+  // Navigate to previous page
+  router.back()
 }
 
 const goBackToTopics = () => {
@@ -97,10 +98,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen pt-20 bg-[#0a0a0a] text-white">
-    <div v-if="domainData" class="w-full">
+  <div class="fixed inset-0 top-16 bg-[#0a0a0a] text-white overflow-hidden">
+    <div v-if="domainData" class="w-full h-full">
       <!-- Background overlay - clickable to close -->
-      <div class="fixed inset-0 top-16 bg-[#0a0a0a]/95 z-50 cursor-pointer" @click="goBack"></div>
+      <div class="absolute inset-0 bg-[#0a0a0a]/95 z-50 cursor-pointer" @click="goBack"></div>
 
       <!-- Topic List Sidebar (slides from left) -->
       <Transition name="slide-left">
@@ -111,7 +112,12 @@ onUnmounted(() => {
           @close="goBack"
         >
           <template #header>
-            <h1 class="text-xl lg:text-3xl font-bold text-white leading-none">Tech Experience</h1>
+            <h1 class="text-xl lg:text-3xl font-bold text-white leading-none mb-2">
+              Tech Experience
+            </h1>
+            <p class="text-xs md:text-sm text-gray-400 leading-relaxed">
+              Browse my technical expertise
+            </p>
           </template>
 
           <!-- Categories and Topics -->
@@ -167,7 +173,42 @@ onUnmounted(() => {
               class="prose prose-sm max-w-none"
             >
               <div class="text-sm leading-relaxed text-gray-300">
-                <TechTheme :section="selectedTopic" />
+                <!-- Skill Tags -->
+                <div
+                  v-if="selectedTopic.skillTags && selectedTopic.skillTags.length > 0"
+                  class="mb-6 flex flex-wrap gap-2"
+                >
+                  <Badge
+                    v-for="(tag, index) in selectedTopic.skillTags"
+                    :key="index"
+                    variant="emerald"
+                  >
+                    {{ tag }}
+                  </Badge>
+                </div>
+
+                <!-- Intro Box -->
+                <div
+                  v-if="selectedTopic.intro"
+                  class="mb-6 p-4 bg-gray-800/50 border-l-4 border-emerald-500 rounded-r-lg"
+                >
+                  <p class="text-gray-300 italic">{{ selectedTopic.intro }}</p>
+                </div>
+
+                <!-- Sections -->
+                <div
+                  v-if="selectedTopic.sections && selectedTopic.sections.length > 0"
+                  class="space-y-6"
+                >
+                  <div v-for="(sectionItem, index) in selectedTopic.sections" :key="index">
+                    <h4
+                      class="font-semibold text-lg mb-3 text-emerald-300 border-b border-gray-700 pb-2"
+                    >
+                      {{ sectionItem.heading }}
+                    </h4>
+                    <p class="mb-4 text-gray-300">{{ sectionItem.content }}</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div v-else>

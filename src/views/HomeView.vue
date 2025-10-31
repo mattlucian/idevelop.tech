@@ -3,8 +3,10 @@ import { useRouter } from 'vue-router'
 import { useServiceConfig } from '../composables/useServiceConfig'
 import { useMeta } from '../composables/useMeta'
 import TypewriterText from '../components/elements/interactive/TypewriterText.vue'
+import GradientText from '../components/elements/GradientText.vue'
 import ServiceCard from '../components/cards/ServiceCard.vue'
 import PrimaryButton from '../components/elements/buttons/PrimaryButton.vue'
+import { SITE } from '@/constants'
 
 const router = useRouter()
 
@@ -12,8 +14,23 @@ const router = useRouter()
 const { serviceCards, expertisePhrases } = useServiceConfig()
 
 const selectService = (serviceName: string) => {
-  // Navigate to service detail page
-  router.push({ name: 'service-detail', params: { serviceId: serviceName } })
+  // Services with dedicated views
+  if (serviceName === 'integration') {
+    router.push({ name: 'integration-service' })
+  } else if (serviceName === 'tech-admin') {
+    router.push({ name: 'tech-admin-service' })
+  } else if (serviceName === 'ai-enablement') {
+    router.push({ name: 'ai-enablement-service' })
+  } else if (serviceName === 'ecommerce-ops') {
+    router.push({ name: 'ecommerce-ops-service' })
+  } else if (serviceName === 'web-design') {
+    router.push({ name: 'web-design-service' })
+  } else if (serviceName === 'cloud-consulting') {
+    router.push({ name: 'cloud-consulting-service' })
+  } else {
+    // Other services use the dynamic service detail page
+    router.push({ name: 'service-detail', params: { serviceId: serviceName } })
+  }
 }
 
 // Set home page meta tags
@@ -24,8 +41,8 @@ useMeta({
   ogTitle: 'I Develop Tech - Technical Consulting Services',
   ogDescription:
     'Expert technical consulting for cloud infrastructure, AI enablement, systems integration, and more. Affordable, on-demand tech expertise.',
-  ogUrl: 'https://idevelop.tech/',
-  ogImage: 'https://idevelop.tech/images/brand/og-image.png',
+  ogUrl: `${SITE.url}/`,
+  ogImage: SITE.ogImage,
 })
 </script>
 
@@ -44,11 +61,7 @@ useMeta({
             <div class="relative">
               <h1 class="text-3xl md:text-4xl font-bold mb-5 leading-tight tracking-tight">
                 <span class="text-white">Complex Problems.</span><br class="sm:hidden" />
-                <span
-                  class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 to-purple-400"
-                >
-                  Simple Solutions.
-                </span>
+                <GradientText tag="span"> Simple Solutions. </GradientText>
               </h1>
 
               <div

@@ -3,34 +3,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    // On initial page load (no 'from' route), always scroll to top
-    if (!from.name) {
-      return { top: 0 }
-    }
-
-    // If navigating to the same route (e.g., query param changes on home page)
-    if (to.name === from.name) {
-      // Don't scroll, keep current position
-      return false
-    }
-
-    // If navigating between home and service-detail routes, preserve scroll
-    // These routes use related components and should maintain scroll position
-    const servicesRoutes = ['home', 'service-detail']
-    if (
-      servicesRoutes.includes(to.name as string) &&
-      servicesRoutes.includes(from.name as string)
-    ) {
-      // Explicitly preserve the current scroll position
-      return { left: window.scrollX, top: window.scrollY }
-    }
-
-    // For back/forward navigation, restore saved position
-    if (savedPosition) {
+    // Only restore scroll position when using browser back/forward buttons
+    // and when navigating FROM another page (not initial load)
+    if (savedPosition && from.name) {
       return savedPosition
     }
-
-    // For new navigation, scroll to top
+    // Always scroll to top for direct navigation or initial page load
     return { top: 0 }
   },
   routes: [
@@ -40,9 +18,34 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path: '/services/:serviceId',
-      name: 'service-detail',
-      component: () => import('../views/ServiceView.vue'),
+      path: '/services/integration',
+      name: 'integration-service',
+      component: () => import('../views/services/IntegrationServiceView.vue'),
+    },
+    {
+      path: '/services/tech-admin',
+      name: 'tech-admin-service',
+      component: () => import('../views/services/TechAdminServiceView.vue'),
+    },
+    {
+      path: '/services/ai-enablement',
+      name: 'ai-enablement-service',
+      component: () => import('../views/services/AIEnablementServiceView.vue'),
+    },
+    {
+      path: '/services/ecommerce-ops',
+      name: 'ecommerce-ops-service',
+      component: () => import('../views/services/EcommerceOpsServiceView.vue'),
+    },
+    {
+      path: '/services/web-design',
+      name: 'web-design-service',
+      component: () => import('../views/services/WebDesignServiceView.vue'),
+    },
+    {
+      path: '/services/cloud-consulting',
+      name: 'cloud-consulting-service',
+      component: () => import('../views/services/CloudConsultingServiceView.vue'),
     },
     {
       path: '/hire-me',

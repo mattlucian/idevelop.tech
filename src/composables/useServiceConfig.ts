@@ -1,25 +1,11 @@
-import servicesDataRaw from '../data/services.json'
+import { servicesConfig } from '../data/services'
+import type { ServiceCard } from '../types/tech'
 
-export interface ServiceCard {
-  name: string
-  path: string
-  icon: string
-  label: string
-  title: string
-  tagline: string
-  stats: { value: string; label: string }[]
-  tags: string[]
-  borderColor: string
-  bgColor: string
-  visualStyle: 'hero-pattern' | 'image-hero' | 'gradient-mesh' | 'minimalist-icon'
-  heroImage?: string
-}
-
-// Service cards configuration loaded from JSON
-export const serviceCards: ServiceCard[] = servicesDataRaw.serviceCards as ServiceCard[]
+// Service cards configuration
+export const serviceCards: ServiceCard[] = servicesConfig.serviceCards
 
 // Dynamic typewriter phrases for subheading
-export const expertisePhrases: string[] = servicesDataRaw.expertisePhrases
+export const expertisePhrases: string[] = servicesConfig.expertisePhrases
 
 // Find a service by name
 export function useServiceConfig() {

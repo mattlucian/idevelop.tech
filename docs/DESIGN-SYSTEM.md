@@ -1,6 +1,6 @@
 # Design System Documentation
 
-This document outlines the foundational design decisions for idevelop.tech. For component implementation details, see the **[Component Library](/components)**.
+This document outlines the foundational design decisions for idevelop.tech, including color palette, typography, spacing, responsive design patterns, and component guidelines.
 
 ## Color Palette
 
@@ -8,272 +8,281 @@ This document outlines the foundational design decisions for idevelop.tech. For 
 
 - **Cyan**: `#06b6d4` (cyan-500), `#22d3ee` (cyan-400), `#67e8f9` (cyan-300) - Services/business theme
 - **Purple**: `#a855f7` (purple-500), `#c084fc` (purple-400), `#d8b4fe` (purple-300)
-- **Emerald**: `#10b981` (emerald-500), `#34d399` (emerald-400), `#6ee7b7` (emerald-300) - Experience/technical theme
+- **Emerald**: `#10b981` (emerald-500), `#34d399` (emerald-400), `#6ee7b7` (emerald-300) - Tech/experience theme
 - **Background**: `#0a0a0a` (primary bg), `#0f0f0f` (card bg), `#1a1a1a` (elevated bg)
-- **Text**: `#ffffff` (white), `#9ca3af` (gray-400), `#6b7280` (gray-500)
+- **Slate**: Used for secondary backgrounds and borders (`slate-700`, `slate-800`, `slate-900`)
+- **Text**: `#ffffff` (white), `#94a3b8` (slate-400), `#64748b` (slate-500)
 
 ### Color Theme Strategy
 
 The site uses a **dual color scheme** that switches contextually:
 
-- **Services/Business Pages** (Home, Hire Me): Cyan/purple theme
-- **Experience/Technical Pages**: Emerald green theme
-- **Dynamic Elements**: Logo and "Hire Me" button adapt to page context (cyan → emerald on Experience)
+- **Services/Business Pages** (Home, Services, Hire Me): Cyan/purple theme
+- **Tech/Experience Pages** (Tech domain pages): Emerald green theme
+- **Dynamic Elements**: Components accept `colorScheme` or `color` props to support dual theming
 
 ### Gradient Patterns
 
 - **Primary Gradient**: `from-cyan-400 via-cyan-300 to-purple-400`
 - **Background Gradient**: `from-cyan-500/10 via-purple-500/10 to-cyan-500/10`
+- **Secondary Gradient**: `from-slate-800/40 to-slate-900/40`
 - **Button Gradient**: `from-cyan-500 to-purple-500`
-- **Border Gradient**: `border-cyan-500/30` with hover `border-cyan-400/50`
+- **Border Colors**: `border-cyan-500/30`, `border-slate-700/30`
 
-**View live examples**: [Component Library - Colors](/components)
+### Icon Color Treatment
+
+**Desaturation Filter**: `filter: saturate(0.3) brightness(1.05)`
+
+Applied to emoji icons in IconFlowStep component to reduce color clash while preserving theme colors (cyan/emerald/purple). Retains 30% saturation for subtle color distinction.
 
 ## Typography
 
-### Font Sizes (Responsive)
+### Font Sizes
 
-#### Mobile → Tablet → Desktop Pattern
+The site uses a **mobile-first responsive scaling** system. Base styles target mobile (320px+), progressively enhancing for larger screens.
 
-The site uses a progressive scaling system:
+**Page Headers:**
 
-**Headers:**
-
+- H1 Hero: `text-4xl md:text-5xl lg:text-6xl` (36px → 48px → 60px)
 - H1 Main: `text-3xl md:text-4xl` (30px → 36px)
-- H2 Service Title: `text-lg md:text-xl` (18px → 20px)
-- H3 CTA: `text-xl md:text-2xl lg:text-3xl` (20px → 24px → 30px)
+- H2 Section: `text-3xl md:text-4xl` (30px → 36px)
+- H2 CTA: `text-2xl md:text-3xl` (24px → 30px)
+- H3 Service Title: `text-lg md:text-xl` (18px → 20px)
 
 **Body Text:**
 
-- Service Tagline: `text-xs md:text-sm` (12px → 14px)
-- Description: `text-xs md:text-sm lg:text-base` (12px → 14px → 16px)
+- Large Body: `text-lg md:text-xl` (18px → 20px)
+- Base Body: `text-sm md:text-base` (14px → 16px)
+- Small Text: `text-xs md:text-sm` (12px → 14px)
+- Caption: `text-xs` (12px)
 
-**Micro Text (Stat Boxes):**
+**Section Labels:**
 
-- Value: `text-[13px] md:text-[15px] lg:text-[19px]` (13px → 15px → 19px)
-- Label: `text-[6px] sm:text-[8px] md:text-[7px] lg:text-[9px]` (6px → 8px → 7px → 9px)
-  - Note: Labels use lowercase on mobile (`md:uppercase`) to save space
+- Uppercase Labels: `text-sm` with `uppercase tracking-wider` (14px)
 
 ### Font Weights
 
 - **Headings**: `font-bold` (700)
 - **Buttons/CTAs**: `font-semibold` (600)
+- **Labels/Section Headers**: `font-semibold` (600)
 - **Body**: Regular (400)
 
 ### Line Heights & Tracking
 
-- Headers: `leading-tight` with `tracking-tight`
-- Body: `leading-relaxed`
-- Stat Labels (mobile): `leading-[0.65rem]` with `tracking-tighter`
-- Stat Labels (desktop): `leading-tight` with `tracking-wide`
-
-**View live examples**: [Component Library - Typography](/components)
+- **Hero Headers**: `leading-tight` (1.25)
+- **Body Text**: `leading-relaxed` (1.625)
+- **Headers**: `tracking-tight` (-0.025em)
+- **Section Labels**: `tracking-wider` (0.05em)
 
 ## Spacing System
 
 ### Container Widths
 
-- **Max Content Width**: `max-w-[1200px]`
-- **Modal/Panel Width**: Fixed pixel-based sizing for consistency
-- **Left Panel**: `w-96` (384px)
+- **Max Content Width**: `max-w-5xl` (1024px) - Used for service pages
+- **Home Content Width**: `max-w-[1200px]` - Used for homepage grid
+- **Text Content Width**: `max-w-3xl` (768px) - Used for readable text blocks
+- **Side Content**: `w-full md:w-[340px] lg:w-[400px]` - Sidebar/sticky content
 
 ### Padding & Margins
 
+**Section Padding:**
+
+- Vertical: `py-8` or `py-16` (32px or 64px) depending on section importance
+- Horizontal: `px-6` (24px) - Consistent across all sections
+
 **Card Padding:**
 
-- Mobile: `p-4` (16px)
-- Tablet: `p-6` (24px)
+- Standard Cards: `p-6 md:p-8 lg:p-12` (24px → 32px → 48px)
+- Small Cards: `p-4 md:p-6` (16px → 24px)
+- Compact Cards: `p-6` (24px)
 
-**Stat Box Padding:**
+**Page Layout:**
 
-- Mobile: `p-1` (4px)
-- Tablet: `p-2` (8px)
-- Desktop: `p-3` (12px)
-
-**CTA Section:**
-
-- Mobile: `p-6` (24px)
-- Tablet: `p-8` (32px)
-- Desktop: `p-12` (48px)
+- Top Padding: `pt-16` or `pt-20` (64px or 80px) to account for fixed navigation
+- Section Spacing: `mb-12` or `mb-16` (48px or 64px) between major sections
 
 ### Grid Gaps
 
-- Service Cards: `gap-6` (24px)
-- Stat Boxes: `gap-1 md:gap-2` (4px → 8px)
-- Tags: `gap-1 md:gap-1.5` (4px → 6px)
+- Service Cards Grid: `gap-6` (24px)
+- Benefits Grid: `gap-8` (32px)
+- Portfolio Items: `space-y-4` (16px vertical spacing)
+- Tab Buttons: `gap-2` (8px)
+- Form Elements: `gap-4` (16px)
 
-**View live examples**: [Component Library - Spacing](/components)
+## Responsive Design
 
-## Components
+### Breakpoints
 
-All component implementation details, code examples, and patterns have been moved to the **[Component Library](/components)**.
+The site uses **Tailwind's default breakpoints** with a mobile-first approach:
 
-### Available Components
+- **Base (0-639px)**: Mobile devices (320px minimum)
+- **sm: 640px**: Small tablets and large mobiles
+- **md: 768px**: Tablets (primary responsive breakpoint)
+- **lg: 1024px**: Desktop and tablet landscape
+- **xl: 1280px**: Large desktop (rarely used)
 
-**Design Foundation:**
+### Mobile-First Philosophy
 
-- Color Palette
-- Typography
-- Spacing System
+All base styles target 320px mobile screens, then progressively enhance for larger devices.
 
-**Interactive Components:**
+**Key Principle**: Make it work perfectly on the smallest screen first, then add features and increase sizes for larger screens.
 
-- TypewriterText
-- Gradient Text
-- CTA Buttons
-- Button Variants
-- Button Groups
+### Common Responsive Patterns
 
-**Data Display:**
+**Grid Layouts:**
 
-- Stat Boxes
-- Tag Pills
-- Badge Grid
-- Icon Badges
-- Icon Lists
+```
+grid grid-cols-1 sm:grid-cols-2          // Single column → 2 columns
+grid grid-cols-1 md:grid-cols-3          // Single column → 3 columns
+flex flex-col md:flex-row                // Vertical stack → horizontal row
+```
 
-**Layout Patterns:**
+**Typography Scaling:**
 
-- Card Variants (Service & Experience)
-- Side Panel Page Layout
+```
+text-3xl md:text-4xl lg:text-5xl         // Progressive size increase
+text-sm md:text-base                     // Small → base size
+```
 
-**Content Elements:**
+**Spacing Scaling:**
 
-- Section Headings
-- Intro Box
-- Border Accent Boxes
-- Decorative Blurs
-- Navigation
-- Custom Scrollbar
+```
+p-4 md:p-6 lg:p-8                        // Progressive padding increase
+gap-4 md:gap-6                           // Progressive gap increase
+px-6                                      // Consistent horizontal padding
+```
 
-## Responsive Breakpoints
+**Visibility Controls:**
 
-### Tailwind Defaults Used
+```
+hidden md:block                          // Hide on mobile, show on tablet+
+md:hidden                                // Show on mobile, hide on tablet+
+```
 
-- `sm`: 640px
-- `md`: 768px (primary tablet breakpoint)
-- `lg`: 1024px (desktop breakpoint)
+### Screen Size Strategies
 
-### Mobile-First Approach
+**Mobile (≤767px):**
 
-All base styles are mobile (320px), then progressively enhanced:
+- Single column layouts
+- Full-width buttons and forms
+- Reduced padding and spacing
+- Simplified navigation
+- Hide decorative elements
+- Stack complex layouts vertically
 
-1. **320px - 639px**: Base mobile styles
-2. **640px - 767px**: Small tablets (`sm:`)
-3. **768px - 1023px**: Tablets (`md:`)
-4. **1024px+**: Desktop (`lg:`)
+**Tablet (768px - 1023px):**
 
-### Critical Breakpoints
+- Multi-column grids (2-3 columns)
+- Moderate font sizes
+- Increased padding and spacing
+- Enhanced navigation options
+- Show some decorative elements
 
-- **320px**: Minimum supported width - ultra-compact layouts
-- **425px**: Small mobile - slightly relaxed sizing
-- **768px**: Tablet - medium-sized text and spacing
-- **1024px**: Desktop - full-featured layout with modals
+**Desktop (≥1024px):**
 
-**Detailed responsive patterns**: [RESPONSIVE-DESIGN.md](./RESPONSIVE-DESIGN.md)
-
-## Design Decisions by Screen Size
-
-### Mobile (≤767px)
-
-- Stack all layouts vertically
-- Full-width buttons
-- Minimal padding to maximize content area
-- Smallest font sizes to prevent text overflow
-- Hide non-essential icons and decorations
-- Typewriter text stacks below static text
-
-### Tablet (768px - 1023px)
-
-- 2-column service card grid
-- Medium font sizes to balance readability and space
-- Moderate padding
-- Stat boxes with reduced padding to prevent wrapping
-- CTA section with reduced heading sizes
-
-### Desktop (≥1024px)
-
-- 2-column service card grid (maintained)
-- Full decorative elements visible
+- Full grid layouts
 - Maximum font sizes for readability
-- Service detail panels slide in from right
-- Background scroll locked when modal open (via `scrollBehavior` in router)
+- Full padding and spacing
+- Complex interactions enabled
+- All decorative elements visible
+- Sticky positioning for sidebars (`md:sticky md:top-24`)
+
+### Testing Requirements
+
+Always test layouts at these critical widths:
+
+- **320px**: Minimum supported (iPhone SE)
+- **375px**: Standard mobile (iPhone)
+- **768px**: Tablet portrait (iPad)
+- **1024px**: Desktop/tablet landscape
+- **1440px**: Large desktop
 
 ## Animation & Transitions
 
-### Standard Transitions
+### Transition Standards
 
-- **Duration**: `duration-300` for most interactions
-- **Easing**: Default ease
-- **Hero Images**: `duration-500` for slower, smoother effects
+- **Duration**: `duration-300` for most interactions, `duration-500` for hero images
+- **Easing**: Tailwind defaults (`ease-in-out`, `ease-out`)
+- **Properties**: Prefer `transform` and `opacity` for GPU-accelerated animations
 
-### Scroll Behavior
+### Common Effects
 
-- **Router scrollBehavior**: Prevents scroll on same-route navigation (query params)
-- **No overflow toggling**: Maintains scroll position naturally
-- **Section transitions**: Smooth scroll within content panels
+**Hover States:**
 
-### Hover Effects
+```
+hover:scale-105                          // Subtle scale increase
+hover:border-cyan-400/50                 // Border color brightening
+group-hover:translate-x-1                // Slide arrows/icons
+hover:shadow-lg hover:shadow-cyan-500/50 // Glow effect
+```
 
-- Scale transforms: `group-hover:scale-105`
-- Shadow intensification: `group-hover:shadow-lg group-hover:shadow-cyan-500/50`
-- Gradient text reveals
-- Border color brightening
-- Arrow translations: `group-hover:translate-x-1`
+**Focus States:**
 
-## Accessibility Considerations
-
-### Color Contrast
-
-- All text meets WCAG AA standards
-- Gradient text used on dark backgrounds only
-- Border colors provide sufficient contrast
-
-### Interactive Elements
-
-- All clickable elements have hover states
-- Focus states follow hover patterns
-- Sufficient padding for touch targets (minimum 44px height on mobile)
-
-### Responsive Text
-
-- Minimum font size: 6px (only for non-critical stat labels)
-- Body text minimum: 12px
-- Line height adjusted for readability at all sizes
-
-## Best Practices
-
-### When to Use Custom Pixel Sizes
-
-- Stat boxes and micro-text where Tailwind defaults don't work
-- Specific breakpoint needs (e.g., 320px ultra-mobile)
-- Fine-tuning visual balance
-
-### When to Use Tailwind Defaults
-
-- Standard body text and headings
-- Padding and margin (use spacing scale)
-- Common breakpoints
-
-### Component Reusability
-
-- Extract repeated patterns into components
-- Use props for customization
-- Document in the Component Library
-- Provide sensible defaults
+Follow hover patterns for keyboard accessibility.
 
 ### Performance
 
 - Use `transform` and `opacity` for animations (GPU-accelerated)
-- Lazy load images with proper placeholders
-- Minimize layout shifts during loading
-- Use `transition-all` sparingly (only on small elements)
+- Avoid `transition-all` except on small, simple elements
+- Minimize layout shifts during loading states
+
+## Accessibility
+
+### Color Contrast
+
+- All text meets WCAG AA standards minimum
+- Gradient text only used on dark backgrounds with sufficient contrast
+- Border colors provide visual distinction without relying solely on color
+
+### Interactive Elements
+
+- All clickable elements have visible hover and focus states
+- Focus states follow hover patterns for consistency
+- Minimum touch target size: 44px height on mobile devices
+- Keyboard navigation supported for all interactive elements
+
+### Typography
+
+- Body text minimum: 12px for readability
+- Line heights optimized for readability across all sizes
+- Sufficient color contrast between text and background
+
+## Best Practices
+
+### Styling Guidelines
+
+**Use Tailwind Utilities:**
+
+- Prefer Tailwind classes over custom CSS
+- Use the established color palette (cyan/purple/emerald/slate)
+- Follow the responsive patterns documented above
+
+**Component Patterns:**
+
+- Extract repeated UI patterns into reusable components (see 2-3 Pattern Rule in COMPONENT-RULES.md)
+- Support dual color scheme via `colorScheme` or `color` props
+- Provide sensible defaults for all props
+- Document new components in COMPONENTS.md
+
+**Responsive Design:**
+
+- Always start with mobile layout (320px)
+- Test at all critical breakpoints (320px, 375px, 768px, 1024px, 1440px)
+- Use progressive enhancement (base styles → enhanced styles)
+- Avoid fixed widths that break at smaller sizes
+
+### Performance
+
+- Use `transform` and `opacity` for smooth animations
+- Minimize layout shifts during page load
+- Use appropriate image sizes for different screen sizes
+- Lazy load off-screen content when appropriate
 
 ---
 
 ## Quick Reference
 
-**Need component code?** → [Component Library](/components)
-**Need responsive patterns?** → [RESPONSIVE-DESIGN.md](./RESPONSIVE-DESIGN.md)
-**Need component docs?** → [COMPONENTS.md](./COMPONENTS.md)
-**Need architecture info?** → [ARCHITECTURE.md](./ARCHITECTURE.md)
+- **Component Documentation**: [COMPONENTS.md](./COMPONENTS.md)
+- **Component Creation Rules**: [COMPONENT-RULES.md](./COMPONENT-RULES.md)
+- **Data Structure Types**: [DATA-STRUCTURE.md](./DATA-STRUCTURE.md)
+- **Architecture Details**: [ARCHITECTURE.md](./ARCHITECTURE.md)

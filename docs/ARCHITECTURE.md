@@ -27,23 +27,21 @@ This document captures the key architectural decisions made during the developme
 
 ### Component Organization Structure
 
-Components are organized into 7 categories based on functionality and reusability:
+Components are organized into 6 categories based on functionality and reusability:
 
 ```
 /src/components/
-├── elements/              # Basic UI building blocks (10 components)
+├── elements/              # Basic UI building blocks
 │   ├── buttons/          # Button variants
 │   ├── badges/           # Badge and icon badge components
 │   ├── interactive/      # Interactive effects (typewriter)
-│   └── [utilities]       # CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner
-├── cards/                # Card-based components (7 components)
-├── ui/                   # Complex UI components (6 components)
-├── display/              # Data display components (1 component)
-├── layout/               # Global layout components (2 components)
-└── themes/               # Content theme components (5 components)
+│   └── [utilities]       # CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner, NumberedStep, SimpleCheckItem
+├── cards/                # Card-based components
+├── ui/                   # Complex UI components
+├── display/              # Data display components
+├── layout/               # Global layout components
+└── integration/          # Integration diagram components
 ```
-
-**Total: 31 reusable components**
 
 ### Component Categories
 
@@ -54,7 +52,7 @@ Components are organized into 7 categories based on functionality and reusabilit
 **Buttons** (`elements/buttons/`):
 
 - `PrimaryButton.vue` - Solid gradient CTA buttons
-- `SecondaryButton.vue` - Subtle gradient action buttons
+- `OutlineButton.vue` - Outlined style buttons
 - `IconButton.vue` - Circular close/back navigation buttons
 
 **Badges** (`elements/badges/`):
@@ -72,18 +70,19 @@ Components are organized into 7 categories based on functionality and reusabilit
 - `ContactInfoItem.vue` - Contact info display rows
 - `SocialIcon.vue` - Social media icon links
 - `LoadingSpinner.vue` - Loading indicators
+- `NumberedStep.vue` - Numbered step items for processes
+- `SimpleCheckItem.vue` - Simple checkmark list items
 
 #### 2. Cards (`/components/cards/`)
 
 **Purpose:** Card-based content containers
 
 - `ServiceCard.vue` - Service offering cards with hero images
-- `IconCard.vue` - Feature cards with centered icons
-- `ThinIconCard.vue` - Compact cards with left-aligned icons
 - `InfoCard.vue` - Wrapper cards for grouped content
-- `TestimonialCard.vue` - Client testimonial display
 - `PortfolioItem.vue` - Portfolio work items
 - `AttributionCard.vue` - Image attribution credits
+- `BenefitCard.vue` - Benefit/feature cards with icons
+- `SimpleTestimonial.vue` - Simplified testimonial cards
 
 #### 3. UI (`/components/ui/`)
 
@@ -92,17 +91,21 @@ Components are organized into 7 categories based on functionality and reusabilit
 **Panel System:**
 
 - `PanelSidebar.vue` - Fixed sidebar for navigation
-- `PanelContent.vue` - Fixed content display panel
-- `PanelMobile.vue` - Mobile full-screen panel
+- `PanelContent.vue` - Responsive content display panel (mobile & desktop)
 
 **Section Components:**
 
-- `SectionClickable.vue` - Numbered section buttons
-- `SectionHeader.vue` - Section titles with icons
+- `SelectableItem.vue` - Selectable list items
+- `ServiceSection.vue` - Multi-variant service page sections (hero/benefits/process/portfolio/testimonials)
 
-**Utilities:**
+**Service Page Components:**
 
-- `ShowcaseContent.vue` - Component showcase helper
+- `BreadcrumbNav.vue` - Breadcrumb navigation
+- `CTASection.vue` - Call-to-action section
+- `CTAForm.vue` - Call-to-action form
+- `TabButton.vue` - Tab navigation buttons
+- `TwoColumnListSection.vue` - Two-column list layout
+- `FloatingActionBar.vue` - Floating action bar for mobile navigation
 
 #### 4. Display (`/components/display/`)
 
@@ -117,15 +120,14 @@ Components are organized into 7 categories based on functionality and reusabilit
 - `Navigation.vue` - Site navigation with dynamic theming
 - `Footer.vue` - Site footer with links and copyright
 
-#### 6. Themes (`/components/themes/`)
+#### 6. Integration (`/components/integration/`)
 
-**Purpose:** Content layout themes for service/tech pages
+**Purpose:** Integration diagram visualization components
 
-- `DefaultTheme.vue` - Standard layout with stats and benefits
-- `OverviewTheme.vue` - Data-driven overview sections
-- `ProcessTheme.vue` - Workflow visualization (supports 3 styles)
-- `OptionsTheme.vue` - Side-by-side option cards
-- `TechTheme.vue` - Technical/experience content display
+- `SystemBox.vue` - Visual box representing a system/platform
+- `EntityMappingFlow.vue` - Visual arrow showing entity mapping
+- `DetailedEntityMapping.vue` - Detailed entity field mappings
+- `IntegrationDiagram.vue` - Complete integration diagram
 
 ### State Management Pattern
 
@@ -141,71 +143,92 @@ Components are organized into 7 categories based on functionality and reusabilit
 **Implementation:**
 
 - Composables in `src/composables/`:
-  - `useServiceData.ts` - Service data loading
-  - `useServiceConfig.ts` - Service configuration
+  - `useServiceConfig.ts` - Service configuration and data access
   - `useMeta.ts` - Meta tag management
 
 ### View Architecture
 
 **Page Components** (`/src/views/`):
 
-1. **HomeView.vue** (formerly ServicesView)
-   - Service cards grid
-   - Service detail panels (sidebar + content)
-   - URL-based service selection
+1. **HomeView.vue**
+   - Service cards grid with 6 services
+   - Links to dedicated service pages
+   - Typewriter effect for dynamic expertise phrases
 
 2. **HireMeView.vue**
    - Contact information
-   - Calendly integration
+   - Calendly scheduling integration
    - Professional background
 
-3. **TechView.vue** (formerly TechExperienceView)
+3. **TechView.vue**
    - Technical expertise browser
    - Domain/category/topic navigation
-   - Query parameter-based routing
+   - Responsive panel layout (PanelSidebar + PanelContent)
 
-4. **ServiceView.vue** (formerly ServiceDetailView)
-   - Individual service detail pages
-   - Dynamic theme support
-   - Sidebar navigation
-
-5. **ComponentView.vue** (formerly ComponentShowcase)
+4. **ComponentView.vue**
    - Design system showcase
 
-6. **AttributionsView.vue**
+5. **AttributionsView.vue**
    - Image attribution credits
+
+**Service Views** (`/src/views/services/`):
+
+All service views use TypeScript data files and share common components:
+
+6. **IntegrationServiceView.vue** - System integration services
+   - Integration diagrams (accounting, fulfillment, marketplace)
+   - Tab-based navigation for different integration types
+7. **TechAdminServiceView.vue** - Technical administration services
+   - Timeline visualization for support process
+8. **AIEnablementServiceView.vue** - AI enablement services
+   - Before/after comparisons for workflow, training, implementation
+9. **EcommerceOpsServiceView.vue** - eCommerce operations services
+   - Tab-based content for order routing, inventory sync, product data
+10. **WebDesignServiceView.vue** - Web design services
+    - Design process steps visualization
+    - Platform configurations (Shopify, WordPress, custom)
+    - Migration phases
+11. **CloudConsultingServiceView.vue** - Cloud infrastructure services
+    - Cloud journey configurations (strategy, migration, optimization)
 
 ## Routing Strategy
 
 ### Current Route Structure
 
 ```
-/                          -> HomeView (services grid)
-/services/:serviceId       -> ServiceView (service details)
-/hire-me                   -> HireMeView
-/tech                      -> TechView (expertise overview)
-/tech?domain=software      -> TechView (software domain details)
-/components                -> ComponentView
-/attributions              -> AttributionsView
+/                               -> HomeView (services grid)
+/services/integration           -> IntegrationServiceView
+/services/tech-admin            -> TechAdminServiceView
+/services/ai-enablement         -> AIEnablementServiceView
+/services/ecommerce-ops         -> EcommerceOpsServiceView
+/services/web-design            -> WebDesignServiceView
+/services/cloud-consulting      -> CloudConsultingServiceView
+/hire-me                        -> HireMeView
+/tech                           -> TechView
+/components                     -> ComponentView
+/attributions                   -> AttributionsView
 ```
 
-### Query Parameter Navigation
+### Service Page Architecture
 
-**Decision:** Use query parameters for tech domain navigation instead of separate routes.
+**Decision:** Use dedicated view files for each service instead of a dynamic `:serviceId` route.
 
 **Rationale:**
 
-- Simpler routing structure
-- Single component handles all domain detail views
-- Easy URL sharing (e.g., `/tech?domain=software`)
-- No need to manage multiple routes for similar content
+- Each service has unique interactive components (tabs, diagrams, visualizations)
+- Service-specific layouts without conditional rendering
+- Better code organization and maintainability
+- Easier to customize individual services
+- Type-safe data structures specific to each service
 
 **Implementation:**
 
-- Base route: `/tech` loads `TechView.vue`
-- Domain selection adds query parameter: `/tech?domain=software`
-- Component watches `route.query.domain` to load appropriate data
-- Data loaded dynamically from `/data/experiences.json`
+- Each service has its own view file in `/views/services/`
+- TypeScript data files in `/src/data/services/` (e.g., `integration.ts`, `tech-admin.ts`)
+- Dedicated routes: `/services/integration`, `/services/tech-admin`, etc.
+- All services use shared components from `ServiceSection` with variants (hero, benefits, process, portfolio, testimonials)
+- Service-specific interactivity built with specialized components (IntegrationDiagram, Timeline, TabButton, etc.)
+- Type definitions in `/src/types/service.ts` with service-specific interfaces extending base `ServicePageData`
 
 ### Scroll Behavior
 
@@ -213,86 +236,129 @@ Components are organized into 7 categories based on functionality and reusabilit
 
 ```javascript
 scrollBehavior(to, from, savedPosition) {
-  // Initial load: scroll to top
-  if (!from.name) return { top: 0 }
-
-  // Same route: don't scroll
-  if (to.name === from.name) return false
-
-  // Home ↔ Service detail: preserve scroll
-  const servicesRoutes = ['home', 'service-detail']
-  if (servicesRoutes.includes(to.name) && servicesRoutes.includes(from.name)) {
-    return { left: window.scrollX, top: window.scrollY }
+  // Only restore scroll position when using browser back/forward buttons
+  // and when navigating FROM another page (not initial load)
+  if (savedPosition && from.name) {
+    return savedPosition
   }
-
-  // Browser back/forward: restore position
-  if (savedPosition) return savedPosition
-
-  // New navigation: scroll to top
+  // Always scroll to top for direct navigation or initial page load
   return { top: 0 }
 }
 ```
+
+**Lazy Loading:**
+
+All routes use dynamic imports for code splitting:
+
+```javascript
+component: () => import('../views/HomeView.vue')
+```
+
+This optimizes initial bundle size and loads pages on demand.
 
 ## Data Strategy
 
 ### Data Organization
 
+**Migration from JSON to TypeScript:**
+
+The project has migrated from JSON data files to TypeScript for better type safety and maintainability.
+
 ```
 /src/data/
-├── services/              # Service offerings (6 files)
-│   ├── tech-admin.json
-│   ├── integration.json
-│   ├── ai-enablement.json
-│   ├── ecommerce-ops.json
-│   ├── web-design.json
-│   └── cloud-consulting.json
-└── experiences.json       # Technical expertise (all domains)
+├── services/              # Service data (TypeScript files)
+│   ├── tech-admin.ts
+│   ├── integration.ts
+│   ├── ai-enablement.ts
+│   ├── ecommerce-ops.ts
+│   ├── web-design.ts
+│   └── cloud-consulting.ts
+├── services.ts            # Service configuration/metadata (TypeScript)
+└── tech.ts                # Technical expertise (TypeScript)
 ```
+
+**Benefits of TypeScript data:**
+
+- Compile-time type checking for all service data
+- Better IDE autocomplete and IntelliSense
+- Type-safe imports and exports
+- Easier refactoring and maintenance
 
 ### Type System
 
-TypeScript interfaces organized by usage:
+TypeScript interfaces organized by usage and domain:
 
 **Shared Types** (`/src/types/shared/`):
 
-- `element.ts` - Element component types (Badge)
-- `card.ts` - Card component types (Step)
-- `ui.ts` - UI component types (Topic, PanelColorScheme)
+- `element.ts` - Element component types
+- `card.ts` - Card component types (BenefitItem, TimelineStep, VisualStep, DesignProcessStep, etc.)
+- `ui.ts` - UI component types (ColorScheme, BreadcrumbItem, TabConfig, PortfolioSection, JourneyConfig, BeforeAfterComparison, WorkflowStage, PlatformConfig, MigrationPhase, etc.)
 - `display.ts` - Display types (StepDisplay, Display)
+- `integration.ts` - Integration diagram types (IntegrationDiagramConfig, SystemConfig, EntityMappingConfig, etc.)
 
 **Domain Types** (`/src/types/`):
 
-- `service.ts` - Service data structure
-- `tech.ts` - Technical expertise structure
+- `service.ts` - Service page data structures
+  - Base: `ServicePageData`
+  - Extended: `IntegrationServiceData`, `TechAdminServiceData`, `AIEnablementServiceData`, `CloudConsultingServiceData`, `EcommerceOpsServiceData`, `WebDesignServiceData`
+- `tech.ts` - Technical expertise structure (TechContent, ServiceCard, etc.)
 
 ### Service Data Structure
 
-```typescript
-interface ServiceContent {
-  title: string
-  tagline: string
-  overview: string
-  stats: ServiceStat[]
-  tags: string[]
-  whatIOffer?: string[]
-  howItWorks?: string[]
-  sections: ServiceSection[]
-  portfolioItems: PortfolioItem[]
-  testimonial: Testimonial
-}
+The service data structure is defined in `/src/types/service.ts`:
 
-interface ServiceSection {
-  heading: string
-  tagline?: string
-  content?: string
-  benefits?: string[]
-  visual?: Display
-  cta?: string
-  theme?: 'default' | 'process' | 'overview' | 'options'
+```typescript
+/**
+ * Base service page data structure
+ */
+interface ServicePageData {
+  // Navigation
+  breadcrumbs: BreadcrumbItem[]
+
+  // Hero Section
+  hero: {
+    title: string
+    subtitle: string
+    colorScheme: ColorScheme
+  }
+
+  // Tab System (optional)
+  tabs?: TabConfig[]
+
+  // Benefits Section
+  benefits: BenefitItem[]
+  expertiseBadge: ExpertiseBadge
+
+  // What I Offer / How It Works
+  whatIOffer: string[]
+  howItWorks: string[]
+
+  // Portfolio
+  portfolio: PortfolioSection
+
+  // CTA Section
+  cta: {
+    title: string
+    subtitle: string
+    buttonText: string
+  }
 }
 ```
 
+**Service-specific extensions:**
+
+Each service extends `ServicePageData` with custom fields:
+
+- `IntegrationServiceData` - Adds `integrationDiagrams` (accounting, fulfillment, marketplace)
+- `TechAdminServiceData` - Adds `timelineSteps` for support process
+- `AIEnablementServiceData` - Adds `tabContent` for workflow/training/implementation comparisons
+- `CloudConsultingServiceData` - Adds `cloudJourneys` (strategy, migration, optimization)
+- `EcommerceOpsServiceData` - Adds `tabContent` for order routing/inventory/product data
+- `WebDesignServiceData` - Adds `designProcess`, `platforms`, `migrationSteps`
+
 ### Tech Data Structure
+
+The tech expertise structure is defined in `/src/types/tech.ts`:
 
 ```typescript
 interface TechContent {
@@ -302,47 +368,14 @@ interface TechContent {
   categories: Category[]
 }
 
-interface Expertise {
+interface ServiceCard {
+  name: string
   title: string
-  subtitle: string
-  skillTags: string[]
-  intro: string
-  sections: Topic[]
+  tagline: string
+  description: string
+  route: string
+  thumbnail: string
 }
-```
-
-### Theme System
-
-**Decision:** Use component-based themes instead of conditional rendering.
-
-**Rationale:**
-
-- Each section can specify a `theme` property
-- Theme components are self-contained
-- Easy to add new themes without modifying parent components
-- Clean separation of layout logic
-
-**Available Themes:**
-
-- `default` - Standard layout with stats, benefits, visuals
-- `process` - Workflow visualization (boxed, boxed-inline, timeline)
-- `overview` - Data-driven overview with stats and features
-- `options` - Side-by-side option cards
-
-**Implementation:**
-
-```javascript
-const themeComponents: Record<string, Component> = {
-  default: DefaultTheme,
-  process: ProcessTheme,
-  overview: OverviewTheme,
-  options: OptionsTheme
-}
-
-const currentTheme = computed(() => {
-  const theme = section.value?.theme || 'default'
-  return themeComponents[theme] || DefaultTheme
-})
 ```
 
 ## Styling Architecture
@@ -358,7 +391,7 @@ const currentTheme = computed(() => {
 
 - Navigation logo and "Hire Me" button adapt to page context
 - All components support `color-scheme` or `color` prop
-- Consistent color abstraction across all 31 components
+- Consistent color abstraction across all 42 components
 
 **Color Implementation:**
 
@@ -450,8 +483,7 @@ defineEmits<{
 
 **Current Composables:**
 
-- `useServiceData()` - Service data loading and caching
-- `useServiceConfig()` - Service card configuration
+- `useServiceConfig()` - Service card configuration and data access
 - `useMeta()` - SEO meta tag management
 
 ## Build Configuration
@@ -476,15 +508,49 @@ defineEmits<{
 **Type checking:** Separate process via `vue-tsc --build`
 **Build process:** Type check + Vite build
 
+## Application Constants
+
+Application-wide constants are centralized in `/src/constants/index.ts` following Vue best practices.
+
+**Available constants:**
+
+```typescript
+import { SCHEDULING_LINK, CONTACT, SITE } from '@/constants'
+
+// Scheduling and contact links
+SCHEDULING_LINK // Google Calendar appointment link
+
+// Contact information
+CONTACT.email // matt@idevelop.tech
+CONTACT.location // Florida, USA
+CONTACT.linkedin // LinkedIn profile URL
+CONTACT.github // GitHub profile URL
+
+// Site configuration
+SITE.name // idevelop.tech
+SITE.url // https://idevelop.tech
+SITE.companyName // I Develop Tech LLC
+SITE.repository // GitHub repository URL
+SITE.ogImage // Open Graph image URL
+```
+
+**Benefits:**
+
+- Single source of truth for shared values
+- Easy to update links/values across entire application
+- Type-safe with TypeScript
+- Better maintainability and consistency
+
 ## Key Architectural Principles
 
-1. **Component Reusability:** If a pattern appears 2-3+ times, extract it into a component
+1. **Component Reusability:** If a pattern appears 2-3+ times, extract it into a component (see `/docs/COMPONENT-RULES.md`)
 2. **Type Safety:** TypeScript interfaces for all data structures and component props
 3. **Data-Driven Design:** Components render based on data structure, not hardcoded content
-4. **Progressive Enhancement:** Start simple, add complexity only when needed
-5. **Separation of Concerns:** Content (JSON), presentation (Vue), styling (Tailwind)
+4. **TypeScript Data Files:** Migrated from JSON to TypeScript for compile-time type checking
+5. **Separation of Concerns:** Content (TypeScript data), presentation (Vue), styling (Tailwind)
 6. **Color Abstraction:** All components support dual color schemes (cyan/emerald)
 7. **Folder Organization:** Components categorized by functionality (elements, cards, ui, etc.)
+8. **Centralized Constants:** Application-wide values in `/src/constants/index.ts`
 
 ## Future Considerations
 
@@ -501,12 +567,17 @@ defineEmits<{
 
 ### Performance Optimizations
 
-**Potential improvements:**
+**Already Implemented:**
 
-- Code splitting by route
-- Lazy loading for theme components
-- Image optimization pipeline
-- Bundle size analysis
+- Code splitting by route (all routes use dynamic imports)
+- Lazy loading for all views
+
+**Potential future improvements:**
+
+- Image optimization pipeline (WebP conversion, responsive images)
+- Bundle size analysis and optimization
+- Component-level code splitting for large components
+- Service Worker for caching
 
 ### Mobile Optimizations
 
@@ -521,8 +592,7 @@ defineEmits<{
 
 - **[COMPONENTS.md](./COMPONENTS.md)** - Complete component catalog
 - **[COMPONENT-RULES.md](./COMPONENT-RULES.md)** - Component creation guidelines
-- **[THEMES.md](./THEMES.md)** - Theme system documentation
-- **[DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)** - Design patterns and styling
+- **[DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md)** - Design patterns, styling, and responsive strategy
 - **[DATA-STRUCTURE.md](./DATA-STRUCTURE.md)** - Detailed data schema
 - **[IMPLEMENTATION-STATUS.md](./IMPLEMENTATION-STATUS.md)** - Current status
 - **[CLAUDE.md](../CLAUDE.md)** - Project instructions for AI assistance

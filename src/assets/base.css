@@ -57,6 +57,11 @@
   font-weight: normal;
 }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   min-height: 100vh;
   color: var(--color-text);
@@ -82,4 +87,6 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
 }

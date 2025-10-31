@@ -2,19 +2,326 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Overview
+---
 
-This is a portfolio website project for idevelop.tech featuring services and technical expertise showcase. The site displays 6 service offerings and professional experience across 6 technical domains.
+## 📝 Documentation Principles
 
-## Tech Stack
+When writing or updating documentation in this repository:
 
-- Vue.js 3 with Composition API
-- TypeScript for type safety
-- Vue Router for navigation
-- Tailwind CSS for styling
-- JSON-based content structure
+- **Be concise** - Get to the point quickly, avoid verbose explanations
+- **🔴 Use visual icons for critical rules** - Important warnings should stand out visually
+- **Stay on subject** - Document rules, not examples that add maintenance burden
+- **Avoid summary information** - No component counts, file counts, or statistics that require updates
+- **No version histories** - Source control handles change tracking
+- **No changelogs** - Git commit history is the source of truth
+- **Focus on principles over specifics** - Document "how to think" not "what exists"
 
-## Color Scheme Strategy
+---
+
+## Quick Reference Card
+
+**At-a-glance project summary:**
+
+- **Tech Stack**: Vue 3 (Composition API) + TypeScript + Vue Router + Tailwind CSS
+- **Color Schemes**: Cyan/Purple (services/business) | Emerald (tech/experience)
+
+---
+
+## Documentation Reference Key
+
+**Quick lookup: When you need to... → Reference this doc**
+
+| What You Need                                | Documentation File                      |
+| -------------------------------------------- | --------------------------------------- |
+| Create/modify components                     | `/docs/COMPONENT-RULES.md` ⚠️ MANDATORY |
+| Find existing components                     | `/docs/COMPONENTS.md`                   |
+| Apply styles, colors, typography, responsive | `/docs/DESIGN-SYSTEM.md`                |
+| Work with service/tech data                  | `/docs/DATA-STRUCTURE.md`               |
+| Understand system architecture               | `/docs/ARCHITECTURE.md`                 |
+| Check current project status                 | `/docs/IMPLEMENTATION-STATUS.md`        |
+| Review configuration setup                   | `/docs/CONFIGURATION.md`                |
+
+---
+
+## MANDATORY RULES
+
+### 🔴 CRITICAL: Session Start Rules
+
+**Execute these steps when you first start working:**
+
+1. **Check for multiple dev servers**: Only ONE `npm run dev` should run at a time
+   ```bash
+   ps aux | grep "npm run dev" | grep -v grep
+   ```
+2. **Kill extra servers**: Use `KillShell` tool with shell IDs from system reminders
+3. **Review git status**: Check current branch and staged/unstaged changes
+4. **Check dev server output**: Look for any startup errors or warnings
+
+**Why this matters**: Multiple servers waste resources and cause port conflicts. Clean environment = reliable development.
+
+---
+
+### 🔴 CRITICAL: After Every Code Change
+
+**Execute these steps after ANY file modification:**
+
+1. **Type check**: Run `npm run type-check`
+   - Must pass with 0 errors
+   - Fix any type errors before proceeding
+2. **Format code**: Run `npm run format`
+   - Ensures consistency with user's "format on save" IDE setting
+   - Prevents unnecessary git diffs
+3. **Test in browser**: Check dev server output for changes
+   - Verify no console errors or warnings
+   - Check affected pages still render correctly
+4. **Verify changes**: Quick visual check if UI was modified
+   - Look for layout issues, styling problems, broken interactions
+
+**Why this matters**: The user has "format on save" enabled. If you don't format, your changes create unnecessary diffs when they save, causing confusion in source control.
+
+---
+
+### 🔴 CRITICAL: Before Completing Any Task
+
+**Final checklist before marking work complete:**
+
+- [ ] All type checks pass (`npm run type-check` shows 0 errors)
+- [ ] All modified files formatted (`npm run format` executed)
+- [ ] No console errors in browser dev tools
+- [ ] Changes tested at relevant breakpoints (mobile 320px, tablet 768px, desktop 1024px+)
+- [ ] Git status reviewed - no unintended file changes
+- [ ] Documentation updated if architecture changed
+
+**Why this matters**: Incomplete work causes downstream issues. Always deliver fully-tested, production-ready code.
+
+---
+
+### When Writing Vue Code
+
+**Vue 3 development standards:**
+
+- ✅ **Use Composition API** (not Options API)
+- ✅ **Use `<script setup lang="ts">` syntax** for all components
+- ✅ **Import types** from `/src/types/` (organized: shared/ subfolder + flat domain types)
+- ✅ **Follow existing component patterns** for props, emits, and composables
+- ✅ **Support dual color scheme** via props (`colorScheme` or `color`)
+- ✅ **Use TypeScript interfaces** for all props (no implicit types)
+- ✅ **Leverage Vue 3 features**: `defineProps`, `defineEmits`, `withDefaults`
+
+**References**:
+
+- `/docs/COMPONENT-RULES.md` - Component structure and patterns
+- `/docs/DESIGN-SYSTEM.md` - Color schemes, design tokens, and responsive patterns
+
+---
+
+### When Creating/Modifying Components
+
+**⚠️ MANDATORY: The 2-3 Pattern Rule**
+
+**If you create the same UI pattern 2-3+ times, you MUST extract it into a reusable component.**
+
+**Component creation workflow:**
+
+1. **Check existing components first**: Review `/docs/COMPONENTS.md` catalog
+2. **Apply the pattern rule**:
+   - See duplicated pattern? → Create a component
+   - Writing similar code 2-3 times? → Stop and componentize it
+   - Copying/pasting UI elements? → Extract to a component first
+3. **Organize correctly**: Place in appropriate folder
+   - `elements/` - Basic UI building blocks (buttons, badges, utilities)
+   - `cards/` - Card-based components
+   - `ui/` - Complex UI components (panels, sections, navigation)
+   - `display/` - Data display components (timelines, charts)
+   - `layout/` - Global layout components (Navigation, Footer)
+   - `integration/` - Integration-specific visualizations
+4. **Support dual theming**: Add `colorScheme` or `color` prop
+   - `cyan` for services/business pages
+   - `emerald` for tech/experience pages
+5. **Document it**: Add to `/docs/COMPONENTS.md` catalog after creation
+
+**References**:
+
+- `/docs/COMPONENT-RULES.md` ⚠️ **MANDATORY READ** - Complete component creation process
+- `/docs/COMPONENTS.md` - Full catalog of existing components
+
+**This rule applies to all developers and AI assistants. No exceptions.**
+
+---
+
+### When Styling Components
+
+**Design system compliance:**
+
+- ✅ **Use Tailwind CSS utility classes** (no custom CSS unless absolutely necessary)
+- ✅ **Follow color scheme strategy**:
+  - Services/Business pages: `cyan-400`, `cyan-500`, `purple-400`, `purple-500`
+  - Tech/Experience pages: `emerald-400`, `emerald-500`
+- ✅ **Use responsive font scale**:
+  - Headers: `text-3xl md:text-4xl`, `text-lg md:text-xl`
+  - Body: `text-xs md:text-sm lg:text-base`
+- ✅ **Follow spacing scale**: 4, 6, 8, 12, 16, 24, 32, 48 (Tailwind spacing units)
+- ✅ **Use gradient patterns from design system**:
+  - Primary: `from-cyan-400 via-cyan-300 to-purple-400`
+  - Background: `from-cyan-500/10 via-purple-500/10 to-cyan-500/10`
+  - Button: `from-cyan-500 to-purple-500`
+- ✅ **Background colors**: `bg-[#0a0a0a]` (primary), `bg-[#0f0f0f]` (cards), `bg-[#1a1a1a]` (elevated)
+
+**References**:
+
+- `/docs/DESIGN-SYSTEM.md` - Complete color palette, typography, spacing, gradients, and responsive design
+
+---
+
+### When Handling Responsive Design
+
+**Mobile-first breakpoint strategy:**
+
+- ✅ **Base styles target 320px** (mobile-first)
+- ✅ **Breakpoints**:
+  - `md:` = 768px (tablet)
+  - `lg:` = 1024px (desktop)
+  - `xl:` = 1440px (large desktop)
+- ✅ **Test all breakpoints** when changing layouts
+- ✅ **Use responsive components**:
+  - `PanelContent` / `PanelSidebar` for mobile/desktop panel layouts
+  - `ServiceSection` with responsive variants
+- ✅ **Progressive enhancement**: Start mobile, layer up complexity
+
+**References**:
+
+- `/docs/DESIGN-SYSTEM.md` - Complete responsive design strategy, typography, and spacing scales
+
+---
+
+### When Working with Data
+
+**Data structure and content rules:**
+
+- ✅ **Service data**: TypeScript files in `/src/data/services/*.ts`
+  - Follow `ServicePageData` type from `/src/types/servicePage.ts`
+- ✅ **Tech data**: JSON file `/src/data/tech.json`
+  - Follow `TechContent` type from `/src/types/tech.ts`
+- ✅ **Use constants from `/src/constants/index.ts`**:
+  - Never hardcode: URLs, contact info, site config, scheduling links
+  - Import: `SCHEDULING_LINK`, `CONTACT`, `SITE`
+- ✅ **File naming**: kebab-case for data files (e.g., `ai-enablement.ts`)
+
+**References**:
+
+- `/docs/DATA-STRUCTURE.md` - Complete type schemas and data organization
+- `/src/constants/index.ts` - Application-wide constants
+
+---
+
+### When Adding Images
+
+**Image attribution workflow:**
+
+1. **Place image**: Add to appropriate `/public` subdirectory
+2. **Check attribution requirement**: If from Unsplash or third-party, attribution is MANDATORY
+3. **Update AttributionsView**: Add new `AttributionCard` to `/src/views/AttributionsView.vue`
+   - Include: service/page name, image preview, description, photographer name + Unsplash link
+4. **Follow existing pattern**: Use grid layout with consistent card structure
+
+**Why this matters**: Legal compliance and proper credit to photographers.
+
+---
+
+### When Creating Service Pages
+
+**Service detail page workflow:**
+
+1. **Create data file**: `/src/data/services/{service-name}.ts`
+   - Export `ServicePageData` object
+   - Follow type schema from `/src/types/servicePage.ts`
+2. **Create view component**: `/src/views/services/{ServiceName}ServiceView.vue`
+   - Use `ServiceSection` component with `variant` prop (hero/benefits/process/portfolio/testimonials)
+   - Add `BreadcrumbNav` for navigation
+   - Support mobile/desktop responsive layouts
+3. **Add route**: Update `/src/router/index.ts` with new route
+   - Path: `/services/{service-name}`
+   - Component: lazy-loaded view
+4. **Update service config**: Add to service list if needed
+
+**References**:
+
+- `/docs/DATA-STRUCTURE.md` - Service data type schemas
+- `/docs/COMPONENTS.md` - ServiceSection component documentation
+
+---
+
+### When Using Git/Creating Commits
+
+**Version control workflow:**
+
+- ✅ **NEVER commit without user explicitly requesting**
+- ✅ **Review before committing**: Run `git status` and `git diff` in parallel
+- ✅ **Check recent commits**: Run `git log` to match commit message style
+- ✅ **Follow commit format**:
+
+  ```
+  Concise description of changes (focus on "why" not "what")
+
+  🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+  Co-Authored-By: Claude <noreply@anthropic.com>
+  ```
+
+- ✅ **Use HEREDOC for commit messages**: Ensures proper formatting
+- ❌ **NEVER use --no-verify or skip hooks**
+- ❌ **NEVER force push to main/master**
+- ❌ **NEVER amend commits from other developers**
+
+**Pre-commit hook workflow:**
+
+1. If commit fails due to pre-commit hook changes, verify it's safe to amend:
+   - Check authorship: `git log -1 --format='%an %ae'`
+   - Check not pushed: `git status` shows "Your branch is ahead"
+2. If both true: amend the commit. Otherwise: create NEW commit.
+
+---
+
+### When Creating Pull Requests
+
+**PR creation workflow:**
+
+1. **Gather context**: Run in parallel:
+   - `git status` - See all untracked files
+   - `git diff` - See staged and unstaged changes
+   - `git log` + `git diff [base-branch]...HEAD` - Full commit history since branch diverged
+2. **Analyze changes**: Review ALL commits that will be included (not just latest)
+3. **Push if needed**: Use `-u` flag for new branches
+4. **Create PR**: Use `gh pr create` with HEREDOC for body:
+
+   ```bash
+   gh pr create --title "PR title" --body "$(cat <<'EOF'
+   ## Summary
+   - Bullet point summary
+
+   ## Test plan
+   - [ ] Testing checklist
+
+   🤖 Generated with [Claude Code](https://claude.com/claude-code)
+   EOF
+   )"
+   ```
+
+5. **Return PR URL**: Show user the created PR link
+
+---
+
+## Project Architecture
+
+### Tech Stack
+
+- **Vue.js 3** with Composition API (`<script setup>`)
+- **TypeScript** for type safety
+- **Vue Router** for navigation with custom scroll behavior
+- **Tailwind CSS** for styling
+- **JSON/TypeScript** for content structure
+
+### Color Scheme Strategy
 
 The site uses a **dual color scheme** that switches contextually:
 
@@ -22,381 +329,185 @@ The site uses a **dual color scheme** that switches contextually:
 - **Tech/Experience Pages** (Tech domain pages): Emerald green (`emerald-400`, `emerald-500`) theme
 - **Dynamic Elements**: Logo and "Hire Me" button adapt to page context (cyan → emerald on Tech pages)
 
-**When creating components or content:**
+All components support `colorScheme` or `color` prop for dual theming.
 
-- Use `cyan` variants for Services/business-related content
-- Use `emerald` variants for Tech/technical-related content
-- All 31 components support `colorScheme` or `color` prop for dual theming
-- See DESIGN-SYSTEM.md for complete color palette documentation
+**Reference**: `/docs/DESIGN-SYSTEM.md` for complete color palette documentation.
 
-## Content Architecture
+---
 
-Content is organized in JSON files within the `/src/data` directory:
+### File Structure
+
+```
+/src/
+├── components/           # Reusable components
+│   ├── elements/        # Basic UI building blocks
+│   │   ├── buttons/     # Button components
+│   │   ├── badges/      # Badge components
+│   │   └── interactive/ # Interactive elements
+│   ├── cards/           # Card-based components
+│   ├── ui/              # Complex UI components
+│   ├── integration/     # Integration-specific components
+│   ├── display/         # Data display components
+│   └── layout/          # Global layout components
+├── views/               # Page-level components
+│   ├── services/        # Service detail views
+│   └── [other views]    # General views
+├── data/                # Content data files
+│   ├── services/        # Service data files
+│   ├── services.json    # Service configuration
+│   └── tech.json        # Technical expertise domains
+├── types/               # TypeScript type definitions
+│   ├── shared/          # Shared types
+│   └── [domain types]   # Domain-specific types
+├── constants/           # Application-wide constants
+│   └── index.ts         # SCHEDULING_LINK, CONTACT, SITE
+└── router/              # Vue Router configuration
+    └── index.ts         # Route definitions and scroll behavior
+```
+
+**Reference**: `/docs/ARCHITECTURE.md` for detailed architecture documentation.
+
+---
+
+### URL Structure & Routes
+
+```
+/                       # HomeView - Service cards grid
+/services/{name}        # Service detail pages
+/hire-me                # HireMeView - Contact and hiring info
+/tech                   # TechView - Technical expertise browser
+/components             # ComponentView - Design system showcase
+/attributions           # AttributionsView - Image credits
+```
+
+**Reference**: `/docs/COMPONENTS.md` for component catalog.
+
+---
 
 ### Data Organization
 
 ```
 /src/data/
-├── services/                  # Individual service files (6 files)
-│   ├── tech-admin.json
-│   ├── integration.json
-│   ├── ai-enablement.json
-│   ├── ecommerce-ops.json
-│   ├── web-design.json
-│   └── cloud-consulting.json
-├── services.json              # Service configuration/metadata
-└── tech.json                  # All technical expertise domains
+├── services/        # Individual service TypeScript files
+├── services.json    # Service configuration/metadata
+└── tech.json        # Technical expertise domains
 ```
 
-### URL Structure
-
-```
-/                                  # Home (HomeView - service cards grid)
-/services/:serviceId               # ServiceView (individual service details)
-/hire-me                           # HireMeView (contact and hiring info)
-/tech                              # TechView (technical expertise browser with all domains)
-/components                        # ComponentView (design system showcase)
-/attributions                      # AttributionsView (image credits)
-```
-
-## Content Statistics
-
-- **Services**: 6 service offerings (tech-admin, integration, ai-enablement, ecommerce-ops, web-design, cloud-consulting)
-- **Tech Domains**: 6 domains in tech.json (software, cloud, devops, data, security, leadership)
-- **Total Data Files**: 8 JSON files (6 service files + services.json + tech.json)
-- **Components**: 31 reusable components across 7 categories
-- **Views**: 6 page-level components
-
-## File Naming Convention
-
-- **Data files**: Lowercase with hyphens (kebab-case)
-  - Services: `/src/data/services/{service-name}.json`
-  - Tech: `/src/data/tech.json` (all domains in one file)
-  - Config: `/src/data/services.json`
-- **Components**: PascalCase (e.g., `TypewriterText.vue`, `ServiceCard.vue`, `PrimaryButton.vue`)
-- **Views**: PascalCase with "View" suffix (e.g., `HomeView.vue`, `TechView.vue`, `ServiceView.vue`, `ComponentView.vue`)
-
-## Component Architecture
-
-### Organization Structure
-
-Components are organized into 7 categories by functionality:
-
-```
-/src/components/
-├── elements/              # Basic UI building blocks (11 components)
-│   ├── buttons/          # PrimaryButton, SecondaryButton, OutlineButton, IconButton
-│   ├── badges/           # Badge, IconBadge
-│   ├── interactive/      # TypewriterText
-│   └── [utilities]       # CheckItem, ContactInfoItem, SocialIcon, LoadingSpinner
-├── cards/                # Card-based components (7 components)
-│   # ServiceCard, IconCard, ThinIconCard, InfoCard
-│   # TestimonialCard, PortfolioItem, AttributionCard
-├── ui/                   # Complex UI components (5 components)
-│   # PanelSidebar, PanelContent (responsive - handles mobile & desktop)
-│   # SectionClickable, SectionHeader, SelectableItem, ComponentShowcaseSection
-├── display/              # Data display components (1 component)
-│   # Timeline
-├── layout/               # Global layout components (2 components)
-│   # Navigation, Footer
-└── themes/               # Content theme components (5 components)
-    # DefaultTheme, OverviewTheme, ProcessTheme, OptionsTheme, TechTheme
-```
-
-**Total: 31 reusable components**
-
-## ⚠️ CRITICAL RULE: Component Creation (The 2-3 Pattern Rule)
-
-**MANDATORY**: If you create the same UI pattern 2-3+ times in this codebase, you **MUST** extract it into a reusable component.
-
-### Quick Reference:
-
-- **See duplicated pattern?** → Create a component
-- **Writing similar code 2-3 times?** → Stop and componentize it
-- **Copying/pasting UI elements?** → Extract to a component first
-
-### Documentation:
-
-- **Full component catalog**: See `/docs/COMPONENTS.md` for all 31 components organized by folder
-- **Component creation rules**: See `/docs/COMPONENT-RULES.md` for the complete process
-
-### Existing Reusable Components (31 Total):
-
-**Elements (11):**
-
-- Buttons: `PrimaryButton`, `SecondaryButton`, `OutlineButton`, `IconButton`
-- Badges: `Badge`, `IconBadge`
-- Interactive: `TypewriterText`
-- Utilities: `CheckItem`, `ContactInfoItem`, `SocialIcon`, `LoadingSpinner`
-
-**Cards (7):**
-
-- `ServiceCard`, `IconCard`, `ThinIconCard`, `InfoCard`
-- `TestimonialCard`, `PortfolioItem`, `AttributionCard`
-
-**UI Components (5):**
-
-- Panels: `PanelSidebar`, `PanelContent` (responsive - mobile & desktop)
-- Sections: `SectionClickable`, `SectionHeader`, `SelectableItem`
-- Showcase: `ComponentShowcaseSection`
-
-**Display (1):**
-
-- `Timeline`
-
-**Layout (2):**
-
-- `Navigation`, `Footer`
-
-**Themes (5):**
-
-- `DefaultTheme`, `OverviewTheme`, `ProcessTheme`, `OptionsTheme`, `TechTheme`
-
-### Full Component Rules:
-
-See `/docs/COMPONENT-RULES.md` for complete documentation including:
-
-- When to create components
-- Component creation checklist
-- Migration process
-- Testing requirements
-- Examples and patterns
-
-**This rule applies to all developers and AI assistants. No exceptions.**
-
-## Service Detail Theme System
-
-Service detail pages (`/services/:serviceId`) use a **dynamic theme component system** for customizing layouts:
-
-- Each service section can specify a `"theme"` property in its JSON data
-- Theme components live in `/src/components/themes/`
-- Add new themes by creating a component and registering it in `ServiceView.vue`
-- **No conditional logic needed** - themes are self-contained Vue components
-
-**Available Themes:**
-
-- `default` - Standard layout with stats, benefits, visuals, and CTA
-- `overview` - Data-driven overview with stats, whatIOffer, howItWorks sections
-- `process` - Workflow visualization with 3 style variants (boxed, boxed-inline, timeline)
-- `options` - Side-by-side option cards with neutral color rotation
-
-**Tech pages** use `TechTheme` automatically for displaying technical expertise content.
-
-**See `/docs/THEMES.md` for complete documentation on creating and using themes.**
-
-## Documentation
-
-Comprehensive project documentation is located in the `/docs` directory:
-
-- **COMPONENT-RULES.md** - ⚠️ **MANDATORY** Component creation rules (read this first!)
-- **COMPONENTS.md** - Complete catalog of all 31 components organized by folder
-- **THEMES.md** - Service detail theme system guide (how to create custom layouts)
-- **DESIGN-SYSTEM.md** - Complete design system including colors, typography, spacing, and component patterns
-- **RESPONSIVE-DESIGN.md** - Responsive design strategy, breakpoints, and mobile-first approach
-- **ARCHITECTURE.md** - System architecture, component organization, and technical decisions
-- **DATA-STRUCTURE.md** - Data models, JSON schemas, and content structure
-- **IMPLEMENTATION-STATUS.md** - Current implementation status, recent refactoring, and roadmap
-
-**When working on this project, consult these docs for:**
-
-- Component creation and reusability rules (MANDATORY - COMPONENT-RULES.md)
-- Component catalog and file locations (COMPONENTS.md)
-- Creating custom service detail layouts (THEMES.md)
-- Design patterns and component usage (DESIGN-SYSTEM.md)
-- Responsive breakpoint strategy (RESPONSIVE-DESIGN.md)
-- Typography and spacing scales (DESIGN-SYSTEM.md)
-- Color palette and gradients (DESIGN-SYSTEM.md)
-- Current codebase status (IMPLEMENTATION-STATUS.md)
-- Best practices and guidelines
-
-## Development Commands
-
-Common development commands:
-
-- `npm run dev` - Start development server at http://localhost:5173
-- `npm run build` - Build for production (includes type checking)
-- `npm run preview` - Preview production build locally
-- `npm run type-check` - Run TypeScript type checking
-- `npm run lint` - Run ESLint with auto-fix
-- `npm run format` - Format code with Prettier
-
-## ⚠️ CRITICAL: Always Format After Edits
-
-**MANDATORY for Claude Code**: After making ANY edits to files in this project, you **MUST** run:
-
-```bash
-npm run format
-```
-
-**Why this is critical:**
-
-- The user has "format on save" enabled in their IDE
-- If you don't format after edits, your changes will create unnecessary git diffs when the user saves
-- This causes confusion in source control and makes it harder to review actual changes
-- Running `npm run format` ensures your edits match the project's formatting standards
-
-**When to run it:**
-
-- After editing any `.vue`, `.ts`, `.js`, `.json`, or `.md` files
-- Before completing any task that involved file modifications
-- Always, without exception, after making edits
-
-**This applies to all file types in the project. No exceptions.**
-
-## Image Attribution Process
-
-All third-party images (especially from Unsplash) must be properly attributed on the `/attributions` page.
-
-**Quick Reference:**
-
-- When adding new images with attribution:
-  1. Add the image to the appropriate view/component
-  2. Update `/src/views/AttributionsView.vue` with a new `AttributionCard` containing:
-     - Service/page name
-     - Image preview
-     - Image description
-     - Full photographer attribution with Unsplash links
-  3. Follow the existing card pattern in the grid layout
-
-## Implementation Status
-
-### Completed Features
-
-**Views (6 total):**
-
-- **HomeView** (`/`) - Service cards grid with drill-down panels
-  - 6 services: Tech Admin, Integration, AI Enablement, eCommerce Ops, Web Design, Cloud Consulting
-  - Hero images with gradient overlays and hover effects
-  - Responsive stat boxes optimized for 320px-1440px+ widths
-  - URL-based service selection with preserved scroll position
-  - Mobile full-screen, desktop side-panel drill-down
-  - ✅ Fully componentized (uses ServiceCard, PrimaryButton, IconButton, IconBadge)
-
-- **ServiceView** (`/services/:serviceId`) - Individual service detail pages
-  - Dynamic theme system (5 themes available)
-  - Section navigation with clickable sidebar
-  - Portfolio items with client logos
-  - Client testimonials
-  - Mobile/desktop responsive layouts
-  - ✅ Fully componentized (uses theme components, SectionClickable, TestimonialCard, PortfolioItem, SectionHeader)
-
-- **TechView** (`/tech`) - Technical expertise browser
-  - All 6 domains from tech.json (software, cloud, devops, data, security, leadership)
-  - Sidebar navigation for categories and expertise topics
-  - Auto-selects first topic on desktop (1024px+)
-  - Emerald color scheme throughout
-  - ✅ Fully componentized (uses Badge, IconBadge, IconButton, PanelSidebar, PanelContent, TechTheme)
-
-- **HireMeView** (`/hire-me`) - Contact and hiring information
-  - Calendly integration with inline widget and loading spinner
-  - Sticky "Schedule a Call" button
-  - Contact info: email, location (Florida, USA), social links (LinkedIn, GitHub)
-  - About Me, Technical Achievements, and Leadership Experience sections
-  - Fixed panel layout with body scroll lock
-  - Navigation displays "Keep browsing" button (vs "Hire Me" on other pages)
-  - ✅ Fully componentized (uses SecondaryButton, IconBadge, InfoCard, ContactInfoItem, SocialIcon)
-
-- **ComponentView** (`/components`) - Design system showcase
-  - Refactored from 2,075 lines to 209 lines (89.9% reduction!)
-  - Extracted ShowcaseContent component to eliminate duplication
-  - ✅ All examples now use real components where applicable
-
-- **AttributionsView** (`/attributions`) - Image credits and photographer information
-  - Grid layout with image previews
-  - Proper Unsplash attribution links with photographer info
-  - Accessible from footer
-  - ✅ Uses AttributionCard component
-
-**Component Library:**
-
-- **31 reusable components** created and organized across 7 categories
-- All components support dual color scheme (cyan for services, emerald for tech)
-- 50+ instances migrated across multiple files
-- Significant code reduction through deduplication
-
-**Component Organization:**
-
-- Reorganized into folder structure: elements/, cards/, ui/, display/, layout/, themes/
-- Elements subfolder organization: buttons/, badges/, interactive/
-- Type system aligned with component structure
-
-**Infrastructure:**
-
-- Responsive Design System: Mobile-first approach with 320px, 768px, 1024px, 1440px breakpoints
-- Navigation: Global nav with mobile menu and dynamic theming
-- Footer: Site footer with social links, copyright, and navigation
-- Router: Vue Router with custom scroll behavior configuration
-- SEO: useMeta composable for dynamic meta tags, robots.txt, sitemap.xml
-
-**Data Structure:**
-
-- Services organized in `/src/data/services/` (6 individual files)
-- Tech domains consolidated in `/src/data/tech.json` (all 6 domains)
-- Service configuration in `/src/data/services.json`
-
-**Recent Major Refactoring:**
-
-- Component reorganization (7 categories, 31 components)
-- Type system reorganization (/types/shared/ + flat domain types)
-- View renaming (ServicesView → HomeView, etc.)
-- ServiceView extraction (4 new components created)
-- Documentation updates (all 6 major docs updated)
-
-**Documentation:**
-
-- ✅ Complete documentation suite (9 files)
-- ✅ COMPONENT-RULES.md with mandatory component creation guidelines
-- ✅ All docs updated to reflect current architecture
-
-### In Progress / TODO
-
-**Content:**
-
-- Service portfolio - Need real project examples
-- Case studies - Placeholder data needs details
-- Expanded expertise content
-
-**Design Polish:**
-
-- Loading states - Basic implementation, needs skeleton screens
-- Error states - Minimal error handling
-- Transition refinements
-
-**Future Enhancements:**
-
-- Analytics integration (Google Analytics, Plausible, etc.)
-- Performance optimization (image lazy loading, code splitting)
-- Testing (unit, integration, E2E, accessibility)
-- CI/CD pipeline and automated deployments
-- Production hosting setup
+**Reference**: `/docs/DATA-STRUCTURE.md` for complete type schemas and data structure.
 
 ---
 
-## Quick Reference
+## Development Environment
+
+### Development Commands
+
+```bash
+npm run dev          # Start development server at http://localhost:5173
+npm run build        # Build for production (includes type checking)
+npm run preview      # Preview production build locally
+npm run type-check   # Run TypeScript type checking
+npm run lint         # Run ESLint with auto-fix
+npm run format       # Format code with Prettier
+```
+
+### Environment Management
+
+**Development server rules:**
+
+- ✅ Only ONE `npm run dev` server should run at a time
+- ✅ Check for running servers: `ps aux | grep "npm run dev" | grep -v grep`
+- ✅ Kill extras with `KillShell` tool (use shell IDs from system reminders)
+- ✅ Check at start of each session for background processes
+
+**Why this matters**: Multiple servers waste resources and cause port conflicts.
+
+---
+
+## Content Management
+
+### Adding New Content
+
+**Quick reference workflows:**
 
 **Adding a new service:**
 
-1. Create JSON file in `/src/data/services/{service-name}.json`
-2. Follow `ServiceContent` schema (see DATA-STRUCTURE.md)
-3. Add service config to `useServiceConfig.ts`
-4. Service appears automatically in HomeView
+1. Create TypeScript data file: `/src/data/services/{service-name}.ts`
+2. Export `ServicePageData` object (follow schema from `/src/types/servicePage.ts`)
+3. Create view component: `/src/views/services/{ServiceName}ServiceView.vue`
+4. Add route to `/src/router/index.ts`
+5. Service appears automatically in HomeView
 
 **Adding tech expertise:**
 
 1. Edit `/src/data/tech.json`
 2. Add to appropriate domain's categories array
-3. Follow `TechContent` schema (see DATA-STRUCTURE.md)
+3. Follow `TechContent` schema (see `/docs/DATA-STRUCTURE.md`)
 
 **Creating a component:**
 
-1. Check if pattern appears 2-3+ times (MANDATORY - see COMPONENT-RULES.md)
+1. Check if pattern appears 2-3+ times (MANDATORY - see `/docs/COMPONENT-RULES.md`)
 2. Create in appropriate `/src/components/` subfolder
-3. Support dual color scheme (cyan/emerald)
-4. Add to COMPONENTS.md catalog
+3. Support dual color scheme (cyan/emerald) via props
+4. Add to `/docs/COMPONENTS.md` catalog
 
-**Creating a theme:**
+---
 
-1. Create component in `/src/components/themes/`
-2. Register in ServiceView theme registry
-3. Use in service JSON with `"theme": "your-theme-name"`
-4. See THEMES.md for detailed guide
+## Application Constants
+
+Application-wide constants are centralized in `/src/constants/index.ts` following Vue best practices.
+
+**Available constants:**
+
+```typescript
+import { SCHEDULING_LINK, CONTACT, SITE } from '@/constants'
+
+// Scheduling and contact links
+SCHEDULING_LINK // Google Calendar appointment link
+
+// Contact information
+CONTACT.email // matt@idevelop.tech
+CONTACT.location // Florida, USA
+CONTACT.linkedin // https://www.linkedin.com/in/matt-lucian/
+CONTACT.github // https://github.com/mattlucian
+
+// Site configuration
+SITE.name // idevelop.tech
+SITE.url // https://idevelop.tech
+SITE.companyName // I Develop Tech LLC
+SITE.repository // https://github.com/mattlucian/idevelop.tech
+SITE.ogImage // https://idevelop.tech/images/brand/og-image.png
+```
+
+**When to use constants:**
+
+- External URLs used in multiple places (scheduling links, social media, etc.)
+- Configuration values that might change across environments
+- Repeated literal values that should be centralized
+
+**Benefits:**
+
+- Single source of truth for shared values
+- Easy to update links/values across entire application
+- Type-safe with TypeScript
+- Better maintainability and consistency
+
+---
+
+## File Naming Conventions
+
+- **Data files**: Lowercase with hyphens (kebab-case)
+  - Services: `/src/data/services/{service-name}.ts`
+  - Tech: `/src/data/tech.json` (all domains in one file)
+  - Config: `/src/data/services.json`
+- **Components**: PascalCase (e.g., `TypewriterText.vue`, `ServiceCard.vue`, `PrimaryButton.vue`)
+- **Views**: PascalCase with "View" suffix (e.g., `HomeView.vue`, `TechView.vue`, `IntegrationServiceView.vue`)
+  - Service views are in `/src/views/services/` subdirectory
+- **Constants**: Located in `/src/constants/index.ts`
+
+---
+
+## Project Overview
+
+This is a portfolio website project for idevelop.tech featuring services and technical expertise showcase.
+
+**Reference**: `/docs/ARCHITECTURE.md` for complete system architecture and technical decisions.

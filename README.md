@@ -1,66 +1,56 @@
 # idevelop.tech
 
-A modern portfolio website showcasing technical expertise across multiple domains, built with Vue.js 3, TypeScript, and Tailwind CSS.
+Portfolio website showcasing technical services and expertise. Built with Vue 3 (Composition API), TypeScript, and Tailwind CSS.
+
+**Tech Stack**: Vue 3 + TypeScript + Vue Router + Tailwind CSS
+**Color Schemes**: Cyan/Purple (services/business) | Emerald (tech/experience)
 
 ---
 
 ## Quick Start
 
-### Prerequisites
-
-- Node.js 20.19.0+ or 22.12.0+
-- npm (comes with Node.js)
-
-### Installation & Development
-
 ```sh
 npm install
-npm run dev
+npm run dev          # Dev server at http://localhost:5173
 ```
 
-Visit http://localhost:5173 to view the site.
-
-### Build for Production
+**Development Commands:**
 
 ```sh
-npm run build
-npm run preview      # Preview production build locally
+npm run build        # Build for production (includes type checking)
+npm run preview      # Preview production build
+npm run type-check   # TypeScript type checking
+npm run lint         # ESLint with auto-fix
+npm run format       # Format with Prettier
 ```
 
-### Other Commands
-
-```sh
-npm run type-check   # Run TypeScript type checking
-npm run lint         # Lint and auto-fix code
-npm run format       # Format code with Prettier
-```
+**Prerequisites**: Node.js 20.19.0+ or 22.12.0+
 
 ---
 
 ## Documentation
 
-Comprehensive project documentation is located in the `/docs` directory:
+**Quick Reference: When you need to... → Reference this doc**
 
-| Document                                                      | Purpose                                                           |
-| ------------------------------------------------------------- | ----------------------------------------------------------------- |
-| **[ARCHITECTURE.md](docs/ARCHITECTURE.md)**                   | Technical stack, application structure, routing, state management |
-| **[DATA-STRUCTURE.md](docs/DATA-STRUCTURE.md)**               | JSON schemas, content hierarchy, type definitions                 |
-| **[DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md)**                 | Colors, typography, spacing, animation guidelines                 |
-| **[COMPONENTS.md](docs/COMPONENTS.md)**                       | Component library catalog with usage examples                     |
-| **[THEMES.md](docs/THEMES.md)**                               | Service detail theme system - creating custom layouts             |
-| **[RESPONSIVE-DESIGN.md](docs/RESPONSIVE-DESIGN.md)**         | Breakpoint strategy, mobile-first patterns, testing checklist     |
-| **[CONFIGURATION.md](docs/CONFIGURATION.md)**                 | Configuration files reference and modification guide              |
-| **[IMPLEMENTATION-STATUS.md](docs/IMPLEMENTATION-STATUS.md)** | Completed features, roadmap, TODOs                                |
+| What You Need                                | Documentation File          |
+| -------------------------------------------- | --------------------------- |
+| Create/modify components                     | [COMPONENT-RULES.md][rules] |
+| Find existing components                     | [COMPONENTS.md][comps]      |
+| Apply styles, colors, typography, responsive | [DESIGN-SYSTEM.md][design]  |
+| Work with service/tech data                  | [DATA-STRUCTURE.md][data]   |
+| Understand system architecture               | [ARCHITECTURE.md][arch]     |
+| Check current project status                 | [STATUS.md][status]         |
+| Review configuration setup                   | [CONFIGURATION.md][config]  |
 
-### When to Use Each Document
+[rules]: docs/COMPONENT-RULES.md
+[comps]: docs/COMPONENTS.md
+[design]: docs/DESIGN-SYSTEM.md
+[data]: docs/DATA-STRUCTURE.md
+[arch]: docs/ARCHITECTURE.md
+[status]: docs/IMPLEMENTATION-STATUS.md
+[config]: docs/CONFIGURATION.md
 
-**Building features?** → ARCHITECTURE.md, COMPONENTS.md
-**Styling components?** → DESIGN-SYSTEM.md, RESPONSIVE-DESIGN.md
-**Managing content?** → DATA-STRUCTURE.md
-**Customizing service layouts?** → THEMES.md
-**Modifying configs?** → CONFIGURATION.md
-**Tracking progress?** → IMPLEMENTATION-STATUS.md
-**Adding images?** → Update `/src/views/AttributionsView.vue` with attribution card
+See [CLAUDE.md](CLAUDE.md) for AI assistant instructions and complete development workflow.
 
 ---
 
@@ -68,81 +58,106 @@ Comprehensive project documentation is located in the `/docs` directory:
 
 ```
 /src
-  /components            # Reusable Vue components
-  /views                 # Page-level components
-  /data
-    /services            # Individual service files (6 files)
-    services.json        # Service configuration/metadata
-    tech.json            # All technical expertise domains
-  /types                 # TypeScript type definitions
-  /composables           # Vue composables
-  /router                # Vue Router configuration
-/public                  # Static assets
-  /images
-    /brand               # idevelop.tech logos and favicons
-    /partners            # Client/partner logos
-/docs                    # Project documentation
+  /components          # Reusable Vue components (elements/, cards/, ui/, layout/)
+  /views              # Page-level components
+    /services/        # Service detail views
+  /data               # Content data (TypeScript + JSON)
+    /services/        # Service TypeScript files
+  /types              # TypeScript type definitions
+    /shared/          # Shared types
+  /constants          # Application-wide constants (URLs, contact info, site config)
+  /composables        # Vue composables
+  /router             # Vue Router configuration
+/public               # Static assets
+  /images            # Brand assets and images
+/docs                 # Project documentation
 ```
+
+See [ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed architecture and technical decisions.
+
+---
+
+## Common Tasks
+
+**Add a new service:**
+
+1. Create data file: `/src/data/services/{service-name}.ts` (export `ServicePageData`)
+2. Create view: `/src/views/services/{ServiceName}ServiceView.vue`
+3. Add route to `/src/router/index.ts`
+
+See [DATA-STRUCTURE.md](docs/DATA-STRUCTURE.md) for type schemas.
+
+**Add tech expertise:**
+
+1. Edit `/src/data/tech.ts`
+2. Add to appropriate domain's categories array
+
+**Create a component:**
+
+1. Check [COMPONENTS.md](docs/COMPONENTS.md) for existing components
+2. Follow the 2-3 pattern rule (see [COMPONENT-RULES.md](docs/COMPONENT-RULES.md))
+3. Support dual color scheme (cyan/emerald) via props
+4. Document in COMPONENTS.md
+
+**Add images with attribution:**
+
+1. Place in `/public/images/`
+2. Add attribution card to `/src/views/AttributionsView.vue`
+
+---
+
+## Application Constants
+
+Centralized in `/src/constants/index.ts`:
+
+```typescript
+import { SCHEDULING_LINK, CONTACT, SITE } from '@/constants'
+```
+
+**Updating URLs/contact info:**
+
+- Update `/src/constants/index.ts` (auto-updates all Vue components)
+- Manually update static files:
+  - `/index.html` - Meta tags, JSON-LD structured data
+  - `/public/robots.txt` - Sitemap URL
+  - `/public/sitemap.xml` - All URL locations
 
 ---
 
 ## Development Workflow
 
-### Adding New Content
+**Before starting work:**
 
-**Services:** Create JSON in `/src/data/services/`, follow `ServiceContent` schema
-**Tech Domains:** Edit `tech.json` to add domains, categories, or expertise following `TechContent` schema
-**Images:** Place in `/public/images/brand/` or `/public/images/partners/` as appropriate
+- Check for multiple dev servers: `ps aux | grep "npm run dev" | grep -v grep`
+- Kill extras if needed (only ONE server should run)
 
-See [DATA-STRUCTURE.md](docs/DATA-STRUCTURE.md) for complete schemas and examples.
+**After every code change:**
 
-### Creating Components
+1. Run `npm run type-check` (must pass with 0 errors)
+2. Run `npm run format` (ensures consistency)
+3. Check browser console for errors
+4. Test responsive layouts (320px, 768px, 1024px+)
 
-1. Build component following patterns in [COMPONENTS.md](docs/COMPONENTS.md)
-2. Use design tokens from [DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md)
-3. Test responsively using breakpoints in [RESPONSIVE-DESIGN.md](docs/RESPONSIVE-DESIGN.md)
-4. Document usage with examples
+**Before committing:**
 
-### Updating Documentation
+- All type checks pass
+- All files formatted
+- No console errors
+- Documentation updated if needed
 
-When making changes that affect documentation:
-
-1. Update the relevant documentation file(s)
-2. Keep examples and code snippets accurate
-3. Update cross-references if file/component names change
-4. Test that all links still work
+See [CLAUDE.md](CLAUDE.md) for complete development workflow and mandatory rules.
 
 ---
 
 ## IDE Setup
 
-### Recommended IDE
+**Recommended**: [VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension
+**Important**: Disable Vetur (conflicts with Vue Official extension)
 
-**Important:** Disable Vetur if you have it installed, as it conflicts with Vue (Official)
+**Browser DevTools**:
 
-### Browser DevTools
+- [Vue.js devtools for Chrome/Edge/Brave](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
+- [Vue.js devtools for Firefox](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
 
-**Chromium (Chrome, Edge, Brave):**
-
-- [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-
-**Firefox:**
-
-- [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-
-### Type Support for `.vue` Files
-
-TypeScript cannot handle type information for `.vue` imports by default, so we use `vue-tsc` for type checking and Volar for IDE support.
-
----
-
-## Contributing
-
-When contributing to this project:
-
-- Follow existing patterns documented in `/docs`
-- Keep documentation in sync with code changes
-- Test responsive layouts at 320px, 768px, and 1024px+ widths
-- Run `npm run type-check` and `npm run lint` before committing
+**TypeScript Support**: Uses `vue-tsc` for type checking and Volar for IDE support

@@ -6,7 +6,7 @@
       <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
         <!-- Left: Copyright & Credit -->
         <div class="flex flex-col items-center sm:items-start gap-2 text-center sm:text-left">
-          <p class="text-sm text-gray-400">© 2025 I Develop Tech LLC</p>
+          <p class="text-sm text-gray-400">© 2025 {{ SITE.companyName }}</p>
           <p class="text-sm text-gray-500 flex items-center gap-1.5">
             Made with
             <span class="text-red-500 animate-pulse">❤️</span>
@@ -25,12 +25,20 @@
           <router-link to="/components" class="text-gray-400 hover:text-teal-400 transition-colors">
             Components
           </router-link>
+          <a
+            :href="SITE.repository"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-teal-400 transition-colors"
+          >
+            Code
+          </a>
         </div>
 
         <!-- Right: Social Icons -->
         <div class="flex items-center gap-4">
           <a
-            href="https://github.com/mattlucian"
+            :href="CONTACT.github"
             target="_blank"
             rel="noopener noreferrer"
             class="text-gray-400 hover:text-teal-400 transition-colors"
@@ -45,7 +53,7 @@
             </svg>
           </a>
           <a
-            href="https://www.linkedin.com/in/matt-lucian/"
+            :href="CONTACT.linkedin"
             target="_blank"
             rel="noopener noreferrer"
             class="text-gray-400 hover:text-teal-400 transition-colors"
@@ -64,5 +72,6 @@
 </template>
 
 <script setup lang="ts">
+import { CONTACT, SITE } from '@/constants'
 // Footer component - displays social links, navigation, and copyright
 </script>

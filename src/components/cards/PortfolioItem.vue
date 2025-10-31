@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { PortfolioItem } from '../../types/service'
+import type { PortfolioItem } from '@/types/shared/card'
 
 interface Props {
   item: PortfolioItem
-  colorScheme?: 'cyan' | 'emerald'
+  colorScheme?: 'cyan' | 'emerald' | 'purple'
 }
 
 withDefaults(defineProps<Props>(), {
@@ -12,16 +12,22 @@ withDefaults(defineProps<Props>(), {
 
 const colorClasses = {
   cyan: {
-    border: 'border-[#2a2a2a] hover:border-cyan-500/50',
+    border: 'border-slate-700/30 hover:border-cyan-500/40',
     shadow: 'hover:shadow-cyan-500/10 group-hover:shadow-cyan-500/20',
-    textHover: 'group-hover:text-cyan-400',
+    textHover: 'group-hover:text-cyan-300',
     iconHover: 'group-hover:text-cyan-400',
   },
   emerald: {
-    border: 'border-[#2a2a2a] hover:border-emerald-500/50',
+    border: 'border-slate-700/30 hover:border-emerald-500/40',
     shadow: 'hover:shadow-emerald-500/10 group-hover:shadow-emerald-500/20',
-    textHover: 'group-hover:text-emerald-400',
+    textHover: 'group-hover:text-emerald-300',
     iconHover: 'group-hover:text-emerald-400',
+  },
+  purple: {
+    border: 'border-slate-700/30 hover:border-purple-500/40',
+    shadow: 'hover:shadow-purple-500/10 group-hover:shadow-purple-500/20',
+    textHover: 'group-hover:text-purple-300',
+    iconHover: 'group-hover:text-purple-400',
   },
 }
 </script>
@@ -32,7 +38,7 @@ const colorClasses = {
     target="_blank"
     rel="noopener noreferrer"
     :class="[
-      'block bg-[#1a1a1a] rounded-lg border-2 overflow-hidden hover:shadow-lg transition-all group',
+      'block bg-gradient-to-br from-slate-800/40 to-slate-900/40 rounded-lg border overflow-hidden hover:shadow-lg transition-all group',
       colorClasses[colorScheme].border,
       colorClasses[colorScheme].shadow,
     ]"

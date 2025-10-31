@@ -6,6 +6,7 @@ This document provides an overview of all configuration files in the project roo
 
 ## Table of Contents
 
+- [Application Constants](#application-constants)
 - [Package Management](#package-management)
 - [Build & Development Tools](#build--development-tools)
 - [Code Quality & Formatting](#code-quality--formatting)
@@ -14,6 +15,63 @@ This document provides an overview of all configuration files in the project roo
 - [Editor & IDE](#editor--ide)
 - [Version Control](#version-control)
 - [Application Entry](#application-entry)
+
+---
+
+## Application Constants
+
+### `src/constants/index.ts`
+
+**Purpose:** Centralized application-wide constants for URLs, contact information, and site configuration.
+
+**When to modify:**
+
+- Updating external URLs (scheduling links, social media, etc.)
+- Changing contact information (email, location, etc.)
+- Modifying site metadata (company name, repository URL, OG image)
+- Adding new shared constants used across multiple components
+
+**Common changes:**
+
+```typescript
+export const SCHEDULING_LINK = 'https://calendar.app.google/your-link'
+
+export const CONTACT = {
+  email: 'your-email@example.com',
+  location: 'Your Location',
+  linkedin: 'https://www.linkedin.com/in/your-profile/',
+  github: 'https://github.com/your-username',
+} as const
+
+export const SITE = {
+  name: 'yoursite.com',
+  url: 'https://yoursite.com',
+  companyName: 'Your Company Name',
+  repository: 'https://github.com/username/repo',
+  ogImage: 'https://yoursite.com/og-image.png',
+} as const
+```
+
+**Important:** When updating constants, you must also manually update static files that cannot import these constants:
+
+- `/index.html` - Meta tags and JSON-LD structured data (lines 21-56, 83-129)
+- `/public/robots.txt` - Sitemap URL (line 7)
+- `/public/sitemap.xml` - All URL locations
+
+**Benefits:**
+
+- Single source of truth for shared values across Vue components
+- Type-safe with TypeScript (`as const` for literal types)
+- Easy to update values in one place
+- Better maintainability and consistency
+
+**Usage in components:**
+
+```typescript
+import { SCHEDULING_LINK, CONTACT, SITE } from '@/constants'
+```
+
+**Docs:** See `CLAUDE.md` for complete usage guidelines and examples.
 
 ---
 
@@ -478,6 +536,7 @@ build/
 
 | Configuration        | Primary Purpose        | Frequency of Changes |
 | -------------------- | ---------------------- | -------------------- |
+| `constants/index.ts` | App constants          | Occasional           |
 | `package.json`       | Dependencies & scripts | Frequent             |
 | `package-lock.json`  | Dependency locking     | Auto-managed         |
 | `vite.config.ts`     | Build configuration    | Occasional           |

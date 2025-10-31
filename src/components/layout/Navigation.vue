@@ -8,12 +8,32 @@ const route = useRoute()
 const router = useRouter()
 const isMobileMenuOpen = ref(false)
 
-const isHomePage = computed(() => route.name === 'home' || route.name === 'service-detail')
-const isTechPage = computed(() => route.name === 'tech' || route.path.startsWith('/tech') || route.name === 'components' || route.name === 'attributions')
+const isHomePage = computed(
+  () =>
+    route.name === 'home' ||
+    route.name === 'service-detail' ||
+    route.name === 'integration-service' ||
+    route.name === 'tech-admin-service' ||
+    route.name === 'ai-enablement-service' ||
+    route.name === 'ecommerce-ops-service' ||
+    route.name === 'web-design-service' ||
+    route.name === 'cloud-consulting-service',
+)
+const isTechPage = computed(
+  () =>
+    route.name === 'tech' ||
+    route.path.startsWith('/tech') ||
+    route.name === 'components' ||
+    route.name === 'attributions',
+)
 const isHireMePage = computed(() => route.name === 'hire-me')
 
 const handleBackNavigation = () => {
-  router.back()
+  if (isHireMePage.value) {
+    router.push('/')
+  } else {
+    router.back()
+  }
   isMobileMenuOpen.value = false
 }
 </script>
@@ -74,13 +94,13 @@ const handleBackNavigation = () => {
           <!-- Back to business button (shown on Tech and Hire Me pages) -->
           <OutlineButton
             v-if="isTechPage || isHireMePage"
-            @click="router.back()"
+            @click="isHireMePage ? router.push('/') : router.back()"
             color-scheme="cyan"
           >
             {{ isHireMePage ? 'Keep browsing' : 'Back to business' }}
           </OutlineButton>
 
-          <!-- Experience button (shown on Home page) -->
+          <!-- Experience button (shown on Home page only) -->
           <router-link v-if="isHomePage" to="/tech">
             <OutlineButton color-scheme="emerald">&lt;/&gt;</OutlineButton>
           </router-link>
@@ -88,9 +108,7 @@ const handleBackNavigation = () => {
 
         <!-- Hire Me Button (Desktop) - hidden on hire-me page -->
         <router-link v-if="!isHireMePage" to="/hire-me" class="hidden sm:block">
-          <OutlineButton :color-scheme="isTechPage ? 'emerald' : 'cyan'">
-            Hire Me
-          </OutlineButton>
+          <OutlineButton :color-scheme="isTechPage ? 'emerald' : 'cyan'"> Hire Me </OutlineButton>
         </router-link>
       </div>
     </div>
@@ -119,12 +137,7 @@ const handleBackNavigation = () => {
             {{ isHireMePage ? 'Keep browsing' : 'Back to business' }}
           </OutlineButton>
 
-          <router-link
-            v-if="isHomePage"
-            to="/tech"
-            @click="isMobileMenuOpen = false"
-            class="block"
-          >
+          <router-link v-if="isHomePage" to="/tech" @click="isMobileMenuOpen = false" class="block">
             <OutlineButton color-scheme="emerald" :full-width="true">&lt;/&gt;</OutlineButton>
           </router-link>
 

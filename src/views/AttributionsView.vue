@@ -47,6 +47,7 @@
 import { useMeta } from '../composables/useMeta'
 import AttributionCard from '../components/cards/AttributionCard.vue'
 import type { Attribution } from '../types/attribution'
+import { SITE } from '@/constants'
 
 // Set meta tags for Attributions page
 useMeta({
@@ -55,8 +56,8 @@ useMeta({
     'Image credits and attributions for beautiful photography from talented Unsplash photographers used throughout the I Develop Tech website.',
   ogTitle: 'Image Attributions - I Develop Tech',
   ogDescription: 'Photography credits and attributions for images used on idevelop.tech',
-  ogUrl: 'https://idevelop.tech/attributions',
-  ogImage: 'https://idevelop.tech/images/brand/og-image.png',
+  ogUrl: `${SITE.url}/attributions`,
+  ogImage: SITE.ogImage,
 })
 
 // Attribution data

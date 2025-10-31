@@ -47,4 +47,23 @@ export interface OptionsDisplay {
   }
 }
 
-export type Display = StepDisplay | DiagramDisplay | CodeDisplay | OptionsDisplay
+export interface HighlightPoint {
+  icon: string
+  title: string
+  description: string
+}
+
+export interface HighlightsDisplay {
+  type: 'highlights'
+  data: {
+    benefits: HighlightPoint[]
+    expertise: HighlightPoint[]
+  }
+}
+
+export type Display =
+  | StepDisplay
+  | DiagramDisplay
+  | CodeDisplay
+  | OptionsDisplay
+  | HighlightsDisplay
