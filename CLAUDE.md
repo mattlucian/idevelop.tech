@@ -11,9 +11,9 @@ This is an **SST (Serverless Stack) monorepo** containing:
 - **packages/web/** - Vue 3 frontend application
 - **packages/functions/** - AWS Lambda functions (API endpoints)
 - **packages/core/** - Shared TypeScript types and utilities
-- **infra/** - Infrastructure as Code (SST/CDK)
+- **sst.config.ts** - Infrastructure as Code (SST v3, no separate infra/ folder needed)
 
-**Current Migration Status**: Phase 2 (Verification) - See MIGRATION-PLAN.md
+**Current Migration Status**: Phase 2 Complete - Ready for Phase 3 Deployment - See MIGRATION-PLAN.md
 
 ---
 
@@ -76,8 +76,9 @@ When writing or updating documentation in this repository:
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
 | SST configuration and setup          | `README.md`                             |
+| AWS SSO setup (credentials)          | `docs/AWS-SETUP.md` ⚠️                  |
 | Deployment strategy                  | `docs/DEPLOYMENT-PLAN.md`               |
-| AWS setup guide                      | `docs/DEPLOYMENT-SETUP-GUIDE.md`        |
+| AWS setup guide (legacy)             | `docs/DEPLOYMENT-SETUP-GUIDE.md`        |
 | Infrastructure patterns              | *To be created in Phase 3*              |
 
 ### Migration & Project Management
