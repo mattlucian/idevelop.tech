@@ -40,6 +40,9 @@ cdk.out
 *.d.ts
 !jest.config.js
 !.eslintrc.js
+!tailwind.config.js
+!postcss.config.js
+!vite.config.js
 
 # Testing
 coverage
