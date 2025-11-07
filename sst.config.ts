@@ -9,6 +9,10 @@ export default $config({
     };
   },
   async run() {
+    // Stage-specific configuration
+    const stage = $app.stage;
+    const isProduction = stage === "production";
+
     // Frontend Static Site
     const web = new sst.aws.StaticSite("Web", {
       path: "packages/web",
@@ -16,17 +20,25 @@ export default $config({
         command: "npm run build",
         output: "dist",
       },
-      // NO custom domain - will use CloudFront URL
-      // Custom domain will be added later after DNS migration
+      // Custom domain only for production (after DNS migration)
+      // Dev stages use auto-generated CloudFront URLs
+      ...(isProduction && {
+        domain: {
+          name: "idevelop.tech",
+          redirects: ["www.idevelop.tech"],
+        },
+      }),
       environment: {
-        VITE_API_URL: "", // Will add API URL in later step
+        VITE_API_URL: "", // Will add API URL when backend is implemented
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",
-        VITE_GA_MEASUREMENT_ID: "G-XS6QVSG7MS",
+        // Only enable Google Analytics in production
+        VITE_GA_MEASUREMENT_ID: isProduction ? "G-XS6QVSG7MS" : "",
       },
     });
 
     return {
       web: web.url,
+      stage: stage,
     };
   },
 });
