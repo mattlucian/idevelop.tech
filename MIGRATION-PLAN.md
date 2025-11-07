@@ -62,7 +62,7 @@ Migrating from traditional Vue + separate infrastructure setup to SST full-stack
 
 1. **Start new Claude Code session:**
    ```bash
-   cd ~/source/sst.idevelop.tech
+   cd ~/source/idevelop.tech
    # Open new Claude Code session here
    ```
 
@@ -97,7 +97,7 @@ Migrating from traditional Vue + separate infrastructure setup to SST full-stack
 
 ### Phase 3: Add Infrastructure (Next Session)
 
-**In new Claude Code session in sst.idevelop.tech:**
+**In new Claude Code session in idevelop.tech:**
 
 1. **Add frontend infrastructure:**
    - S3 bucket for hosting
@@ -287,13 +287,13 @@ const apiUrl = import.meta.env.VITE_API_URL; // Auto-set by SST
 ### Option 1: New Repository (Recommended)
 ```bash
 # Create new repo
-cd ~/source/sst.idevelop.tech
+cd ~/source/idevelop.tech
 git init
 git add .
 git commit -m "Initial SST migration"
 
 # Create GitHub repo
-gh repo create sst.idevelop.tech --public
+gh repo create idevelop.tech --public
 git push -u origin main
 
 # Keep old repo for reference
@@ -304,7 +304,7 @@ git push -u origin main
 ```bash
 # In old repo
 git checkout -b sst-migration
-# Copy files from sst.idevelop.tech
+# Copy files from idevelop.tech
 # Commit to branch
 # Can compare with main branch
 ```
@@ -322,7 +322,7 @@ If migration fails, you can:
    - Can deploy from old infrastructure/
 
 2. **Debug and retry:**
-   - New setup at `~/source/sst.idevelop.tech` can be modified
+   - New setup at `~/source/idevelop.tech` can be modified
    - Can delete and start over if needed
 
 3. **Hybrid approach:**
@@ -382,13 +382,13 @@ If migration fails, you can:
 
 ### After Phase 1 Complete
 1. Open new terminal
-2. Navigate to `~/source/sst.idevelop.tech`
+2. Navigate to `~/source/idevelop.tech`
 3. Start new Claude Code session there
 4. Execute Phase 2 verification steps
 5. Report results to Claude
 
 ### After Phase 2 Complete
-1. Continue in same session (sst.idevelop.tech)
+1. Continue in same session (idevelop.tech)
 2. Execute Phase 3 with Claude
 3. Add infrastructure code
 4. Deploy to AWS
@@ -401,15 +401,15 @@ If migration fails, you can:
 ### Phase 1 (Automated by Claude)
 ```bash
 # Claude will run these
-mkdir -p ~/source/sst.idevelop.tech
-cd ~/source/sst.idevelop.tech
+mkdir -p ~/source/idevelop.tech
+cd ~/source/idevelop.tech
 # ... setup commands
 ```
 
 ### Phase 2 (Manual by You)
 ```bash
 # You will run these
-cd ~/source/sst.idevelop.tech
+cd ~/source/idevelop.tech
 npm install
 npm run dev
 npm run build

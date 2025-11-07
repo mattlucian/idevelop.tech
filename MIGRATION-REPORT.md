@@ -183,7 +183,7 @@ The new project at `~/source/idevelop.tech/` is:
 
 1. **Open New Terminal**
    ```bash
-   cd ~/source/sst.idevelop.tech
+   cd ~/source/idevelop.tech
    ```
 
 2. **Start New Claude Code Session**
@@ -327,7 +327,7 @@ Can reference for:
 **Your Action Items:**
 
 1. ✅ Open new terminal
-2. ✅ Navigate to `~/source/sst.idevelop.tech`
+2. ✅ Navigate to `~/source/idevelop.tech`
 3. ✅ Start new Claude Code session there
 4. ✅ Run `npm install`
 5. ✅ Test dev server

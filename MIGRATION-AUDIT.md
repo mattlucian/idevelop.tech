@@ -477,7 +477,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 
 1. **Open new terminal**:
    ```bash
-   cd ~/source/sst.idevelop.tech
+   cd ~/source/idevelop.tech
    ```
 
 2. **Start new Claude Code session** in the `idevelop.tech/` directory
