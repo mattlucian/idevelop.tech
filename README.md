@@ -79,7 +79,7 @@ If there are issues:
 ## 🏗️ Project Structure
 
 ```
-sst.idevelop.tech/
+idevelop.tech/
 ├── packages/
 │   ├── web/                    # Vue.js frontend application
 │   │   ├── src/               # All Vue source code (migrated)
@@ -327,7 +327,7 @@ idevelop.tech/
 
 ### New Structure
 ```
-sst.idevelop.tech/
+idevelop.tech/
 ├── packages/
 │   ├── web/             # Vue app (same code)
 │   ├── functions/       # API (new)

@@ -11,7 +11,7 @@
 ### 1. Project Structure Created
 
 ```
-sst.idevelop.tech/
+idevelop.tech/
 ├── packages/
 │   ├── web/                    ✅ Vue app migrated
 │   ├── functions/              ✅ Lambda functions (placeholder)
@@ -29,7 +29,7 @@ sst.idevelop.tech/
 ### 2. Files Migrated
 
 **From:** `~/source/idevelop.tech/`
-**To:** `~/source/sst.idevelop.tech/packages/web/`
+**To:** `~/source/idevelop.tech/packages/web/`
 
 **Copied:**
 - ✅ `src/` - All Vue source code (components, views, router, etc.)
@@ -93,16 +93,16 @@ sst.idevelop.tech/
 ```bash
 # Run these commands to verify files exist:
 
-ls ~/source/sst.idevelop.tech/
+ls ~/source/idevelop.tech/
 # Expected: package.json, sst.config.ts, tsconfig.json, README.md, packages/
 
-ls ~/source/sst.idevelop.tech/packages/
+ls ~/source/idevelop.tech/packages/
 # Expected: web/, functions/, core/
 
-ls ~/source/sst.idevelop.tech/packages/web/src/
+ls ~/source/idevelop.tech/packages/web/src/
 # Expected: components/, views/, router/, data/, types/, main.ts, App.vue, assets/
 
-ls ~/source/sst.idevelop.tech/packages/web/public/
+ls ~/source/idevelop.tech/packages/web/public/
 # Expected: images/, favicon.ico, etc.
 ```
 
@@ -162,7 +162,7 @@ The original project at `~/source/idevelop.tech/` is **completely unchanged**:
 
 ### New Project Isolated
 
-The new project at `~/source/sst.idevelop.tech/` is:
+The new project at `~/source/idevelop.tech/` is:
 - ✅ Completely separate directory
 - ✅ No dependencies on old project
 - ✅ Fresh start with SST
@@ -187,7 +187,7 @@ The new project at `~/source/sst.idevelop.tech/` is:
    ```
 
 2. **Start New Claude Code Session**
-   - Open Claude Code in the `sst.idevelop.tech/` directory
+   - Open Claude Code in the `idevelop.tech/` directory
    - Do NOT continue in the old `idevelop.tech/` directory
 
 3. **Run Verification Commands**

@@ -97,7 +97,7 @@ When writing or updating documentation in this repository:
 **Execute these steps when you first start working:**
 
 1. **Identify current working directory**:
-   - Root (`~/source/sst.idevelop.tech/`) - For SST commands, monorepo tasks
+   - Root (`~/source/idevelop.tech/`) - For SST commands, monorepo tasks
    - Web package (`packages/web/`) - For frontend development
    - Functions package (`packages/functions/`) - For API development
 
@@ -673,7 +673,7 @@ All components support `colorScheme` or `color` prop for dual theming.
 ### File Structure
 
 ```
-sst.idevelop.tech/
+idevelop.tech/
 ├── packages/
 │   ├── web/                 # Vue frontend application
 │   │   ├── src/
@@ -759,7 +759,7 @@ packages/web/src/data/
 
 ### Development Commands
 
-**Root commands (from `~/source/sst.idevelop.tech/`):**
+**Root commands (from `~/source/idevelop.tech/`):**
 
 ```bash
 npm install          # Install all workspace dependencies

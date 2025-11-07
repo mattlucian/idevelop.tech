@@ -21,7 +21,7 @@ Migrating from traditional Vue + separate infrastructure setup to SST full-stack
 
 **To:**
 ```
-~/source/sst.idevelop.tech/
+~/source/idevelop.tech/
 ├── packages/
 │   ├── web/               # Vue app (migrated)
 │   ├── functions/         # Lambda functions (new)
@@ -38,7 +38,7 @@ Migrating from traditional Vue + separate infrastructure setup to SST full-stack
 ### Phase 1: Setup New Project (Automated by Claude)
 
 **What Claude will do:**
-1. ✅ Create `~/source/sst.idevelop.tech/` directory
+1. ✅ Create `~/source/idevelop.tech/` directory
 2. ✅ Initialize SST project structure
 3. ✅ Set up monorepo with npm workspaces
 4. ✅ Copy entire Vue application to `packages/web/`
@@ -129,7 +129,7 @@ Migrating from traditional Vue + separate infrastructure setup to SST full-stack
 
 ### Root Level
 ```
-sst.idevelop.tech/
+idevelop.tech/
 ├── package.json           # Root package.json (workspaces)
 ├── sst.config.ts          # SST configuration
 ├── tsconfig.json          # Root TypeScript config
@@ -365,8 +365,8 @@ If migration fails, you can:
 | Phase | Duration | Who | Location |
 |-------|----------|-----|----------|
 | Phase 1: Setup | 15-20 min | Claude | idevelop.tech/ |
-| Phase 2: Verification | 15-30 min | You | sst.idevelop.tech/ |
-| Phase 3: Infrastructure | 2-3 hours | Claude + You | sst.idevelop.tech/ |
+| Phase 2: Verification | 15-30 min | You | idevelop.tech/ |
+| Phase 3: Infrastructure | 2-3 hours | Claude + You | idevelop.tech/ |
 
 **Total:** 3-4 hours across 2 sessions
 
@@ -471,6 +471,6 @@ npm run remove       # Remove from AWS (if needed)
 
 **Estimated time:** 15-20 minutes
 
-**After completion:** You'll need to start new Claude session in `sst.idevelop.tech/`
+**After completion:** You'll need to start new Claude session in `idevelop.tech/`
 
 Type "yes" to proceed with Phase 1 automated migration.

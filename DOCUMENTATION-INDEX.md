@@ -88,7 +88,7 @@ Documentation for shared types and utilities:
 ### Directory Structure
 
 ```
-sst.idevelop.tech/
+idevelop.tech/
 ├── CLAUDE.md                    # AI development guidelines (ALL layers)
 ├── README.md                    # Project overview and Phase 2 steps
 ├── MIGRATION-PLAN.md            # Migration strategy

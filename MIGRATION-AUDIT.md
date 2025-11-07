@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Comprehensive audit completed before switching to new Claude Code session. All critical files, source code, documentation, and configuration have been successfully migrated from `~/source/idevelop.tech/` to `~/source/sst.idevelop.tech/`.
+Comprehensive audit completed before switching to new Claude Code session. All critical files, source code, documentation, and configuration have been successfully migrated from `~/source/idevelop.tech/` to `~/source/idevelop.tech/`.
 
 **Key Findings:**
 - ✅ All 79 source files migrated (100% match)
@@ -40,12 +40,12 @@ Comprehensive audit completed before switching to new Claude Code session. All c
 ```bash
 # Source code comparison
 Original: ~/source/idevelop.tech/src/              (79 files)
-Migrated: ~/source/sst.idevelop.tech/packages/web/src/  (79 files)
+Migrated: ~/source/idevelop.tech/packages/web/src/  (79 files)
 Result: Perfect match (diff returned no differences)
 
 # Public assets comparison
 Original: ~/source/idevelop.tech/public/
-Migrated: ~/source/sst.idevelop.tech/packages/web/public/
+Migrated: ~/source/idevelop.tech/packages/web/public/
 Result: Perfect match (diff returned no differences)
 ```
 
@@ -426,7 +426,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
 7. ✅ **Placeholder packages** - Functions and core ready for Phase 3
 
 **User can now:**
-- Switch to new Claude Code session in `~/source/sst.idevelop.tech/`
+- Switch to new Claude Code session in `~/source/idevelop.tech/`
 - Run `npm install` in root directory
 - Start dev server with `cd packages/web && npm run dev`
 - Verify all functionality works
@@ -480,7 +480,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
    cd ~/source/sst.idevelop.tech
    ```
 
-2. **Start new Claude Code session** in the `sst.idevelop.tech/` directory
+2. **Start new Claude Code session** in the `idevelop.tech/` directory
 
 3. **Follow Phase 2 verification** as documented in `README.md`:
    - Install dependencies: `npm install`
