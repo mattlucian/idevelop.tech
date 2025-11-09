@@ -13,7 +13,10 @@ This is an **SST (Serverless Stack) monorepo** containing:
 - **packages/core/** - Shared TypeScript types and utilities
 - **sst.config.ts** - Infrastructure as Code (SST v3, no separate infra/ folder needed)
 
-**Current Migration Status**: Phase 2 Complete - Ready for Phase 3 Deployment - See MIGRATION-PLAN.md
+**Current Status**: Phase 4 Complete - Production Deployed ✅
+
+**Production URL**: https://dxeay6n8brs8g.cloudfront.net
+**Custom Domain**: Pending (Phase 5)
 
 ---
 
@@ -38,7 +41,9 @@ When writing or updating documentation in this repository:
 - **Architecture**: SST full-stack monorepo (npm workspaces)
 - **Frontend**: Vue 3 (Composition API) + TypeScript + Vue Router + Tailwind CSS
 - **Backend**: AWS Lambda + API Gateway + DynamoDB + SES (to be implemented)
-- **Infrastructure**: SST (built on AWS CDK)
+- **Infrastructure**: SST v3 (Pulumi-based) + AWS
+- **Deployment**: GitHub Actions CI/CD with AWS OIDC
+- **Production**: S3 + CloudFront (HTTPS)
 - **Color Schemes**: Cyan/Purple (services/business) | Emerald (tech/experience)
 
 ---

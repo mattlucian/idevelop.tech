@@ -1,6 +1,7 @@
 # Development Workflow Guide
 
-**Last Updated:** 2025-11-07
+**Last Updated:** 2025-11-09
+**Production Deployed:** ✅ Yes
 
 ---
 
@@ -8,7 +9,7 @@
 
 This project uses a **two-stage deployment model**:
 - **Dev stages** - Personal development environments (`dev-yourname`)
-- **Production** - Live site (`idevelop.tech`)
+- **Production** - Live site (CloudFront, custom domain pending)
 
 **Key Principles:**
 - Frontend development happens **locally** with Vite (fast, instant refresh)
@@ -23,7 +24,9 @@ This project uses a **two-stage deployment model**:
 |------------|---------|-----|---------------|
 | **Local** | Frontend development | http://localhost:5173 | `npm run dev` (Vite) |
 | **Dev (Personal)** | Full-stack testing | Auto-generated CloudFront URL | `npm run dev` (SST) |
-| **Production** | Live site | https://idevelop.tech | CI/CD (merge to main) |
+| **Production** | Live site | https://dxeay6n8brs8g.cloudfront.net | CI/CD (merge to main) |
+
+**Note:** Production custom domain (idevelop.tech) will be configured in Phase 5.
 
 ---
 
