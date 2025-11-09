@@ -2,7 +2,13 @@
   "name": "idevelop-tech",
   "version": "1.0.0",
   "private": true,
-  "description": "Full-stack idevelop.tech using SST",
+  "description": "Full-stack portfolio website showcasing technical consulting services and cloud infrastructure expertise",
+  "license": "MIT",
+  "author": "Matt Myers <matt@idevelop.tech> (https://idevelop.tech)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattlucian/idevelop.tech.git"
+  },
   "workspaces": [
     "packages/*"
   ],
