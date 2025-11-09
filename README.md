@@ -146,9 +146,11 @@ VITE_GA_MEASUREMENT_ID      # Google Analytics measurement ID
 
 ## 📚 Documentation
 
+- **[docs/PROJECT-PLAN.md](docs/PROJECT-PLAN.md)** - Complete project roadmap and phase breakdown
+- **[docs/NEXT-SESSION-START.md](docs/NEXT-SESSION-START.md)** - Quick start guide for next development session
 - **[docs/DEVELOPMENT-WORKFLOW.md](docs/DEVELOPMENT-WORKFLOW.md)** - Development and deployment workflow
 - **[docs/AWS-SETUP.md](docs/AWS-SETUP.md)** - AWS SSO configuration and OIDC setup
-- **[MIGRATION-PLAN.md](MIGRATION-PLAN.md)** - SST migration strategy
+- **[docs/CTA-FORM-IMPLEMENTATION-PLAN.md](docs/CTA-FORM-IMPLEMENTATION-PLAN.md)** - Backend API implementation guide
 - **[packages/web/docs/](packages/web/docs/)** - Frontend architecture and component documentation
 
 ---
@@ -186,8 +188,13 @@ See [LICENSE](LICENSE) file for details.
 - ✅ **Phase 2:** Verification and bug fixes complete
 - ✅ **Phase 3:** CI/CD pipeline configured
 - ✅ **Phase 4:** Production deployment to CloudFront
-- 🔜 **Phase 5:** Custom domain setup (idevelop.tech)
-- 🔜 **Phase 6:** Backend API implementation
+- ✅ **Phase 4.5:** Security audit and public repo preparation
+- 🔄 **Phase 5:** Backend API implementation (CURRENT)
+- 🔜 **Phase 6:** Testing and validation
+- 🔜 **Phase 7:** Custom domain migration (idevelop.tech)
+- 🔜 **Phase 8:** Final security audit and make repository public
+
+**See [docs/PROJECT-PLAN.md](docs/PROJECT-PLAN.md) for detailed phase breakdown.**
 
 ---
 
