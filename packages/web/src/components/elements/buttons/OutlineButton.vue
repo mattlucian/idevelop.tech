@@ -21,7 +21,6 @@ const emit = defineEmits<{
 
 <template>
   <button
-    @click="emit('click')"
     :disabled="disabled"
     :class="[
       'px-4 py-1.5 border-2 rounded-md text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed antialiased',
@@ -32,6 +31,7 @@ const emit = defineEmits<{
           ? 'bg-emerald-500/10 hover:bg-emerald-500/15 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300'
           : 'bg-slate-500/10 hover:bg-slate-500/15 border-slate-600 hover:border-slate-500 text-slate-400 hover:text-slate-300',
     ]"
+    @click="emit('click')"
   >
     <slot />
   </button>

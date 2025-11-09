@@ -21,20 +21,20 @@ const emit = defineEmits<{
 
 <template>
   <button
-    @click="emit('click')"
     :disabled="disabled"
     :class="[
       'relative py-3 px-6 md:px-8 rounded-lg font-semibold text-sm md:text-base transition-all cursor-pointer group disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden flex items-center justify-center gap-2',
       fullWidth ? 'w-full' : 'w-auto',
     ]"
+    @click="emit('click')"
   >
     <!-- Gradient border effect using pseudo-element -->
     <span
       class="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 opacity-100 group-hover:opacity-100 transition-opacity"
-    ></span>
+    />
     <span
       class="absolute inset-[2px] rounded-[6px] bg-[#0a0a0a] group-hover:bg-[#0f0f0f] transition-colors"
-    ></span>
+    />
 
     <!-- Content -->
     <span

@@ -14,7 +14,6 @@ interface Props {
   mappingColorScheme?: "cyan" | "emerald" | "purple";
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(defineProps<Props>(), {
   caption: "",
   mappingColorScheme: "cyan",
@@ -54,8 +53,13 @@ const props = withDefaults(defineProps<Props>(), {
     </div>
 
     <!-- Caption -->
-    <div v-if="caption" class="text-center mt-8">
-      <p class="text-sm text-slate-400">{{ caption }}</p>
+    <div
+      v-if="caption"
+      class="text-center mt-8"
+    >
+      <p class="text-sm text-slate-400">
+        {{ caption }}
+      </p>
     </div>
   </div>
 </template>

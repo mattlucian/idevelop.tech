@@ -59,17 +59,17 @@ const handleBackNavigation = () => {
                 ? 'filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(450%) hue-rotate(95deg) brightness(95%) contrast(90%);'
                 : 'filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);'
             "
-          />
+          >
         </router-link>
 
         <!-- Spacer -->
-        <div class="flex-1"></div>
+        <div class="flex-1" />
 
         <!-- Hamburger Menu Button (Mobile) -->
         <button
-          @click="isMobileMenuOpen = !isMobileMenuOpen"
           class="sm:hidden flex items-center justify-center w-10 h-10 rounded-md text-gray-400 hover:text-teal-400 transition-colors"
           aria-label="Menu"
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
         >
           <svg
             v-if="!isMobileMenuOpen"
@@ -109,8 +109,8 @@ const handleBackNavigation = () => {
           <!-- Back to business button (shown on Tech and Hire Me pages) -->
           <OutlineButton
             v-if="isTechPage || isHireMePage"
-            @click="isHireMePage ? router.push('/') : router.back()"
             color-scheme="cyan"
+            @click="isHireMePage ? router.push('/') : router.back()"
           >
             {{ isHireMePage ? "Keep browsing" : "Back to business" }}
           </OutlineButton>
@@ -154,9 +154,9 @@ const handleBackNavigation = () => {
           <!-- Services/Tech Links -->
           <OutlineButton
             v-if="isTechPage || isHireMePage"
-            @click="handleBackNavigation"
             color-scheme="cyan"
             :full-width="true"
+            @click="handleBackNavigation"
           >
             {{ isHireMePage ? "Keep browsing" : "Back to business" }}
           </OutlineButton>

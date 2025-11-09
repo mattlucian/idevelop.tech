@@ -13,14 +13,19 @@ defineProps<Props>();
 <template>
   <div class="max-w-3xl">
     <!-- Title -->
-    <h4 v-if="title" class="text-sm text-gray-400 mb-6">{{ title }}</h4>
+    <h4
+      v-if="title"
+      class="text-sm text-gray-400 mb-6"
+    >
+      {{ title }}
+    </h4>
 
     <!-- Timeline with connecting line -->
     <div class="relative">
       <!-- Connecting line -->
       <div
         class="absolute left-6 top-12 bottom-12 w-0.5 bg-gradient-to-b from-cyan-500/30 via-purple-500/20 to-cyan-500/10"
-      ></div>
+      />
 
       <div class="space-y-8">
         <IconFlowStep

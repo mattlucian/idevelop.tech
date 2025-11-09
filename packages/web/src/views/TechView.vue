@@ -103,12 +103,15 @@ onUnmounted(() => {
 
 <template>
   <div class="fixed inset-0 top-16 bg-[#0a0a0a] text-white overflow-hidden">
-    <div v-if="domainData" class="w-full h-full">
+    <div
+      v-if="domainData"
+      class="w-full h-full"
+    >
       <!-- Background overlay - clickable to close -->
       <div
         class="absolute inset-0 bg-[#0a0a0a]/95 z-50 cursor-pointer"
         @click="goBack"
-      ></div>
+      />
 
       <!-- Topic List Sidebar (slides from left) -->
       <Transition name="slide-left">
@@ -141,7 +144,9 @@ onUnmounted(() => {
               >
                 {{ category.name }}
               </h3>
-              <p class="text-xs text-gray-500">{{ category.subtitle }}</p>
+              <p class="text-xs text-gray-500">
+                {{ category.subtitle }}
+              </p>
             </div>
 
             <!-- Topics in this category -->
@@ -153,7 +158,7 @@ onUnmounted(() => {
                 :subtitle="topic.subtitle"
                 :is-selected="
                   selectedCategoryIndex === categoryIndex &&
-                  selectedTopicIndex === topicIndex
+                    selectedTopicIndex === topicIndex
                 "
                 color-scheme="emerald"
                 @click="selectTopic(categoryIndex, topicIndex)"
@@ -176,8 +181,7 @@ onUnmounted(() => {
             <div class="mb-2">
               <span
                 class="text-xs font-bold text-emerald-400 uppercase tracking-wider"
-                >{{ selectedCategory?.name }}</span
-              >
+              >{{ selectedCategory?.name }}</span>
             </div>
             <h2 class="text-3xl font-bold text-white">
               {{ selectedTopic?.title }}
@@ -189,8 +193,8 @@ onUnmounted(() => {
             <div
               v-if="
                 selectedTopic.skillTags ||
-                selectedTopic.intro ||
-                selectedTopic.sections
+                  selectedTopic.intro ||
+                  selectedTopic.sections
               "
               class="prose prose-sm max-w-none"
             >
@@ -199,7 +203,7 @@ onUnmounted(() => {
                 <div
                   v-if="
                     selectedTopic.skillTags &&
-                    selectedTopic.skillTags.length > 0
+                      selectedTopic.skillTags.length > 0
                   "
                   class="mb-6 flex flex-wrap gap-2"
                 >
@@ -217,7 +221,9 @@ onUnmounted(() => {
                   v-if="selectedTopic.intro"
                   class="mb-6 p-4 bg-gray-800/50 border-l-4 border-emerald-500 rounded-r-lg"
                 >
-                  <p class="text-gray-300 italic">{{ selectedTopic.intro }}</p>
+                  <p class="text-gray-300 italic">
+                    {{ selectedTopic.intro }}
+                  </p>
                 </div>
 
                 <!-- Sections -->
@@ -236,7 +242,9 @@ onUnmounted(() => {
                     >
                       {{ sectionItem.heading }}
                     </h4>
-                    <p class="mb-4 text-gray-300">{{ sectionItem.content }}</p>
+                    <p class="mb-4 text-gray-300">
+                      {{ sectionItem.content }}
+                    </p>
                   </div>
                 </div>
               </div>

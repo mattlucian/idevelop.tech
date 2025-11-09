@@ -25,7 +25,7 @@ defineEmits<{
   >
     <!-- Header with slot -->
     <div class="mb-6 pt-4">
-      <slot name="header"></slot>
+      <slot name="header" />
     </div>
 
     <!-- Main content with scrolling -->
@@ -33,13 +33,13 @@ defineEmits<{
       class="space-y-6 overflow-y-auto lg:pr-8 scrollbar-visible"
       style="height: calc(100% - 6.5rem)"
     >
-      <slot></slot>
+      <slot />
     </div>
 
     <!-- Gradient overlay at bottom -->
     <div
       class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none z-10"
-    ></div>
+    />
   </div>
 </template>
 

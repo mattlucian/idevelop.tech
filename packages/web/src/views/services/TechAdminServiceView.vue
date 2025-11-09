@@ -53,7 +53,10 @@ const handleBreadcrumbNavigate = (path: string) => {
 <template>
   <div class="min-h-screen bg-[#0a0a0a] pt-16">
     <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+    <BreadcrumbNav
+      :items="breadcrumbs"
+      @navigate="handleBreadcrumbNavigate"
+    />
 
     <!-- Hero Section -->
     <ServiceSection
@@ -89,7 +92,10 @@ const handleBreadcrumbNavigate = (path: string) => {
         class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Strategic Planning Tab -->
-        <div v-if="activeTab === 'planning'" class="space-y-6">
+        <div
+          v-if="activeTab === 'planning'"
+          class="space-y-6"
+        >
           <div>
             <h3 class="text-2xl font-bold text-white mb-4">
               Strategic Planning
@@ -100,7 +106,10 @@ const handleBreadcrumbNavigate = (path: string) => {
             </p>
           </div>
 
-          <Timeline :steps="timelineSteps" color="cyan" />
+          <Timeline
+            :steps="timelineSteps"
+            color="cyan"
+          />
 
           <div
             class="mt-8 p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
@@ -115,9 +124,7 @@ const handleBreadcrumbNavigate = (path: string) => {
               </li>
               <li class="flex items-start">
                 <span class="text-cyan-400 mr-2">→</span>
-                <span
-                  >Gap analysis with identified improvement opportunities</span
-                >
+                <span>Gap analysis with identified improvement opportunities</span>
               </li>
               <li class="flex items-start">
                 <span class="text-cyan-400 mr-2">→</span>
@@ -125,16 +132,17 @@ const handleBreadcrumbNavigate = (path: string) => {
               </li>
               <li class="flex items-start">
                 <span class="text-cyan-400 mr-2">→</span>
-                <span
-                  >Technology recommendations aligned with business goals</span
-                >
+                <span>Technology recommendations aligned with business goals</span>
               </li>
             </ul>
           </div>
         </div>
 
         <!-- Technical Execution Tab -->
-        <div v-if="activeTab === 'execution'" class="space-y-6">
+        <div
+          v-if="activeTab === 'execution'"
+          class="space-y-6"
+        >
           <div>
             <h3 class="text-2xl font-bold text-white mb-4">
               Technical Execution
@@ -148,7 +156,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">⚙️</div>
+              <div class="text-3xl mb-3">
+                ⚙️
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Automation Workflows
               </h4>
@@ -161,7 +171,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">🔗</div>
+              <div class="text-3xl mb-3">
+                🔗
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Integrations & Migrations
               </h4>
@@ -174,7 +186,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">🚀</div>
+              <div class="text-3xl mb-3">
+                🚀
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Operational Support
               </h4>
@@ -187,7 +201,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">🔧</div>
+              <div class="text-3xl mb-3">
+                🔧
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Maintain & Optimize
               </h4>
@@ -201,7 +217,9 @@ const handleBreadcrumbNavigate = (path: string) => {
           <div
             class="mt-6 p-6 bg-cyan-500/10 rounded-lg border border-cyan-500/20"
           >
-            <p class="text-cyan-300 font-semibold mb-2">Real Expertise</p>
+            <p class="text-cyan-300 font-semibold mb-2">
+              Real Expertise
+            </p>
             <p class="text-gray-300 text-sm">
               10+ years full-stack development • 7+ years AWS cloud architecture
               • 6+ years CI/CD & DevOps automation • 100+ integrations & data
@@ -211,7 +229,10 @@ const handleBreadcrumbNavigate = (path: string) => {
         </div>
 
         <!-- Ongoing Support Tab -->
-        <div v-if="activeTab === 'support'" class="space-y-6">
+        <div
+          v-if="activeTab === 'support'"
+          class="space-y-6"
+        >
           <div>
             <h3 class="text-2xl font-bold text-white mb-4">
               Ongoing Support & Optimization
@@ -254,10 +275,8 @@ const handleBreadcrumbNavigate = (path: string) => {
               <ul class="space-y-3 text-gray-300">
                 <li class="flex items-start">
                   <span class="text-purple-400 mr-2 mt-1">→</span>
-                  <span
-                    >Identify cost savings opportunities (quarterly
-                    review)</span
-                  >
+                  <span>Identify cost savings opportunities (quarterly
+                    review)</span>
                 </li>
                 <li class="flex items-start">
                   <span class="text-purple-400 mr-2 mt-1">→</span>
@@ -283,7 +302,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             </h4>
             <div class="flex flex-col md:flex-row gap-4 text-sm">
               <div class="flex-1">
-                <p class="text-cyan-400 font-semibold mb-1">10 hrs/month</p>
+                <p class="text-cyan-400 font-semibold mb-1">
+                  10 hrs/month
+                </p>
                 <p class="text-gray-400">
                   Steady maintenance and regular support
                 </p>

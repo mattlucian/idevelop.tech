@@ -53,7 +53,10 @@ const handleBreadcrumbNavigate = (path: string) => {
 <template>
   <div class="min-h-screen bg-[#0a0a0a] pt-16">
     <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+    <BreadcrumbNav
+      :items="breadcrumbs"
+      @navigate="handleBreadcrumbNavigate"
+    />
 
     <!-- Hero Section -->
     <ServiceSection
@@ -306,18 +309,18 @@ const handleBreadcrumbNavigate = (path: string) => {
               Documentation & Knowledge
             </h3>
             <ul class="space-y-3">
-              <SimpleCheckItem color="cyan"
-                >Generate draft documentation from code</SimpleCheckItem
-              >
-              <SimpleCheckItem color="cyan"
-                >Maintain knowledge bases and wikis</SimpleCheckItem
-              >
-              <SimpleCheckItem color="cyan"
-                >Create onboarding materials</SimpleCheckItem
-              >
-              <SimpleCheckItem color="cyan"
-                >Improve technical writing clarity</SimpleCheckItem
-              >
+              <SimpleCheckItem color="cyan">
+                Generate draft documentation from code
+              </SimpleCheckItem>
+              <SimpleCheckItem color="cyan">
+                Maintain knowledge bases and wikis
+              </SimpleCheckItem>
+              <SimpleCheckItem color="cyan">
+                Create onboarding materials
+              </SimpleCheckItem>
+              <SimpleCheckItem color="cyan">
+                Improve technical writing clarity
+              </SimpleCheckItem>
             </ul>
           </div>
 
@@ -330,18 +333,18 @@ const handleBreadcrumbNavigate = (path: string) => {
               Testing & Quality
             </h3>
             <ul class="space-y-3">
-              <SimpleCheckItem color="purple"
-                >Generate test cases and scenarios</SimpleCheckItem
-              >
-              <SimpleCheckItem color="purple"
-                >Identify edge cases and bugs</SimpleCheckItem
-              >
-              <SimpleCheckItem color="purple"
-                >Create test scaffolding code</SimpleCheckItem
-              >
-              <SimpleCheckItem color="purple"
-                >Improve code coverage quickly</SimpleCheckItem
-              >
+              <SimpleCheckItem color="purple">
+                Generate test cases and scenarios
+              </SimpleCheckItem>
+              <SimpleCheckItem color="purple">
+                Identify edge cases and bugs
+              </SimpleCheckItem>
+              <SimpleCheckItem color="purple">
+                Create test scaffolding code
+              </SimpleCheckItem>
+              <SimpleCheckItem color="purple">
+                Improve code coverage quickly
+              </SimpleCheckItem>
             </ul>
           </div>
 
@@ -354,18 +357,18 @@ const handleBreadcrumbNavigate = (path: string) => {
               Code Assistance
             </h3>
             <ul class="space-y-3">
-              <SimpleCheckItem color="emerald"
-                >Review code for common issues</SimpleCheckItem
-              >
-              <SimpleCheckItem color="emerald"
-                >Suggest refactoring improvements</SimpleCheckItem
-              >
-              <SimpleCheckItem color="emerald"
-                >Generate boilerplate code</SimpleCheckItem
-              >
-              <SimpleCheckItem color="emerald"
-                >Explain complex codebases</SimpleCheckItem
-              >
+              <SimpleCheckItem color="emerald">
+                Review code for common issues
+              </SimpleCheckItem>
+              <SimpleCheckItem color="emerald">
+                Suggest refactoring improvements
+              </SimpleCheckItem>
+              <SimpleCheckItem color="emerald">
+                Generate boilerplate code
+              </SimpleCheckItem>
+              <SimpleCheckItem color="emerald">
+                Explain complex codebases
+              </SimpleCheckItem>
             </ul>
           </div>
 
@@ -378,18 +381,18 @@ const handleBreadcrumbNavigate = (path: string) => {
               Process Improvement
             </h3>
             <ul class="space-y-3">
-              <SimpleCheckItem color="orange"
-                >Automate repetitive tasks</SimpleCheckItem
-              >
-              <SimpleCheckItem color="orange"
-                >Analyze data and generate insights</SimpleCheckItem
-              >
-              <SimpleCheckItem color="orange"
-                >Draft emails and communications</SimpleCheckItem
-              >
-              <SimpleCheckItem color="orange"
-                >Research and summarize information</SimpleCheckItem
-              >
+              <SimpleCheckItem color="orange">
+                Automate repetitive tasks
+              </SimpleCheckItem>
+              <SimpleCheckItem color="orange">
+                Analyze data and generate insights
+              </SimpleCheckItem>
+              <SimpleCheckItem color="orange">
+                Draft emails and communications
+              </SimpleCheckItem>
+              <SimpleCheckItem color="orange">
+                Research and summarize information
+              </SimpleCheckItem>
             </ul>
           </div>
         </div>

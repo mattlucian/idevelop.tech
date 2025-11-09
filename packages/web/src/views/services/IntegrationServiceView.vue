@@ -54,7 +54,10 @@ const handleBreadcrumbNavigate = (path: string) => {
 <template>
   <div class="min-h-screen bg-[#0a0a0a] pt-16">
     <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+    <BreadcrumbNav
+      :items="breadcrumbs"
+      @navigate="handleBreadcrumbNavigate"
+    />
 
     <!-- Hero Section -->
     <ServiceSection

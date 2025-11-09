@@ -173,7 +173,10 @@ const handleSubmit = async () => {
 
 <template>
   <div :class="formClasses">
-    <h3 v-if="formTitle" class="text-xl font-bold text-white mb-5">
+    <h3
+      v-if="formTitle"
+      class="text-xl font-bold text-white mb-5"
+    >
       {{ formTitle }}
     </h3>
 
@@ -199,7 +202,9 @@ const handleSubmit = async () => {
           />
         </svg>
         <div>
-          <p class="font-semibold mb-1">Cookies Required</p>
+          <p class="font-semibold mb-1">
+            Cookies Required
+          </p>
           <p class="text-amber-300/90">
             This form requires cookies for spam protection (reCAPTCHA). Please
             enable cookies in your browser settings to submit this form, or use
@@ -209,10 +214,16 @@ const handleSubmit = async () => {
       </div>
     </div>
 
-    <form @submit.prevent="handleSubmit" class="space-y-3.5">
+    <form
+      class="space-y-3.5"
+      @submit.prevent="handleSubmit"
+    >
       <!-- Name -->
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">
+        <label
+          for="name"
+          class="block text-sm font-medium text-gray-300 mb-1"
+        >
           Name *
         </label>
         <input
@@ -223,12 +234,15 @@ const handleSubmit = async () => {
           maxlength="100"
           class="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
           placeholder="John Doe"
-        />
+        >
       </div>
 
       <!-- Email -->
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">
+        <label
+          for="email"
+          class="block text-sm font-medium text-gray-300 mb-1"
+        >
           Email *
         </label>
         <input
@@ -238,7 +252,7 @@ const handleSubmit = async () => {
           required
           class="w-full px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
           placeholder="john@example.com"
-        />
+        >
       </div>
 
       <!-- Service Selection (Optional) -->

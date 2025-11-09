@@ -28,8 +28,13 @@ const colorClasses = {
       class="loading-spinner rounded-full border-[#333333] animate-spin"
       :class="sizeClasses[size]"
       :style="colorClasses[color]"
-    ></div>
-    <p v-if="message" class="text-sm text-gray-400">{{ message }}</p>
+    />
+    <p
+      v-if="message"
+      class="text-sm text-gray-400"
+    >
+      {{ message }}
+    </p>
   </div>
 </template>
 
