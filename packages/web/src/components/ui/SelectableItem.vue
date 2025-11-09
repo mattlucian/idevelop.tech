@@ -104,7 +104,10 @@ const numberClasses = computed(() => {
 
 <template>
   <button :class="containerClasses">
-    <div v-if="number !== undefined" class="flex items-start gap-3">
+    <div
+      v-if="number !== undefined"
+      class="flex items-start gap-3"
+    >
       <!-- Number indicator -->
       <div :class="numberClasses">
         {{ number }}
@@ -112,15 +115,29 @@ const numberClasses = computed(() => {
 
       <!-- Text content -->
       <div class="flex-1 min-w-0">
-        <div :class="titleClasses">{{ title }}</div>
-        <div v-if="subtitle" :class="subtitleClasses">{{ subtitle }}</div>
+        <div :class="titleClasses">
+          {{ title }}
+        </div>
+        <div
+          v-if="subtitle"
+          :class="subtitleClasses"
+        >
+          {{ subtitle }}
+        </div>
       </div>
     </div>
 
     <!-- Without number (title + subtitle only) -->
     <div v-else>
-      <div :class="titleClasses">{{ title }}</div>
-      <div v-if="subtitle" :class="subtitleClasses">{{ subtitle }}</div>
+      <div :class="titleClasses">
+        {{ title }}
+      </div>
+      <div
+        v-if="subtitle"
+        :class="subtitleClasses"
+      >
+        {{ subtitle }}
+      </div>
     </div>
   </button>
 </template>

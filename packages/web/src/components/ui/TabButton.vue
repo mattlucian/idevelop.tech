@@ -37,13 +37,13 @@ const colorClasses = {
 
 <template>
   <button
-    @click="emit('click')"
     :class="[
       'px-4 py-2.5 md:py-2 text-sm font-medium transition-colors rounded-lg md:rounded-none md:border-b-2 text-left md:text-center',
       active
         ? colorClasses[colorScheme].active
         : colorClasses[colorScheme].inactive,
     ]"
+    @click="emit('click')"
   >
     {{ label }}
   </button>

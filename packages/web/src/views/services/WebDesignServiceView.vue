@@ -54,7 +54,10 @@ const handleBreadcrumbNavigate = (path: string) => {
 <template>
   <div class="min-h-screen bg-[#0a0a0a] pt-16">
     <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+    <BreadcrumbNav
+      :items="breadcrumbs"
+      @navigate="handleBreadcrumbNavigate"
+    />
 
     <!-- Hero Section -->
     <ServiceSection
@@ -102,11 +105,15 @@ const handleBreadcrumbNavigate = (path: string) => {
               :key="index"
               class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30"
             >
-              <div class="text-4xl mb-3">{{ step.icon }}</div>
+              <div class="text-4xl mb-3">
+                {{ step.icon }}
+              </div>
               <h4 class="text-lg font-semibold text-cyan-400 mb-2">
                 {{ step.title }}
               </h4>
-              <p class="text-sm text-gray-400">{{ step.description }}</p>
+              <p class="text-sm text-gray-400">
+                {{ step.description }}
+              </p>
             </div>
           </div>
           <p class="text-center text-gray-400 mt-8 text-sm">

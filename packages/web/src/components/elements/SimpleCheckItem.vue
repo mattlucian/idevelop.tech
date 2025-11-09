@@ -30,6 +30,6 @@ const colorClasses = {
         d="M5 13l4 4L19 7"
       />
     </svg>
-    <span class="text-slate-300"><slot></slot></span>
+    <span class="text-slate-300"><slot /></span>
   </li>
 </template>

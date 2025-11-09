@@ -64,17 +64,17 @@ defineExpose({
           <!-- Decorative background elements (desktop only) -->
           <div
             class="hidden lg:block absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"
-          ></div>
+          />
           <div
             class="hidden lg:block absolute -bottom-32 -left-32 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"
-          ></div>
+          />
 
           <div class="relative">
             <!-- Small accent line (desktop only) -->
             <div
               class="hidden lg:block w-16 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mb-4"
-            ></div>
-            <slot name="header"></slot>
+            />
+            <slot name="header" />
           </div>
         </div>
 
@@ -83,7 +83,7 @@ defineExpose({
           v-else
           class="sticky lg:relative top-0 z-50 bg-[#1a1a1a] pt-3 lg:pt-8 px-4 pr-14 lg:px-8 lg:pr-8 pb-3 lg:pb-6 border-b border-[#333333] rounded-t-xl"
         >
-          <slot name="header"></slot>
+          <slot name="header" />
         </div>
 
         <!-- Scrollable Content -->
@@ -91,13 +91,13 @@ defineExpose({
           ref="contentPanelRef"
           class="p-4 pt-5 lg:p-8 lg:flex-1 lg:overflow-y-auto lg:scrollbar-visible"
         >
-          <slot></slot>
+          <slot />
         </div>
 
         <!-- Gradient overlay at bottom (desktop only) -->
         <div
           class="hidden lg:block absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/80 to-transparent pointer-events-none z-10 rounded-b-xl"
-        ></div>
+        />
       </div>
     </div>
   </div>

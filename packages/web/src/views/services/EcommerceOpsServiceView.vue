@@ -53,7 +53,10 @@ const handleBreadcrumbNavigate = (path: string) => {
 <template>
   <div class="min-h-screen bg-[#0a0a0a] pt-16">
     <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+    <BreadcrumbNav
+      :items="breadcrumbs"
+      @navigate="handleBreadcrumbNavigate"
+    />
 
     <!-- Hero Section -->
     <ServiceSection
@@ -134,7 +137,11 @@ const handleBreadcrumbNavigate = (path: string) => {
               class="flex items-start gap-3"
             >
               <div class="text-cyan-400 mt-1">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path
                     fill-rule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -142,7 +149,9 @@ const handleBreadcrumbNavigate = (path: string) => {
                   />
                 </svg>
               </div>
-              <p class="text-gray-300 text-sm md:text-base">{{ benefit }}</p>
+              <p class="text-gray-300 text-sm md:text-base">
+                {{ benefit }}
+              </p>
             </div>
           </div>
         </div>
@@ -204,7 +213,11 @@ const handleBreadcrumbNavigate = (path: string) => {
               class="flex items-start gap-3"
             >
               <div class="text-cyan-400 mt-1">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path
                     fill-rule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -212,7 +225,9 @@ const handleBreadcrumbNavigate = (path: string) => {
                   />
                 </svg>
               </div>
-              <p class="text-gray-300 text-sm md:text-base">{{ benefit }}</p>
+              <p class="text-gray-300 text-sm md:text-base">
+                {{ benefit }}
+              </p>
             </div>
           </div>
         </div>
@@ -265,7 +280,11 @@ const handleBreadcrumbNavigate = (path: string) => {
               class="flex items-start gap-3"
             >
               <div class="text-cyan-400 mt-1">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path
                     fill-rule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -273,7 +292,9 @@ const handleBreadcrumbNavigate = (path: string) => {
                   />
                 </svg>
               </div>
-              <p class="text-gray-300 text-sm md:text-base">{{ benefit }}</p>
+              <p class="text-gray-300 text-sm md:text-base">
+                {{ benefit }}
+              </p>
             </div>
           </div>
         </div>

@@ -17,9 +17,7 @@ const colorClasses = {
 
 <template>
   <li class="flex items-start gap-3">
-    <span :class="['font-bold flex-shrink-0 w-5 mt-0.5', colorClasses[color]]"
-      >{{ number }}.</span
-    >
-    <span class="text-slate-300"><slot></slot></span>
+    <span :class="['font-bold flex-shrink-0 w-5 mt-0.5', colorClasses[color]]">{{ number }}.</span>
+    <span class="text-slate-300"><slot /></span>
   </li>
 </template>

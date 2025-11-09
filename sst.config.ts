@@ -20,14 +20,14 @@ export default $config({
         command: "npm run build",
         output: "dist",
       },
-      // Custom domain only for production (after DNS migration)
-      // Dev stages use auto-generated CloudFront URLs
-      ...(isProduction && {
-        domain: {
-          name: "idevelop.tech",
-          redirects: ["www.idevelop.tech"],
-        },
-      }),
+      // Custom domain disabled for initial deployment
+      // Will enable in future PR after testing CloudFront deployment
+      // ...(isProduction && {
+      //   domain: {
+      //     name: "idevelop.tech",
+      //     redirects: ["www.idevelop.tech"],
+      //   },
+      // }),
       environment: {
         VITE_API_URL: "", // Will add API URL when backend is implemented
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",

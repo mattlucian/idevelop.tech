@@ -51,8 +51,12 @@ const colorClasses = {
           :d="iconPath"
         />
       </svg>
-      <div class="text-sm md:text-lg font-bold text-white">{{ name }}</div>
-      <div class="text-xs text-slate-400 mt-0.5 md:mt-1">{{ label }}</div>
+      <div class="text-sm md:text-lg font-bold text-white">
+        {{ name }}
+      </div>
+      <div class="text-xs text-slate-400 mt-0.5 md:mt-1">
+        {{ label }}
+      </div>
     </div>
   </div>
 </template>

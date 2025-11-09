@@ -57,12 +57,12 @@ const colorClasses = computed(() => ({
     :class="{ 'opacity-0 pointer-events-none': !isVisible }"
   >
     <button
-      @click="$emit('schedule-call')"
       :class="[
         'group px-6 py-3 bg-gradient-to-r text-white font-semibold rounded-full shadow-lg transition-all duration-200 flex items-center gap-2',
         colorClasses.gradient,
         colorClasses.shadow,
       ]"
+      @click="$emit('schedule-call')"
     >
       <span>Schedule a Call</span>
       <svg
@@ -93,11 +93,11 @@ const colorClasses = computed(() => ({
       ]"
     >
       <button
-        @click="$emit('schedule-call')"
         :class="[
           'w-full px-6 py-3 bg-gradient-to-r text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2',
           colorClasses.gradient,
         ]"
+        @click="$emit('schedule-call')"
       >
         <span>Schedule a Call</span>
         <svg

@@ -50,7 +50,11 @@ const colorClasses = {
           {{ subtitle }}
         </p>
         <div class="flex justify-center">
-          <PrimaryButton @click="handleClick" size="lg" :color="colorScheme">
+          <PrimaryButton
+            size="lg"
+            :color="colorScheme"
+            @click="handleClick"
+          >
             <span class="text-lg">📅 {{ buttonText }}</span>
           </PrimaryButton>
         </div>

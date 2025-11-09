@@ -36,7 +36,6 @@ const iconSizes = {
 
 <template>
   <button
-    @click="emit('click')"
     :aria-label="type === 'back' ? 'Go back' : 'Close'"
     :class="[
       'rounded-lg bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-[#333333] hover:border-cyan-500 flex items-center justify-center transition-all group focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#0a0a0a]',
@@ -44,6 +43,7 @@ const iconSizes = {
       absolutePosition ? 'absolute top-5 right-5 z-[60]' : '',
       !absolutePosition && size === 'sm' ? 'flex-shrink-0' : '',
     ]"
+    @click="emit('click')"
   >
     <!-- Back arrow -->
     <svg

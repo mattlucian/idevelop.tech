@@ -25,7 +25,6 @@ const emit = defineEmits<{
   <router-link
     v-if="!external"
     :to="to"
-    @click="emit('click')"
     :class="[
       'px-4 py-1.5 border-2 rounded-md text-sm font-semibold transition-all antialiased',
       fullWidth ? 'block w-full text-center' : '',
@@ -33,6 +32,7 @@ const emit = defineEmits<{
         ? 'bg-cyan-500/10 hover:bg-cyan-500/15 border-cyan-500 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300'
         : 'bg-emerald-500/10 hover:bg-emerald-500/15 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300',
     ]"
+    @click="emit('click')"
   >
     <slot />
   </router-link>
@@ -41,7 +41,6 @@ const emit = defineEmits<{
     :href="to"
     target="_blank"
     rel="noopener noreferrer"
-    @click="emit('click')"
     :class="[
       'px-4 py-1.5 border-2 rounded-md text-sm font-semibold transition-all antialiased',
       fullWidth ? 'block w-full text-center' : '',
@@ -49,6 +48,7 @@ const emit = defineEmits<{
         ? 'bg-cyan-500/10 hover:bg-cyan-500/15 border-cyan-500 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300'
         : 'bg-emerald-500/10 hover:bg-emerald-500/15 border-emerald-500 hover:border-emerald-400 text-emerald-400 hover:text-emerald-300',
     ]"
+    @click="emit('click')"
   >
     <slot />
   </a>

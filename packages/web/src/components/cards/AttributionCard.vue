@@ -25,7 +25,7 @@ defineProps<Props>();
       loading="lazy"
       decoding="async"
       class="w-full h-48 object-cover rounded-lg mb-4"
-    />
+    >
     <p class="text-sm text-gray-400 mb-2">
       {{ description }}
     </p>

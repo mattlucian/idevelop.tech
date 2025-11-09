@@ -173,7 +173,10 @@ declare global {
             >
               Cookie Notice
             </h3>
-            <p id="cookie-notice-description" class="text-sm text-gray-300">
+            <p
+              id="cookie-notice-description"
+              class="text-sm text-gray-300"
+            >
               We use essential cookies for spam protection on our contact forms.
               We also use analytics cookies to improve your experience.
               <RouterLink
@@ -188,15 +191,15 @@ declare global {
           <!-- Action Buttons -->
           <div class="flex-shrink-0 w-full md:w-auto flex gap-3">
             <OutlineButton
-              @click="declineCookies"
               color-scheme="gray"
               class="flex-1 md:flex-initial opacity-70"
+              @click="declineCookies"
             >
               Decline
             </OutlineButton>
             <PrimaryButton
-              @click="acceptCookies"
               class="flex-1 md:flex-initial"
+              @click="acceptCookies"
             >
               Accept
             </PrimaryButton>

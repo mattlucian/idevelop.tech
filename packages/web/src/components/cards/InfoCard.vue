@@ -27,6 +27,6 @@ withDefaults(defineProps<Props>(), {
     >
       {{ title }}
     </h2>
-    <slot></slot>
+    <slot />
   </div>
 </template>
