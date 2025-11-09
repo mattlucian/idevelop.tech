@@ -213,6 +213,171 @@ npx sst deploy --stage client-staging
 
 ---
 
+## GitHub Actions CI/CD Setup
+
+This project uses GitHub Actions with AWS OIDC authentication for secure, credential-free deployments.
+
+### Why OIDC Instead of Access Keys?
+
+**Traditional approach (access keys):**
+- ❌ Long-lived credentials stored in GitHub secrets
+- ❌ Manual rotation required
+- ❌ Security risk if leaked
+- ❌ Hard to audit and manage
+
+**OIDC approach:**
+- ✅ No hardcoded credentials
+- ✅ Temporary credentials (auto-expire)
+- ✅ GitHub requests credentials from AWS at deploy time
+- ✅ Fine-grained permissions per repository
+- ✅ Easy to revoke and audit
+
+### One-Time Setup (Already Completed)
+
+The following steps have already been completed for this project:
+
+#### 1. Created OIDC Identity Provider
+
+```bash
+AWS_PROFILE=idevelop-tech aws iam create-open-id-connect-provider \
+  --url https://token.actions.githubusercontent.com \
+  --client-id-list sts.amazonaws.com \
+  --thumbprint-list 6938fd4d98bab03faadb97b34396831e3780aea1
+```
+
+**What this does:**
+- Establishes trust between AWS and GitHub Actions
+- Allows GitHub to request temporary AWS credentials
+- Provider ARN: `arn:aws:iam::996725884498:oidc-provider/token.actions.githubusercontent.com`
+
+#### 2. Created IAM Role for GitHub Actions
+
+```bash
+AWS_PROFILE=idevelop-tech aws iam create-role \
+  --role-name GitHubActionsDeployRole \
+  --assume-role-policy-document file:///tmp/github-oidc-trust-policy.json
+```
+
+**Trust policy** (`/tmp/github-oidc-trust-policy.json`):
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::996725884498:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:mattlucian/idevelop.tech:*"
+        }
+      }
+    }
+  ]
+}
+```
+
+**What this does:**
+- Creates IAM role that GitHub Actions can assume
+- Restricts access to specific repository (`mattlucian/idevelop.tech`)
+- GitHub Actions can only assume role when deploying from this repo
+
+#### 3. Attached Administrator Access Policy
+
+```bash
+AWS_PROFILE=idevelop-tech aws iam attach-role-policy \
+  --role-name GitHubActionsDeployRole \
+  --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+```
+
+**What this does:**
+- Grants deployment permissions to the role
+- Allows SST to create/update/delete infrastructure
+- Role ARN: `arn:aws:iam::996725884498:role/GitHubActionsDeployRole`
+
+#### 4. Configured GitHub Secret
+
+```bash
+gh secret set AWS_ROLE_ARN -b "arn:aws:iam::996725884498:role/GitHubActionsDeployRole"
+```
+
+**What this does:**
+- Stores IAM role ARN in GitHub repository secrets
+- Used by `.github/workflows/deploy-production.yml`
+- Visible in: https://github.com/mattlucian/idevelop.tech/settings/secrets/actions
+
+### How It Works
+
+**On every push to main:**
+
+1. GitHub Actions workflow triggers (`.github/workflows/deploy-production.yml`)
+2. GitHub generates a JWT token proving the workflow is from `mattlucian/idevelop.tech`
+3. Workflow calls AWS STS with the JWT token
+4. AWS validates token against OIDC provider
+5. AWS checks trust policy (repo must match `mattlucian/idevelop.tech`)
+6. AWS issues temporary credentials (valid ~1 hour)
+7. Workflow uses credentials to run `npx sst deploy --stage production`
+8. Credentials expire after workflow completes
+
+**Security benefits:**
+- No credentials stored in GitHub (only role ARN, which is not secret)
+- Credentials are temporary and automatically expire
+- Can't be used outside GitHub Actions context
+- Can only be used by specified repository
+
+### Verifying Setup
+
+Check that everything is configured:
+
+```bash
+# 1. Verify OIDC provider exists
+AWS_PROFILE=idevelop-tech aws iam list-open-id-connect-providers
+
+# 2. Verify IAM role exists
+AWS_PROFILE=idevelop-tech aws iam get-role --role-name GitHubActionsDeployRole
+
+# 3. Verify GitHub secret is set (shows metadata, not value)
+gh secret list
+```
+
+### Adding Additional Repositories
+
+To grant CI/CD access to other repositories:
+
+```bash
+# Update trust policy to include new repo
+AWS_PROFILE=idevelop-tech aws iam update-assume-role-policy \
+  --role-name GitHubActionsDeployRole \
+  --policy-document '{
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::996725884498:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": [
+            "repo:mattlucian/idevelop.tech:*",
+            "repo:mattlucian/other-repo:*"
+          ]
+        }
+      }
+    }]
+  }'
+```
+
+---
+
 ## Troubleshooting
 
 ### Issue: "Unable to locate credentials"
