@@ -70,21 +70,17 @@ When writing or updating documentation in this repository:
 
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
-| Contact form API implementation      | `docs/CTA-FORM-IMPLEMENTATION-PLAN.md`  |
-| Lambda function patterns             | *To be created in Phase 3*              |
-| API endpoint structure               | *To be created in Phase 3*              |
-| DynamoDB schema and usage            | *To be created in Phase 3*              |
-| SES email configuration              | *To be created in Phase 3*              |
+| Contact form API implementation      | `packages/functions/src/contact.ts`     |
+| Email authentication setup           | `docs/SETUP.md` (email section)         |
 
 ### Infrastructure & Deployment
 
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
-| SST configuration and setup          | `README.md`                             |
-| AWS SSO setup (credentials)          | `docs/AWS-SETUP.md` ⚠️                  |
-| Deployment strategy                  | `docs/DEPLOYMENT-PLAN.md`               |
-| AWS setup guide (legacy)             | `docs/DEPLOYMENT-SETUP-GUIDE.md`        |
-| Infrastructure patterns              | *To be created in Phase 3*              |
+| Quick reference & commands           | `docs/QUICK-START.md` ⭐                |
+| Initial project setup (forking)      | `docs/SETUP.md`                         |
+| Branch strategy & CI/CD              | `docs/BRANCH-STRATEGY.md`               |
+| Project phases & implementation      | `docs/PROJECT-PLAN.md`                  |
 
 ### Migration & Project Management
 
@@ -159,6 +155,62 @@ When writing or updating documentation in this repository:
 - [ ] Documentation updated if architecture changed
 
 **Why this matters**: Incomplete work causes downstream issues. Always deliver fully-tested, production-ready code.
+
+---
+
+### 🔴 CRITICAL: Git Workflow and Branch Strategy
+
+**NEVER commit directly to protected branches (`main` or `develop`). ALL changes must go through Pull Requests.**
+
+**Branch workflow (from BRANCH-STRATEGY.md):**
+
+```
+feature/* → PR → develop → PR → main
+              ↓              ↓
+          dev stage    production stage
+     (dev.idevelop.tech)  (idevelop.tech)
+```
+
+**Required workflow for ALL changes:**
+
+1. **Create feature branch** from `develop`:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/my-feature  # or docs/*, hotfix/*
+   ```
+
+2. **Branch naming conventions**:
+   - `feature/*` - New features or enhancements
+   - `docs/*` - Documentation updates
+   - `hotfix/*` - Critical production fixes (branch from main, backport to develop)
+
+3. **Make changes and commit**:
+   ```bash
+   git add .
+   git commit -m "feat: description"  # Use conventional commit format
+   ```
+
+4. **Push branch and create PR**:
+   ```bash
+   git push origin feature/my-feature
+   gh pr create --base develop --title "feat: description"
+   ```
+
+5. **NEVER skip this workflow**:
+   - ❌ `git commit -m "..." && git push origin main` (FORBIDDEN)
+   - ❌ `git commit -m "..." && git push origin develop` (FORBIDDEN)
+   - ✅ Always create branch → commit → push → create PR
+
+**Why this matters**:
+- Direct commits bypass CI checks, code review, and branch protection
+- PRs ensure all changes are validated before merging
+- Maintains clean history and allows rollback if needed
+- Demonstrates professional DevOps practices
+
+**References**:
+- `docs/BRANCH-STRATEGY.md` - Complete branch strategy documentation
+- `docs/PROJECT-PLAN.md` - Phase-by-phase implementation plan
 
 ---
 
@@ -427,10 +479,6 @@ When writing or updating documentation in this repository:
 
 **Lambda function development standards (packages/functions/):**
 
-*To be documented in Phase 3 when implementing API layer*
-
-**Planned patterns:**
-
 - ✅ TypeScript with full type safety
 - ✅ Import shared types from `@idevelop-tech/core`
 - ✅ Use `APIGatewayProxyHandlerV2` type for HTTP handlers
@@ -440,8 +488,8 @@ When writing or updating documentation in this repository:
 
 **References**:
 
-- `docs/CTA-FORM-IMPLEMENTATION-PLAN.md` - Contact form API implementation plan
 - `packages/core/src/types.ts` - Shared request/response types
+- `packages/functions/src/contact.ts` - Contact form implementation example
 
 ---
 
@@ -449,15 +497,15 @@ When writing or updating documentation in this repository:
 
 **API endpoint patterns (packages/functions/):**
 
-*To be documented in Phase 3 when implementing API endpoints*
+**Implemented endpoints:**
 
-**Planned structure:**
+- Contact form: `POST /contact`
+  - reCAPTCHA verification
+  - SES email sending
+  - DynamoDB rate limiting
+  - Structured error responses
 
-- Contact form endpoint: `POST /contact`
-- reCAPTCHA verification integration
-- SES email sending
-- DynamoDB rate limiting
-- Structured error responses
+**Reference**: `packages/functions/src/contact.ts`
 
 ---
 
@@ -542,8 +590,11 @@ export interface ContactFormResponse {
 
 ### When Using Git/Creating Commits
 
+**🔴 CRITICAL: See "MANDATORY RULES → Git Workflow and Branch Strategy" section above for complete branch workflow requirements.**
+
 **Version control workflow:**
 
+- ✅ **NEVER commit directly to `main` or `develop`** - ALL changes require feature branches and PRs
 - ✅ **NEVER commit without user explicitly requesting**
 - ✅ **Review before committing**: Run `git status` and `git diff` in parallel
 - ✅ **Check recent commits**: Run `git log` to match commit message style
@@ -710,13 +761,12 @@ idevelop.tech/
 │       │   └── types.ts     # Shared TypeScript types
 │       └── package.json
 │
-├── infra/                   # Infrastructure code (SST/CDK)
-│   └── (to be created in Phase 3)
-│
 ├── docs/                    # Root-level documentation
-│   ├── CTA-FORM-IMPLEMENTATION-PLAN.md
-│   ├── DEPLOYMENT-PLAN.md
-│   └── DEPLOYMENT-SETUP-GUIDE.md
+│   ├── AWS-SETUP.md
+│   ├── BRANCH-STRATEGY.md
+│   ├── PROJECT-PLAN.md
+│   ├── QUICK-START.md
+│   └── SES-EMAIL-DELIVERABILITY.md
 │
 ├── sst.config.ts            # SST configuration
 ├── package.json             # Root workspace config
