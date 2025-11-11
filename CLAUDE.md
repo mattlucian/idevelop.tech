@@ -70,16 +70,16 @@ When writing or updating documentation in this repository:
 
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
-| Contact form API implementation      | Contact form implemented (Phase 5)      |
-| Email authentication (DKIM, SPF)     | `docs/SES-EMAIL-DELIVERABILITY.md`      |
+| Contact form API implementation      | `packages/functions/src/contact.ts`     |
+| Email authentication setup           | `docs/SETUP.md` (email section)         |
 
 ### Infrastructure & Deployment
 
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
 | Quick reference & commands           | `docs/QUICK-START.md` ⭐                |
+| Initial project setup (forking)      | `docs/SETUP.md`                         |
 | Branch strategy & CI/CD              | `docs/BRANCH-STRATEGY.md`               |
-| AWS SSO setup (credentials)          | `docs/AWS-SETUP.md`                     |
 | Project phases & implementation      | `docs/PROJECT-PLAN.md`                  |
 
 ### Migration & Project Management

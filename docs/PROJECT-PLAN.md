@@ -460,6 +460,7 @@ Add monitoring and observability after site is live.
 - [ ] Consider Sentry for frontend/backend error tracking
 - [ ] Set up if errors become problematic
 - [ ] Monitor Lambda CloudWatch logs
+- [ ] Set up CloudWatch Alarms for SES bounce/complaint rates (optional)
 
 #### 8.3: Analytics Enhancement
 - [ ] Review Google Analytics data
@@ -667,7 +668,7 @@ See Phase 6 section above for complete checklist of tests to perform.
 
 ### Reference Documentation
 - `docs/PROJECT-PLAN.md` - Phase 6 testing checklist
-- `docs/PHASE-5-SETUP-INSTRUCTIONS.md` - API setup and endpoints
+- `packages/functions/src/contact.ts` - Contact form API implementation
 - `CLAUDE.md` - Project coding standards
 
 ---

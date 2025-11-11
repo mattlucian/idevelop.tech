@@ -123,13 +123,10 @@ gh pr create --base main --head develop --title "release: description"
 - **`docs/BRANCH-STRATEGY.md`** - Branch workflow and deployment strategy
 
 ### Backend & Infrastructure
-- **`docs/PHASE-5-SETUP-INSTRUCTIONS.md`** - Backend API implementation details
-- **`docs/AWS-SETUP.md`** - AWS SSO and credentials configuration
-- **`docs/SES-EMAIL-DELIVERABILITY.md`** - Email authentication (DKIM, SPF, DMARC)
+- **`docs/SETUP.md`** - Initial project setup for forking (AWS, email, deployment)
 
 ### Implementation Details
-- **`docs/CTA-FORM-IMPLEMENTATION-PLAN.md`** - Contact form architecture
-- **`docs/DEVELOPMENT-WORKFLOW.md`** - Development best practices
+- **`packages/functions/src/contact.ts`** - Contact form API implementation
 
 ### Frontend Documentation
 - **`packages/web/docs/`** - Frontend-specific documentation
