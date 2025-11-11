@@ -1,8 +1,8 @@
-name: Deploy Production
+name: Deploy Dev
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
     paths-ignore:
       - '**.md'
       - 'docs/**'
@@ -15,12 +15,9 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy to Production
+    name: Deploy to Dev
     runs-on: ubuntu-latest
-    environment: production  # GitHub environment for protection rules
-    # Note: Deploys to 'production' stage
-    # Frontend: CloudFront URL (until Phase 7 domain migration to idevelop.tech)
-    # API: api.idevelop.tech
+    environment: dev  # GitHub environment for dev stage
 
     steps:
       - name: Checkout code
@@ -41,9 +38,12 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
-      - name: Deploy to production
-        run: npx sst deploy --stage production
+      - name: Deploy to dev stage
+        run: npx sst deploy --stage dev
 
-      # Note: SST v3 (Ion) doesn't have an 'outputs' command like v2
-      # Deployment outputs are shown in the deploy step logs
-      # For programmatic access, parse deploy output or use SST SDK
+      - name: Comment deployment URL on commit
+        if: success()
+        run: |
+          echo "✅ Deployed to dev stage"
+          echo "Frontend: https://dev.idevelop.tech"
+          echo "API: https://dev-api.idevelop.tech"
