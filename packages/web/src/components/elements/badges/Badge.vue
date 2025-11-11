@@ -33,10 +33,7 @@ const variantClasses = {
 </script>
 
 <template>
-  <span
-    :class="variantClasses[variant]"
-    class="inline-flex items-center gap-1"
-  >
+  <span :class="variantClasses[variant]" class="inline-flex items-center gap-1">
     <span v-if="icon">{{ icon }}</span>
     <slot />
   </span>

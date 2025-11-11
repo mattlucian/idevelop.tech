@@ -29,10 +29,7 @@ const colorClasses = {
       :class="sizeClasses[size]"
       :style="colorClasses[color]"
     />
-    <p
-      v-if="message"
-      class="text-sm text-gray-400"
-    >
+    <p v-if="message" class="text-sm text-gray-400">
       {{ message }}
     </p>
   </div>

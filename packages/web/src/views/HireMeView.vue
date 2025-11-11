@@ -57,7 +57,9 @@ const goToService = (serviceId: string) => {
               class="bg-slate-900/40 border border-slate-700/40 rounded-lg p-4 text-sm text-gray-400"
             >
               <div class="flex items-center justify-between mb-3">
-                <span class="font-semibold text-gray-300">Starting at $100/hour</span>
+                <span class="font-semibold text-gray-300"
+                  >Starting at $100/hour</span
+                >
                 <span class="text-xs text-gray-500">Examples</span>
               </div>
               <div class="space-y-1.5 text-xs mb-3">
@@ -84,10 +86,7 @@ const goToService = (serviceId: string) => {
         </div>
         <div class="w-full md:w-[340px] lg:w-[400px] flex-shrink-0">
           <div class="md:sticky md:top-24">
-            <CTAForm
-              show-service-selector
-              variant="dark"
-            />
+            <CTAForm show-service-selector variant="dark" />
           </div>
         </div>
       </div>
@@ -111,34 +110,22 @@ const goToService = (serviceId: string) => {
         >
           <div class="flex items-center gap-3 mb-4">
             <span class="text-3xl">📋</span>
-            <h3 class="text-2xl font-bold text-white">
-              Project-Based
-            </h3>
+            <h3 class="text-2xl font-bold text-white">Project-Based</h3>
           </div>
           <p class="text-gray-400 mb-6">
             Focused engagements for specific goals and deliverables
           </p>
           <ul class="space-y-3 mb-8">
-            <CheckItem color="cyan">
-              Starting at 10+ hours
-            </CheckItem>
-            <CheckItem color="cyan">
-              Fixed-fee pricing
-            </CheckItem>
+            <CheckItem color="cyan"> Starting at 10+ hours </CheckItem>
+            <CheckItem color="cyan"> Fixed-fee pricing </CheckItem>
             <CheckItem color="cyan">
               Clear milestones and deliverables
             </CheckItem>
-            <CheckItem color="cyan">
-              Regular progress updates
-            </CheckItem>
-            <CheckItem color="cyan">
-              Documentation included
-            </CheckItem>
+            <CheckItem color="cyan"> Regular progress updates </CheckItem>
+            <CheckItem color="cyan"> Documentation included </CheckItem>
           </ul>
           <div class="flex items-center gap-2">
-            <Badge variant="cyan">
-              Perfect for one-time builds
-            </Badge>
+            <Badge variant="cyan"> Perfect for one-time builds </Badge>
           </div>
         </div>
 
@@ -148,26 +135,18 @@ const goToService = (serviceId: string) => {
         >
           <div class="flex items-center gap-3 mb-4">
             <span class="text-3xl">🔄</span>
-            <h3 class="text-2xl font-bold text-white">
-              Retainer Model
-            </h3>
-            <Badge variant="purple">
-              Popular
-            </Badge>
+            <h3 class="text-2xl font-bold text-white">Retainer Model</h3>
+            <Badge variant="purple"> Popular </Badge>
           </div>
           <p class="text-gray-400 mb-6">
             Ongoing partnership for evolving technical needs
           </p>
           <ul class="space-y-3 mb-8">
-            <CheckItem color="cyan">
-              6+ months, 10-30 hrs/month
-            </CheckItem>
+            <CheckItem color="cyan"> 6+ months, 10-30 hrs/month </CheckItem>
             <CheckItem color="cyan">
               Burst capacity when you need it
             </CheckItem>
-            <CheckItem color="cyan">
-              Responsive communication
-            </CheckItem>
+            <CheckItem color="cyan"> Responsive communication </CheckItem>
             <CheckItem color="cyan">
               Strategic planning + hands-on work
             </CheckItem>
@@ -176,9 +155,7 @@ const goToService = (serviceId: string) => {
             </CheckItem>
           </ul>
           <div class="flex items-center gap-2">
-            <Badge variant="cyan">
-              Best for ongoing support
-            </Badge>
+            <Badge variant="cyan"> Best for ongoing support </Badge>
           </div>
         </div>
       </div>
@@ -234,9 +211,7 @@ const goToService = (serviceId: string) => {
         >
           <div class="flex items-center gap-3 mb-6">
             <span class="text-3xl">👥</span>
-            <h3 class="text-2xl font-bold text-white">
-              Leadership Experience
-            </h3>
+            <h3 class="text-2xl font-bold text-white">Leadership Experience</h3>
           </div>
           <ul class="space-y-3">
             <CheckItem color="cyan">
@@ -245,9 +220,7 @@ const goToService = (serviceId: string) => {
             <CheckItem color="cyan">
               Managed $1M+ annual technology budgets
             </CheckItem>
-            <CheckItem color="cyan">
-              Led SOC2 compliance efforts
-            </CheckItem>
+            <CheckItem color="cyan"> Led SOC2 compliance efforts </CheckItem>
             <CheckItem color="cyan">
               Established engineering culture & processes
             </CheckItem>
@@ -305,10 +278,7 @@ const goToService = (serviceId: string) => {
           <div
             class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6"
           >
-            <PrimaryButton
-              size="lg"
-              @click="openSchedulingLink"
-            >
+            <PrimaryButton size="lg" @click="openSchedulingLink">
               <span class="text-lg">📅 Schedule Free Consultation</span>
             </PrimaryButton>
             <OutlineRouterLink

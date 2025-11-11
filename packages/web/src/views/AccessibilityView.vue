@@ -15,10 +15,7 @@ useMeta({
 </script>
 
 <template>
-  <main
-    id="main-content"
-    class="min-h-screen pt-20 bg-[#0a0a0a] text-white"
-  >
+  <main id="main-content" class="min-h-screen pt-20 bg-[#0a0a0a] text-white">
     <div class="max-w-4xl mx-auto px-6 py-12">
       <!-- Header -->
       <div class="mb-12">
@@ -126,9 +123,7 @@ useMeta({
             <h3 class="text-xl font-semibold mb-2 text-white">
               Accessible Forms
             </h3>
-            <p class="text-gray-300 mb-3">
-              Contact forms include:
-            </p>
+            <p class="text-gray-300 mb-3">Contact forms include:</p>
             <ul class="list-disc list-inside text-gray-300 space-y-1">
               <li>Clear labels for all form fields</li>
               <li>Helpful error messages and validation feedback</li>

@@ -59,7 +59,7 @@ const handleBackNavigation = () => {
                 ? 'filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(450%) hue-rotate(95deg) brightness(95%) contrast(90%);'
                 : 'filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);'
             "
-          >
+          />
         </router-link>
 
         <!-- Spacer -->

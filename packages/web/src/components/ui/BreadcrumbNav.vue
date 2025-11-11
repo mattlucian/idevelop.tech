@@ -30,10 +30,7 @@ const handleClick = (path?: string) => {
   <div class="border-b border-slate-800/20">
     <div class="max-w-5xl mx-auto px-6 py-3">
       <nav class="flex items-center gap-2 text-sm">
-        <template
-          v-for="(item, index) in items"
-          :key="index"
-        >
+        <template v-for="(item, index) in items" :key="index">
           <button
             v-if="item.path"
             :class="[
@@ -44,15 +41,9 @@ const handleClick = (path?: string) => {
           >
             {{ item.label }}
           </button>
-          <span
-            v-else
-            class="text-slate-400"
-          >{{ item.label }}</span>
+          <span v-else class="text-slate-400">{{ item.label }}</span>
 
-          <span
-            v-if="index < items.length - 1"
-            class="text-slate-700"
-          >/</span>
+          <span v-if="index < items.length - 1" class="text-slate-700">/</span>
         </template>
       </nav>
     </div>

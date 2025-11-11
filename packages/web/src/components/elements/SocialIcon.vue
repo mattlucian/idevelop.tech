@@ -39,10 +39,7 @@ const platformPaths = {
         :d="platformPaths[platform]"
         clip-rule="evenodd"
       />
-      <path
-        v-else
-        :d="platformPaths[platform]"
-      />
+      <path v-else :d="platformPaths[platform]" />
     </svg>
   </a>
 </template>

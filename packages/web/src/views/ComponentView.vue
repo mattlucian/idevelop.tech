@@ -373,10 +373,7 @@ onUnmounted(() => {
           @click="$event.stopPropagation()"
         >
           <div class="px-6 py-8">
-            <GradientText
-              tag="h2"
-              class="text-3xl sm:text-4xl font-bold mb-2"
-            >
+            <GradientText tag="h2" class="text-3xl sm:text-4xl font-bold mb-2">
               Component Library
             </GradientText>
             <p class="text-gray-400 text-sm mb-8">
@@ -385,10 +382,7 @@ onUnmounted(() => {
 
             <!-- Categories and Components -->
             <div class="space-y-8">
-              <div
-                v-for="category in categories"
-                :key="category.name"
-              >
+              <div v-for="category in categories" :key="category.name">
                 <h3
                   class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3"
                 >
@@ -420,10 +414,7 @@ onUnmounted(() => {
           @click="$event.stopPropagation()"
         >
           <template #header>
-            <GradientText
-              tag="h1"
-              class="text-3xl sm:text-4xl font-bold mb-2"
-            >
+            <GradientText tag="h1" class="text-3xl sm:text-4xl font-bold mb-2">
               {{ selectedComponent?.name }}
             </GradientText>
             <p class="text-gray-400">
@@ -432,22 +423,15 @@ onUnmounted(() => {
           </template>
 
           <!-- Buttons -->
-          <div
-            v-if="selectedComponentId === 'buttons'"
-            class="space-y-8"
-          >
+          <div v-if="selectedComponentId === 'buttons'" class="space-y-8">
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Primary Button
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Primary Button</h3>
               <p class="text-sm text-gray-400 mb-4">
                 Button with gradient border (use for form actions, clicks)
               </p>
               <div class="flex flex-wrap gap-4">
                 <PrimaryButton>Default</PrimaryButton>
-                <PrimaryButton :show-arrow="false">
-                  No Arrow
-                </PrimaryButton>
+                <PrimaryButton :show-arrow="false"> No Arrow </PrimaryButton>
               </div>
             </div>
             <div>
@@ -459,21 +443,14 @@ onUnmounted(() => {
                 double-tab)
               </p>
               <div class="flex flex-wrap gap-4">
-                <PrimaryRouterLink to="/">
-                  Get in touch
-                </PrimaryRouterLink>
-                <PrimaryRouterLink
-                  to="/"
-                  :show-arrow="false"
-                >
+                <PrimaryRouterLink to="/"> Get in touch </PrimaryRouterLink>
+                <PrimaryRouterLink to="/" :show-arrow="false">
                   No Arrow
                 </PrimaryRouterLink>
               </div>
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Outline Button
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Outline Button</h3>
               <p class="text-sm text-gray-400 mb-4">
                 Outline button (use for click actions like router.back())
               </p>
@@ -495,16 +472,10 @@ onUnmounted(() => {
                 double-tab)
               </p>
               <div class="flex flex-wrap gap-4">
-                <OutlineRouterLink
-                  to="/hire-me"
-                  color-scheme="cyan"
-                >
+                <OutlineRouterLink to="/hire-me" color-scheme="cyan">
                   Hire Me
                 </OutlineRouterLink>
-                <OutlineRouterLink
-                  to="/tech"
-                  color-scheme="emerald"
-                >
+                <OutlineRouterLink to="/tech" color-scheme="emerald">
                   &lt;/&gt;
                 </OutlineRouterLink>
                 <OutlineRouterLink
@@ -517,9 +488,7 @@ onUnmounted(() => {
               </div>
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Icon Button
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Icon Button</h3>
               <p class="text-sm text-gray-400 mb-4">
                 Compact icon-only buttons with hover effects
               </p>
@@ -533,100 +502,55 @@ onUnmounted(() => {
           </div>
 
           <!-- Badges -->
-          <div
-            v-if="selectedComponentId === 'badges'"
-            class="space-y-8"
-          >
+          <div v-if="selectedComponentId === 'badges'" class="space-y-8">
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Badge Variants
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Badge Variants</h3>
               <p class="text-sm text-gray-400 mb-4">
                 Text badges with different color schemes
               </p>
               <div class="flex flex-wrap gap-2">
-                <Badge variant="default">
-                  Default (Cyan/Purple)
-                </Badge>
-                <Badge variant="teal">
-                  Teal
-                </Badge>
-                <Badge variant="cyan">
-                  Cyan
-                </Badge>
-                <Badge variant="purple">
-                  Purple
-                </Badge>
-                <Badge variant="emerald">
-                  Emerald
-                </Badge>
-                <Badge variant="muted">
-                  Muted
-                </Badge>
+                <Badge variant="default"> Default (Cyan/Purple) </Badge>
+                <Badge variant="teal"> Teal </Badge>
+                <Badge variant="cyan"> Cyan </Badge>
+                <Badge variant="purple"> Purple </Badge>
+                <Badge variant="emerald"> Emerald </Badge>
+                <Badge variant="muted"> Muted </Badge>
               </div>
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Icon Badges
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Icon Badges</h3>
               <p class="text-sm text-gray-400 mb-4">
                 Badges with icon and text combinations
               </p>
               <div class="flex flex-wrap gap-2">
                 <IconBadge icon="⚡" />
-                <IconBadge
-                  icon="🚀"
-                  color-scheme="emerald"
-                />
-                <IconBadge
-                  icon="🎨"
-                  color-scheme="purple"
-                />
-                <IconBadge
-                  icon="📊"
-                  size="lg"
-                />
+                <IconBadge icon="🚀" color-scheme="emerald" />
+                <IconBadge icon="🎨" color-scheme="purple" />
+                <IconBadge icon="📊" size="lg" />
               </div>
             </div>
           </div>
 
           <!-- Gradient Text -->
-          <div
-            v-if="selectedComponentId === 'gradient-text'"
-            class="space-y-6"
-          >
+          <div v-if="selectedComponentId === 'gradient-text'" class="space-y-6">
             <div>
               <h3 class="text-xl font-bold mb-4 text-white">
                 Default Gradient
               </h3>
-              <GradientText
-                tag="h1"
-                class="text-4xl font-bold"
-              >
+              <GradientText tag="h1" class="text-4xl font-bold">
                 Component Library
               </GradientText>
             </div>
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Different Tags
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Different Tags</h3>
               <div class="space-y-2">
-                <GradientText
-                  tag="h2"
-                  class="text-3xl font-bold"
-                >
+                <GradientText tag="h2" class="text-3xl font-bold">
                   Heading 2
                 </GradientText>
-                <GradientText
-                  tag="p"
-                  class="text-lg"
-                >
+                <GradientText tag="p" class="text-lg">
                   Paragraph text with gradient
                 </GradientText>
-                <GradientText
-                  tag="span"
-                  class="text-sm"
-                >
+                <GradientText tag="span" class="text-sm">
                   Inline span element
                 </GradientText>
               </div>
@@ -652,9 +576,7 @@ onUnmounted(() => {
               <CheckItem color="emerald">
                 Cloud-native architecture design
               </CheckItem>
-              <CheckItem color="emerald">
-                Full-stack development
-              </CheckItem>
+              <CheckItem color="emerald"> Full-stack development </CheckItem>
             </ul>
           </div>
 
@@ -685,10 +607,7 @@ onUnmounted(() => {
           <!-- Contact Info Item -->
           <div v-if="selectedComponentId === 'contact-info'">
             <div class="space-y-3">
-              <ContactInfoItem
-                icon="📧"
-                label="Email"
-              >
+              <ContactInfoItem icon="📧" label="Email">
                 <a
                   :href="`mailto:${CONTACT.email}`"
                   class="text-cyan-400 hover:text-cyan-300"
@@ -696,17 +615,10 @@ onUnmounted(() => {
                   {{ CONTACT.email }}
                 </a>
               </ContactInfoItem>
-              <ContactInfoItem
-                icon="📍"
-                label="Location"
-              >
+              <ContactInfoItem icon="📍" label="Location">
                 {{ CONTACT.location }}
               </ContactInfoItem>
-              <ContactInfoItem
-                icon="💼"
-                label="Status"
-                color="emerald"
-              >
+              <ContactInfoItem icon="💼" label="Status" color="emerald">
                 Available for consulting
               </ContactInfoItem>
             </div>
@@ -722,10 +634,7 @@ onUnmounted(() => {
               </div>
               <div class="flex gap-6">
                 <LoadingSpinner message="Loading calendar..." />
-                <LoadingSpinner
-                  color="emerald"
-                  message="Processing..."
-                />
+                <LoadingSpinner color="emerald" message="Processing..." />
               </div>
             </div>
           </div>
@@ -766,18 +675,12 @@ onUnmounted(() => {
           <!-- Info Card -->
           <div v-if="selectedComponentId === 'info-card'">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoCard
-                title="Information Card"
-                icon="ℹ️"
-              >
+              <InfoCard title="Information Card" icon="ℹ️">
                 <p class="text-gray-400">
                   This card displays important information with a clean layout.
                 </p>
               </InfoCard>
-              <InfoCard
-                title="Key Feature"
-                icon="🔑"
-              >
+              <InfoCard title="Key Feature" icon="🔑">
                 <p class="text-gray-400">
                   Important information displayed clearly
                 </p>
@@ -869,9 +772,7 @@ onUnmounted(() => {
                     label="Customer Orders"
                     desc="Order placed"
                   />
-                  <div class="text-cyan-400 text-2xl flex items-center">
-                    →
-                  </div>
+                  <div class="text-cyan-400 text-2xl flex items-center">→</div>
                   <IconFlowStep
                     emoji="🎯"
                     label="Smart Routing"
@@ -890,9 +791,7 @@ onUnmounted(() => {
                     desc="Sent to warehouse"
                     filter-style="grayscale"
                   />
-                  <div class="text-cyan-400 text-2xl flex items-center">
-                    →
-                  </div>
+                  <div class="text-cyan-400 text-2xl flex items-center">→</div>
                   <IconFlowStep
                     emoji="🚚"
                     label="Fast Shipping"
@@ -989,9 +888,7 @@ onUnmounted(() => {
             class="space-y-8"
           >
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Hero Variant
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Hero Variant</h3>
               <p class="text-sm text-gray-400 mb-4">
                 Large title and subtitle for service pages
               </p>
@@ -1061,16 +958,8 @@ onUnmounted(() => {
           <!-- Tab Button -->
           <div v-if="selectedComponentId === 'tab-button'">
             <div class="flex gap-2">
-              <TabButton
-                label="Overview"
-                :active="true"
-                color-scheme="cyan"
-              />
-              <TabButton
-                label="Benefits"
-                :active="false"
-                color-scheme="cyan"
-              />
+              <TabButton label="Overview" :active="true" color-scheme="cyan" />
+              <TabButton label="Benefits" :active="false" color-scheme="cyan" />
               <TabButton
                 label="Portfolio"
                 :active="false"
@@ -1111,14 +1000,9 @@ onUnmounted(() => {
           </div>
 
           <!-- CTA Form -->
-          <div
-            v-if="selectedComponentId === 'cta-form'"
-            class="space-y-6"
-          >
+          <div v-if="selectedComponentId === 'cta-form'" class="space-y-6">
             <div>
-              <h3 class="text-xl font-bold mb-4 text-white">
-                Default Variant
-              </h3>
+              <h3 class="text-xl font-bold mb-4 text-white">Default Variant</h3>
               <CTAForm service-name="Integration Services" />
             </div>
             <div>
@@ -1144,9 +1028,7 @@ onUnmounted(() => {
               <div
                 class="bg-slate-900/60 border border-slate-700 rounded-lg p-6"
               >
-                <h3 class="text-xl font-bold mb-4 text-white">
-                  Color Schemes
-                </h3>
+                <h3 class="text-xl font-bold mb-4 text-white">Color Schemes</h3>
                 <div class="space-y-3">
                   <div class="flex items-center gap-3">
                     <span class="text-sm text-gray-400 w-24">Cyan:</span>

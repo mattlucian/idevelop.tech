@@ -13,10 +13,7 @@ defineProps<Props>();
 <template>
   <div class="max-w-3xl">
     <!-- Title -->
-    <h4
-      v-if="title"
-      class="text-sm text-gray-400 mb-6"
-    >
+    <h4 v-if="title" class="text-sm text-gray-400 mb-6">
       {{ title }}
     </h4>
 

@@ -53,10 +53,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 <template>
   <div class="min-h-screen bg-[#0a0a0a] pt-16">
     <!-- Breadcrumb -->
-    <BreadcrumbNav
-      :items="breadcrumbs"
-      @navigate="handleBreadcrumbNavigate"
-    />
+    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
 
     <!-- Hero Section -->
     <ServiceSection
@@ -148,11 +145,17 @@ const handleBreadcrumbNavigate = (path: string) => {
 
       <!-- Caption below diagram -->
       <p class="text-center text-sm text-gray-400 mt-4">
-        <span v-if="activeTab === 'strategy'">From initial assessment to ongoing optimization, get expert guidance
-          at every stage</span>
-        <span v-else-if="activeTab === 'migration'">Minimize risk with phased migration approach and comprehensive
-          testing</span>
-        <span v-else>Reduce cloud costs by 20-40% without sacrificing performance</span>
+        <span v-if="activeTab === 'strategy'"
+          >From initial assessment to ongoing optimization, get expert guidance
+          at every stage</span
+        >
+        <span v-else-if="activeTab === 'migration'"
+          >Minimize risk with phased migration approach and comprehensive
+          testing</span
+        >
+        <span v-else
+          >Reduce cloud costs by 20-40% without sacrificing performance</span
+        >
       </p>
     </div>
 
@@ -192,9 +195,7 @@ const handleBreadcrumbNavigate = (path: string) => {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <!-- Compute -->
           <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">
-              Compute
-            </h4>
+            <h4 class="text-lg font-semibold text-cyan-400 mb-3">Compute</h4>
             <ul class="space-y-2 text-sm text-gray-300">
               <li>• EC2 (Elastic Compute Cloud)</li>
               <li>• ECS (Elastic Container Service)</li>
