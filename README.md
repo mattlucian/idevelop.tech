@@ -18,11 +18,12 @@ Portfolio website and full-stack application showcasing technical consulting ser
 - Tailwind CSS for styling
 - Vite for build tooling
 
-**Backend (Planned):**
+**Backend:**
 - AWS Lambda (serverless functions)
 - API Gateway (HTTP endpoints)
-- DynamoDB (rate limiting & storage)
+- DynamoDB (rate limiting)
 - SES (email delivery)
+- AWS SSM (secrets management)
 
 **Infrastructure:**
 - SST v3 (Infrastructure as Code)
@@ -114,8 +115,8 @@ npm run lint         # ESLint
 npm run format       # Prettier
 ```
 
-### `packages/functions` - Backend (Planned)
-AWS Lambda functions for API endpoints. Contact form handler and future API functionality.
+### `packages/functions` - Backend
+AWS Lambda functions for API endpoints. Includes contact form handler with reCAPTCHA verification, rate limiting, and email delivery.
 
 ### `packages/core` - Shared
 Shared TypeScript types and utilities used across frontend and backend packages.
@@ -174,11 +175,11 @@ See [LICENSE](LICENSE) file for details.
 - **CI/CD:** GitHub Actions (PR checks, auto-deploy to production)
 - **Authentication:** AWS OIDC (secure, credential-free deployments)
 
-**Planned Infrastructure (Phase 6):**
-- API Gateway + Lambda (serverless API)
-- DynamoDB (rate limiting, storage)
-- SES (email delivery)
-- Route 53 (custom domain DNS)
+**Backend Infrastructure:**
+- API Gateway + Lambda (serverless contact form API)
+- DynamoDB (rate limiting storage)
+- SES (email delivery with DKIM/SPF/DMARC)
+- AWS SSM Parameter Store (secrets management)
 
 ---
 
@@ -189,8 +190,12 @@ See [LICENSE](LICENSE) file for details.
 - ✅ **Phase 3:** CI/CD pipeline configured
 - ✅ **Phase 4:** Production deployment to CloudFront
 - ✅ **Phase 4.5:** Security audit and public repo preparation
-- 🔄 **Phase 5:** Backend API implementation (CURRENT)
-- 🔜 **Phase 6:** Testing and validation
+- ✅ **Phase 5:** Backend API implementation complete
+  - ✅ Contact form API with reCAPTCHA
+  - ✅ Email authentication (DKIM, SPF, DMARC)
+  - ✅ CI/CD workflow optimizations
+  - ✅ Dependency updates
+- 🔄 **Phase 6:** Testing and validation (CURRENT)
 - 🔜 **Phase 7:** Custom domain migration (idevelop.tech)
 - 🔜 **Phase 8:** Final security audit and make repository public
 

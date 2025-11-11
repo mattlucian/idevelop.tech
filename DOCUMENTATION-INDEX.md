@@ -10,9 +10,9 @@ Start here if you're new to the project or continuing after a break:
 
 | Document | Purpose | Location |
 |----------|---------|----------|
-| **README.md** | Project overview, Phase 2 verification steps, SST commands | `./README.md` |
-| **MIGRATION-PLAN.md** | Complete migration strategy (Phase 1, 2, 3) | `./MIGRATION-PLAN.md` |
-| **MIGRATION-REPORT.md** | Phase 1 completion details | `./MIGRATION-REPORT.md` |
+| **README.md** | Project overview, tech stack, quick start guide | `./README.md` |
+| **PROJECT-PLAN.md** | Complete project roadmap and phase breakdown | `docs/PROJECT-PLAN.md` |
+| **NEXT-SESSION-START.md** | Quick start guide for next development session | `docs/NEXT-SESSION-START.md` |
 | **CLAUDE.md** | AI development guidelines (frontend, API, infra) | `./CLAUDE.md` ⚠️ |
 
 ---
@@ -54,8 +54,8 @@ Documentation for API and Lambda functions:
 | Document | Purpose | Location |
 |----------|---------|----------|
 | **CTA-FORM-IMPLEMENTATION-PLAN.md** | Contact form API implementation plan | `docs/` |
-
-**Note**: Most backend documentation will be created in **Phase 3** when implementing the API layer.
+| **PHASE-5-SETUP-INSTRUCTIONS.md** | Backend API setup guide and deployment results | `docs/` |
+| **SES-EMAIL-DELIVERABILITY.md** | Email authentication (DKIM, SPF, DMARC) setup | `docs/` |
 
 ---
 
@@ -65,11 +65,8 @@ Documentation for SST infrastructure and AWS deployment:
 
 | Document | Purpose | Location |
 |----------|---------|----------|
-| **DEPLOYMENT-PLAN.md** | Complete deployment strategy and architecture | `docs/` |
-| **DEPLOYMENT-SETUP-GUIDE.md** | Step-by-step AWS setup and configuration | `docs/` |
-| **DEPLOYMENT-QUICKSTART.md** | Quick reference for deployment (legacy) | `./` |
-
-**Note**: Infrastructure patterns and SST configuration docs will be created in **Phase 3**.
+| **AWS-SETUP.md** | AWS SSO configuration and OIDC setup | `docs/` |
+| **DEVELOPMENT-WORKFLOW.md** | Development and deployment workflow guide | `docs/` |
 
 ---
 
@@ -90,16 +87,17 @@ Documentation for shared types and utilities:
 ```
 idevelop.tech/
 ├── CLAUDE.md                    # AI development guidelines (ALL layers)
-├── README.md                    # Project overview and Phase 2 steps
-├── MIGRATION-PLAN.md            # Migration strategy
-├── MIGRATION-REPORT.md          # Phase 1 completion
-├── DEPLOYMENT-QUICKSTART.md     # Quick deployment reference
+├── README.md                    # Project overview, tech stack, quick start
 ├── DOCUMENTATION-INDEX.md       # This file
 │
 ├── docs/                        # Root-level docs (full-stack)
-│   ├── CTA-FORM-IMPLEMENTATION-PLAN.md
-│   ├── DEPLOYMENT-PLAN.md
-│   └── DEPLOYMENT-SETUP-GUIDE.md
+│   ├── PROJECT-PLAN.md          # Complete project roadmap
+│   ├── NEXT-SESSION-START.md    # Session quick start guide
+│   ├── AWS-SETUP.md             # AWS SSO and OIDC setup
+│   ├── DEVELOPMENT-WORKFLOW.md  # Development workflow guide
+│   ├── CTA-FORM-IMPLEMENTATION-PLAN.md  # Contact form API plan
+│   ├── PHASE-5-SETUP-INSTRUCTIONS.md    # Backend API setup
+│   └── SES-EMAIL-DELIVERABILITY.md      # Email authentication
 │
 └── packages/
     └── web/
@@ -144,8 +142,8 @@ Read these to understand system design:
 Read these when starting or resuming work:
 
 - `README.md` - Project overview
-- `MIGRATION-PLAN.md` - Migration phases
-- `MIGRATION-REPORT.md` - Current status
+- `docs/PROJECT-PLAN.md` - Complete roadmap
+- `docs/NEXT-SESSION-START.md` - Session quick start
 
 ---
 
@@ -186,16 +184,16 @@ All documentation in this project follows these principles:
 
 ### I want to deploy
 
-1. Complete Phase 2 verification per `README.md`
-2. Review `docs/DEPLOYMENT-PLAN.md` - Deployment strategy
-3. Follow `docs/DEPLOYMENT-SETUP-GUIDE.md` - AWS setup
-4. Execute Phase 3 per `MIGRATION-PLAN.md`
+1. Review `docs/AWS-SETUP.md` - AWS SSO configuration
+2. Follow `docs/DEVELOPMENT-WORKFLOW.md` - Deployment workflow
+3. Check `docs/PROJECT-PLAN.md` - Current phase status
 
 ### I want to add API functionality
 
 1. Read `docs/CTA-FORM-IMPLEMENTATION-PLAN.md` - Contact form example
-2. Follow `CLAUDE.md` backend guidelines (Phase 3)
-3. Use shared types from `packages/core/`
+2. Review `docs/PHASE-5-SETUP-INSTRUCTIONS.md` - Backend API setup
+3. Follow `CLAUDE.md` backend guidelines
+4. Use shared types from `packages/core/`
 
 ---
 
@@ -244,4 +242,4 @@ All documentation in this project follows these principles:
 
 ---
 
-**Last Updated**: 2025-11-07 (Phase 2)
+**Last Updated**: 2025-11-11 (Phase 6)
