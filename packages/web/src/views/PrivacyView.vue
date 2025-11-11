@@ -162,9 +162,7 @@ const enableConsent = () => {
         <p class="text-lg text-gray-300">
           Simple, transparent privacy. We don't sell your data.
         </p>
-        <p class="text-sm text-gray-400 mt-2">
-          Last Updated: October 31, 2025
-        </p>
+        <p class="text-sm text-gray-400 mt-2">Last Updated: October 31, 2025</p>
       </div>
     </div>
 
@@ -189,8 +187,10 @@ const enableConsent = () => {
             </li>
             <li class="flex items-start gap-2">
               <span class="text-cyan-400 mt-1">✓</span>
-              <span>We don't sell, rent, or share your data with third parties for
-                marketing</span>
+              <span
+                >We don't sell, rent, or share your data with third parties for
+                marketing</span
+              >
             </li>
             <li class="flex items-start gap-2">
               <span class="text-cyan-400 mt-1">✓</span>
@@ -212,8 +212,10 @@ const enableConsent = () => {
           <div class="space-y-3 mb-4">
             <div class="flex items-center gap-3">
               <span class="text-emerald-400 text-lg">✓</span>
-              <span class="text-gray-300"><strong class="text-white">Essential Cookies:</strong> Enabled
-                (required for contact forms)</span>
+              <span class="text-gray-300"
+                ><strong class="text-white">Essential Cookies:</strong> Enabled
+                (required for contact forms)</span
+              >
             </div>
             <div class="flex items-center gap-3">
               <span
@@ -255,10 +257,7 @@ const enableConsent = () => {
           <div class="space-y-3">
             <!-- Revoke Button (only show if analytics enabled) -->
             <div v-if="consentStatus.analytics">
-              <OutlineButton
-                color-scheme="gray"
-                @click="revokeConsent"
-              >
+              <OutlineButton color-scheme="gray" @click="revokeConsent">
                 Revoke Analytics Consent
               </OutlineButton>
               <p class="text-sm text-gray-400 mt-2">
@@ -271,10 +270,7 @@ const enableConsent = () => {
 
             <!-- Enable Button (only show if analytics disabled) -->
             <div v-else>
-              <OutlineButton
-                color-scheme="cyan"
-                @click="enableConsent"
-              >
+              <OutlineButton color-scheme="cyan" @click="enableConsent">
                 Enable Analytics Cookies
               </OutlineButton>
               <p class="text-sm text-gray-400 mt-2">
@@ -289,9 +285,7 @@ const enableConsent = () => {
             v-if="showRevokeSuccess"
             class="mt-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3"
           >
-            <p class="text-emerald-400 text-sm">
-              ✓ {{ successMessage }}
-            </p>
+            <p class="text-emerald-400 text-sm">✓ {{ successMessage }}</p>
           </div>
         </section>
 
@@ -320,9 +314,7 @@ const enableConsent = () => {
             What Data We Collect
           </h2>
 
-          <h3 class="text-xl font-semibold text-white mb-3">
-            Contact Forms
-          </h3>
+          <h3 class="text-xl font-semibold text-white mb-3">Contact Forms</h3>
           <p class="text-gray-300 mb-4">
             When you submit a contact form, we collect:
           </p>
@@ -333,18 +325,14 @@ const enableConsent = () => {
             <li>Technical information (IP address, browser type, timestamp)</li>
           </ul>
 
-          <h3 class="text-xl font-semibold text-white mb-3">
-            Cookies
-          </h3>
+          <h3 class="text-xl font-semibold text-white mb-3">Cookies</h3>
           <p class="text-gray-300 mb-4">
             We use cookies to protect our contact forms from spam. These cookies
             are set by Google reCAPTCHA and help us distinguish real users from
             automated bots.
           </p>
 
-          <h3 class="text-xl font-semibold text-white mb-3">
-            Analytics
-          </h3>
+          <h3 class="text-xl font-semibold text-white mb-3">Analytics</h3>
           <p class="text-gray-300">
             We use Google Analytics to understand how visitors use our site and
             improve the experience. Google Analytics may track your activity
@@ -366,9 +354,7 @@ const enableConsent = () => {
           <h2 class="text-2xl font-bold text-white mb-4">
             How We Use Your Data
           </h2>
-          <p class="text-gray-300 mb-4">
-            We use your information to:
-          </p>
+          <p class="text-gray-300 mb-4">We use your information to:</p>
           <ul class="list-disc list-inside space-y-2 text-gray-300">
             <li>
               Respond to your inquiries and provide information about our
@@ -382,9 +368,7 @@ const enableConsent = () => {
 
         <!-- Cookies in Detail -->
         <section>
-          <h2 class="text-2xl font-bold text-white mb-4">
-            Cookies in Detail
-          </h2>
+          <h2 class="text-2xl font-bold text-white mb-4">Cookies in Detail</h2>
           <p class="text-gray-300 mb-4">
             Cookies are small text files stored on your device. We use two types
             of cookies:
@@ -493,15 +477,15 @@ const enableConsent = () => {
           <h2 class="text-2xl font-bold text-white mb-4">
             We Don't Sell Your Data
           </h2>
-          <p class="text-gray-300 mb-4">
-            Let's be clear:
-          </p>
+          <p class="text-gray-300 mb-4">Let's be clear:</p>
           <div
             class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4"
           >
             <p class="text-gray-300">
-              <strong class="text-emerald-400">We do not sell, rent, or share your personal information with
-                third parties for marketing purposes.</strong>
+              <strong class="text-emerald-400"
+                >We do not sell, rent, or share your personal information with
+                third parties for marketing purposes.</strong
+              >
               Your contact information is used only to respond to your inquiries
               and improve our services.
             </p>
@@ -513,9 +497,7 @@ const enableConsent = () => {
           <h2 class="text-2xl font-bold text-white mb-4">
             Third-Party Services
           </h2>
-          <p class="text-gray-300 mb-4">
-            We use these third-party services:
-          </p>
+          <p class="text-gray-300 mb-4">We use these third-party services:</p>
 
           <div class="space-y-4">
             <div class="bg-[#0f0f0f] border border-slate-700 rounded-lg p-4">
@@ -594,9 +576,7 @@ const enableConsent = () => {
 
         <!-- Your Rights (GDPR Compliance) -->
         <section>
-          <h2 class="text-2xl font-bold text-white mb-4">
-            Your Data Rights
-          </h2>
+          <h2 class="text-2xl font-bold text-white mb-4">Your Data Rights</h2>
           <p class="text-gray-300 mb-4">
             Under applicable privacy laws (including GDPR for EU residents), you
             may:
@@ -633,9 +613,7 @@ const enableConsent = () => {
 
         <!-- Security -->
         <section>
-          <h2 class="text-2xl font-bold text-white mb-4">
-            Security
-          </h2>
+          <h2 class="text-2xl font-bold text-white mb-4">Security</h2>
           <p class="text-gray-300">
             We take reasonable measures to protect your data from unauthorized
             access, disclosure, alteration, or destruction. This includes
@@ -646,9 +624,7 @@ const enableConsent = () => {
 
         <!-- Children's Privacy -->
         <section>
-          <h2 class="text-2xl font-bold text-white mb-4">
-            Children's Privacy
-          </h2>
+          <h2 class="text-2xl font-bold text-white mb-4">Children's Privacy</h2>
           <p class="text-gray-300">
             Our services are not directed to children under 13. We do not
             knowingly collect personal information from children. If you believe
@@ -671,9 +647,7 @@ const enableConsent = () => {
 
         <!-- Contact Us -->
         <section class="bg-slate-900/60 border border-slate-700 rounded-xl p-6">
-          <h2 class="text-2xl font-bold text-white mb-4">
-            Questions?
-          </h2>
+          <h2 class="text-2xl font-bold text-white mb-4">Questions?</h2>
           <p class="text-gray-300 mb-4">
             If you have questions about this privacy policy or how we handle
             your data, contact us:

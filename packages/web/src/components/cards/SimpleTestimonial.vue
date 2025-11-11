@@ -30,9 +30,7 @@ const colorClasses = {
       colorClasses[colorScheme].border,
     ]"
   >
-    <p class="text-slate-300 text-lg italic mb-4">
-      "{{ quote }}"
-    </p>
+    <p class="text-slate-300 text-lg italic mb-4">"{{ quote }}"</p>
     <div class="text-sm">
       <span class="text-white font-semibold">{{ author }}</span>
       <span class="text-slate-500"> · {{ role }}</span>

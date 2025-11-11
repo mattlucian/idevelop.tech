@@ -8,9 +8,7 @@
         <div
           class="flex flex-col items-center sm:items-start gap-2 text-center sm:text-left"
         >
-          <p class="text-sm text-gray-400">
-            © 2025 {{ SITE.companyName }}
-          </p>
+          <p class="text-sm text-gray-400">© 2025 {{ SITE.companyName }}</p>
           <p class="text-sm text-gray-500 flex items-center gap-1.5">
             Made with
             <span class="text-red-500 animate-pulse">❤️</span>

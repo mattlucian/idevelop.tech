@@ -27,12 +27,8 @@
         class="hidden md:flex justify-between items-center mb-8 pb-6 border-b border-slate-700/30"
       >
         <div class="flex-1">
-          <h3 class="text-2xl font-bold text-cyan-400 mb-2">
-            Order
-          </h3>
-          <p class="text-sm text-slate-400">
-            eCommerce Entity
-          </p>
+          <h3 class="text-2xl font-bold text-cyan-400 mb-2">Order</h3>
+          <p class="text-sm text-slate-400">eCommerce Entity</p>
         </div>
         <div class="w-32 text-center">
           <div
@@ -42,12 +38,8 @@
           </div>
         </div>
         <div class="flex-1 text-right">
-          <h3 class="text-2xl font-bold text-emerald-400 mb-2">
-            Invoice
-          </h3>
-          <p class="text-sm text-slate-400">
-            Accounting Entity
-          </p>
+          <h3 class="text-2xl font-bold text-emerald-400 mb-2">Invoice</h3>
+          <p class="text-sm text-slate-400">Accounting Entity</p>
         </div>
       </div>
 
@@ -56,23 +48,15 @@
         <div
           class="flex-1 bg-slate-800/60 border border-cyan-500/40 rounded px-2 py-2"
         >
-          <div class="text-sm font-bold text-cyan-400">
-            Order
-          </div>
-          <div class="text-xs text-slate-500 mt-0.5">
-            eCommerce
-          </div>
+          <div class="text-sm font-bold text-cyan-400">Order</div>
+          <div class="text-xs text-slate-500 mt-0.5">eCommerce</div>
         </div>
         <div class="w-8 flex-shrink-0" />
         <div
           class="flex-1 bg-slate-800/60 border border-emerald-500/40 rounded px-2 py-2"
         >
-          <div class="text-sm font-bold text-emerald-400">
-            Invoice
-          </div>
-          <div class="text-xs text-slate-500 mt-0.5">
-            Accounting
-          </div>
+          <div class="text-sm font-bold text-emerald-400">Invoice</div>
+          <div class="text-xs text-slate-500 mt-0.5">Accounting</div>
         </div>
       </div>
 

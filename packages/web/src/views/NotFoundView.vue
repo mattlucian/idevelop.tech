@@ -51,10 +51,7 @@ const goHome = () => {
 
       <!-- CTA Button -->
       <div class="flex justify-center">
-        <PrimaryButton
-          color-scheme="cyan"
-          @click="goHome"
-        >
+        <PrimaryButton color-scheme="cyan" @click="goHome">
           Go to Home
         </PrimaryButton>
       </div>

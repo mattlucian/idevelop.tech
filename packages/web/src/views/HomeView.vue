@@ -65,16 +65,17 @@ useMeta({
               <h1
                 class="text-3xl md:text-4xl font-bold mb-5 leading-tight tracking-tight"
               >
-                <span class="text-white">Complex Problems.</span><br class="sm:hidden">
-                <GradientText tag="span">
-                  Simple Solutions.
-                </GradientText>
+                <span class="text-white">Complex Problems.</span
+                ><br class="sm:hidden" />
+                <GradientText tag="span"> Simple Solutions. </GradientText>
               </h1>
 
               <div
                 class="text-sm sm:text-base md:text-lg text-gray-400 max-w-[95%] sm:max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-0.5 sm:gap-1.5 mt-6 px-2 sm:px-0"
               >
-                <span class="text-center sm:text-right sm:whitespace-nowrap">Get expert help with</span>
+                <span class="text-center sm:text-right sm:whitespace-nowrap"
+                  >Get expert help with</span
+                >
                 <TypewriterText
                   :phrases="expertisePhrases"
                   :typing-speed="80"

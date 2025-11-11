@@ -4,30 +4,21 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 3
     labels:
       - "dependencies"
       - "automated"
     commit-message:
-      prefix: "chore"
+      prefix: "chore(deps)"
       include: "scope"
     groups:
-      # Group AWS SDK updates together
-      aws-sdk:
+      # Group ALL minor and patch updates together
+      all-non-major:
         patterns:
-          - "aws-*"
-          - "@aws-sdk/*"
-      # Group SST updates together
-      sst:
-        patterns:
-          - "sst"
-          - "@sst/*"
-      # Group development dependencies
-      dev-dependencies:
-        dependency-type: "development"
+          - "*"
         update-types:
           - "minor"
           - "patch"
@@ -36,10 +27,10 @@ updates:
   - package-ecosystem: "npm"
     directory: "/packages/web"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 3
     labels:
       - "dependencies"
       - "frontend"
@@ -48,21 +39,10 @@ updates:
       prefix: "chore(web)"
       include: "scope"
     groups:
-      # Group Vue ecosystem updates
-      vue:
+      # Group ALL minor and patch updates together
+      all-non-major:
         patterns:
-          - "vue"
-          - "vue-*"
-          - "@vue/*"
-      # Group Vite and build tools
-      build-tools:
-        patterns:
-          - "vite"
-          - "vite-*"
-          - "@vitejs/*"
-      # Group dev dependencies
-      dev-dependencies:
-        dependency-type: "development"
+          - "*"
         update-types:
           - "minor"
           - "patch"
@@ -71,10 +51,10 @@ updates:
   - package-ecosystem: "npm"
     directory: "/packages/functions"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 3
     labels:
       - "dependencies"
       - "backend"
@@ -82,15 +62,23 @@ updates:
     commit-message:
       prefix: "chore(functions)"
       include: "scope"
+    groups:
+      # Group ALL minor and patch updates together
+      all-non-major:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   # Core shared package dependencies
   - package-ecosystem: "npm"
     directory: "/packages/core"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
     labels:
       - "dependencies"
       - "core"
@@ -98,18 +86,31 @@ updates:
     commit-message:
       prefix: "chore(core)"
       include: "scope"
+    groups:
+      # Group ALL minor and patch updates together
+      all-non-major:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   # GitHub Actions workflow dependencies
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
     labels:
       - "dependencies"
       - "github-actions"
       - "automated"
     commit-message:
       prefix: "chore(ci)"
+    groups:
+      # Group ALL GitHub Actions updates together
+      all-actions:
+        patterns:
+          - "*"

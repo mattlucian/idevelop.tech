@@ -58,7 +58,7 @@ const colorClasses = {
           loading="lazy"
           decoding="async"
           class="max-w-full max-h-full object-contain p-2"
-        >
+        />
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">

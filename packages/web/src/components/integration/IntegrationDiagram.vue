@@ -53,10 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
     </div>
 
     <!-- Caption -->
-    <div
-      v-if="caption"
-      class="text-center mt-8"
-    >
+    <div v-if="caption" class="text-center mt-8">
       <p class="text-sm text-slate-400">
         {{ caption }}
       </p>

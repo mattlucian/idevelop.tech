@@ -17,7 +17,8 @@
             rel="noopener noreferrer"
             class="text-teal-400 hover:text-teal-300 underline"
           >
-            Unsplash License </a>.
+            Unsplash License </a
+          >.
         </p>
       </div>
 

@@ -29,10 +29,7 @@ const emit = defineEmits<{
     @keydown.space.prevent="emit('click')"
   >
     <!-- Hero Section -->
-    <div
-      v-if="heroImage"
-      class="relative h-48 overflow-hidden"
-    >
+    <div v-if="heroImage" class="relative h-48 overflow-hidden">
       <!-- Unsplash Image Background -->
       <img
         :src="heroImage"
@@ -42,7 +39,7 @@ const emit = defineEmits<{
         loading="lazy"
         decoding="async"
         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-      >
+      />
       <!-- Softer full-image gradient overlay - mutes image while keeping it visible -->
       <div
         class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/60 to-[#1a1a1a]/40"
@@ -104,10 +101,12 @@ const emit = defineEmits<{
           <h3 class="relative text-2xl font-bold">
             <span
               class="text-white transition-opacity duration-300 group-hover:opacity-0"
-            >{{ title }}</span>
+              >{{ title }}</span
+            >
             <span
               class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            >{{ title }}</span>
+              >{{ title }}</span
+            >
           </h3>
           <p class="text-sm text-gray-400 mt-1">
             {{ tagline }}
@@ -117,11 +116,7 @@ const emit = defineEmits<{
 
       <!-- Tags as badges - toned down -->
       <div class="flex gap-1.5 flex-wrap mb-4 opacity-90">
-        <Badge
-          v-for="(tag, index) in tags"
-          :key="index"
-          variant="muted"
-        >
+        <Badge v-for="(tag, index) in tags" :key="index" variant="muted">
           {{ tag }}
         </Badge>
       </div>

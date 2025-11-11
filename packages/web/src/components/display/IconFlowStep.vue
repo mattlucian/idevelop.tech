@@ -100,10 +100,7 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
 
 <template>
   <!-- Timeline variant: Horizontal layout with icon on left -->
-  <div
-    v-if="variant === 'timeline'"
-    class="flex items-start gap-4 flex-1"
-  >
+  <div v-if="variant === 'timeline'" class="flex items-start gap-4 flex-1">
     <div
       class="flex-shrink-0 bg-gradient-to-br flex items-center justify-center z-10 bg-[#0a0a0a]"
       :class="[
@@ -121,26 +118,17 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
       </span>
     </div>
     <div class="flex-1 pt-2">
-      <h5
-        class="font-bold text-white mb-1"
-        :class="sizes.label"
-      >
+      <h5 class="font-bold text-white mb-1" :class="sizes.label">
         {{ label }}
       </h5>
-      <p
-        class="text-gray-400"
-        :class="sizes.desc"
-      >
+      <p class="text-gray-400" :class="sizes.desc">
         {{ desc }}
       </p>
     </div>
   </div>
 
   <!-- Default variant: Vertical centered layout -->
-  <div
-    v-else
-    class="flex flex-col items-center text-center flex-1"
-  >
+  <div v-else class="flex flex-col items-center text-center flex-1">
     <div
       class="mb-3 bg-gradient-to-br flex items-center justify-center"
       :class="[
@@ -157,16 +145,10 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
         {{ emoji }}
       </span>
     </div>
-    <div
-      class="font-semibold text-white mb-1"
-      :class="sizes.label"
-    >
+    <div class="font-semibold text-white mb-1" :class="sizes.label">
       {{ label }}
     </div>
-    <div
-      class="text-gray-400"
-      :class="sizes.desc"
-    >
+    <div class="text-gray-400" :class="sizes.desc">
       {{ desc }}
     </div>
   </div>

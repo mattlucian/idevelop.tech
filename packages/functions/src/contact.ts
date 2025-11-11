@@ -1,25 +1,495 @@
-import type { APIGatewayProxyHandlerV2 } from 'aws-lambda';
-import type { ContactFormRequest, ContactFormResponse } from '@idevelop-tech/core';
+import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+import type {
+  ContactFormRequest,
+  ContactFormSuccessResponse,
+  ContactFormErrorResponse,
+  ContactFormErrorCode,
+  RateLimitRecord,
+} from "@idevelop-tech/core";
 
-// Placeholder Lambda function for contact form
-// Will be implemented in Phase 3
+// AWS Clients
+const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+const sesClient = new SESClient({});
+const ssmClient = new SSMClient({});
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  console.log('Contact form submission received:', event);
+// Environment variables
+const RATE_LIMIT_TABLE_NAME = process.env.RATE_LIMIT_TABLE_NAME!;
+const RECAPTCHA_SECRET_PARAMETER = process.env.RECAPTCHA_SECRET_PARAMETER!;
+const SES_FROM_EMAIL = process.env.SES_FROM_EMAIL!;
+const SES_TO_EMAIL = process.env.SES_TO_EMAIL!;
 
-  // Placeholder response
-  const response: ContactFormResponse = {
-    success: true,
-    message: 'Contact form handler - to be implemented in Phase 3',
-    requestId: crypto.randomUUID(),
+// Rate limiting configuration
+const RATE_LIMITS = {
+  IP_LIMIT: 5, // requests per hour
+  IP_WINDOW: 60 * 60, // 1 hour in seconds
+  EMAIL_LIMIT: 10, // requests per 24 hours
+  EMAIL_WINDOW: 24 * 60 * 60, // 24 hours in seconds
+};
+
+// reCAPTCHA configuration
+const RECAPTCHA_THRESHOLD = 0.5;
+const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+
+// Cached reCAPTCHA secret (fetch once per Lambda container)
+let cachedRecaptchaSecret: string | null = null;
+
+/**
+ * Get reCAPTCHA secret from AWS SSM Parameter Store
+ */
+async function getRecaptchaSecret(): Promise<string> {
+  if (cachedRecaptchaSecret) {
+    return cachedRecaptchaSecret;
+  }
+
+  try {
+    const command = new GetParameterCommand({
+      Name: RECAPTCHA_SECRET_PARAMETER,
+      WithDecryption: true,
+    });
+
+    const response = await ssmClient.send(command);
+    cachedRecaptchaSecret = response.Parameter?.Value || "";
+
+    if (!cachedRecaptchaSecret) {
+      throw new Error("reCAPTCHA secret not found in SSM");
+    }
+
+    return cachedRecaptchaSecret;
+  } catch (error) {
+    console.error("Failed to fetch reCAPTCHA secret from SSM:", error);
+    throw error;
+  }
+}
+
+/**
+ * Validate request payload
+ */
+function validateRequest(body: any): { valid: boolean; error?: { code: ContactFormErrorCode; message: string } } {
+  // Check required fields
+  if (!body.name || !body.email || !body.service || !body.recaptchaToken) {
+    return {
+      valid: false,
+      error: {
+        code: "VALIDATION_ERROR" as ContactFormErrorCode,
+        message: "Missing required fields: name, email, service, recaptchaToken",
+      },
+    };
+  }
+
+  // Validate name (1-100 chars, letters/spaces/hyphens/apostrophes only)
+  const nameRegex = /^[a-zA-Z\s'-]{1,100}$/;
+  if (!nameRegex.test(body.name.trim())) {
+    return {
+      valid: false,
+      error: {
+        code: "VALIDATION_ERROR" as ContactFormErrorCode,
+        message: "Name must be 1-100 characters and contain only letters, spaces, hyphens, and apostrophes",
+      },
+    };
+  }
+
+  // Validate email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(body.email.trim())) {
+    return {
+      valid: false,
+      error: {
+        code: "INVALID_EMAIL" as ContactFormErrorCode,
+        message: "Invalid email address format",
+      },
+    };
+  }
+
+  // Validate message length (optional field, max 1000 chars)
+  if (body.message && body.message.trim().length > 1000) {
+    return {
+      valid: false,
+      error: {
+        code: "MESSAGE_TOO_LONG" as ContactFormErrorCode,
+        message: "Message must be 1000 characters or less",
+      },
+    };
+  }
+
+  // Validate reCAPTCHA token (min 20 chars)
+  if (body.recaptchaToken.length < 20) {
+    return {
+      valid: false,
+      error: {
+        code: "VALIDATION_ERROR" as ContactFormErrorCode,
+        message: "Invalid reCAPTCHA token",
+      },
+    };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Verify reCAPTCHA token with Google
+ */
+async function verifyRecaptcha(token: string, remoteIp: string): Promise<{ success: boolean; score?: number; error?: { code: ContactFormErrorCode; message: string } }> {
+  try {
+    const secret = await getRecaptchaSecret();
+
+    const response = await fetch(RECAPTCHA_VERIFY_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        secret,
+        response: token,
+        remoteip: remoteIp,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      return {
+        success: false,
+        error: {
+          code: "RECAPTCHA_FAILED" as ContactFormErrorCode,
+          message: "reCAPTCHA verification failed",
+        },
+      };
+    }
+
+    // Check score threshold (reCAPTCHA v3)
+    if (data.score !== undefined && data.score < RECAPTCHA_THRESHOLD) {
+      return {
+        success: false,
+        score: data.score,
+        error: {
+          code: "RECAPTCHA_LOW_SCORE" as ContactFormErrorCode,
+          message: `reCAPTCHA score too low: ${data.score}`,
+        },
+      };
+    }
+
+    return { success: true, score: data.score };
+  } catch (error) {
+    console.error("reCAPTCHA verification error:", error);
+    return {
+      success: false,
+      error: {
+        code: "RECAPTCHA_FAILED" as ContactFormErrorCode,
+        message: "Failed to verify reCAPTCHA",
+      },
+    };
+  }
+}
+
+/**
+ * Check rate limiting for IP and email
+ */
+async function checkRateLimit(ip: string, email: string): Promise<{ allowed: boolean; error?: { code: ContactFormErrorCode; message: string } }> {
+  const now = Date.now();
+  const ipCutoff = new Date(now - RATE_LIMITS.IP_WINDOW * 1000).toISOString();
+  const emailCutoff = new Date(now - RATE_LIMITS.EMAIL_WINDOW * 1000).toISOString();
+
+  try {
+    // Check IP rate limit
+    const ipQuery = new QueryCommand({
+      TableName: RATE_LIMIT_TABLE_NAME,
+      KeyConditionExpression: "pk = :pk AND sk > :cutoff",
+      ExpressionAttributeValues: {
+        ":pk": `IP#${ip}`,
+        ":cutoff": ipCutoff,
+      },
+    });
+
+    const ipResults = await dynamoClient.send(ipQuery);
+    const ipCount = ipResults.Items?.length || 0;
+
+    if (ipCount >= RATE_LIMITS.IP_LIMIT) {
+      return {
+        allowed: false,
+        error: {
+          code: "RATE_LIMIT_EXCEEDED" as ContactFormErrorCode,
+          message: `Too many requests from this IP. Limit: ${RATE_LIMITS.IP_LIMIT} requests per hour`,
+        },
+      };
+    }
+
+    // Check email rate limit
+    const emailQuery = new QueryCommand({
+      TableName: RATE_LIMIT_TABLE_NAME,
+      KeyConditionExpression: "pk = :pk AND sk > :cutoff",
+      ExpressionAttributeValues: {
+        ":pk": `EMAIL#${email.toLowerCase()}`,
+        ":cutoff": emailCutoff,
+      },
+    });
+
+    const emailResults = await dynamoClient.send(emailQuery);
+    const emailCount = emailResults.Items?.length || 0;
+
+    if (emailCount >= RATE_LIMITS.EMAIL_LIMIT) {
+      return {
+        allowed: false,
+        error: {
+          code: "RATE_LIMIT_EXCEEDED" as ContactFormErrorCode,
+          message: `Too many requests from this email. Limit: ${RATE_LIMITS.EMAIL_LIMIT} requests per 24 hours`,
+        },
+      };
+    }
+
+    return { allowed: true };
+  } catch (error) {
+    console.error("Rate limit check error:", error);
+    // Allow request to proceed if rate limit check fails (fail open)
+    return { allowed: true };
+  }
+}
+
+/**
+ * Record rate limit entry in DynamoDB
+ */
+async function recordRateLimit(ip: string, email: string, requestId: string, service?: string, userAgent?: string): Promise<void> {
+  const now = new Date();
+  const timestamp = now.toISOString();
+  const ttl = Math.floor(now.getTime() / 1000) + RATE_LIMITS.EMAIL_WINDOW; // Use longer TTL for cleanup
+
+  const metadata = {
+    service,
+    userAgent,
   };
+
+  try {
+    // Record IP entry
+    const ipRecord: RateLimitRecord = {
+      pk: `IP#${ip}`,
+      sk: timestamp,
+      ttl,
+      requestId,
+      metadata,
+    };
+
+    await dynamoClient.send(
+      new PutCommand({
+        TableName: RATE_LIMIT_TABLE_NAME,
+        Item: ipRecord,
+      })
+    );
+
+    // Record email entry
+    const emailRecord: RateLimitRecord = {
+      pk: `EMAIL#${email.toLowerCase()}`,
+      sk: timestamp,
+      ttl,
+      requestId,
+      metadata,
+    };
+
+    await dynamoClient.send(
+      new PutCommand({
+        TableName: RATE_LIMIT_TABLE_NAME,
+        Item: emailRecord,
+      })
+    );
+  } catch (error) {
+    console.error("Failed to record rate limit:", error);
+    // Don't fail the request if rate limit recording fails
+  }
+}
+
+/**
+ * Send email via AWS SES
+ */
+async function sendEmail(requestData: ContactFormRequest, requestId: string): Promise<{ success: boolean; error?: { code: ContactFormErrorCode; message: string } }> {
+  const { name, email, service, message } = requestData;
+
+  const emailBody = `
+New Contact Form Submission
+
+Request ID: ${requestId}
+Submitted: ${new Date().toISOString()}
+
+---
+
+Name: ${name}
+Email: ${email}
+Service: ${service}
+Message: ${message || "(no message provided)"}
+
+---
+
+Metadata:
+- User Agent: ${requestData.metadata?.userAgent || "N/A"}
+- Referrer: ${requestData.metadata?.referrer || "N/A"}
+- Timestamp: ${requestData.metadata?.timestamp || "N/A"}
+`.trim();
+
+  const command = new SendEmailCommand({
+    Source: SES_FROM_EMAIL,
+    Destination: {
+      ToAddresses: [SES_TO_EMAIL],
+    },
+    Message: {
+      Subject: {
+        Data: `[idevelop.tech] New ${service} Inquiry from ${name}`,
+        Charset: "UTF-8",
+      },
+      Body: {
+        Text: {
+          Data: emailBody,
+          Charset: "UTF-8",
+        },
+      },
+    },
+    ReplyToAddresses: [email],
+  });
+
+  try {
+    await sesClient.send(command);
+    return { success: true };
+  } catch (error) {
+    console.error("SES send email error:", error);
+    return {
+      success: false,
+      error: {
+        code: "EMAIL_SEND_FAILED" as ContactFormErrorCode,
+        message: "Failed to send email",
+      },
+    };
+  }
+}
+
+/**
+ * Main Lambda handler
+ */
+export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+  const requestId = crypto.randomUUID();
+
+  console.log("Contact form submission received:", {
+    requestId,
+    sourceIp: event.requestContext.http.sourceIp,
+  });
+
+  // Parse request body
+  let requestData: ContactFormRequest;
+  try {
+    requestData = JSON.parse(event.body || "{}");
+  } catch (error) {
+    const errorResponse: ContactFormErrorResponse = {
+      success: false,
+      error: {
+        code: "VALIDATION_ERROR",
+        message: "Invalid JSON in request body",
+      },
+    };
+
+    return {
+      statusCode: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(errorResponse),
+    };
+  }
+
+  // Step 1: Validate request
+  const validation = validateRequest(requestData);
+  if (!validation.valid) {
+    const errorResponse: ContactFormErrorResponse = {
+      success: false,
+      error: validation.error!,
+    };
+
+    return {
+      statusCode: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(errorResponse),
+    };
+  }
+
+  // Step 2: Verify reCAPTCHA
+  const recaptchaResult = await verifyRecaptcha(requestData.recaptchaToken, event.requestContext.http.sourceIp);
+  if (!recaptchaResult.success) {
+    const errorResponse: ContactFormErrorResponse = {
+      success: false,
+      error: recaptchaResult.error!,
+    };
+
+    return {
+      statusCode: 403,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(errorResponse),
+    };
+  }
+
+  // Step 3: Check rate limiting
+  const rateLimitCheck = await checkRateLimit(event.requestContext.http.sourceIp, requestData.email.trim());
+  if (!rateLimitCheck.allowed) {
+    const errorResponse: ContactFormErrorResponse = {
+      success: false,
+      error: rateLimitCheck.error!,
+    };
+
+    return {
+      statusCode: 429,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(errorResponse),
+    };
+  }
+
+  // Step 4: Send email
+  const emailResult = await sendEmail(requestData, requestId);
+  if (!emailResult.success) {
+    const errorResponse: ContactFormErrorResponse = {
+      success: false,
+      error: emailResult.error!,
+    };
+
+    return {
+      statusCode: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(errorResponse),
+    };
+  }
+
+  // Step 5: Record rate limit (after successful email send)
+  await recordRateLimit(
+    event.requestContext.http.sourceIp,
+    requestData.email.trim(),
+    requestId,
+    requestData.service,
+    requestData.metadata?.userAgent
+  );
+
+  // Step 6: Return success response
+  const successResponse: ContactFormSuccessResponse = {
+    success: true,
+    message: "Message sent successfully",
+    requestId,
+    estimatedResponse: "within 24 hours",
+  };
+
+  console.log("Contact form submission successful:", {
+    requestId,
+    email: requestData.email,
+    service: requestData.service,
+  });
 
   return {
     statusCode: 200,
     headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(response),
+    body: JSON.stringify(successResponse),
   };
 };
