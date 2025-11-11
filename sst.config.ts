@@ -80,11 +80,12 @@ export default $config({
         command: "npm run build",
         output: "dist",
       },
+      // IMPORTANT: Custom domain disabled for production until Phase 7
+      // Current production site: idevelop.tech (Wix) - intentionally not migrated yet
+      // New CloudFront site available for testing at CloudFront URL
+      // Phase 7 will migrate DNS from Wix to CloudFront
       domain: isProduction
-        ? {
-            name: "idevelop.tech",
-            redirects: ["www.idevelop.tech"],
-          }
+        ? undefined // No custom domain - uses CloudFront URL
         : {
             name: "dev.idevelop.tech",
           },
