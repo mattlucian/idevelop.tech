@@ -36,22 +36,6 @@ jobs:
       - name: Deploy to production
         run: npx sst deploy --stage production
 
-      - name: Get deployment outputs
-        id: outputs
-        continue-on-error: true
-        run: |
-          OUTPUTS=$(npx sst outputs --stage production --json 2>/dev/null || echo '{}')
-          echo "outputs=$OUTPUTS" >> $GITHUB_OUTPUT
-
-      - name: Comment deployment URL on PR
-        if: github.event_name == 'pull_request' && steps.outputs.outcome == 'success'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const outputs = ${{ steps.outputs.outputs }};
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `🚀 Deployed to production!\n\n**URL:** ${outputs.web}`
-            })
+      # Note: SST v3 (Ion) doesn't have an 'outputs' command like v2
+      # Deployment outputs are shown in the deploy step logs
+      # For programmatic access, parse deploy output or use SST SDK
