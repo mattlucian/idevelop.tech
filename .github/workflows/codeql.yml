@@ -1,0 +1,81 @@
+name: CodeQL Security Scan
+
+on:
+  push:
+    branches: [develop, main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.gitignore'
+  pull_request:
+    branches: [develop, main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.gitignore'
+  schedule:
+    # Weekly scan every Monday at 10:00 UTC
+    - cron: '0 10 * * 1'
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write  # Required for uploading CodeQL results
+
+jobs:
+  analyze:
+    name: Analyze Code
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript']
+        # CodeQL supports: 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # Queries to run: default (recommended), security-extended (more thorough), security-and-quality
+          queries: security-extended
+          # Auto-install dependencies for analysis
+          config: |
+            paths-ignore:
+              - node_modules
+              - dist
+              - build
+              - .sst
+              - coverage
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Autobuild attempts to build any compiled languages (C/C++, C#, Go, or Java).
+      # For JavaScript/TypeScript, this step is not strictly necessary but helps ensure
+      # CodeQL can analyze all code paths including bundled/transpiled code
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          # Upload results to GitHub Security tab
+          upload: true
+          # Fail the workflow if high or critical severity issues are found
+          # This will block PRs with security vulnerabilities
+          fail-on: critical,high
