@@ -3,6 +3,11 @@ name: Deploy Production
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.gitignore'
 
 permissions:
   id-token: write   # Required for AWS OIDC authentication
