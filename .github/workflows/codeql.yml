@@ -76,6 +76,6 @@ jobs:
           category: "/language:${{ matrix.language }}"
           # Upload results to GitHub Security tab
           upload: true
-          # Fail the workflow if high or critical severity issues are found
-          # This will block PRs with security vulnerabilities
-          fail-on: critical,high
+          # Note: CodeQL doesn't support fail-on parameter in analyze action
+          # Security findings will be visible in GitHub Security tab
+          # Use branch protection rules to block PRs with security issues
