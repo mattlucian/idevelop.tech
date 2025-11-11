@@ -162,6 +162,62 @@ When writing or updating documentation in this repository:
 
 ---
 
+### 🔴 CRITICAL: Git Workflow and Branch Strategy
+
+**NEVER commit directly to protected branches (`main` or `develop`). ALL changes must go through Pull Requests.**
+
+**Branch workflow (from BRANCH-STRATEGY.md):**
+
+```
+feature/* → PR → develop → PR → main
+              ↓              ↓
+          dev stage    production stage
+     (dev.idevelop.tech)  (idevelop.tech)
+```
+
+**Required workflow for ALL changes:**
+
+1. **Create feature branch** from `develop`:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/my-feature  # or docs/*, hotfix/*
+   ```
+
+2. **Branch naming conventions**:
+   - `feature/*` - New features or enhancements
+   - `docs/*` - Documentation updates
+   - `hotfix/*` - Critical production fixes (branch from main, backport to develop)
+
+3. **Make changes and commit**:
+   ```bash
+   git add .
+   git commit -m "feat: description"  # Use conventional commit format
+   ```
+
+4. **Push branch and create PR**:
+   ```bash
+   git push origin feature/my-feature
+   gh pr create --base develop --title "feat: description"
+   ```
+
+5. **NEVER skip this workflow**:
+   - ❌ `git commit -m "..." && git push origin main` (FORBIDDEN)
+   - ❌ `git commit -m "..." && git push origin develop` (FORBIDDEN)
+   - ✅ Always create branch → commit → push → create PR
+
+**Why this matters**:
+- Direct commits bypass CI checks, code review, and branch protection
+- PRs ensure all changes are validated before merging
+- Maintains clean history and allows rollback if needed
+- Demonstrates professional DevOps practices
+
+**References**:
+- `docs/BRANCH-STRATEGY.md` - Complete branch strategy documentation
+- `docs/PROJECT-PLAN.md` - Phase-by-phase implementation plan
+
+---
+
 ## Frontend Development
 
 ### When Writing Content
@@ -542,8 +598,11 @@ export interface ContactFormResponse {
 
 ### When Using Git/Creating Commits
 
+**🔴 CRITICAL: See "MANDATORY RULES → Git Workflow and Branch Strategy" section above for complete branch workflow requirements.**
+
 **Version control workflow:**
 
+- ✅ **NEVER commit directly to `main` or `develop`** - ALL changes require feature branches and PRs
 - ✅ **NEVER commit without user explicitly requesting**
 - ✅ **Review before committing**: Run `git status` and `git diff` in parallel
 - ✅ **Check recent commits**: Run `git log` to match commit message style
