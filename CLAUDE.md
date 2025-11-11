@@ -70,21 +70,17 @@ When writing or updating documentation in this repository:
 
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
-| Contact form API implementation      | `docs/CTA-FORM-IMPLEMENTATION-PLAN.md`  |
-| Lambda function patterns             | *To be created in Phase 3*              |
-| API endpoint structure               | *To be created in Phase 3*              |
-| DynamoDB schema and usage            | *To be created in Phase 3*              |
-| SES email configuration              | *To be created in Phase 3*              |
+| Contact form API implementation      | Contact form implemented (Phase 5)      |
+| Email authentication (DKIM, SPF)     | `docs/SES-EMAIL-DELIVERABILITY.md`      |
 
 ### Infrastructure & Deployment
 
 | What You Need                        | Documentation File                      |
 | ------------------------------------ | --------------------------------------- |
-| SST configuration and setup          | `README.md`                             |
-| AWS SSO setup (credentials)          | `docs/AWS-SETUP.md` ⚠️                  |
-| Deployment strategy                  | `docs/DEPLOYMENT-PLAN.md`               |
-| AWS setup guide (legacy)             | `docs/DEPLOYMENT-SETUP-GUIDE.md`        |
-| Infrastructure patterns              | *To be created in Phase 3*              |
+| Quick reference & commands           | `docs/QUICK-START.md` ⭐                |
+| Branch strategy & CI/CD              | `docs/BRANCH-STRATEGY.md`               |
+| AWS SSO setup (credentials)          | `docs/AWS-SETUP.md`                     |
+| Project phases & implementation      | `docs/PROJECT-PLAN.md`                  |
 
 ### Migration & Project Management
 
@@ -483,10 +479,6 @@ feature/* → PR → develop → PR → main
 
 **Lambda function development standards (packages/functions/):**
 
-*To be documented in Phase 3 when implementing API layer*
-
-**Planned patterns:**
-
 - ✅ TypeScript with full type safety
 - ✅ Import shared types from `@idevelop-tech/core`
 - ✅ Use `APIGatewayProxyHandlerV2` type for HTTP handlers
@@ -496,8 +488,8 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `docs/CTA-FORM-IMPLEMENTATION-PLAN.md` - Contact form API implementation plan
 - `packages/core/src/types.ts` - Shared request/response types
+- `packages/functions/src/contact.ts` - Contact form implementation example
 
 ---
 
@@ -505,15 +497,15 @@ feature/* → PR → develop → PR → main
 
 **API endpoint patterns (packages/functions/):**
 
-*To be documented in Phase 3 when implementing API endpoints*
+**Implemented endpoints:**
 
-**Planned structure:**
+- Contact form: `POST /contact`
+  - reCAPTCHA verification
+  - SES email sending
+  - DynamoDB rate limiting
+  - Structured error responses
 
-- Contact form endpoint: `POST /contact`
-- reCAPTCHA verification integration
-- SES email sending
-- DynamoDB rate limiting
-- Structured error responses
+**Reference**: `packages/functions/src/contact.ts`
 
 ---
 
@@ -769,13 +761,12 @@ idevelop.tech/
 │       │   └── types.ts     # Shared TypeScript types
 │       └── package.json
 │
-├── infra/                   # Infrastructure code (SST/CDK)
-│   └── (to be created in Phase 3)
-│
 ├── docs/                    # Root-level documentation
-│   ├── CTA-FORM-IMPLEMENTATION-PLAN.md
-│   ├── DEPLOYMENT-PLAN.md
-│   └── DEPLOYMENT-SETUP-GUIDE.md
+│   ├── AWS-SETUP.md
+│   ├── BRANCH-STRATEGY.md
+│   ├── PROJECT-PLAN.md
+│   ├── QUICK-START.md
+│   └── SES-EMAIL-DELIVERABILITY.md
 │
 ├── sst.config.ts            # SST configuration
 ├── package.json             # Root workspace config
