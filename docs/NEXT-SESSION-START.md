@@ -1,6 +1,6 @@
 # Next Session Quick Start Guide
 
-**Task:** Implement Backend API for Contact Form (Phase 5)
+**Task:** Testing and Validation (Phase 6)
 
 ---
 
@@ -11,60 +11,86 @@
 - ✅ Vue frontend deployed to CloudFront
 - ✅ CI/CD pipeline configured (GitHub Actions)
 - ✅ Security audit completed (no secrets in code)
-- ✅ MIT License added, README updated for public
+- ✅ Backend API implemented (contact form with reCAPTCHA, SES, rate limiting)
+- ✅ Email authentication configured (DKIM, SPF, DMARC)
+- ✅ CI/CD workflows fixed for SST v3
+- ✅ Dependencies updated (GitHub Actions, npm packages)
 - ✅ Repository prepared for public visibility (but still private)
 
 ### Current State
-- **Branch:** `main` (clean, all branches merged and deleted)
+- **Branch:** `main` (clean, all recent PRs merged)
 - **Production URL:** https://dxeay6n8brs8g.cloudfront.net
+- **Dev URL:** https://dev.idevelop.tech
 - **Frontend:** Working perfectly, deployed via CI/CD
-- **Backend:** Not yet implemented (Phase 5 task)
-- **Domain:** Using CloudFront URL (will migrate to idevelop.tech in Phase 7)
+- **Backend:** Fully implemented and deployed
+- **Contact Form:** Working end-to-end (form → API → email)
+- **Domain:** Using CloudFront URLs (will migrate to idevelop.tech in Phase 7)
+
+### Recent Completions (2025-11-11)
+1. **Email Authentication:** DKIM, SPF, and DMARC configured for better deliverability
+2. **Workflow Fixes:** Removed invalid `sst outputs` command, disabled production custom domain
+3. **Dependency Updates:** All GitHub Actions and npm packages updated to latest versions
 
 ### What's Next
-Implement serverless backend API for contact form functionality.
+Thorough testing of all functionality before domain migration.
 
 ---
 
-## Phase 5: Backend API Implementation
+## Phase 6: Testing and Validation
 
 ### Goal
-Create Lambda function that handles contact form submissions with:
-- reCAPTCHA verification
-- Email sending via SES
-- Rate limiting via DynamoDB
-- Proper error handling
+Systematically test all features, pages, and functionality to ensure everything works correctly before migrating the domain.
 
-### Key Files to Modify
+### Testing Categories
 
-1. **`sst.config.ts`** - Add infrastructure
-   - API Gateway HTTP API
-   - Lambda function
-   - DynamoDB table
-   - SES email identity
-   - IAM permissions
+#### 6.1: Frontend Testing
+- [ ] Manual testing on all pages (Home, Services, Hire Me, Tech, etc.)
+- [ ] Test responsive design (mobile 320px, tablet 768px, desktop 1024px+)
+- [ ] Verify all navigation works
+- [ ] Check images and assets load
+- [ ] Test cookie consent
+- [ ] Verify Google Analytics tracking
 
-2. **`packages/functions/src/contact.ts`** - Implement handler
-   - Request validation
-   - reCAPTCHA verification
-   - Rate limiting check
-   - Email sending
-   - Error handling
+#### 6.2: Backend Testing
+- [ ] Test contact form with valid data
+- [ ] Test contact form with invalid data
+- [ ] Test rate limiting (submit multiple times)
+- [ ] Test reCAPTCHA failure scenarios
+- [ ] Verify email formatting and content
+- [ ] Test from different browsers/devices
 
-3. **`packages/web/src/components/ui/CTAForm.vue`** - Update frontend
-   - Call API endpoint
-   - Show loading state
-   - Display success/error messages
+#### 6.3: Performance Testing
+- [ ] Check page load times
+- [ ] Verify CloudFront caching
+- [ ] Test API response times
+- [ ] Check bundle sizes
 
-4. **AWS SSM Parameter Store** - Store secrets
-   - reCAPTCHA secret key
-   - SES configuration (if needed)
+#### 6.4: Security Testing
+- [ ] Verify no secrets exposed in frontend
+- [ ] Test CORS configuration
+- [ ] Verify HTTPS enforcement
+- [ ] Test input sanitization
+- [ ] Verify rate limiting effectiveness
 
-### Implementation Plan
+#### 6.5: Cross-Browser Testing
+- [ ] Chrome (desktop & mobile)
+- [ ] Safari (desktop & mobile)
+- [ ] Firefox
+- [ ] Edge
 
-Detailed steps available in:
-- **`docs/CTA-FORM-IMPLEMENTATION-PLAN.md`** - Complete implementation guide
-- **`docs/PROJECT-PLAN.md`** - Overall project phases and timeline
+### Testing URLs
+
+**Production:**
+- Frontend: https://dxeay6n8brs8g.cloudfront.net
+- API: https://api.idevelop.tech (via SST deployment)
+
+**Development:**
+- Frontend: https://dev.idevelop.tech
+- API: https://dev-api.idevelop.tech
+
+**Local Development:**
+- Frontend: http://localhost:5173
+- API: SST dev mode deploys to personal AWS environment
 
 ---
 
@@ -84,11 +110,10 @@ export AWS_PROFILE=idevelop-tech
 
 ### Development Workflow
 ```bash
-# Start SST dev mode (deploys Lambda to personal AWS environment)
+# Start SST dev mode (in one terminal)
 AWS_PROFILE=idevelop-tech npm run dev
-# This creates a personal "dev-yourname" stage in AWS
 
-# In another terminal: Start frontend dev server
+# Start frontend dev server (in another terminal)
 cd packages/web
 npm run dev
 # Frontend at http://localhost:5173
@@ -103,154 +128,137 @@ cd packages/web && npm run build
 cd packages/web && npm run format
 ```
 
-### Deployment Commands
+### Testing Production
 ```bash
-# Deploy to production (after testing)
-AWS_PROFILE=idevelop-tech npx sst deploy --stage production
+# Visit production URL
+open https://dxeay6n8brs8g.cloudfront.net
 
-# View deployment outputs
-AWS_PROFILE=idevelop-tech npx sst outputs --stage production
+# Test contact form
+# Fill out and submit on /hire-me page
 
-# Remove dev environment (cleanup)
-AWS_PROFILE=idevelop-tech npx sst remove --stage dev-yourname
+# Check if email was received at matt@idevelop.tech
+
+# Test rate limiting
+# Submit form 6+ times within an hour (should get rate limited)
 ```
 
-### Git Workflow
+### Git Workflow (if changes needed)
 ```bash
-# Create feature branch
-git checkout -b feature/backend-api
-
 # Check status
 git status
 
-# Stage and commit
+# Create feature branch for any fixes
+git checkout -b fix/issue-description
+
+# Make changes, commit, and push
 git add .
-git commit -m "Implement contact form API
+git commit -m "Fix: description of fix"
+git push origin fix/issue-description
 
-- Add API Gateway and Lambda to SST config
-- Implement contact form handler with reCAPTCHA
-- Add rate limiting with DynamoDB
-- Configure SES email sending
-- Update frontend to call API endpoint
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-# Push and create PR
-git push origin feature/backend-api
-gh pr create --title "Implement backend API for contact form" --base main
+# Create PR
+gh pr create --title "Fix: description" --base main
 ```
 
 ---
 
-## Important Environment Variables
+## Testing Checklist Details
 
-### Frontend (Public - Already Configured)
-```bash
-# packages/web/.env.production
-VITE_API_URL=https://api.idevelop.tech  # Will be set by SST
-VITE_RECAPTCHA_SITE_KEY=6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw  # Public
-VITE_GA_MEASUREMENT_ID=G-XS6QVSG7MS  # Public
-```
+### Frontend Pages to Test
+- [ ] **Home (/)** - Service cards grid, navigation
+- [ ] **Services pages** - All service detail pages
+- [ ] **Hire Me (/hire-me)** - Contact form, scheduling link
+- [ ] **Tech (/tech)** - Tech expertise browser
+- [ ] **Components (/components)** - Design system showcase
+- [ ] **Attributions (/attributions)** - Image credits
+- [ ] **Accessibility (/accessibility)** - Accessibility statement
+- [ ] **404 page** - Custom 404 handling
 
-### Backend (Secrets - To Be Configured)
-**Store in AWS SSM Parameter Store:**
-```bash
-# reCAPTCHA Secret Key (get from Google reCAPTCHA admin)
-aws ssm put-parameter \
-  --name "/idevelop-tech/production/recaptcha-secret" \
-  --value "YOUR_SECRET_KEY_HERE" \
-  --type "SecureString" \
-  --profile idevelop-tech
+### Contact Form Testing Matrix
+| Test Case | Input | Expected Result |
+|-----------|-------|-----------------|
+| Valid submission | All fields filled, valid email | Success message, email received |
+| Invalid email | Bad email format | Client-side validation error |
+| Missing name | Name field empty | Client-side validation error |
+| Missing service | No service selected | Client-side validation error |
+| reCAPTCHA fail | Low score from reCAPTCHA | Server rejects with error message |
+| Rate limit IP | 6+ submissions in 1 hour from same IP | "Too many requests" error |
+| Rate limit email | 11+ submissions in 1 day with same email | "Too many requests" error |
+| Network error | Simulate offline | Error message shown |
 
-# Verify it was stored
-aws ssm get-parameter \
-  --name "/idevelop-tech/production/recaptcha-secret" \
-  --with-decryption \
-  --profile idevelop-tech
-```
+### Performance Benchmarks
+- [ ] Page load time < 3 seconds (on good connection)
+- [ ] First Contentful Paint < 1.5 seconds
+- [ ] API response time < 500ms
+- [ ] No console errors or warnings
+- [ ] No 404s for assets
+- [ ] CloudFront cache hit ratio > 80%
 
-**Note:** You need to obtain the reCAPTCHA secret key from:
-https://www.google.com/recaptcha/admin
-
----
-
-## Project Structure Reminder
-
-```
-idevelop.tech/
-├── packages/
-│   ├── web/              # Vue 3 frontend (DONE)
-│   │   ├── src/
-│   │   │   ├── components/
-│   │   │   │   └── ui/CTAForm.vue  # UPDATE THIS
-│   │   │   └── views/
-│   │   └── package.json
-│   │
-│   ├── functions/        # Lambda functions (TO DO)
-│   │   ├── src/
-│   │   │   └── contact.ts  # IMPLEMENT THIS
-│   │   └── package.json
-│   │
-│   └── core/             # Shared types (DONE)
-│       ├── src/
-│       │   ├── index.ts
-│       │   └── types.ts
-│       └── package.json
-│
-├── sst.config.ts         # ADD INFRASTRUCTURE HERE
-├── docs/
-│   ├── PROJECT-PLAN.md              # Overall plan
-│   ├── CTA-FORM-IMPLEMENTATION-PLAN.md  # API implementation guide
-│   └── AWS-SETUP.md                 # AWS configuration
-│
-└── CLAUDE.md             # Project coding standards
-```
+### Security Checks
+- [ ] No API keys or secrets in frontend bundle
+- [ ] CORS only allows configured origins
+- [ ] All requests over HTTPS
+- [ ] XSS protection (test script injection in form)
+- [ ] SQL injection protection (N/A - using DynamoDB)
+- [ ] Rate limiting working correctly
 
 ---
 
-## Testing Checklist (After Implementation)
+## Known Issues (if any)
 
-### Local Testing (SST Dev Mode)
-- [ ] Lambda function deploys successfully
-- [ ] API Gateway endpoint created
-- [ ] Frontend can call API endpoint
-- [ ] reCAPTCHA verification works
-- [ ] Email sends successfully
-- [ ] Rate limiting works (try multiple submissions)
-- [ ] Error handling works
-- [ ] TypeScript checks pass
-
-### Production Testing (After Deploy)
-- [ ] Deploy to production stage
-- [ ] Test contact form on production CloudFront URL
-- [ ] Verify email received at matt@idevelop.tech
-- [ ] Test from mobile device
-- [ ] Test error scenarios
+_None currently - to be updated during testing._
 
 ---
 
-## Key Documentation References
+## Success Criteria
 
-### Implementation Guides
-1. **`docs/CTA-FORM-IMPLEMENTATION-PLAN.md`** ⭐ PRIMARY REFERENCE
-   - Complete API implementation guide
-   - Request/response schemas
-   - reCAPTCHA integration steps
-   - SES email configuration
-   - Rate limiting strategy
+Before moving to Phase 7 (Domain Migration), verify:
 
-2. **`docs/PROJECT-PLAN.md`**
-   - Overall project phases
-   - Phase 5 detailed tasks
+- ✅ All pages load correctly
+- ✅ Navigation works on all breakpoints
+- ✅ Contact form submits successfully
+- ✅ Emails are received with correct formatting
+- ✅ reCAPTCHA validation works
+- ✅ Rate limiting prevents abuse
+- ✅ No console errors
+- ✅ Mobile experience is good
+- ✅ Performance is acceptable
+- ✅ Security measures are effective
+- ✅ Cross-browser compatibility confirmed
+
+---
+
+## After Phase 6 Completion
+
+### Next Steps
+1. **Phase 7:** Custom domain migration (idevelop.tech → CloudFront)
+2. **Phase 8:** Final security audit → Make repository public
+
+### Timeline
+- Phase 6: 2-3 hours (testing)
+- Phase 7: 1-2 hours + 30min DNS propagation
+- Phase 8: 1 hour
+
+**Total remaining:** ~4-6 hours
+
+---
+
+## Reference Documentation
+
+### Project Documentation
+1. **`docs/PROJECT-PLAN.md`** ⭐ PRIMARY REFERENCE
+   - Complete project plan
+   - Phase 6 detailed checklist
    - Success criteria
-   - Timeline estimates
 
-3. **`docs/AWS-SETUP.md`**
-   - AWS SSO configuration
-   - OIDC authentication
-   - IAM role setup
+2. **`docs/PHASE-5-SETUP-INSTRUCTIONS.md`**
+   - Backend API setup and configuration
+   - Deployment details
+   - API endpoints and testing
+
+3. **`docs/SES-EMAIL-DELIVERABILITY.md`**
+   - Email authentication setup
+   - DKIM, SPF, DMARC configuration
+   - Email deliverability improvements
 
 ### Coding Standards
 4. **`CLAUDE.md`** ⭐ CODING STANDARDS
@@ -267,131 +275,97 @@ idevelop.tech/
 
 ---
 
-## Expected Deliverables (Phase 5)
+## Testing Tools & Resources
 
-### Code Changes
-1. Updated `sst.config.ts` with:
-   - API Gateway configuration
-   - Lambda function
-   - DynamoDB table
-   - SES email identity
-   - IAM permissions
+### Browser DevTools
+- Chrome DevTools (Performance, Network tabs)
+- Safari Web Inspector
+- Firefox Developer Tools
+- Edge DevTools
 
-2. Implemented `packages/functions/src/contact.ts` with:
-   - Request validation
-   - reCAPTCHA verification
-   - Rate limiting logic
-   - Email sending via SES
-   - Error handling
+### Testing Checklist
+Use this systematic approach:
+1. Start with desktop Chrome (most common)
+2. Test all pages and navigation
+3. Test contact form thoroughly
+4. Switch to mobile viewport (responsive)
+5. Test in Safari, Firefox, Edge
+6. Test on actual mobile device if available
+7. Document any issues found
 
-3. Updated `packages/web/src/components/ui/CTAForm.vue` with:
-   - API endpoint integration
-   - Loading states
-   - Success/error messages
+### Performance Testing
+```bash
+# Build production bundle and check size
+cd packages/web
+npm run build
 
-### AWS Resources Created
-- API Gateway HTTP API
-- Lambda function (contact form handler)
-- DynamoDB table (rate limiting)
-- SES email identity (matt@idevelop.tech verified)
-- SSM parameters (reCAPTCHA secret)
+# Check dist/ folder size
+du -sh dist/
+```
 
-### Testing Results
-- All local tests pass
-- Production deployment successful
-- Contact form works end-to-end
-- Emails received successfully
+### Email Testing
+- Submit contact form
+- Check matt@idevelop.tech inbox
+- Verify email formatting
+- Check sender (should be matt@idevelop.tech via SES)
+- Verify subject line and content
 
 ---
 
 ## Common Issues & Solutions
 
-### Issue: AWS SSO session expired
-```bash
-# Solution: Re-authenticate
-aws sso login --profile idevelop-tech
-```
+### Issue: Page loads slowly
+**Check:**
+1. CloudFront cache status (X-Cache header)
+2. Asset sizes (images compressed?)
+3. Bundle size (run build and check dist/)
 
-### Issue: SST dev mode fails to start
-```bash
-# Solution: Check AWS credentials
-aws sts get-caller-identity --profile idevelop-tech
+### Issue: Contact form not submitting
+**Check:**
+1. Browser console for errors
+2. Network tab for API call
+3. reCAPTCHA loaded correctly
+4. CORS errors (check API Gateway config)
 
-# If that fails, re-login
-aws sso login --profile idevelop-tech
-```
+### Issue: Email not received
+**Check:**
+1. Spam folder
+2. AWS SES console for delivery status
+3. CloudWatch logs for Lambda errors
+4. SES sending quota (sandbox mode?)
 
-### Issue: Lambda function fails to read SSM parameter
-**Solution:** Verify IAM permissions in `sst.config.ts` include `ssm:GetParameter`
-
-### Issue: SES email not sending
-**Solutions:**
-1. Verify email address is verified in SES console
-2. Check if SES is in sandbox mode (can only send to verified addresses)
-3. Request production access if needed
-
-### Issue: Frontend can't call API (CORS error)
-**Solution:** Verify CORS configuration in API Gateway setup
-
----
-
-## Phase 5 Success Criteria
-
-Before moving to Phase 6 (Testing), verify:
-
-- ✅ Contact form submits successfully
-- ✅ reCAPTCHA validation works
-- ✅ Emails delivered to matt@idevelop.tech
-- ✅ Rate limiting prevents abuse
-- ✅ Error handling works correctly
-- ✅ All TypeScript checks pass (`npm run type-check`)
-- ✅ Frontend shows appropriate feedback (loading/success/error)
-- ✅ No console errors in browser
-- ✅ API response times < 500ms
-- ✅ No secrets exposed in code
-
----
-
-## After Phase 5 Completion
-
-### Next Steps
-1. **Phase 6:** Thorough testing (manual + automated)
-2. **Phase 7:** Domain migration (idevelop.tech → CloudFront)
-3. **Phase 8:** Final security audit → Make repository public
-
-### Timeline
-- Phase 5: 4-6 hours
-- Phase 6: 2-3 hours
-- Phase 7: 1-2 hours + 30min DNS propagation
-- Phase 8: 1 hour
-
-**Total remaining:** ~8-12 hours
+### Issue: Rate limiting not working
+**Check:**
+1. DynamoDB table has entries
+2. Lambda has permissions to DynamoDB
+3. IP address captured correctly
+4. Timestamps in correct format
 
 ---
 
 ## Quick Start Command Sequence
 
 ```bash
-# 1. Authenticate with AWS
+# 1. Ensure you're on latest main
+git checkout main
+git pull origin main
+
+# 2. Authenticate with AWS (if needed)
 aws sso login --profile idevelop-tech
 export AWS_PROFILE=idevelop-tech
 
-# 2. Verify authentication
-aws sts get-caller-identity
+# 3. Open production site in browser
+open https://dxeay6n8brs8g.cloudfront.net
 
-# 3. Start SST dev mode (in one terminal)
-npm run dev
+# 4. Start systematic testing using checklist above
 
-# 4. Start frontend dev server (in another terminal)
-cd packages/web && npm run dev
-
-# 5. Open browser to http://localhost:5173
-
-# 6. Begin implementing (follow docs/CTA-FORM-IMPLEMENTATION-PLAN.md)
+# 5. If starting local dev (optional)
+npm run dev  # Terminal 1
+cd packages/web && npm run dev  # Terminal 2
 ```
 
 ---
 
-**Ready to start Phase 5! 🚀**
+**Ready to start Phase 6! 🧪**
 
-**Primary Reference:** `docs/CTA-FORM-IMPLEMENTATION-PLAN.md`
+**Primary Reference:** `docs/PROJECT-PLAN.md` (Phase 6 section)
