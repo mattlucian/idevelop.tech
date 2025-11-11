@@ -1,7 +1,7 @@
 # idevelop.tech Project Plan
 
 **Last Updated:** 2025-11-11
-**Current Phase:** Phase 6 - Testing and Validation
+**Current Phase:** Phase 6.5 - Content Polish
 
 ---
 
@@ -11,7 +11,7 @@ Full-stack portfolio website migration from traditional Vue app to SST monorepo 
 
 **Production URL (Current):** https://dxeay6n8brs8g.cloudfront.net
 **Target URL:** https://idevelop.tech
-**Repository:** https://github.com/mattlucian/idevelop.tech (private, will be public after Phase 8)
+**Repository:** https://github.com/mattlucian/idevelop.tech (private, will be public in Phase 6.8)
 
 ---
 
@@ -26,9 +26,14 @@ Full-stack portfolio website migration from traditional Vue app to SST monorepo 
 - ✅ **Phase 5.1:** Email authentication (DKIM, SPF, DMARC) complete (2025-11-11)
 - ✅ **Phase 5.2:** CI/CD workflow fixes complete (2025-11-11)
 - ✅ **Phase 5.3:** Dependency updates complete (2025-11-11)
-- 🔄 **Phase 6:** Testing and validation (CURRENT)
+- ✅ **Phase 5.4:** DevOps enhancements (branch strategy, CodeQL) complete (2025-11-11)
+- ✅ **Phase 6:** Manual smoke testing complete (2025-11-11)
+- 🔄 **Phase 6.5:** Content polish (CURRENT)
+- ⏳ **Phase 6.6:** Add Lighthouse CI and remediate issues
+- ⏳ **Phase 6.7:** CodeQL verification and remediation
+- ⏳ **Phase 6.8:** Make repository public
 - ⏳ **Phase 7:** Custom domain migration
-- ⏳ **Phase 8:** Final security audit and make repository public
+- ⏳ **Phase 8:** Post-launch monitoring setup
 
 ---
 
@@ -123,56 +128,247 @@ Implement serverless contact form API with email functionality.
 
 ---
 
-## Phase 6: Testing and Validation
+## Phase 5.4: DevOps Enhancements ✅ COMPLETE
+
+**Completed:** 2025-11-11
 
 ### Objective
-Thoroughly test all functionality before domain migration.
+Implement enterprise-grade CI/CD practices and branch strategy.
+
+### Tasks Completed
+
+#### Branch Strategy ✅
+- ✅ Created `develop` branch for staging/development
+- ✅ Implemented two-branch deployment workflow
+- ✅ Created `deploy-dev.yml` workflow for dev deployments
+- ✅ Updated `pr-checks.yml` to run on both develop and main
+- ✅ Comprehensive documentation in `docs/BRANCH-STRATEGY.md`
+
+#### CodeQL Security Scanning ✅
+- ✅ Created `codeql.yml` workflow for automated security scanning
+- ✅ Configured for JavaScript/TypeScript analysis
+- ✅ Set to run on PRs, pushes, and weekly schedule
+- ✅ Uses `security-extended` query suite
+- ⚠️ Will fully activate when repository becomes public
+
+#### Branch Flow ✅
+```
+feature/* → PR → develop → deploy to dev.idevelop.tech
+                    ↓
+                 (test)
+                    ↓
+            PR → main → deploy to production (CloudFront URL)
+```
+
+### Reference Documentation
+- `docs/BRANCH-STRATEGY.md` - Complete branch and workflow guide
+- `.github/workflows/codeql.yml` - Security scanning configuration
+- `.github/workflows/deploy-dev.yml` - Dev deployment workflow
+
+---
+
+## Phase 6: Manual Smoke Testing ✅ COMPLETE
+
+**Completed:** 2025-11-11
+
+### Objective
+Manual testing of development environment to catch critical issues.
+
+### Tasks Completed
+- ✅ Tested all pages (Home, Services, Hire Me, Tech, Components, Attributions, Accessibility)
+- ✅ Verified navigation works (desktop & mobile menu)
+- ✅ Checked responsive design across breakpoints
+- ✅ Verified images and assets load correctly
+- ✅ Tested contact form rendering and client-side validation
+- ✅ Confirmed no console errors in browser DevTools
+- ✅ Tested link functionality throughout site
+
+### Testing Environment
+- **Dev Site:** https://dev.idevelop.tech
+- **Browser:** Chrome (primary test)
+- **Responsive:** Verified mobile/tablet/desktop layouts
+
+### Notes
+- ⚠️ Contact form submission not fully testable until domain migration (reCAPTCHA domain restriction)
+- ✅ Frontend code quality confirmed via CI/CD checks (type-check, lint, build)
+
+---
+
+## Phase 6.5: Content Polish 🔄 CURRENT
+
+**Status:** In Progress
+
+### Objective
+Refine website content before making repository public and migrating domain.
+
+### Tasks
+- [ ] Review and update service page copy
+- [ ] Refine hero section messaging
+- [ ] Update portfolio project descriptions
+- [ ] Polish technical expertise descriptions
+- [ ] Review /hire-me page copy
+- [ ] Verify all CTAs are clear and actionable
+- [ ] Check for typos, grammar, consistency
+
+### Approach
+- Remove marketing fluff and over-promising
+- Ensure authenticity and professionalism
+- Follow content guidelines in `packages/web/docs/COMPONENT-RULES.md`
+- Avoid specific commitments (response times, deadlines)
+- Focus on value propositions over superlatives
+
+### Success Criteria
+- ✅ Content reads professionally
+- ✅ No unrealistic promises
+- ✅ Messaging is clear and authentic
+- ✅ All text provides value
+
+---
+
+## Phase 6.6: Lighthouse CI & Remediation
+
+**Status:** Pending
+
+### Objective
+Add automated performance monitoring and remediate any critical issues.
 
 ### Tasks
 
-#### 6.1: Frontend Testing
-- [ ] Manual testing on all pages (Home, Services, Hire Me, Tech, etc.)
-- [ ] Test responsive design (mobile, tablet, desktop)
-- [ ] Verify all navigation works
-- [ ] Check images and assets load
-- [ ] Test cookie consent
-- [ ] Verify Google Analytics tracking
+#### 6.6.1: Add Lighthouse CI
+- [ ] Create `.github/workflows/lighthouse-ci.yml`
+- [ ] Configure to run on PRs to develop and main
+- [ ] Set performance budgets (if needed)
+- [ ] Verify workflow passes on current codebase
 
-#### 6.2: Backend Testing
-- [ ] Test contact form with valid data
-- [ ] Test contact form with invalid data
-- [ ] Test rate limiting (submit multiple times)
-- [ ] Test reCAPTCHA failure scenarios
-- [ ] Verify email formatting and content
-- [ ] Test from different browsers/devices
+#### 6.6.2: Baseline Audit
+- [ ] Run Lighthouse manually on dev.idevelop.tech
+- [ ] Document baseline scores (Performance, Accessibility, Best Practices, SEO)
+- [ ] Identify any critical issues (score < 70)
 
-#### 6.3: Performance Testing
-- [ ] Check page load times
-- [ ] Verify CloudFront caching
-- [ ] Test API response times
-- [ ] Check bundle sizes
-
-#### 6.4: Security Testing
-- [ ] Verify no secrets exposed in frontend
-- [ ] Test CORS configuration
-- [ ] Verify HTTPS enforcement
-- [ ] Test input sanitization
-- [ ] Verify rate limiting effectiveness
-
-#### 6.5: Cross-Browser Testing
-- [ ] Chrome (desktop & mobile)
-- [ ] Safari (desktop & mobile)
-- [ ] Firefox
-- [ ] Edge
+#### 6.6.3: Remediation (if needed)
+- [ ] Fix critical performance issues
+- [ ] Fix critical accessibility issues
+- [ ] Fix critical SEO issues
+- [ ] Re-run audit to confirm fixes
 
 ### Success Criteria
-- ✅ All features work as expected
-- ✅ No console errors
-- ✅ Forms submit successfully
-- ✅ Emails received
-- ✅ Performance acceptable (<3s page load)
-- ✅ Mobile experience good
-- ✅ No security issues found
+- ✅ Lighthouse CI workflow running in GitHub Actions
+- ✅ All categories score > 70 (minimum acceptable)
+- ✅ Target: Performance > 90, Accessibility > 90, Best Practices > 90, SEO > 90
+- ✅ No critical issues blocking launch
+
+### Time Estimate
+- Setup: 15-20 minutes
+- Audit: 5-10 minutes
+- Remediation: 0-2 hours (depending on issues found)
+
+---
+
+## Phase 6.7: CodeQL Verification & Remediation
+
+**Status:** Pending (will activate when repo is public)
+
+### Objective
+Verify CodeQL security scanning works and remediate any vulnerabilities.
+
+### Tasks
+
+#### 6.7.1: Verify CodeQL After Public
+- [ ] Make repository public (Phase 6.8)
+- [ ] Wait for CodeQL scan to complete (~2 minutes)
+- [ ] Check GitHub Security tab for results
+- [ ] Review any security findings
+
+#### 6.7.2: Remediation (if needed)
+- [ ] Review each security alert
+- [ ] Prioritize by severity (critical > high > medium > low)
+- [ ] Fix or dismiss each alert with justification
+- [ ] Re-run scan to verify fixes
+
+### Success Criteria
+- ✅ CodeQL scan completes successfully
+- ✅ No critical or high severity issues
+- ✅ All alerts reviewed and addressed
+- ✅ Security tab shows clean state
+
+### Notes
+- CodeQL currently fails on private repo (requires GitHub Advanced Security license)
+- Will automatically work once repo is public
+- Configuration is already correct in `.github/workflows/codeql.yml`
+
+---
+
+## Phase 6.8: Make Repository Public
+
+**Status:** Pending
+
+### Objective
+Make repository public to enable full security tooling and portfolio visibility.
+
+### Pre-Flight Checklist
+
+#### Security Verification
+- [ ] Run final secret scan: `git log -p | grep -E "(password|secret|key|token)" -i`
+- [ ] Verify no `.env` files in repo
+- [ ] Confirm reCAPTCHA secret is in AWS SSM (not code)
+- [ ] Check AWS credentials not in code
+- [ ] Review git history for any sensitive data
+
+#### Documentation Review
+- [ ] README.md is complete and professional
+- [ ] CLAUDE.md demonstrates architectural thinking
+- [ ] All docs are public-ready (no internal notes)
+- [ ] LICENSE file is appropriate
+- [ ] SECURITY.md is accurate
+
+### Tasks
+
+#### 6.8.1: Final Security Check
+```bash
+# Check for common secrets
+git log -p | grep -E "(sk_|pk_|AKIA|aws_|password|token)" -i
+
+# Check for .env files
+git log --all --full-history -- "**/.env*"
+
+# Check current files
+find . -name ".env*" -o -name "*secret*" -o -name "*key*"
+```
+
+#### 6.8.2: Make Public
+- [ ] Go to GitHub Settings → General → Danger Zone
+- [ ] Click "Change visibility" → "Change to public"
+- [ ] Confirm: "I want to make this repository public"
+- [ ] Verify repository is public
+
+#### 6.8.3: Enable Branch Protection
+- [ ] Go to Settings → Branches
+- [ ] Add rule for `main` branch:
+  - [ ] Require pull request before merging
+  - [ ] Require status checks to pass: `Validate Build`, `CodeQL Security Scan`
+  - [ ] Do not allow bypassing the above settings
+- [ ] (Optional) Add rule for `develop` branch:
+  - [ ] Require status checks to pass
+
+#### 6.8.4: Verify Post-Public
+- [ ] CodeQL scan triggers automatically
+- [ ] Security tab is accessible
+- [ ] Repository is discoverable
+- [ ] All workflows still function
+
+### Success Criteria
+- ✅ Repository is public
+- ✅ No secrets exposed
+- ✅ Branch protection enabled
+- ✅ CodeQL working
+- ✅ All documentation is professional
+
+### Rollback Plan
+If issues are found post-public:
+1. Immediately make repository private again
+2. Remove sensitive data if exposed
+3. Fix issues
+4. Re-attempt making public
 
 ---
 
@@ -247,26 +443,57 @@ If issues occur:
 
 ---
 
-## Phase 8: Final Security Audit & Make Repository Public
+## Phase 8: Post-Launch Monitoring Setup
 
 ### Objective
-Final security review and make repository public.
+Add monitoring and observability after site is live.
 
-### Tasks
+### Tasks (Deferred - Optional)
 
-#### 8.1: Security Audit
-- [ ] Run full codebase security scan
-- [ ] Verify no new secrets introduced during Phase 5-7
-- [ ] Check `.env` files for production secrets
-- [ ] Review Lambda function for security issues
-- [ ] Verify API Gateway CORS settings
-- [ ] Check DynamoDB access controls
-- [ ] Review IAM policies (least privilege)
-- [ ] Verify reCAPTCHA secret in SSM (not code)
-- [ ] Check git history for any leaked credentials
-- [ ] Review all environment variables
+#### 8.1: Uptime Monitoring
+- [ ] Set up BetterStack or similar (free tier)
+- [ ] Monitor https://idevelop.tech
+- [ ] Alert on downtime
+- [ ] Create status page (optional)
 
-#### 8.2: Documentation Review
+#### 8.2: Error Tracking
+- [ ] Consider Sentry for frontend/backend error tracking
+- [ ] Set up if errors become problematic
+- [ ] Monitor Lambda CloudWatch logs
+
+#### 8.3: Analytics Enhancement
+- [ ] Review Google Analytics data
+- [ ] Consider PostHog for session replay (optional)
+- [ ] Set up conversion tracking
+
+#### 8.4: Dependency Scanning
+- [ ] Add Snyk for dependency vulnerability scanning
+- [ ] Configure automatic PR creation for security updates
+
+#### 8.5: Performance Monitoring
+- [ ] Monitor Lighthouse CI scores over time
+- [ ] Set up alerts if scores drop below thresholds
+
+### Notes
+- These are optional enhancements
+- Add only if needed based on actual usage
+- Focus on content and portfolio value first
+
+---
+
+## Removed: Marketing & Announcement
+
+**Decision:** Removed Phase 8 announcement/marketing tasks.
+
+**Rationale:**
+- Portfolio site, not product launch
+- Focus on technical excellence, not marketing
+- Organic discovery is sufficient
+- Can announce informally when ready
+
+---
+
+## Documentation Review
 - [ ] Update README with final production URL
 - [ ] Verify all documentation is public-ready
 - [ ] Remove any internal notes or TODOs
