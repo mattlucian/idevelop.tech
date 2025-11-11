@@ -26,8 +26,8 @@
     "typescript": "^5.3.0"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.142.1",
-    "constructs": "10.3.0"
+    "aws-cdk-lib": "2.223.0",
+    "constructs": "10.4.3"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -11,10 +11,10 @@
     "typescript": "^5.3.0"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.927.0",
-    "@aws-sdk/client-ses": "^3.927.0",
-    "@aws-sdk/client-ssm": "^3.927.0",
-    "@aws-sdk/lib-dynamodb": "^3.927.0",
+    "@aws-sdk/client-dynamodb": "^3.928.0",
+    "@aws-sdk/client-ses": "^3.928.0",
+    "@aws-sdk/client-ssm": "^3.928.0",
+    "@aws-sdk/lib-dynamodb": "^3.928.0",
     "@idevelop-tech/core": "*"
   }
 }
