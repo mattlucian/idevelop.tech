@@ -64,42 +64,24 @@ jobs:
         continue-on-error: true
         with:
           script: |
-            // Get manifest data if available (action stores it in specific format)
-            const manifest = '${{ steps.lighthouse.outputs.manifest }}';
-            const links = '${{ steps.lighthouse.outputs.links }}';
-
-            let reportLinks = '';
-
-            // Try to parse output from action
-            if (manifest && manifest !== '') {
-              try {
-                const data = JSON.parse(manifest);
-                if (data && Array.isArray(data)) {
-                  reportLinks = data.map((item, idx) => {
-                    const url = item.url || 'Unknown';
-                    const reportUrl = item.summary || item.reportUrl || '';
-                    const pageName = url.includes('/hire-me') ? 'Hire Me' :
-                                     url.includes('/tech') ? 'Tech' : 'Home';
-                    return `- **${pageName}**: [View Report](${reportUrl})`;
-                  }).join('\n');
-                }
-              } catch (e) {
-                console.log('Could not parse manifest:', e);
-              }
-            }
-
             const workflowUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
-            const fallbackText = 'Reports have been generated! Check the [workflow run](' + workflowUrl + ') logs.';
 
             const comment = '## 🔍 Lighthouse CI Reports\n\n' +
-              (reportLinks || fallbackText) + '\n\n' +
-              '### Pages Tested\n' +
+              '✅ Lighthouse audits have been completed for this PR!\n\n' +
+              '### 📊 View Reports\n\n' +
+              '**[Click here to view the workflow run](' + workflowUrl + ')**\n\n' +
+              'Then expand the **"Run Lighthouse CI"** step and look for lines that say:\n' +
+              '```\n' +
+              'Open the report at https://storage.googleapis.com/...\n' +
+              '```\n\n' +
+              'You\'ll find **3 report links** (one for each page tested).\n\n' +
+              '### 📄 Pages Tested\n' +
               '- **Home page** (`/`)\n' +
               '- **Hire Me page** (`/hire-me`)\n' +
               '- **Tech page** (`/tech`)\n\n' +
-              '> 💡 **Tip:** Look for "Open the report at..." links in the "Run Lighthouse CI" step logs for direct report URLs.\n\n' +
               '---\n' +
-              '*This is an informational check and will not block the PR.*';
+              '> ℹ️ **Note:** This is an informational check and will not block the PR. ' +
+              'Reports provide insights into performance, accessibility, SEO, and best practices.';
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
