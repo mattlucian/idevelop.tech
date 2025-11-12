@@ -34,10 +34,20 @@ jobs:
             http://localhost:3000/
             http://localhost:3000/hire-me
             http://localhost:3000/tech
+            http://localhost:3000/services/integration
+            http://localhost:3000/services/web-development
           uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: './lighthouserc.json'
         continue-on-error: true
+
+      - name: Extract Report URLs
+        id: extract-urls
+        if: always()
+        run: |
+          # This will be populated by the action's output
+          echo "The action outputs report URLs to stdout, which we'll parse in the comment step"
+          echo "reports_ready=true" >> $GITHUB_OUTPUT
 
       - name: Format Lighthouse Results
         if: always()
@@ -64,33 +74,62 @@ jobs:
         continue-on-error: true
         with:
           script: |
-            const workflowUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
             const commentMarker = '<!-- lighthouse-ci-comment -->';
+            const runId = context.runId;
+            const repo = context.repo;
 
-            const commentBody = commentMarker + '\n## 🔍 Lighthouse CI Reports\n\n' +
-              '✅ Lighthouse audits have been completed for this PR!\n\n' +
-              '### 📊 View Latest Reports\n\n' +
-              '**[Click here to view the workflow run](' + workflowUrl + ')**\n\n' +
-              'Then expand the **"Run Lighthouse CI"** step and look for lines that say:\n' +
-              '```\n' +
-              'Open the report at https://storage.googleapis.com/...\n' +
-              '```\n\n' +
-              'You\'ll find **5 report links** (one for each page tested).\n\n' +
-              '### 📄 Pages Tested\n' +
-              '- **Home page** (`/`) - Marketing/landing pattern\n' +
-              '- **Hire Me page** (`/hire-me`) - Form/contact pattern\n' +
-              '- **Tech page** (`/tech`) - Content/catalog pattern\n' +
-              '- **Service detail** (`/services/integration`) - Service page pattern\n' +
-              '- **Service detail** (`/services/web-development`) - Alternative service pattern\n\n' +
-              '---\n' +
-              '> ℹ️ **Note:** This is an informational check and will not block the PR. ' +
-              'Reports provide insights into performance, accessibility, SEO, and best practices.\n\n' +
-              '*Last updated: ' + new Date().toISOString() + '*';
+            // Get the workflow run logs to extract report URLs
+            let reportUrls = [];
+            try {
+              // Fetch the job logs
+              const jobs = await github.rest.actions.listJobsForWorkflowRun({
+                owner: repo.owner,
+                repo: repo.repo,
+                run_id: runId,
+              });
 
-            // Find existing comment
+              // Find the lighthouse job
+              const lighthouseJob = jobs.data.jobs.find(job => job.name === 'lighthouse');
+
+              if (lighthouseJob) {
+                // Get the logs
+                const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
+                  owner: repo.owner,
+                  repo: repo.repo,
+                  job_id: lighthouseJob.id,
+                });
+
+                // Parse logs for report URLs
+                const logText = logs.data;
+                const urlMatches = logText.match(/https:\/\/storage\.googleapis\.com\/lighthouse-infrastructure\.appspot\.com\/reports\/[^\s]+/g);
+
+                if (urlMatches) {
+                  reportUrls = [...new Set(urlMatches)]; // Remove duplicates
+                }
+              }
+            } catch (error) {
+              console.log('Could not extract report URLs from logs:', error);
+            }
+
+            // Build comment body
+            let commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n';
+
+            if (reportUrls.length > 0) {
+              const pageNames = ['Home (`/`)', 'Hire Me (`/hire-me`)', 'Tech (`/tech`)', 'Integration (`/services/integration`)', 'Web Development (`/services/web-development`)'];
+              reportUrls.forEach((url, idx) => {
+                const pageName = pageNames[idx] || 'Page ' + (idx + 1);
+                commentBody += '**' + pageName + '**: ' + url + '\n';
+              });
+            } else {
+              commentBody += '*Report URLs will appear here once the workflow completes*\n';
+            }
+
+            commentBody += '\n*Updated: ' + new Date().toISOString() + '*';
+
+            // Find and update/create comment
             const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner: repo.owner,
+              repo: repo.repo,
               issue_number: context.issue.number,
             });
 
@@ -99,21 +138,17 @@ jobs:
             );
 
             if (existingComment) {
-              // Update existing comment
               await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
+                owner: repo.owner,
+                repo: repo.repo,
                 comment_id: existingComment.id,
                 body: commentBody
               });
-              console.log('Updated existing Lighthouse comment');
             } else {
-              // Create new comment
               await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
+                owner: repo.owner,
+                repo: repo.repo,
                 issue_number: context.issue.number,
                 body: commentBody
               });
-              console.log('Created new Lighthouse comment');
             }
