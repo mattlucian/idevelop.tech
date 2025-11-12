@@ -55,11 +55,16 @@ export default $config({
         },
         {
           actions: ["ses:SendEmail", "ses:SendRawEmail"],
-          resources: ["*"],
+          // Scoped to verified SES identities for security
+          resources: [
+            `arn:aws:ses:us-east-1:*:identity/matt@idevelop.tech`,
+            `arn:aws:ses:us-east-1:*:identity/idevelop.tech`,
+          ],
         },
         {
           actions: ["ssm:GetParameter"],
-          resources: [`arn:aws:ssm:*:*:parameter/idevelop-tech/${stage}/*`],
+          // Scoped to stage-specific parameters in us-east-1
+          resources: [`arn:aws:ssm:us-east-1:*:parameter/idevelop-tech/${stage}/*`],
         },
       ],
       nodejs: {
