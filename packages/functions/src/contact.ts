@@ -149,7 +149,6 @@ function validateRequest(body: unknown): ValidationResult {
   // Type assertions after presence check
   const name = String(payload.name);
   const email = String(payload.email);
-  const service = String(payload.service);
   const recaptchaToken = String(payload.recaptchaToken);
   const message = payload.message ? String(payload.message) : undefined;
 
@@ -204,6 +203,17 @@ function validateRequest(body: unknown): ValidationResult {
 }
 
 /**
+ * reCAPTCHA API response type
+ */
+interface RecaptchaApiResponse {
+  success: boolean;
+  score?: number;
+  challenge_ts?: string;
+  hostname?: string;
+  "error-codes"?: string[];
+}
+
+/**
  * Verify reCAPTCHA token with Google
  */
 async function verifyRecaptcha(
@@ -225,7 +235,7 @@ async function verifyRecaptcha(
       }),
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as RecaptchaApiResponse;
 
     if (!data.success) {
       return {
@@ -241,7 +251,6 @@ async function verifyRecaptcha(
     if (data.score !== undefined && data.score < RECAPTCHA_THRESHOLD) {
       return {
         success: false,
-        score: data.score,
         error: {
           code: "RECAPTCHA_LOW_SCORE" as ContactFormErrorCode,
           message: `reCAPTCHA score too low: ${data.score}`,
@@ -471,7 +480,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
       error: {
-        code: "VALIDATION_ERROR",
+        code: "VALIDATION_ERROR" as ContactFormErrorCode,
         message: "Invalid JSON in request body",
       },
     };
