@@ -45,7 +45,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           # Queries to run: default (recommended), security-extended (more thorough), security-and-quality
-          queries: security-extended
+          queries: security-and-quality
           # Auto-install dependencies for analysis
           config: |
             paths-ignore:
