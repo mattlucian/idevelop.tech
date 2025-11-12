@@ -34,7 +34,7 @@ export interface ContactFormErrorResponse {
   error: {
     code: ContactFormErrorCode;
     message: string;
-    details?: any;
+    details?: Record<string, unknown>;
   };
 }
 
