@@ -14,6 +14,10 @@ import type {
   ContactFormErrorCode,
   RateLimitRecord,
 } from "@idevelop-tech/core";
+import {
+  renderAdminNotification,
+  renderSenderConfirmation,
+} from "./email-templates/utils";
 
 // AWS Clients
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -397,65 +401,114 @@ async function recordRateLimit(
 }
 
 /**
- * Send email via AWS SES
+ * Send admin notification email via AWS SES
  */
-async function sendEmail(
+async function sendAdminNotification(
   requestData: ContactFormRequest,
   requestId: string,
 ): Promise<EmailResult> {
   const { name, email, service, message } = requestData;
-
-  const emailBody = `
-New Contact Form Submission
-
-Request ID: ${requestId}
-Submitted: ${new Date().toISOString()}
-
----
-
-Name: ${name}
-Email: ${email}
-Service: ${service}
-Message: ${message || "(no message provided)"}
-
----
-
-Metadata:
-- User Agent: ${requestData.metadata?.userAgent || "N/A"}
-- Referrer: ${requestData.metadata?.referrer || "N/A"}
-- Timestamp: ${requestData.metadata?.timestamp || "N/A"}
-`.trim();
-
-  const command = new SendEmailCommand({
-    Source: SES_FROM_EMAIL,
-    Destination: {
-      ToAddresses: [SES_TO_EMAIL],
-    },
-    Message: {
-      Subject: {
-        Data: `[idevelop.tech] New ${service} Inquiry from ${name}`,
-        Charset: "UTF-8",
-      },
-      Body: {
-        Text: {
-          Data: emailBody,
-          Charset: "UTF-8",
-        },
-      },
-    },
-    ReplyToAddresses: [email],
-  });
+  const timestamp = new Date().toISOString();
 
   try {
+    // Render HTML template
+    const htmlBody = renderAdminNotification({
+      name,
+      email,
+      service,
+      message: message || "(no message provided)",
+      requestId,
+      timestamp,
+      userAgent: requestData.metadata?.userAgent || "N/A",
+      referrer: requestData.metadata?.referrer || "N/A",
+    });
+
+    // Send email
+    const command = new SendEmailCommand({
+      Source: SES_FROM_EMAIL,
+      Destination: {
+        ToAddresses: [SES_TO_EMAIL],
+      },
+      Message: {
+        Subject: {
+          Data: `New Contact Form Submission from ${name}`,
+          Charset: "UTF-8",
+        },
+        Body: {
+          Html: {
+            Data: htmlBody,
+            Charset: "UTF-8",
+          },
+        },
+      },
+      ReplyToAddresses: [email],
+    });
+
     await sesClient.send(command);
     return { success: true };
   } catch (error) {
-    console.error("SES send email error:", error);
+    console.error("SES send admin notification error:", error);
     return {
       success: false,
       error: {
         code: "EMAIL_SEND_FAILED" as ContactFormErrorCode,
-        message: "Failed to send email",
+        message: "Failed to send admin notification",
+      },
+    };
+  }
+}
+
+/**
+ * Send sender confirmation email via AWS SES
+ */
+async function sendSenderConfirmation(
+  requestData: ContactFormRequest,
+): Promise<EmailResult> {
+  const { name, email, service, message } = requestData;
+  const timestamp = new Date().toLocaleString("en-US", {
+    dateStyle: "long",
+    timeStyle: "short",
+  });
+
+  try {
+    // Render HTML template
+    const htmlBody = renderSenderConfirmation({
+      name,
+      service,
+      message: message || "(no message provided)",
+      timestamp,
+    });
+
+    // Send email
+    const command = new SendEmailCommand({
+      Source: SES_FROM_EMAIL,
+      Destination: {
+        ToAddresses: [email],
+      },
+      Message: {
+        Subject: {
+          Data: "Thanks for contacting I Develop Tech",
+          Charset: "UTF-8",
+        },
+        Body: {
+          Html: {
+            Data: htmlBody,
+            Charset: "UTF-8",
+          },
+        },
+      },
+      ReplyToAddresses: [SES_TO_EMAIL],
+    });
+
+    await sesClient.send(command);
+    return { success: true };
+  } catch (error) {
+    console.error("SES send sender confirmation error:", error);
+    return {
+      success: false,
+      error: {
+        code: "EMAIL_SEND_FAILED" as ContactFormErrorCode,
+        message: "Failed to send sender confirmation",
       },
     };
   }
@@ -551,12 +604,17 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
   }
 
-  // Step 4: Send email
-  const emailResult = await sendEmail(requestData, requestId);
-  if (!emailResult.success) {
+  // Step 4: Send emails (admin notification + sender confirmation)
+  const [adminResult, confirmationResult] = await Promise.all([
+    sendAdminNotification(requestData, requestId),
+    sendSenderConfirmation(requestData),
+  ]);
+
+  // Check if admin notification failed (critical)
+  if (!adminResult.success) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
-      error: emailResult.error,
+      error: adminResult.error,
     };
 
     return {
@@ -566,6 +624,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       },
       body: JSON.stringify(errorResponse),
     };
+  }
+
+  // Log if confirmation failed (non-critical, don't fail the request)
+  if (!confirmationResult.success) {
+    console.error(
+      "Sender confirmation email failed, but request will succeed:",
+      confirmationResult.error,
+    );
   }
 
   // Step 5: Record rate limit (after successful email send)
@@ -582,7 +648,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     success: true,
     message: "Message sent successfully",
     requestId,
-    estimatedResponse: "within 24 hours",
+    estimatedResponse: "as soon as possible",
   };
 
   console.log("Contact form submission successful:", {
