@@ -162,6 +162,8 @@ When writing or updating documentation in this repository:
 
 **NEVER commit directly to protected branches (`main` or `develop`). ALL changes must go through Pull Requests.**
 
+**🚨 IMPORTANT: ALL PRs must target `develop` branch first, NOT `main`.**
+
 **Branch workflow (from BRANCH-STRATEGY.md):**
 
 ```
@@ -191,22 +193,32 @@ feature/* → PR → develop → PR → main
    git commit -m "feat: description"  # Use conventional commit format
    ```
 
-4. **Push branch and create PR**:
+4. **Push branch and create PR to develop**:
    ```bash
    git push origin feature/my-feature
    gh pr create --base develop --title "feat: description"
    ```
 
-5. **NEVER skip this workflow**:
+   **⚠️ CRITICAL: Always use `--base develop` when creating PRs. NEVER create PRs directly to `main`.**
+
+5. **After PR is merged to develop**:
+   - Changes deploy to dev stage (dev.idevelop.tech)
+   - Test on staging environment
+   - Create separate PR from `develop` to `main` when ready for production
+
+6. **NEVER skip this workflow**:
    - ❌ `git commit -m "..." && git push origin main` (FORBIDDEN)
    - ❌ `git commit -m "..." && git push origin develop` (FORBIDDEN)
-   - ✅ Always create branch → commit → push → create PR
+   - ❌ `gh pr create --base main` (FORBIDDEN - should be `--base develop`)
+   - ✅ Always create branch → commit → push → create PR to develop
+   - ✅ After testing on dev stage → create PR from develop to main
 
 **Why this matters**:
 - Direct commits bypass CI checks, code review, and branch protection
-- PRs ensure all changes are validated before merging
+- PRs to develop first ensure changes are tested on staging before production
 - Maintains clean history and allows rollback if needed
 - Demonstrates professional DevOps practices
+- Prevents accidental production deployments
 
 **References**:
 - `docs/BRANCH-STRATEGY.md` - Complete branch strategy documentation
@@ -629,13 +641,13 @@ export interface ContactFormResponse {
 1. **Gather context**: Run in parallel:
    - `git status` - See all untracked files
    - `git diff` - See staged and unstaged changes
-   - `git log` + `git diff [base-branch]...HEAD` - Full commit history since branch diverged
+   - `git log` + `git diff develop...HEAD` - Full commit history since branch diverged from develop
 2. **Analyze changes**: Review ALL commits that will be included (not just latest)
 3. **Push if needed**: Use `-u` flag for new branches
-4. **Create PR**: Use `gh pr create` with HEREDOC for body:
+4. **Create PR to develop**: Use `gh pr create --base develop` with HEREDOC for body:
 
    ```bash
-   gh pr create --title "PR title" --body "$(cat <<'EOF'
+   gh pr create --base develop --title "PR title" --body "$(cat <<'EOF'
    ## Summary
    - Bullet point summary
 
@@ -646,6 +658,8 @@ export interface ContactFormResponse {
    EOF
    )"
    ```
+
+   **🚨 CRITICAL: Always specify `--base develop`. Never create PRs directly to `main`.**
 
 5. **Return PR URL**: Show user the created PR link
 
