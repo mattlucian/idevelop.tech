@@ -109,32 +109,32 @@ export const webDesignServiceData: WebDesignServiceData = {
   designProcess: {
     steps: [
       {
-        icon: "🎯",
+        icon: "MagnifyingGlassIcon",
         title: "Discover",
         description: "Brand audit, goal setting, and competitive analysis",
       },
       {
-        icon: "📝",
+        icon: "DocumentTextIcon",
         title: "Content",
         description: "Gather copy, images, and assets for your site",
       },
       {
-        icon: "🎨",
+        icon: "PaintBrushIcon",
         title: "Design",
         description: "Create mockups that reflect your brand identity",
       },
       {
-        icon: "💻",
+        icon: "CodeBracketIcon",
         title: "Develop",
         description: "Build on staging with regular progress updates",
       },
       {
-        icon: "🧪",
+        icon: "BeakerIcon",
         title: "Test",
         description: "Cross-browser and device testing for quality",
       },
       {
-        icon: "🚀",
+        icon: "RocketLaunchIcon",
         title: "Launch",
         description: "Go live and optimize for user experience",
       },

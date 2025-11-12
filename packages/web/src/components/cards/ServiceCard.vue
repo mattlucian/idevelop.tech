@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import Badge from "../elements/badges/Badge.vue";
+import OutlineIcon from "../elements/OutlineIcon.vue";
+import { getIconByName } from "@/utils/iconMapping";
 
 interface ServiceCardProps {
   icon: string;
@@ -11,11 +14,15 @@ interface ServiceCardProps {
   heroImage?: string;
 }
 
-defineProps<ServiceCardProps>();
+const props = defineProps<ServiceCardProps>();
 
 const emit = defineEmits<{
   click: [];
 }>();
+
+// Check if icon is actually an icon name
+const iconComponent = computed(() => getIconByName(props.icon));
+const isIconName = computed(() => iconComponent.value !== undefined);
 </script>
 
 <template>
@@ -78,11 +85,14 @@ const emit = defineEmits<{
       <div
         class="absolute inset-0 flex flex-col items-center justify-center gap-3"
       >
-        <div class="relative">
+        <div class="relative flex items-center justify-center w-32 h-32">
           <div
             class="absolute inset-0 bg-cyan-500/30 rounded-full blur-2xl group-hover:blur-3xl group-hover:bg-cyan-400/40 transition-all"
           />
-          <div class="relative text-8xl">
+          <div v-if="isIconName && iconComponent" class="relative">
+            <component :is="iconComponent" class="w-24 h-24 text-cyan-400" />
+          </div>
+          <div v-else class="relative text-8xl">
             {{ icon }}
           </div>
         </div>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import PrimaryButton from "../elements/buttons/PrimaryButton.vue";
+import OutlineIcon from "../elements/OutlineIcon.vue";
 import { SCHEDULING_LINK } from "@/constants";
+import { CalendarIcon } from "@heroicons/vue/24/outline";
 
 interface Props {
   title: string;
@@ -51,7 +53,10 @@ const colorClasses = {
         </p>
         <div class="flex justify-center">
           <PrimaryButton size="lg" :color="colorScheme" @click="handleClick">
-            <span class="text-lg">📅 {{ buttonText }}</span>
+            <span class="flex items-center gap-2">
+              <OutlineIcon :icon="CalendarIcon" size="sm" color="white" />
+              <span class="text-base md:text-lg">{{ buttonText }}</span>
+            </span>
           </PrimaryButton>
         </div>
       </div>

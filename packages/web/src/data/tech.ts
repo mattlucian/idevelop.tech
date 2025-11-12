@@ -8,22 +8,22 @@ export const techContent: TechContent = {
     {
       label: "Total Experience",
       value: "15+ Years",
-      icon: "⏱️",
+      icon: "ClockIcon",
     },
     {
       label: "Domains",
       value: "6 Core Areas",
-      icon: "🎯",
+      icon: "RocketLaunchIcon",
     },
     {
       label: "Scale",
       value: "Billions of Transactions",
-      icon: "📊",
+      icon: "ChartBarIcon",
     },
     {
       label: "Leadership",
       value: "CTO Experience",
-      icon: "👥",
+      icon: "UserGroupIcon",
     },
   ],
   categories: [

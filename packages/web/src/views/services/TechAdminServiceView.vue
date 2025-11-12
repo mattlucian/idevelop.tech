@@ -9,8 +9,16 @@ import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
 import Timeline from "../../components/display/Timeline.vue";
+import OutlineIcon from "../../components/elements/OutlineIcon.vue";
 import { techAdminServiceData } from "@/data/services/tech-admin";
 import { SITE } from "@/constants";
+import {
+  Cog6ToothIcon,
+  LinkIcon,
+  RocketLaunchIcon,
+  WrenchScrewdriverIcon,
+  XCircleIcon,
+} from "@heroicons/vue/24/outline";
 
 // SEO Meta Tags
 useMeta({
@@ -148,7 +156,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">⚙️</div>
+              <div class="mb-3">
+                <OutlineIcon :icon="Cog6ToothIcon" size="lg" color="cyan" />
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Automation Workflows
               </h4>
@@ -161,7 +171,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">🔗</div>
+              <div class="mb-3">
+                <OutlineIcon :icon="LinkIcon" size="lg" color="cyan" />
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Integrations & Migrations
               </h4>
@@ -174,7 +186,9 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">🚀</div>
+              <div class="mb-3">
+                <OutlineIcon :icon="RocketLaunchIcon" size="lg" color="cyan" />
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Operational Support
               </h4>
@@ -187,7 +201,13 @@ const handleBreadcrumbNavigate = (path: string) => {
             <div
               class="p-6 bg-slate-800/40 rounded-lg border border-slate-700/30"
             >
-              <div class="text-3xl mb-3">🔧</div>
+              <div class="mb-3">
+                <OutlineIcon
+                  :icon="WrenchScrewdriverIcon"
+                  size="lg"
+                  color="cyan"
+                />
+              </div>
               <h4 class="text-lg font-semibold text-white mb-2">
                 Maintain & Optimize
               </h4>
@@ -339,7 +359,9 @@ const handleBreadcrumbNavigate = (path: string) => {
           class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8"
         >
           <h3 class="text-xl font-bold text-gray-300 mb-6 flex items-center">
-            <span class="text-2xl mr-3">❌</span>
+            <span class="mr-3">
+              <OutlineIcon :icon="XCircleIcon" size="lg" color="slate" />
+            </span>
             Common Challenges
           </h3>
           <ul class="space-y-4 text-gray-400">

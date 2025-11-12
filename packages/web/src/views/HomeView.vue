@@ -6,7 +6,43 @@ import TypewriterText from "../components/elements/interactive/TypewriterText.vu
 import GradientText from "../components/elements/GradientText.vue";
 import ServiceCard from "../components/cards/ServiceCard.vue";
 import PrimaryRouterLink from "../components/elements/buttons/PrimaryRouterLink.vue";
+import IconBadge from "../components/elements/badges/IconBadge.vue";
 import { SITE } from "@/constants";
+
+// Platform data
+const platforms = [
+  {
+    name: "AWS",
+    logo: "/images/platforms/aws-logo.png",
+    description: "Cloud infrastructure and serverless architecture",
+  },
+  {
+    name: "DataDog",
+    logo: "/images/platforms/datadog-logo.png",
+    description: "Application monitoring and observability",
+  },
+  {
+    name: "Jira",
+    logo: "/images/platforms/atlassian-logo.png",
+    description: "Project management and agile workflows",
+  },
+  {
+    name: "Flxpoint",
+    logo: "/images/platforms/flxpoint-logo.webp",
+    description: "Order and inventory management integrations",
+    link: "/flxpoint-consulting",
+  },
+  {
+    name: "Shopify",
+    logo: "/images/platforms/shopify-logo.png",
+    description: "Ecommerce platform development and customization",
+  },
+  {
+    name: "GitHub",
+    logo: "/images/platforms/github-logo.png",
+    description: "Version control and collaborative development",
+  },
+];
 
 const router = useRouter();
 
@@ -101,6 +137,49 @@ useMeta({
               :hero-image="service.heroImage"
               @click="selectService(service.name)"
             />
+          </div>
+
+          <!-- Platforms Section -->
+          <div class="mt-16 mb-8">
+            <div class="text-center mb-8">
+              <h2
+                class="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight tracking-tight"
+              >
+                Platforms & Tools
+              </h2>
+              <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+                Experience across industry-leading platforms
+              </p>
+            </div>
+
+            <!-- Platform Cards with Logos -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto"
+            >
+              <component
+                :is="platform.link ? 'RouterLink' : 'div'"
+                v-for="platform in platforms"
+                :key="platform.name"
+                :to="platform.link"
+                class="bg-[#0f0f0f] border border-slate-700/30 rounded-lg p-6 hover:border-cyan-500/30 transition-colors group"
+                :class="{ 'cursor-pointer': platform.link }"
+              >
+                <div class="flex flex-col gap-3">
+                  <!-- Logo -->
+                  <div class="h-10 flex items-center justify-center">
+                    <img
+                      :src="platform.logo"
+                      :alt="platform.name"
+                      class="max-h-full max-w-[140px] w-auto object-contain"
+                    />
+                  </div>
+                  <!-- Description -->
+                  <p class="text-xs text-gray-400 text-center">
+                    {{ platform.description }}
+                  </p>
+                </div>
+              </component>
+            </div>
           </div>
 
           <!-- Call to Action Section -->

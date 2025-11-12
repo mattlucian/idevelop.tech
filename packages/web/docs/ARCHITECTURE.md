@@ -541,6 +541,139 @@ SITE.ogImage; // Open Graph image URL
 - Type-safe with TypeScript
 - Better maintainability and consistency
 
+## Icon System
+
+The application uses **Heroicons** (MIT-licensed from Tailwind Labs) as the primary icon library, providing consistent visual treatment across all pages.
+
+### Icon Mapping Utility
+
+**Location:** `/src/utils/iconMapping.ts`
+
+**Purpose:** Centralized registry that maps icon name strings to Heroicon components, allowing data files to reference icons without importing them.
+
+**Available Icons (22 total):**
+
+```typescript
+import { getIconByName } from "@/utils/iconMapping";
+
+// Available icon names:
+// - MagnifyingGlassIcon, RocketLaunchIcon, DocumentTextIcon
+// - ChartBarIcon, BeakerIcon, ArrowPathIcon, CheckCircleIcon
+// - LightBulbIcon, Cog6ToothIcon, PaintBrushIcon, CodeBracketIcon
+// - WrenchScrewdriverIcon, LinkIcon, ShoppingCartIcon, SparklesIcon
+// - CloudIcon, ShoppingBagIcon, CubeIcon, TruckIcon, ClockIcon
+// - UserGroupIcon, BookOpenIcon, CalendarIcon
+
+// Get icon component by name
+const iconComponent = getIconByName("MagnifyingGlassIcon");
+```
+
+### Icon Usage in Data Files
+
+Data files use icon name strings instead of importing components:
+
+```typescript
+// src/data/services/tech-admin.ts
+timelineSteps: [
+  {
+    icon: "MagnifyingGlassIcon",  // String reference, not import
+    label: "Tech Stack Review",
+    desc: "Assessment of your current tools and systems",
+  },
+  // ... more steps
+],
+```
+
+### Icon Rendering in Components
+
+Components use the icon mapping utility to dynamically render icons:
+
+```vue
+<script setup lang="ts">
+import { computed } from "vue";
+import { getIconByName } from "@/utils/iconMapping";
+
+const props = defineProps<{ icon: string }>();
+
+const iconComponent = computed(() => getIconByName(props.icon));
+const isIconName = computed(() => iconComponent.value !== undefined);
+</script>
+
+<template>
+  <!-- Dynamic component rendering with emoji fallback -->
+  <component
+    :is="iconComponent"
+    v-if="isIconName && iconComponent"
+    class="w-10 h-10 text-cyan-400"
+  />
+  <span v-else class="text-4xl">{{ icon }}</span>
+</template>
+```
+
+### Components Using Icon System
+
+1. **IconFlowStep.vue** - Timeline and process flow icons
+   - Detects icon names vs emoji strings
+   - Renders OutlineIcon component with appropriate size (md/xl)
+   - Supports dual color schemes (cyan/emerald/purple)
+
+2. **ServiceCard.vue** - Large 96px icons on service cards
+   - Renders icons with glow effect
+   - Direct component rendering with fallback to emoji
+
+3. **Service Views** - Process step and feature icons
+   - WebDesignServiceView.vue - Design process steps (40px icons)
+   - AIEnablementServiceView.vue - Use case section headers
+   - All other service views using IconFlowStep
+
+### Adding New Icons
+
+**Steps to add a new Heroicon:**
+
+1. Import from `@heroicons/vue/24/outline` in `iconMapping.ts`
+2. Add to `iconMap` object
+3. Use icon name string in data files
+4. No changes needed to components (automatic support)
+
+**Example:**
+
+```typescript
+// src/utils/iconMapping.ts
+import { ServerIcon } from "@heroicons/vue/24/outline";
+
+export const iconMap: Record<string, Component> = {
+  // ... existing icons
+  ServerIcon,
+};
+```
+
+```typescript
+// src/data/services/cloud-consulting.ts
+steps: [
+  {
+    icon: "ServerIcon", // Now available
+    label: "Server Setup",
+    description: "Configure cloud infrastructure",
+  },
+];
+```
+
+### Icon Sizing Standards
+
+- **Service Cards**: 96px (w-24 h-24) with glow effect
+- **Timeline/Flow**: Medium (md) and Extra-Large (xl) via OutlineIcon
+- **Process Steps**: 40px (w-10 h-10)
+- **Section Headers**: 24px (w-6 h-6) or medium (md)
+
+### Benefits
+
+- **Centralized Management**: Single source of truth for all icons
+- **Type Safety**: TypeScript ensures valid icon references
+- **No Import Overhead**: Data files remain clean without component imports
+- **Automatic Fallback**: Components gracefully fall back to emoji if icon not found
+- **Consistent Styling**: All icons follow design system color schemes
+- **Easy Extension**: Add new icons without updating multiple files
+
 ## Key Architectural Principles
 
 1. **Component Reusability:** If a pattern appears 2-3+ times, extract it into a component (see `/docs/COMPONENT-RULES.md`)
