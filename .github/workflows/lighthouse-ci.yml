@@ -41,14 +41,6 @@ jobs:
           configPath: './lighthouserc.json'
         continue-on-error: true
 
-      - name: Extract Report URLs
-        id: extract-urls
-        if: always()
-        run: |
-          # This will be populated by the action's output
-          echo "The action outputs report URLs to stdout, which we'll parse in the comment step"
-          echo "reports_ready=true" >> $GITHUB_OUTPUT
-
       - name: Format Lighthouse Results
         if: always()
         run: |
@@ -77,54 +69,22 @@ jobs:
             const commentMarker = '<!-- lighthouse-ci-comment -->';
             const runId = context.runId;
             const repo = context.repo;
+            const jobUrl = 'https://github.com/' + repo.owner + '/' + repo.repo + '/actions/runs/' + runId;
 
-            // Get the workflow run logs to extract report URLs
-            let reportUrls = [];
-            try {
-              // Fetch the job logs
-              const jobs = await github.rest.actions.listJobsForWorkflowRun({
-                owner: repo.owner,
-                repo: repo.repo,
-                run_id: runId,
-              });
-
-              // Find the lighthouse job
-              const lighthouseJob = jobs.data.jobs.find(job => job.name === 'lighthouse');
-
-              if (lighthouseJob) {
-                // Get the logs
-                const logs = await github.rest.actions.downloadJobLogsForWorkflowRun({
-                  owner: repo.owner,
-                  repo: repo.repo,
-                  job_id: lighthouseJob.id,
-                });
-
-                // Parse logs for report URLs
-                const logText = logs.data;
-                const urlMatches = logText.match(/https:\/\/storage\.googleapis\.com\/lighthouse-infrastructure\.appspot\.com\/reports\/[^\s]+/g);
-
-                if (urlMatches) {
-                  reportUrls = [...new Set(urlMatches)]; // Remove duplicates
-                }
-              }
-            } catch (error) {
-              console.log('Could not extract report URLs from logs:', error);
-            }
-
-            // Build comment body
-            let commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n';
-
-            if (reportUrls.length > 0) {
-              const pageNames = ['Home (`/`)', 'Hire Me (`/hire-me`)', 'Tech (`/tech`)', 'Integration (`/services/integration`)', 'Web Development (`/services/web-development`)'];
-              reportUrls.forEach((url, idx) => {
-                const pageName = pageNames[idx] || 'Page ' + (idx + 1);
-                commentBody += '**' + pageName + '**: ' + url + '\n';
-              });
-            } else {
-              commentBody += '*Report URLs will appear here once the workflow completes*\n';
-            }
-
-            commentBody += '\n*Updated: ' + new Date().toISOString() + '*';
+            // Build simple comment with link to logs
+            const commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n' +
+              '**[View reports in workflow logs →](' + jobUrl + ')**\n\n' +
+              'Expand the "Run Lighthouse CI" step and look for 5 links starting with:\n' +
+              '```\n' +
+              'Open the report at https://storage.googleapis.com/...\n' +
+              '```\n\n' +
+              '**Pages tested:**\n' +
+              '- Home (`/`)\n' +
+              '- Hire Me (`/hire-me`)\n' +
+              '- Tech (`/tech`)\n' +
+              '- Integration (`/services/integration`)\n' +
+              '- Web Development (`/services/web-development`)\n\n' +
+              '*Updated: ' + new Date().toISOString() + '*';
 
             // Find and update/create comment
             const { data: comments } = await github.rest.issues.listComments({
