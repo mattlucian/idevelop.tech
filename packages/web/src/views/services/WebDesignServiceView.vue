@@ -8,8 +8,11 @@ import TabButton from "../../components/ui/TabButton.vue";
 import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
+import OutlineIcon from "../../components/elements/OutlineIcon.vue";
 import { webDesignServiceData } from "@/data/services/web-design";
 import { SITE } from "@/constants";
+import { XCircleIcon } from "@heroicons/vue/24/outline";
+import { getIconByName } from "@/utils/iconMapping";
 
 // SEO Meta Tags
 useMeta({
@@ -102,8 +105,13 @@ const handleBreadcrumbNavigate = (path: string) => {
               :key="index"
               class="bg-slate-800/50 rounded-lg p-6 border border-slate-700/30"
             >
-              <div class="text-4xl mb-3">
-                {{ step.icon }}
+              <div class="mb-3">
+                <component
+                  :is="getIconByName(step.icon)"
+                  v-if="getIconByName(step.icon)"
+                  class="w-10 h-10 text-cyan-400"
+                />
+                <span v-else class="text-4xl">{{ step.icon }}</span>
               </div>
               <h4 class="text-lg font-semibold text-cyan-400 mb-2">
                 {{ step.title }}
@@ -223,8 +231,11 @@ const handleBreadcrumbNavigate = (path: string) => {
         <div
           class="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-700/30 rounded-xl p-8"
         >
-          <h3 class="text-xl font-semibold text-red-400 mb-4">
-            ❌ Generic Template
+          <h3
+            class="text-xl font-semibold text-red-400 mb-4 flex items-center gap-2"
+          >
+            <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
+            Generic Template
           </h3>
           <ul class="space-y-3">
             <li class="flex items-start text-gray-300 text-sm">

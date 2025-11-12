@@ -5,7 +5,7 @@ export const servicesConfig: ServicesConfig = {
     {
       name: "tech-admin",
       path: "tech-admin.json",
-      icon: "🔧",
+      icon: "WrenchScrewdriverIcon",
       label: "Tech Admin",
       title: "Tech Admin",
       tagline: "Expert tech guidance without the full-time cost",
@@ -24,7 +24,7 @@ export const servicesConfig: ServicesConfig = {
     {
       name: "integration",
       path: "integration.json",
-      icon: "🔗",
+      icon: "LinkIcon",
       label: "Integration",
       title: "Integration Services",
       tagline: "Connect your systems and eliminate manual data entry",
@@ -43,7 +43,7 @@ export const servicesConfig: ServicesConfig = {
     {
       name: "ecommerce-ops",
       path: "ecommerce-ops.json",
-      icon: "🛒",
+      icon: "ShoppingCartIcon",
       label: "eCommerce Ops",
       title: "eCommerce Operations",
       tagline: "Automate and optimize your online store systems",
@@ -62,7 +62,7 @@ export const servicesConfig: ServicesConfig = {
     {
       name: "ai-enablement",
       path: "ai-enablement.json",
-      icon: "🤖",
+      icon: "SparklesIcon",
       label: "AI Enablement",
       title: "AI Enablement",
       tagline:
@@ -82,7 +82,7 @@ export const servicesConfig: ServicesConfig = {
     {
       name: "web-design",
       path: "web-design.json",
-      icon: "🎨",
+      icon: "PaintBrushIcon",
       label: "Web Design",
       title: "Web Design",
       tagline: "Professional websites that drive real business results",
@@ -101,7 +101,7 @@ export const servicesConfig: ServicesConfig = {
     {
       name: "cloud-consulting",
       path: "cloud-consulting.json",
-      icon: "☁️",
+      icon: "CloudIcon",
       label: "Cloud Consulting",
       title: "Cloud Computing Consultations",
       tagline:

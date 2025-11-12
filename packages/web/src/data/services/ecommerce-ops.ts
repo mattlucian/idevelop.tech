@@ -131,22 +131,22 @@ export const ecommerceOpsServiceData: EcommerceOpsServiceData = {
         title: "Order Flow Automation",
         steps: [
           {
-            emoji: "🛍️",
+            emoji: "ShoppingBagIcon",
             label: "Customer Orders",
             desc: "Order placed on your store",
           },
           {
-            emoji: "🎯",
+            emoji: "RocketLaunchIcon",
             label: "Smart Routing",
             desc: "Allocate to best location",
           },
           {
-            emoji: "📦",
+            emoji: "CubeIcon",
             label: "Auto-Fulfillment",
             desc: "Sent to optimal warehouse",
           },
           {
-            emoji: "🚚",
+            emoji: "TruckIcon",
             label: "Fast Shipping",
             desc: "Optimized delivery time",
           },

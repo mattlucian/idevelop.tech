@@ -49,6 +49,11 @@ const router = createRouter({
         import("../views/services/CloudConsultingServiceView.vue"),
     },
     {
+      path: "/flxpoint-consulting",
+      name: "flxpoint-consulting",
+      component: () => import("../views/FlxpointConsultingView.vue"),
+    },
+    {
       path: "/hire-me",
       name: "hire-me",
       component: () => import("../views/HireMeView.vue"),

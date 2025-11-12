@@ -9,8 +9,17 @@ import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import SimpleCheckItem from "../../components/elements/SimpleCheckItem.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
+import OutlineIcon from "../../components/elements/OutlineIcon.vue";
 import { aiEnablementServiceData } from "@/data/services/ai-enablement";
 import { SITE } from "@/constants";
+import {
+  XCircleIcon,
+  CheckCircleIcon,
+  CommandLineIcon,
+  BoltIcon,
+  BeakerIcon,
+  BookOpenIcon,
+} from "@heroicons/vue/24/outline";
 
 // SEO Meta Tags
 useMeta({
@@ -103,7 +112,7 @@ const handleBreadcrumbNavigate = (path: string) => {
               <div
                 class="flex items-center gap-2 mb-4 pb-2 border-b border-red-500/30"
               >
-                <span class="text-2xl">❌</span>
+                <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
                 <h4 class="text-lg font-semibold text-red-400">
                   {{ tabContent.workflow.beforeTitle }}
                 </h4>
@@ -125,7 +134,11 @@ const handleBreadcrumbNavigate = (path: string) => {
               <div
                 class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
               >
-                <span class="text-2xl">✅</span>
+                <OutlineIcon
+                  :icon="CheckCircleIcon"
+                  size="md"
+                  color="emerald"
+                />
                 <h4 class="text-lg font-semibold text-emerald-400">
                   {{ tabContent.workflow.afterTitle }}
                 </h4>
@@ -159,7 +172,7 @@ const handleBreadcrumbNavigate = (path: string) => {
               <div
                 class="flex items-center gap-2 mb-4 pb-2 border-b border-red-500/30"
               >
-                <span class="text-2xl">❌</span>
+                <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
                 <h4 class="text-lg font-semibold text-red-400">
                   {{ tabContent.training.beforeTitle }}
                 </h4>
@@ -181,7 +194,11 @@ const handleBreadcrumbNavigate = (path: string) => {
               <div
                 class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
               >
-                <span class="text-2xl">✅</span>
+                <OutlineIcon
+                  :icon="CheckCircleIcon"
+                  size="md"
+                  color="emerald"
+                />
                 <h4 class="text-lg font-semibold text-emerald-400">
                   {{ tabContent.training.afterTitle }}
                 </h4>
@@ -215,7 +232,7 @@ const handleBreadcrumbNavigate = (path: string) => {
               <div
                 class="flex items-center gap-2 mb-4 pb-2 border-b border-red-500/30"
               >
-                <span class="text-2xl">❌</span>
+                <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
                 <h4 class="text-lg font-semibold text-red-400">
                   {{ tabContent.implementation.beforeTitle }}
                 </h4>
@@ -237,7 +254,11 @@ const handleBreadcrumbNavigate = (path: string) => {
               <div
                 class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
               >
-                <span class="text-2xl">✅</span>
+                <OutlineIcon
+                  :icon="CheckCircleIcon"
+                  size="md"
+                  color="emerald"
+                />
                 <h4 class="text-lg font-semibold text-emerald-400">
                   {{ tabContent.implementation.afterTitle }}
                 </h4>
@@ -302,7 +323,7 @@ const handleBreadcrumbNavigate = (path: string) => {
             <h3
               class="text-xl font-semibold text-cyan-400 mb-4 flex items-center gap-2"
             >
-              <span class="text-2xl">📚</span>
+              <OutlineIcon :icon="BookOpenIcon" size="md" color="cyan" />
               Documentation & Knowledge
             </h3>
             <ul class="space-y-3">
@@ -326,7 +347,7 @@ const handleBreadcrumbNavigate = (path: string) => {
             <h3
               class="text-xl font-semibold text-purple-400 mb-4 flex items-center gap-2"
             >
-              <span class="text-2xl">🧪</span>
+              <OutlineIcon :icon="BeakerIcon" size="md" color="purple" />
               Testing & Quality
             </h3>
             <ul class="space-y-3">
@@ -350,7 +371,7 @@ const handleBreadcrumbNavigate = (path: string) => {
             <h3
               class="text-xl font-semibold text-emerald-400 mb-4 flex items-center gap-2"
             >
-              <span class="text-2xl">💻</span>
+              <OutlineIcon :icon="CommandLineIcon" size="md" color="emerald" />
               Code Assistance
             </h3>
             <ul class="space-y-3">
@@ -374,7 +395,7 @@ const handleBreadcrumbNavigate = (path: string) => {
             <h3
               class="text-xl font-semibold text-orange-400 mb-4 flex items-center gap-2"
             >
-              <span class="text-2xl">⚡</span>
+              <OutlineIcon :icon="BoltIcon" size="md" color="slate" />
               Process Improvement
             </h3>
             <ul class="space-y-3">

@@ -7,7 +7,7 @@ import OutlineButton from "@/components/elements/buttons/OutlineButton.vue";
 useMeta({
   title: "Privacy Policy - idevelop.tech",
   description:
-    "Simple, transparent privacy. We use cookies for spam protection and analytics. We don't sell your data.",
+    "Simple, transparent privacy. We use cookies for spam protection and analytics. We don't sell your data. Marketing emails require opt-in consent.",
 });
 
 const COOKIE_CONSENT_KEY = "cookie_consent";
@@ -160,7 +160,8 @@ const enableConsent = () => {
           Privacy Policy
         </h1>
         <p class="text-lg text-gray-300">
-          Simple, transparent privacy. We don't sell your data.
+          Simple, transparent privacy. We don't sell your data. Marketing emails
+          require your consent.
         </p>
         <p class="text-sm text-gray-400 mt-2">Last Updated: October 31, 2025</p>
       </div>
@@ -188,9 +189,13 @@ const enableConsent = () => {
             <li class="flex items-start gap-2">
               <span class="text-cyan-400 mt-1">✓</span>
               <span
-                >We don't sell, rent, or share your data with third parties for
-                marketing</span
+                >We may send marketing emails if you opt-in (you can unsubscribe
+                anytime)</span
               >
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-400 mt-1">✓</span>
+              <span>We don't sell or rent your personal information</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-cyan-400 mt-1">✓</span>
@@ -362,8 +367,18 @@ const enableConsent = () => {
             </li>
             <li>Protect our contact forms from spam and abuse</li>
             <li>Improve our website and services (analytics)</li>
+            <li>
+              Send you marketing communications about our services (only with
+              your explicit consent)
+            </li>
             <li>Comply with legal obligations</li>
           </ul>
+          <p class="text-gray-300 mt-4">
+            <strong class="text-white">Marketing Communications:</strong> If you
+            opt-in to receive marketing emails, we may use third-party email
+            marketing platforms to send you updates about our services. You can
+            unsubscribe at any time using the link in any marketing email.
+          </p>
         </section>
 
         <!-- Cookies in Detail -->
@@ -481,13 +496,19 @@ const enableConsent = () => {
           <div
             class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4"
           >
-            <p class="text-gray-300">
+            <p class="text-gray-300 mb-3">
               <strong class="text-emerald-400"
-                >We do not sell, rent, or share your personal information with
-                third parties for marketing purposes.</strong
+                >We do not sell or rent your personal information to third
+                parties.</strong
               >
-              Your contact information is used only to respond to your inquiries
-              and improve our services.
+              Your contact information is used to respond to your inquiries,
+              improve our services, and (with your explicit consent) send you
+              marketing communications about our services.
+            </p>
+            <p class="text-gray-300">
+              We may use third-party service providers (such as email marketing
+              platforms) to send marketing communications to those who have
+              opted in. These providers have their own privacy policies.
             </p>
           </div>
         </section>
@@ -597,6 +618,10 @@ const enableConsent = () => {
             <li>
               <strong>Opt-out:</strong> Decline cookies (note: contact forms
               require cookies)
+            </li>
+            <li>
+              <strong>Unsubscribe:</strong> Opt out of marketing emails at any
+              time using the unsubscribe link in emails
             </li>
           </ul>
           <p class="text-gray-300 mt-4">

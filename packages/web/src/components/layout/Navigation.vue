@@ -9,17 +9,6 @@ const route = useRoute();
 const router = useRouter();
 const isMobileMenuOpen = ref(false);
 
-const isHomePage = computed(
-  () =>
-    route.name === "home" ||
-    route.name === "service-detail" ||
-    route.name === "integration-service" ||
-    route.name === "tech-admin-service" ||
-    route.name === "ai-enablement-service" ||
-    route.name === "ecommerce-ops-service" ||
-    route.name === "web-design-service" ||
-    route.name === "cloud-consulting-service",
-);
 const isTechPage = computed(
   () =>
     route.name === "tech" ||
@@ -32,9 +21,16 @@ const isHireMePage = computed(() => route.name === "hire-me");
 const handleBackNavigation = () => {
   if (isHireMePage.value) {
     router.push("/");
+  } else if (isTechPage.value) {
+    router.push("/hire-me");
   } else {
     router.back();
   }
+  isMobileMenuOpen.value = false;
+};
+
+const handleKeepBrowsing = () => {
+  router.go(-2); // Go back twice to make /tech feel like a modal
   isMobileMenuOpen.value = false;
 };
 </script>
@@ -104,32 +100,32 @@ const handleBackNavigation = () => {
         <!-- Page-specific navigation (Desktop) -->
         <div
           class="hidden sm:flex items-center gap-3"
-          :class="{ 'mr-4': !isHireMePage }"
+          :class="{ 'mr-4': !isHireMePage && !isTechPage }"
         >
-          <!-- Back to business button (shown on Tech and Hire Me pages) -->
+          <!-- Tech page: Keep Browsing only (emerald) -->
           <OutlineButton
-            v-if="isTechPage || isHireMePage"
-            color-scheme="cyan"
-            @click="isHireMePage ? router.push('/') : router.back()"
+            v-if="isTechPage"
+            color-scheme="emerald"
+            @click="handleKeepBrowsing"
           >
-            {{ isHireMePage ? "Keep browsing" : "Back to business" }}
+            Keep browsing
           </OutlineButton>
 
-          <!-- Experience button (shown on Home page only) -->
-          <OutlineRouterLink
-            v-if="isHomePage"
-            to="/tech"
-            color-scheme="emerald"
+          <!-- Hire Me page: Keep browsing button -->
+          <OutlineButton
+            v-else-if="isHireMePage"
+            color-scheme="cyan"
+            @click="router.push('/')"
           >
-            &lt;/&gt;
-          </OutlineRouterLink>
+            Keep browsing
+          </OutlineButton>
         </div>
 
-        <!-- Hire Me Button (Desktop) - hidden on hire-me page -->
+        <!-- Hire Me Button (Desktop) - hidden on hire-me and tech pages -->
         <OutlineRouterLink
-          v-if="!isHireMePage"
+          v-if="!isHireMePage && !isTechPage"
           to="/hire-me"
-          :color-scheme="isTechPage ? 'emerald' : 'cyan'"
+          color-scheme="cyan"
           class="hidden sm:block"
         >
           Hire Me
@@ -151,31 +147,34 @@ const handleBackNavigation = () => {
         class="sm:hidden absolute top-16 left-0 right-0 bg-[#0a0a0a] border-b border-[#333333] shadow-lg"
       >
         <div class="px-6 py-4 space-y-3">
-          <!-- Services/Tech Links -->
+          <!-- Tech page: Keep Browsing only -->
           <OutlineButton
-            v-if="isTechPage || isHireMePage"
-            color-scheme="cyan"
-            :full-width="true"
-            @click="handleBackNavigation"
-          >
-            {{ isHireMePage ? "Keep browsing" : "Back to business" }}
-          </OutlineButton>
-
-          <OutlineRouterLink
-            v-if="isHomePage"
-            to="/tech"
+            v-if="isTechPage"
             color-scheme="emerald"
             :full-width="true"
-            @click="isMobileMenuOpen = false"
+            @click="handleKeepBrowsing"
           >
-            &lt;/&gt;
-          </OutlineRouterLink>
+            Keep Browsing
+          </OutlineButton>
 
-          <!-- Hire Me Button - hidden on hire-me page -->
+          <!-- Hire Me page: Keep browsing -->
+          <OutlineButton
+            v-else-if="isHireMePage"
+            color-scheme="cyan"
+            :full-width="true"
+            @click="
+              router.push('/');
+              isMobileMenuOpen = false;
+            "
+          >
+            Keep browsing
+          </OutlineButton>
+
+          <!-- Hire Me Button - hidden on hire-me and tech pages -->
           <OutlineRouterLink
-            v-if="!isHireMePage"
+            v-if="!isHireMePage && !isTechPage"
             to="/hire-me"
-            :color-scheme="isTechPage ? 'emerald' : 'cyan'"
+            color-scheme="cyan"
             :full-width="true"
             @click="isMobileMenuOpen = false"
           >
