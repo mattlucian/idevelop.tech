@@ -11,7 +11,44 @@ import SimpleTestimonial from "../components/cards/SimpleTestimonial.vue";
 import CheckItem from "../components/elements/CheckItem.vue";
 import Badge from "../components/elements/badges/Badge.vue";
 import CTASection from "../components/ui/CTASection.vue";
+import Timeline from "../components/display/Timeline.vue";
+import IconBadge from "../components/elements/badges/IconBadge.vue";
+import OutlineIcon from "../components/elements/OutlineIcon.vue";
+import Footer from "../components/layout/Footer.vue";
 import { SCHEDULING_LINK, CONTACT, SITE } from "@/constants";
+import {
+  ClipboardDocumentIcon,
+  ArrowPathIcon,
+  RocketLaunchIcon,
+  UserGroupIcon,
+  CalendarIcon,
+  EnvelopeIcon,
+  BookOpenIcon,
+} from "@heroicons/vue/24/outline";
+
+// Work experience timeline data
+const workExperience = [
+  {
+    icon: "2014",
+    label: "Senior Developer",
+    desc: "Senior Developer at EverBank",
+  },
+  {
+    icon: "2016",
+    label: "Lead Developer",
+    desc: "Lead Developer at Inventory Source",
+  },
+  {
+    icon: "2019",
+    label: "Startup CTO",
+    desc: "CTO at Inventory Source and Flxpoint",
+  },
+  {
+    icon: "2024",
+    label: "CTO & Founder",
+    desc: "CTO & Founder at I Develop Tech LLC",
+  },
+];
 
 // Set meta tags for Hire Me page
 useMeta({
@@ -109,7 +146,7 @@ const goToService = (serviceId: string) => {
           class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-3xl">📋</span>
+            <OutlineIcon :icon="ClipboardDocumentIcon" size="lg" />
             <h3 class="text-2xl font-bold text-white">Project-Based</h3>
           </div>
           <p class="text-gray-400 mb-6">
@@ -134,7 +171,7 @@ const goToService = (serviceId: string) => {
           class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-3xl">🔄</span>
+            <OutlineIcon :icon="ArrowPathIcon" size="lg" />
             <h3 class="text-2xl font-bold text-white">Retainer Model</h3>
             <Badge variant="purple"> Popular </Badge>
           </div>
@@ -173,7 +210,7 @@ const goToService = (serviceId: string) => {
       </div>
     </div>
 
-    <!-- Credentials & Trust Indicators - Moved up -->
+    <!-- Credentials & Trust Indicators -->
     <div class="max-w-5xl mx-auto px-6 py-12 pt-10">
       <div class="grid md:grid-cols-2 gap-8">
         <!-- Technical Achievements -->
@@ -181,7 +218,7 @@ const goToService = (serviceId: string) => {
           class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-6">
-            <span class="text-3xl">🚀</span>
+            <OutlineIcon :icon="RocketLaunchIcon" size="lg" />
             <h3 class="text-2xl font-bold text-white">
               Technical Achievements
             </h3>
@@ -210,7 +247,7 @@ const goToService = (serviceId: string) => {
           class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-6">
-            <span class="text-3xl">👥</span>
+            <OutlineIcon :icon="UserGroupIcon" size="lg" />
             <h3 class="text-2xl font-bold text-white">Leadership Experience</h3>
           </div>
           <ul class="space-y-3">
@@ -228,6 +265,42 @@ const goToService = (serviceId: string) => {
               Mentored 10+ junior to senior engineers
             </CheckItem>
           </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Work Experience Timeline (no heading) -->
+    <div class="max-w-5xl mx-auto px-6 py-12 pt-8">
+      <Timeline :steps="workExperience" variant="centered" />
+    </div>
+
+    <!-- Tech Skills Link Section -->
+    <div class="max-w-5xl mx-auto px-6 py-8">
+      <div
+        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
+      >
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <!-- Text Content -->
+          <div class="flex-1 text-center md:text-left">
+            <h3 class="text-xl md:text-2xl font-bold text-white mb-2">
+              Explore My Technical Expertise
+            </h3>
+            <p class="text-sm md:text-base text-gray-400 mb-4">
+              Cloud & DevOps • Full-Stack Development • Systems Integration
+            </p>
+          </div>
+
+          <!-- CTA Button -->
+          <div class="flex-shrink-0">
+            <OutlineRouterLink
+              to="/tech"
+              color-scheme="emerald"
+              class="inline-flex items-center gap-2"
+            >
+              <OutlineIcon :icon="BookOpenIcon" size="sm" color="emerald" />
+              <span>View Technical Expertise</span>
+            </OutlineRouterLink>
+          </div>
         </div>
       </div>
     </div>
@@ -276,17 +349,31 @@ const goToService = (serviceId: string) => {
             commitment required.
           </p>
           <div
-            class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6"
+            class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6 w-full px-4"
           >
-            <PrimaryButton size="lg" @click="openSchedulingLink">
-              <span class="text-lg">📅 Schedule Free Consultation</span>
+            <PrimaryButton
+              :show-arrow="true"
+              :full-width="false"
+              @click="openSchedulingLink"
+              class="w-full sm:w-auto"
+            >
+              <span class="flex items-center gap-2 whitespace-nowrap">
+                <OutlineIcon :icon="CalendarIcon" size="sm" color="white" />
+                <span class="text-sm md:text-base"
+                  >Schedule Free Consultation</span
+                >
+              </span>
             </PrimaryButton>
             <OutlineRouterLink
               :to="`mailto:${CONTACT.email}`"
               :external="true"
               color-scheme="cyan"
+              class="w-full sm:w-auto inline-flex items-center justify-center"
             >
-              <span class="text-lg">📧 Email Instead</span>
+              <span class="flex items-center gap-2 whitespace-nowrap">
+                <OutlineIcon :icon="EnvelopeIcon" size="sm" color="cyan" />
+                <span class="text-sm md:text-base">Email Instead</span>
+              </span>
             </OutlineRouterLink>
           </div>
           <div
@@ -324,7 +411,7 @@ const goToService = (serviceId: string) => {
             rel="noopener noreferrer"
             class="flex items-center gap-2 hover:text-cyan-400 transition-colors"
           >
-            <span>📧</span>
+            <OutlineIcon :icon="EnvelopeIcon" size="sm" color="cyan" />
             <span>{{ CONTACT.email }}</span>
           </a>
           <div class="flex items-center gap-4">
@@ -348,5 +435,8 @@ const goToService = (serviceId: string) => {
         </div>
       </div>
     </div>
+
+    <!-- Footer -->
+    <Footer />
   </div>
 </template>

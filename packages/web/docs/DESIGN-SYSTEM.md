@@ -29,11 +29,33 @@ The site uses a **dual color scheme** that switches contextually:
 - **Button Gradient**: `from-cyan-500 to-purple-500`
 - **Border Colors**: `border-cyan-500/30`, `border-slate-700/30`
 
-### Icon Color Treatment
+### Icon System
 
-**Desaturation Filter**: `filter: saturate(0.3) brightness(1.05)`
+**Primary Icon Library**: Heroicons from @heroicons/vue/24/outline (MIT-licensed by Tailwind Labs)
 
-Applied to emoji icons in IconFlowStep component to reduce color clash while preserving theme colors (cyan/emerald/purple). Retains 30% saturation for subtle color distinction.
+**Icon Colors:**
+
+- **Cyan Theme**: `text-cyan-400` (services/business pages)
+- **Emerald Theme**: `text-emerald-400` (tech/experience pages)
+- **Purple Theme**: `text-purple-400` (secondary accents)
+- **Slate Theme**: `text-slate-400` (neutral elements)
+- **White**: `text-white` (high contrast elements)
+
+**Icon Sizing:**
+
+- **Extra Small (xs)**: 16px (w-4 h-4)
+- **Small (sm)**: 20px (w-5 h-5)
+- **Medium (md)**: 24px (w-6 h-6) - Default size
+- **Large (lg)**: 32px (w-8 h-8)
+- **Extra Large (xl)**: 40px (w-10 h-10)
+- **2XL**: 48px (w-12 h-12)
+- **Service Cards**: 96px (w-24 h-24) - With glow effect
+
+**Icon Usage:**
+
+All icons use the centralized icon mapping system (`src/utils/iconMapping.ts`). Data files reference icons by name string, and components dynamically render them using `getIconByName()`.
+
+**See ARCHITECTURE.md for complete icon system implementation details.**
 
 ## Typography
 

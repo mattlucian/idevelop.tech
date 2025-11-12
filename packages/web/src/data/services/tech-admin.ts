@@ -25,22 +25,22 @@ export const techAdminServiceData: TechAdminServiceData = {
   // Timeline Steps
   timelineSteps: [
     {
-      icon: "🔍",
+      icon: "MagnifyingGlassIcon",
       label: "Tech Stack Review",
       desc: "Assessment of your current tools, systems, and integrations",
     },
     {
-      icon: "🎯",
+      icon: "RocketLaunchIcon",
       label: "Business Goals",
       desc: "Align technical planning with your business goals and growth plans",
     },
     {
-      icon: "📋",
+      icon: "DocumentTextIcon",
       label: "Documentation",
       desc: "Create clear reference materials for your team and future planning",
     },
     {
-      icon: "📊",
+      icon: "ChartBarIcon",
       label: "Gap Analysis & Planning",
       desc: "Identify capability gaps and prioritize improvements for your roadmap",
     },

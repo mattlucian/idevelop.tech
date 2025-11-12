@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import OutlineIcon from "../elements/OutlineIcon.vue";
+import { getIconByName } from "@/utils/iconMapping";
+
 interface Props {
   emoji: string;
   label: string;
@@ -20,6 +24,18 @@ const props = withDefaults(defineProps<Props>(), {
   filterStyle: "none",
   variant: "default",
 });
+
+// Check if emoji is actually an icon name
+const iconComponent = computed(() => getIconByName(props.emoji));
+const isIconName = computed(() => iconComponent.value !== undefined);
+
+// Map colorScheme to valid OutlineIcon colors
+const iconColor = computed(
+  (): "cyan" | "emerald" | "purple" | "slate" | "white" => {
+    if (props.colorScheme === "custom") return "cyan";
+    return props.colorScheme;
+  },
+);
 
 // Get color classes based on color scheme
 const getColorClasses = () => {
@@ -108,9 +124,16 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
         colors.border,
         sizes.box,
       ]"
-      :style="applyToBox ? getEmojiFilterStyle() : ''"
+      :style="!isIconName && applyToBox ? getEmojiFilterStyle() : ''"
     >
+      <OutlineIcon
+        v-if="isIconName && iconComponent"
+        :icon="iconComponent"
+        size="md"
+        :color="iconColor"
+      />
       <span
+        v-else
         :class="sizes.emoji"
         :style="applyToEmoji ? getEmojiFilterStyle() : ''"
       >
@@ -136,9 +159,16 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
         colors.border,
         sizes.box,
       ]"
-      :style="applyToBox ? getEmojiFilterStyle() : ''"
+      :style="!isIconName && applyToBox ? getEmojiFilterStyle() : ''"
     >
+      <OutlineIcon
+        v-if="isIconName && iconComponent"
+        :icon="iconComponent"
+        size="xl"
+        :color="iconColor"
+      />
       <span
+        v-else
         :class="sizes.emoji"
         :style="applyToEmoji ? getEmojiFilterStyle() : ''"
       >

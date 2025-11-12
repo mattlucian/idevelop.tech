@@ -64,6 +64,45 @@ Quick reference for all reusable components in the idevelop.tech application. Fo
 | ---------------------------------------------------------- | -------------------------------------------------------------------- |
 | [Timeline](../src/components/display/Timeline.vue)         | Vertical timeline with connecting line for sequential steps          |
 | [IconFlowStep](../src/components/display/IconFlowStep.vue) | Icon box step for horizontal process flows with configurable filters |
+| [OutlineIcon](../src/components/elements/OutlineIcon.vue)  | Wrapper for Heroicons with consistent sizing and color schemes       |
+
+---
+
+## Icon System
+
+### Icon Utilities
+
+| Utility                                            | Purpose                                                      |
+| -------------------------------------------------- | ------------------------------------------------------------ |
+| [iconMapping.ts](../src/utils/iconMapping.ts)      | Maps icon name strings to Heroicon components for data files |
+| [getIconByName()](../src/utils/iconMapping.ts#L58) | Function to retrieve Heroicon component by name string       |
+
+### Using Icons
+
+**In Data Files:**
+
+```typescript
+// Use icon name strings (no imports needed)
+icon: "MagnifyingGlassIcon";
+```
+
+**In Components:**
+
+```vue
+<script setup lang="ts">
+import { getIconByName } from "@/utils/iconMapping";
+const iconComponent = getIconByName(props.icon);
+</script>
+
+<template>
+  <component :is="iconComponent" class="w-10 h-10 text-cyan-400" />
+</template>
+```
+
+**Available Icons (22):**
+MagnifyingGlassIcon, RocketLaunchIcon, DocumentTextIcon, ChartBarIcon, BeakerIcon, ArrowPathIcon, CheckCircleIcon, LightBulbIcon, Cog6ToothIcon, PaintBrushIcon, CodeBracketIcon, WrenchScrewdriverIcon, LinkIcon, ShoppingCartIcon, SparklesIcon, CloudIcon, ShoppingBagIcon, CubeIcon, TruckIcon, ClockIcon, UserGroupIcon, BookOpenIcon, CalendarIcon
+
+**See ARCHITECTURE.md for complete icon system documentation.**
 
 ---
 

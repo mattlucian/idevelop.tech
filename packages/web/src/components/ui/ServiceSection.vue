@@ -54,6 +54,9 @@ const colorClasses = computed(() => ({
         <p class="text-lg md:text-xl text-slate-400 leading-relaxed mb-6">
           {{ subtitle }}
         </p>
+        <div v-if="$slots.badge" class="mb-6">
+          <slot name="badge" />
+        </div>
         <div v-if="$slots['rate-card']" class="mb-6">
           <slot name="rate-card" />
         </div>

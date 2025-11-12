@@ -102,25 +102,25 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
       title: "Cloud Adoption Journey",
       steps: [
         {
-          icon: "🔍",
+          icon: "MagnifyingGlassIcon",
           label: "Assess",
           description:
             "Review current infrastructure, workload requirements, and cloud readiness",
         },
         {
-          icon: "📋",
+          icon: "DocumentTextIcon",
           label: "Plan",
           description:
             "Design cloud architecture, select services, and create migration roadmap",
         },
         {
-          icon: "🚀",
+          icon: "RocketLaunchIcon",
           label: "Deploy",
           description:
             "Execute migration with minimal downtime and thorough testing",
         },
         {
-          icon: "📈",
+          icon: "ChartBarIcon",
           label: "Optimize",
           description:
             "Monitor costs, right-size resources, and implement ongoing improvements",
@@ -131,23 +131,23 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
       title: "Low-Risk Migration Process",
       steps: [
         {
-          icon: "📊",
+          icon: "ChartBarIcon",
           label: "Inventory",
           description: "Map dependencies, data flows, and integration points",
         },
         {
-          icon: "🧪",
+          icon: "BeakerIcon",
           label: "Test Environment",
           description:
             "Set up AWS infrastructure and validate application compatibility",
         },
         {
-          icon: "🔄",
+          icon: "ArrowPathIcon",
           label: "Phased Migration",
           description: "Move workloads in waves with clear rollback strategies",
         },
         {
-          icon: "✅",
+          icon: "CheckCircleIcon",
           label: "Validation",
           description:
             "Performance testing, monitoring setup, and team training",
@@ -158,25 +158,25 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
       title: "Cost Optimization Framework",
       steps: [
         {
-          icon: "🔎",
+          icon: "MagnifyingGlassIcon",
           label: "Audit",
           description:
             "Identify unused resources, oversized instances, and inefficient patterns",
         },
         {
-          icon: "💡",
+          icon: "LightBulbIcon",
           label: "Recommendations",
           description:
             "Reserved Instances, Savings Plans, auto-scaling, and service alternatives",
         },
         {
-          icon: "⚙️",
+          icon: "Cog6ToothIcon",
           label: "Implementation",
           description:
             "Apply optimizations with validation testing to ensure performance",
         },
         {
-          icon: "📉",
+          icon: "ChartBarIcon",
           label: "Monitor",
           description:
             "Continuous cost tracking, alerts, and monthly optimization reviews",
