@@ -8,43 +8,47 @@
 
 ## Overview
 
-This repository uses a **dual-strategy** approach for code quality and security scanning:
+This repository uses **CodeQL** for comprehensive code quality and security scanning:
 
 1. **CodeQL** - Runs on all PRs and branches (security + quality)
-2. **SonarCloud** - Runs on develop/main only (comprehensive metrics)
 
 ---
 
 ## Why This Strategy?
 
-### SonarCloud Free Tier Limitation
+### CodeQL: Comprehensive Free Tier
 
-**SonarCloud Free Plan**:
-- ✅ Supports: Public repositories
-- ✅ Unlimited: Main branch analysis
-- ❌ No support: PR/branch analysis (paid feature)
+**CodeQL Free Plan**:
+- ✅ Supports: Public repositories (unlimited)
+- ✅ PR analysis: Full support with inline feedback
+- ✅ Branch analysis: develop, main, and all feature branches
+- ✅ Security rules: 102 rules from security-extended pack
+- ✅ Quality rules: ~98 rules from security-and-quality pack
+- ✅ Total coverage: 200+ rules
 
 **Our Solution**:
-- Use **CodeQL** for PR-level quality feedback (free, unlimited)
-- Use **SonarCloud** for post-merge quality tracking (free for main branch)
+- Use **CodeQL** with `security-and-quality` query pack for comprehensive scanning
+- Provides both security vulnerability detection AND code quality feedback
+- Works on all PRs and branches without limitations
 
 ---
 
 ## Scanning Coverage
 
-### Pull Requests (Before Merge)
+### All Pull Requests and Branches
 
 **CodeQL: `security-and-quality` pack** ✅
 
-**Runs on**: Every PR to develop/main
+**Runs on**: Every PR to develop/main + push to develop/main + weekly schedule
 
 **Provides**:
 - ✅ Security vulnerability detection (102 rules)
-- ✅ Code quality checks (~50 rules)
+- ✅ Code quality checks (~98 rules)
 - ✅ Complexity analysis
 - ✅ Best practice violations
 - ✅ Maintainability issues
 - ✅ PR decoration with findings
+- ✅ Historical tracking in Security tab
 
 **Example checks**:
 - Cyclomatic complexity warnings
@@ -53,34 +57,10 @@ This repository uses a **dual-strategy** approach for code quality and security 
 - Insecure patterns
 - SQL injection risks
 - XSS vulnerabilities
+- Code smell detection
+- Best practice violations
 
 **View results**: GitHub Security tab + PR checks
-
----
-
-### Post-Merge (After Merge)
-
-**SonarCloud: Comprehensive analysis** ✅
-
-**Runs on**: Push to develop or main (post-merge only)
-
-**Provides**:
-- ✅ Overall maintainability rating (A-E)
-- ✅ Technical debt estimation (hours)
-- ✅ Code smell detection and tracking
-- ✅ Duplicate code percentage
-- ✅ Security hotspots
-- ✅ Historical quality trends
-- ✅ Quality gate pass/fail
-
-**Example metrics**:
-- Maintainability Rating: A
-- Technical Debt: 2h 15m
-- Code Smells: 12
-- Duplications: 1.2%
-- Coverage: 0% (until tests added)
-
-**View results**: https://sonarcloud.io/project/overview?id=mattlucian_idevelop-tech
 
 ---
 
@@ -109,31 +89,8 @@ on:
 1. PR created → CodeQL runs automatically
 2. Scans all changed code + dependencies
 3. Decorates PR with findings
-4. Blocks merge if critical issues found (optional)
-
----
-
-### SonarCloud Workflow (`.github/workflows/sonarcloud.yml`)
-
-**Triggers**:
-```yaml
-on:
-  push:
-    branches: [develop, main]
-  # NO pull_request trigger (free tier limitation)
-```
-
-**Configuration**:
-- Organization: mattlucian
-- Project: mattlucian_idevelop-tech
-- New code: Previous version (automatic)
-- Results: Uploaded to SonarCloud dashboard
-
-**What happens**:
-1. PR merged to develop → SonarCloud analyzes entire branch
-2. Creates new "version" baseline
-3. Updates quality metrics
-4. Tracks technical debt over time
+4. Uploads results to GitHub Security tab
+5. Blocks merge if critical issues found (optional via branch protection)
 
 ---
 
@@ -148,6 +105,7 @@ feature/my-feature → PR to develop
 
 **2. CodeQL runs** (~2 minutes):
 - Analyzes code changes
+- Shows security vulnerabilities
 - Shows quality issues inline
 - Provides immediate feedback
 
@@ -159,63 +117,50 @@ feature/my-feature → PR to develop
 **4. Merge to develop**:
 - PR checks pass (CodeQL green)
 - Merge to develop
-- SonarCloud analyzes develop branch
+- CodeQL analyzes develop branch
 
-**5. SonarCloud updates** (~3 minutes):
-- New quality baseline created
-- Dashboard shows updated metrics
-- Technical debt tracked
-
-**6. Merge to main** (when ready):
+**5. Merge to main** (when ready):
 - Create PR: develop → main
-- CodeQL runs again
+- CodeQL runs again on PR
 - Merge to main
-- SonarCloud updates production metrics
+- CodeQL updates production security baseline
 
 ---
 
 ## Quality Gates
 
-### CodeQL (PR Level)
+### CodeQL
 
 **Automatic checks**:
-- Security vulnerabilities: Block on HIGH/CRITICAL
-- Code quality: Warn on issues
+- Security vulnerabilities: Report all findings
+- Code quality: Report all findings
 - Complexity: Warn on high complexity
+- Best practices: Report violations
 
-**Configuration** (optional - via branch protection):
+**Configuration** (via branch protection - optional):
 - Require: "CodeQL Analysis" check to pass
-- Prevent merge if issues found
+- Prevent merge if critical security issues found
+- Configurable severity thresholds
 
-### SonarCloud (Branch Level)
-
-**Quality gate** (configurable in SonarCloud):
-- New code maintainability: Grade A or B
-- New code coverage: 0% (no tests yet)
-- New duplications: < 3%
-- New security hotspots: 0
-
-**Status**: Currently informational only (doesn't block merges)
+**Current status**: Informational (doesn't block merges by default)
 
 ---
 
-## Comparison: CodeQL vs SonarCloud
+## CodeQL Feature Coverage
 
-| Feature | CodeQL | SonarCloud |
-|---------|--------|------------|
-| **Timing** | Pre-merge (PR) | Post-merge (branch) |
-| **Focus** | Security + Quality | Comprehensive Quality |
-| **Cost** | Free (unlimited) | Free (main branch only) |
-| **PR Support** | ✅ Yes | ❌ No (paid feature) |
-| **Runs On** | PRs + branches | develop/main only |
-| **Results** | GitHub Security tab | SonarCloud dashboard |
-| **Inline Feedback** | ✅ Yes (PR decoration) | ❌ No (post-merge) |
-| **Historical Tracking** | ❌ Limited | ✅ Excellent |
-| **Technical Debt** | ❌ No | ✅ Yes (hours) |
-| **Maintainability Rating** | ❌ No | ✅ Yes (A-E) |
-| **Duplicate Detection** | Limited | ✅ Comprehensive |
-| **Security** | ✅ Excellent (102 rules) | ✅ Good (hotspots) |
-| **Quality Rules** | ~50 rules | ~300+ rules |
+| Feature | CodeQL (security-and-quality) | Status |
+|---------|-------------------------------|--------|
+| **Timing** | Pre-merge (PR) + post-merge | ✅ Real-time |
+| **Focus** | Security + Quality | ✅ Comprehensive |
+| **Cost** | Free (unlimited) | ✅ Free forever |
+| **PR Support** | Full PR analysis | ✅ Yes |
+| **Branch Support** | All branches | ✅ Unlimited |
+| **Results** | GitHub Security tab | ✅ Integrated |
+| **Inline Feedback** | PR decoration | ✅ Yes |
+| **Historical Tracking** | Security tab history | ✅ Yes |
+| **Security Rules** | 102 rules | ✅ Excellent |
+| **Quality Rules** | ~98 rules | ✅ Good |
+| **Total Coverage** | 200+ rules | ✅ Comprehensive |
 
 ---
 
@@ -223,72 +168,73 @@ feature/my-feature → PR to develop
 
 ### For Developers
 
-**1. Watch CodeQL on PRs**:
+**1. Monitor CodeQL on PRs**:
 - Review findings before requesting review
-- Fix critical/high issues before merge
+- Fix critical/high security issues before merge
+- Address quality warnings when reasonable
 - Document false positives (if any)
 
-**2. Check SonarCloud after merge**:
-- Review quality delta (what changed?)
-- Address new code smells
-- Monitor technical debt trend
+**2. Use GitHub Security tab**:
+- Check security findings regularly
+- Review historical trends
+- Track fixed vs. new issues
 
 **3. Weekly quality review**:
-- Check SonarCloud dashboard
-- Prioritize technical debt
-- Plan refactoring sprints
+- Check GitHub Security tab
+- Review any recurring quality issues
+- Plan refactoring for complex code
 
 ### For Maintainers
 
 **1. Set quality standards**:
-- Maintain A/B rating on new code
-- Keep technical debt < 5% of codebase
-- Address all security hotspots
+- Address all high/critical security findings
+- Fix quality issues that impact maintainability
+- Keep codebase clean and readable
 
 **2. Monitor trends**:
-- Weekly quality score review
-- Track debt over time
+- Weekly security/quality review via GitHub Security tab
+- Track issue trends over time
 - Celebrate improvements
 
 **3. Balance speed vs quality**:
-- CodeQL: Must pass (security)
-- SonarCloud: Track and improve (quality)
+- Security issues: Fix immediately
+- Quality issues: Fix when time permits or during refactoring
 
 ---
 
 ## Alternative Options (If Needed)
 
-If SonarCloud's main-branch-only limitation becomes problematic, consider:
+If you need additional code quality tools beyond CodeQL:
 
-### Option 1: SonarCloud Paid Plan
+### Option 1: Enhanced ESLint (Local)
 
-**Cost**: $10/month per user
-**Benefit**: PR analysis and branch support
-**Best for**: If you add team members
+**Cost**: Free
+**Benefit**: Immediate local feedback during development
+**Best for**: Developer experience
+
+**Add plugins**:
+```bash
+npm install -D eslint-plugin-sonarjs eslint-plugin-complexity eslint-plugin-security
+```
+
+See: `docs/CODE-QUALITY-ASSESSMENT.md` for full ESLint setup guide
 
 ### Option 2: DeepSource (Free PR Analysis)
 
 **Cost**: Free for public repos (with PR support!)
-**Benefit**: Similar to SonarCloud but supports PR analysis
-**Best for**: If you want PR-level quality metrics
+**Benefit**: Additional quality metrics and PR analysis
+**Best for**: If you want more detailed quality metrics beyond CodeQL
 
 **Setup**:
 1. Sign up: https://deepsource.com
 2. Connect repository
 3. Automatic PR analysis
 
-### Option 3: Enhanced ESLint (Local)
+### Option 3: SonarCloud Paid Plan
 
-**Cost**: Free
-**Benefit**: Immediate local feedback
-**Best for**: Developer experience
-
-**Add plugins**:
-```bash
-npm install -D eslint-plugin-sonarjs eslint-plugin-complexity
-```
-
-See: `docs/CODE-QUALITY-ASSESSMENT.md` for full ESLint setup guide
+**Cost**: $10/month per user
+**Benefit**: Comprehensive quality dashboard with PR analysis
+**Best for**: If you add team members and want detailed metrics
 
 ---
 
@@ -298,39 +244,31 @@ See: `docs/CODE-QUALITY-ASSESSMENT.md` for full ESLint setup guide
 
 **Status**: ✅ PASSING
 - Security issues: 0
-- Quality issues: TBD (first scan with new rules)
-- Rules checked: ~150 total (102 security + ~50 quality)
+- Quality issues: 0
+- Rules checked: 200 total (102 security + ~98 quality)
 
-### SonarCloud Results (Latest Scan)
-
-**Status**: ⏳ PENDING (awaiting first scan)
-- Maintainability: TBD
-- Technical Debt: TBD
-- Code Smells: TBD
-- Duplications: TBD
-
-**Dashboard**: https://sonarcloud.io/project/overview?id=mattlucian_idevelop-tech
+**View results**: [GitHub Security Tab](https://github.com/mattlucian/idevelop.tech/security/code-scanning)
 
 ---
 
 ## Summary
 
 **Our Strategy**:
-1. ✅ **CodeQL** provides PR-level quality + security feedback (free, unlimited)
-2. ✅ **SonarCloud** tracks comprehensive quality metrics post-merge (free for main branch)
-3. ✅ Best of both worlds within free tier limitations
+1. ✅ **CodeQL** provides comprehensive security + quality scanning (free, unlimited)
+2. ✅ Works on all PRs and branches without limitations
+3. ✅ Single tool covers both security vulnerabilities and code quality
 
 **Quality Coverage**:
-- **Before merge**: CodeQL catches issues early (PR level)
-- **After merge**: SonarCloud tracks quality over time (branch level)
+- **Before merge**: CodeQL catches issues early on PRs
+- **After merge**: CodeQL continues tracking on branches
 - **Result**: High quality standards without cost
 
 **Developer Experience**:
-- Immediate PR feedback (CodeQL)
-- Historical tracking (SonarCloud)
+- Immediate PR feedback with inline comments
+- Historical tracking in GitHub Security tab
 - No quality checks bypassed
-- Free tier optimized
+- Free tier with no limitations
 
 ---
 
-**This strategy maximizes quality coverage within free tier constraints.** 🚀
+**This strategy provides comprehensive coverage with a single, powerful tool.** 🚀

@@ -54,41 +54,41 @@ When writing or updating documentation in this repository:
 
 ### Frontend Development (packages/web/)
 
-| What You Need                                | Documentation File                            |
-| -------------------------------------------- | --------------------------------------------- |
-| Write/edit content (service pages, copy)     | See "Frontend: When Writing Content" ⚠️       |
-| Create/modify components                     | `packages/web/docs/COMPONENT-RULES.md` ⚠️     |
-| Find existing components                     | `packages/web/docs/COMPONENTS.md`             |
-| Apply styles, colors, typography, responsive | `packages/web/docs/DESIGN-SYSTEM.md`          |
-| Work with service/tech data                  | `packages/web/docs/DATA-STRUCTURE.md`         |
-| Understand frontend architecture             | `packages/web/docs/ARCHITECTURE.md`           |
-| Check frontend implementation status         | `packages/web/docs/IMPLEMENTATION-STATUS.md`  |
-| Review frontend configuration                | `packages/web/docs/CONFIGURATION.md`          |
-| SEO implementation                           | `packages/web/docs/SEO.md`                    |
+| What You Need                                | Documentation File                           |
+| -------------------------------------------- | -------------------------------------------- |
+| Write/edit content (service pages, copy)     | See "Frontend: When Writing Content" ⚠️      |
+| Create/modify components                     | `packages/web/docs/COMPONENT-RULES.md` ⚠️    |
+| Find existing components                     | `packages/web/docs/COMPONENTS.md`            |
+| Apply styles, colors, typography, responsive | `packages/web/docs/DESIGN-SYSTEM.md`         |
+| Work with service/tech data                  | `packages/web/docs/DATA-STRUCTURE.md`        |
+| Understand frontend architecture             | `packages/web/docs/ARCHITECTURE.md`          |
+| Check frontend implementation status         | `packages/web/docs/IMPLEMENTATION-STATUS.md` |
+| Review frontend configuration                | `packages/web/docs/CONFIGURATION.md`         |
+| SEO implementation                           | `packages/web/docs/SEO.md`                   |
 
 ### Backend Development (packages/functions/)
 
-| What You Need                        | Documentation File                      |
-| ------------------------------------ | --------------------------------------- |
-| Contact form API implementation      | `packages/functions/src/contact.ts`     |
-| Email authentication setup           | `docs/SETUP.md` (email section)         |
+| What You Need                   | Documentation File                  |
+| ------------------------------- | ----------------------------------- |
+| Contact form API implementation | `packages/functions/src/contact.ts` |
+| Email authentication setup      | `docs/SETUP.md` (email section)     |
 
 ### Infrastructure & Deployment
 
-| What You Need                        | Documentation File                      |
-| ------------------------------------ | --------------------------------------- |
-| Quick reference & commands           | `docs/QUICK-START.md` ⭐                |
-| Initial project setup (forking)      | `docs/SETUP.md`                         |
-| Branch strategy & CI/CD              | `docs/BRANCH-STRATEGY.md`               |
-| Project phases & implementation      | `docs/PROJECT-PLAN.md`                  |
+| What You Need                   | Documentation File        |
+| ------------------------------- | ------------------------- |
+| Quick reference & commands      | `docs/QUICK-START.md` ⭐  |
+| Initial project setup (forking) | `docs/SETUP.md`           |
+| Branch strategy & CI/CD         | `docs/BRANCH-STRATEGY.md` |
+| Project phases & implementation | `docs/PROJECT-PLAN.md`    |
 
 ### Migration & Project Management
 
-| What You Need                        | Documentation File                      |
-| ------------------------------------ | --------------------------------------- |
-| Migration plan and phases            | `MIGRATION-PLAN.md`                     |
-| Migration completion report          | `MIGRATION-REPORT.md`                   |
-| Quick deployment reference           | `DEPLOYMENT-QUICKSTART.md`              |
+| What You Need               | Documentation File         |
+| --------------------------- | -------------------------- |
+| Migration plan and phases   | `MIGRATION-PLAN.md`        |
+| Migration completion report | `MIGRATION-REPORT.md`      |
+| Quick deployment reference  | `DEPLOYMENT-QUICKSTART.md` |
 
 ---
 
@@ -104,6 +104,7 @@ When writing or updating documentation in this repository:
    - Functions package (`packages/functions/`) - For API development
 
 2. **Check for multiple dev servers**: Only ONE dev server should run at a time
+
    ```bash
    ps aux | grep "npm run dev" | grep -v grep
    ```
@@ -176,6 +177,7 @@ feature/* → PR → develop → PR → main
 **Required workflow for ALL changes:**
 
 1. **Create feature branch** from `develop`:
+
    ```bash
    git checkout develop
    git pull origin develop
@@ -188,12 +190,14 @@ feature/* → PR → develop → PR → main
    - `hotfix/*` - Critical production fixes (branch from main, backport to develop)
 
 3. **Make changes and commit**:
+
    ```bash
    git add .
    git commit -m "feat: description"  # Use conventional commit format
    ```
 
 4. **Push branch and create PR to develop**:
+
    ```bash
    git push origin feature/my-feature
    gh pr create --base develop --title "feat: description"
@@ -214,6 +218,7 @@ feature/* → PR → develop → PR → main
    - ✅ After testing on dev stage → create PR from develop to main
 
 **Why this matters**:
+
 - Direct commits bypass CI checks, code review, and branch protection
 - PRs to develop first ensure changes are tested on staging before production
 - Maintains clean history and allows rollback if needed
@@ -221,6 +226,7 @@ feature/* → PR → develop → PR → main
 - Prevents accidental production deployments
 
 **References**:
+
 - `docs/BRANCH-STRATEGY.md` - Complete branch strategy documentation
 - `docs/PROJECT-PLAN.md` - Phase-by-phase implementation plan
 
@@ -342,10 +348,36 @@ feature/* → PR → develop → PR → main
 - ✅ **Use TypeScript interfaces** for all props (no implicit types)
 - ✅ **Leverage Vue 3 features**: `defineProps`, `defineEmits`, `withDefaults`
 
+**TypeScript Quality Standards** ⚠️ **MANDATORY**:
+
+- 🔴 **NEVER use `any` type** - Always provide specific types (CRITICAL severity)
+  - Replace `any` with proper interfaces, types, or `unknown` for truly dynamic data
+  - Use generics for reusable typed functions
+  - Example: `Record<string, unknown>` instead of `any` for objects
+
+- 🔴 **NEVER use non-null assertions (`!`)** - Use proper null checking (MAJOR severity)
+  - Replace `value!` with proper validation: `if (!value) throw new Error(...)`
+  - Use optional chaining: `value?.property` instead of `value!.property`
+  - For environment variables, validate at startup and throw clear errors
+
+- ✅ **Provide default values for optional Vue props** - Improves component reliability
+  - Use `withDefaults()` for props with defaults
+  - Example: `withDefaults(defineProps<Props>(), { optional: 'default' })`
+
+- ✅ **Remove unused imports** - Keep code clean
+  - Exception: Vue types used implicitly by Composition API are acceptable
+
+- ✅ **Use modern JavaScript syntax**:
+  - Optional chaining: `obj?.property` instead of `obj && obj.property`
+  - Nullish coalescing: `value ?? 'default'` instead of `value || 'default'`
+  - Object shorthand: `{ foo }` instead of `{ foo: foo }`
+  - Template literals only when using interpolation
+
 **References**:
 
 - `packages/web/docs/COMPONENT-RULES.md` - Component structure and patterns
 - `packages/web/docs/DESIGN-SYSTEM.md` - Color schemes, design tokens, and responsive patterns
+- `docs/DEEPSOURCE-ANALYSIS-REPORT.md` - Code quality analysis and standards
 
 ---
 
@@ -527,7 +559,7 @@ feature/* → PR → develop → PR → main
 
 **SST configuration patterns (root sst.config.ts):**
 
-*To be documented in Phase 3 when adding infrastructure*
+_To be documented in Phase 3 when adding infrastructure_
 
 **Planned components:**
 
@@ -549,7 +581,7 @@ feature/* → PR → develop → PR → main
 
 **Infrastructure as code patterns (infra/):**
 
-*To be documented in Phase 3 when creating infrastructure modules*
+_To be documented in Phase 3 when creating infrastructure modules_
 
 **Planned organization:**
 
@@ -669,7 +701,7 @@ export interface ContactFormResponse {
 
 **SST deployment workflow:**
 
-*To be documented in Phase 3 when deploying infrastructure*
+_To be documented in Phase 3 when deploying infrastructure_
 
 **Planned commands:**
 
@@ -715,7 +747,7 @@ All components support `colorScheme` or `color` prop for dual theming.
 
 ### Backend Architecture (packages/functions/)
 
-*To be documented in Phase 3*
+_To be documented in Phase 3_
 
 **Planned stack:**
 
@@ -729,7 +761,7 @@ All components support `colorScheme` or `color` prop for dual theming.
 
 ### Infrastructure Architecture (SST)
 
-*To be documented in Phase 3*
+_To be documented in Phase 3_
 
 **Planned resources:**
 
@@ -870,23 +902,23 @@ Application-wide constants are centralized in `packages/web/src/constants/index.
 **Available constants:**
 
 ```typescript
-import { SCHEDULING_LINK, CONTACT, SITE } from '@/constants'
+import { SCHEDULING_LINK, CONTACT, SITE } from "@/constants";
 
 // Scheduling and contact links
-SCHEDULING_LINK // Google Calendar appointment link
+SCHEDULING_LINK; // Google Calendar appointment link
 
 // Contact information
-CONTACT.email // matt@idevelop.tech
-CONTACT.location // Florida, USA
-CONTACT.linkedin // https://www.linkedin.com/in/matt-lucian/
-CONTACT.github // https://github.com/mattlucian
+CONTACT.email; // matt@idevelop.tech
+CONTACT.location; // Florida, USA
+CONTACT.linkedin; // https://www.linkedin.com/in/matt-lucian/
+CONTACT.github; // https://github.com/mattlucian
 
 // Site configuration
-SITE.name // idevelop.tech
-SITE.url // https://idevelop.tech
-SITE.companyName // I Develop Tech LLC
-SITE.repository // https://github.com/mattlucian/idevelop.tech
-SITE.ogImage // https://idevelop.tech/images/brand/og-image.png
+SITE.name; // idevelop.tech
+SITE.url; // https://idevelop.tech
+SITE.companyName; // I Develop Tech LLC
+SITE.repository; // https://github.com/mattlucian/idevelop.tech
+SITE.ogImage; // https://idevelop.tech/images/brand/og-image.png
 ```
 
 **When to use constants:**
@@ -923,9 +955,11 @@ SITE.ogImage // https://idevelop.tech/images/brand/og-image.png
 **Current Phase**: Phase 2 (Verification)
 
 **Completed:**
+
 - ✅ Phase 1: SST project setup and Vue app migration
 
 **Next Steps:**
+
 - ⚠️ Phase 2: Verify Vue app works in new structure (USER TASK)
 - 🔜 Phase 3: Add infrastructure and API implementation
 
