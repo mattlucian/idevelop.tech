@@ -88,22 +88,18 @@ jobs:
               }
             }
 
-            const workflowUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const fallbackText = `Reports have been generated! Check the [workflow run](${workflowUrl}) logs.`;
+            const workflowUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+            const fallbackText = 'Reports have been generated! Check the [workflow run](' + workflowUrl + ') logs.';
 
-            const comment = `## 🔍 Lighthouse CI Reports
-
-${reportLinks || fallbackText}
-
-### Pages Tested
-- **Home page** (\`/\`)
-- **Hire Me page** (\`/hire-me\`)
-- **Tech page** (\`/tech\`)
-
-> 💡 **Tip:** Look for "Open the report at..." links in the "Run Lighthouse CI" step logs for direct report URLs.
-
----
-*This is an informational check and will not block the PR.*`;
+            const comment = '## 🔍 Lighthouse CI Reports\n\n' +
+              (reportLinks || fallbackText) + '\n\n' +
+              '### Pages Tested\n' +
+              '- **Home page** (`/`)\n' +
+              '- **Hire Me page** (`/hire-me`)\n' +
+              '- **Tech page** (`/tech`)\n\n' +
+              '> 💡 **Tip:** Look for "Open the report at..." links in the "Run Lighthouse CI" step logs for direct report URLs.\n\n' +
+              '---\n' +
+              '*This is an informational check and will not block the PR.*';
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
