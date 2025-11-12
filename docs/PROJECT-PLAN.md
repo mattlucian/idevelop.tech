@@ -1,7 +1,7 @@
 # idevelop.tech Project Plan
 
 **Last Updated:** 2025-11-11
-**Current Phase:** Phase 6.5 - Content Polish
+**Current Phase:** Phase 6.6 - Security Audit Pre-Public
 
 ---
 
@@ -28,10 +28,11 @@ Full-stack portfolio website migration from traditional Vue app to SST monorepo 
 - ✅ **Phase 5.3:** Dependency updates complete (2025-11-11)
 - ✅ **Phase 5.4:** DevOps enhancements (branch strategy, CodeQL) complete (2025-11-11)
 - ✅ **Phase 6:** Manual smoke testing complete (2025-11-11)
-- 🔄 **Phase 6.5:** Content polish (CURRENT)
-- ⏳ **Phase 6.6:** Add Lighthouse CI and remediate issues
-- ⏳ **Phase 6.7:** CodeQL verification and remediation
-- ⏳ **Phase 6.8:** Make repository public
+- ✅ **Phase 6.5:** Content polish complete (2025-11-11)
+- 🔄 **Phase 6.6:** Security audit pre-public (CURRENT)
+- ⏳ **Phase 6.7:** Add Lighthouse CI and remediate issues
+- ⏳ **Phase 6.8:** CodeQL verification and remediation
+- ⏳ **Phase 6.9:** Make repository public
 - ⏳ **Phase 7:** Custom domain migration
 - ⏳ **Phase 8:** Post-launch monitoring setup
 
@@ -194,38 +195,113 @@ Manual testing of development environment to catch critical issues.
 
 ---
 
-## Phase 6.5: Content Polish 🔄 CURRENT
+## Phase 6.5: Content Polish ✅ COMPLETE
 
-**Status:** In Progress
+**Completed:** 2025-11-11
 
 ### Objective
 Refine website content before making repository public and migrating domain.
 
-### Tasks
-- [ ] Review and update service page copy
-- [ ] Refine hero section messaging
-- [ ] Update portfolio project descriptions
-- [ ] Polish technical expertise descriptions
-- [ ] Review /hire-me page copy
-- [ ] Verify all CTAs are clear and actionable
-- [ ] Check for typos, grammar, consistency
+### Tasks Completed
+- ✅ Replaced all emoji icons with professional Heroicons
+- ✅ Implemented centralized icon mapping system (22 Heroicons)
+- ✅ Created icon utilities and documentation
+- ✅ Added Flxpoint Consulting service page
+- ✅ Updated HomeView with enhanced hero content
+- ✅ Updated PrivacyView structure
+- ✅ Enhanced Timeline component on HireMeView (year-based display)
+- ✅ Updated all service data files with icon names
+- ✅ Documented icon system in ARCHITECTURE.md, COMPONENTS.md, DESIGN-SYSTEM.md
+- ✅ Enforced PR workflow to develop branch first in CLAUDE.md
 
-### Approach
-- Remove marketing fluff and over-promising
-- Ensure authenticity and professionalism
-- Follow content guidelines in `packages/web/docs/COMPONENT-RULES.md`
-- Avoid specific commitments (response times, deadlines)
-- Focus on value propositions over superlatives
+### Approach Used
+- Replaced colorful emojis with consistent Heroicons
+- Data-driven icon mapping (no imports in data files)
+- Type-safe implementation with graceful emoji fallback
+- Dual color scheme support (cyan/emerald/purple)
+- Professional visual consistency across all pages
 
-### Success Criteria
-- ✅ Content reads professionally
-- ✅ No unrealistic promises
-- ✅ Messaging is clear and authentic
-- ✅ All text provides value
+### Success Criteria - ALL MET ✅
+- ✅ Professional icon system implemented
+- ✅ Consistent visual design language
+- ✅ Type-safe icon references
+- ✅ Centralized icon management
+- ✅ Documentation updated for future maintenance
+- ✅ Proper branch workflow enforced
+
+### Deliverables
+- **PR #24:** Icon system implementation (merged to main)
+- **PR #25:** Branch workflow documentation (merged to develop)
+- **Files Changed:** 37 files (+1,276 insertions, -181 deletions)
+- **New Components:** OutlineIcon.vue, MutedEmoji.vue, ServiceAreaCard.vue
+- **New Utilities:** iconMapping.ts (22 Heroicons)
+- **New Service Page:** FlxpointConsultingView.vue
 
 ---
 
-## Phase 6.6: Lighthouse CI & Remediation
+## Phase 6.6: Security Audit Pre-Public 🔄 CURRENT
+
+**Status:** In Progress
+
+### Objective
+Conduct comprehensive security audit before making repository public.
+
+### Tasks
+
+#### 6.6.1: Secret Scanning
+- [ ] Run git history scan for leaked secrets
+  ```bash
+  git log -p | grep -E "(password|secret|key|token|sk_|pk_|AKIA|aws_)" -i
+  ```
+- [ ] Verify no `.env` files committed
+- [ ] Check reCAPTCHA secret is in AWS SSM (not code)
+- [ ] Verify AWS credentials not in code
+- [ ] Review `.gitignore` is comprehensive
+
+#### 6.6.2: Dependency Security Audit
+- [ ] Run `npm audit` in root and all packages
+- [ ] Review and fix any high/critical vulnerabilities
+- [ ] Update vulnerable dependencies if needed
+- [ ] Document any accepted risks (with justification)
+
+#### 6.6.3: Code Security Review
+- [ ] Review Lambda function for security issues (injection, XXE, etc.)
+- [ ] Check frontend for XSS vulnerabilities
+- [ ] Verify CORS configuration is restrictive
+- [ ] Review rate limiting implementation
+- [ ] Check error messages don't leak sensitive info
+
+#### 6.6.4: Infrastructure Security
+- [ ] Verify IAM permissions follow least-privilege principle
+- [ ] Check S3 bucket policies are restrictive
+- [ ] Verify CloudFront settings are secure
+- [ ] Review DynamoDB access controls
+- [ ] Confirm SES configuration is locked down
+
+#### 6.6.5: Documentation Review
+- [ ] Ensure no internal/sensitive info in docs
+- [ ] Verify README is public-ready
+- [ ] Check CLAUDE.md doesn't expose secrets
+- [ ] Review all markdown files for sensitive data
+
+### Success Criteria
+- ✅ No secrets in git history
+- ✅ No high/critical npm vulnerabilities
+- ✅ No obvious security issues in code
+- ✅ Infrastructure follows security best practices
+- ✅ Documentation is clean and public-ready
+
+### Time Estimate
+- Secret scan: 10-15 minutes
+- Dependency audit: 5-10 minutes
+- Code review: 30-45 minutes
+- Infrastructure review: 15-20 minutes
+- Documentation review: 10-15 minutes
+- **Total:** 1-2 hours
+
+---
+
+## Phase 6.7: Lighthouse CI & Remediation
 
 **Status:** Pending
 
@@ -234,18 +310,18 @@ Add automated performance monitoring and remediate any critical issues.
 
 ### Tasks
 
-#### 6.6.1: Add Lighthouse CI
+#### 6.7.1: Add Lighthouse CI
 - [ ] Create `.github/workflows/lighthouse-ci.yml`
 - [ ] Configure to run on PRs to develop and main
 - [ ] Set performance budgets (if needed)
 - [ ] Verify workflow passes on current codebase
 
-#### 6.6.2: Baseline Audit
+#### 6.7.2: Baseline Audit
 - [ ] Run Lighthouse manually on dev.idevelop.tech
 - [ ] Document baseline scores (Performance, Accessibility, Best Practices, SEO)
 - [ ] Identify any critical issues (score < 70)
 
-#### 6.6.3: Remediation (if needed)
+#### 6.7.3: Remediation (if needed)
 - [ ] Fix critical performance issues
 - [ ] Fix critical accessibility issues
 - [ ] Fix critical SEO issues
@@ -264,7 +340,7 @@ Add automated performance monitoring and remediate any critical issues.
 
 ---
 
-## Phase 6.7: CodeQL Verification & Remediation
+## Phase 6.8: CodeQL Verification & Remediation
 
 **Status:** Pending (will activate when repo is public)
 
@@ -273,13 +349,13 @@ Verify CodeQL security scanning works and remediate any vulnerabilities.
 
 ### Tasks
 
-#### 6.7.1: Verify CodeQL After Public
+#### 6.8.1: Verify CodeQL After Public
 - [ ] Make repository public (Phase 6.8)
 - [ ] Wait for CodeQL scan to complete (~2 minutes)
 - [ ] Check GitHub Security tab for results
 - [ ] Review any security findings
 
-#### 6.7.2: Remediation (if needed)
+#### 6.8.2: Remediation (if needed)
 - [ ] Review each security alert
 - [ ] Prioritize by severity (critical > high > medium > low)
 - [ ] Fix or dismiss each alert with justification
@@ -298,7 +374,7 @@ Verify CodeQL security scanning works and remediate any vulnerabilities.
 
 ---
 
-## Phase 6.8: Make Repository Public
+## Phase 6.9: Make Repository Public
 
 **Status:** Pending
 
@@ -323,7 +399,7 @@ Make repository public to enable full security tooling and portfolio visibility.
 
 ### Tasks
 
-#### 6.8.1: Final Security Check
+#### 6.9.1: Final Security Check
 ```bash
 # Check for common secrets
 git log -p | grep -E "(sk_|pk_|AKIA|aws_|password|token)" -i
