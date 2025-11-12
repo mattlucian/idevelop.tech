@@ -110,10 +110,11 @@ jobs:
             if (reportLinks.length > 0) {
               reportLinks.forEach((link, idx) => {
                 const pageName = pageNames[idx] || 'Page ' + (idx + 1);
-                commentBody += '**' + pageName + '**: <a href="' + link + '" target="_blank">' + link + '</a>\n';
+                commentBody += '- **' + pageName + '**: ' + link + '\n';
               });
             } else {
-              commentBody += '*No report URLs available. Check the <a href="https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + '" target="_blank">workflow logs</a>.*\n';
+              const logsUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+              commentBody += '*No report URLs available. Check the workflow logs: ' + logsUrl + '*\n';
             }
 
             commentBody += '\n*Updated: ' + new Date().toISOString() + '*';
