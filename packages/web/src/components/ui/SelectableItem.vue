@@ -13,6 +13,8 @@ interface SelectableItemProps {
 }
 
 const props = withDefaults(defineProps<SelectableItemProps>(), {
+  subtitle: undefined,
+  number: undefined,
   colorScheme: "cyan",
   isSelected: false,
 });

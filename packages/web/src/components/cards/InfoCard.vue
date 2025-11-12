@@ -6,6 +6,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
+  icon: undefined,
   variant: "default",
 });
 </script>

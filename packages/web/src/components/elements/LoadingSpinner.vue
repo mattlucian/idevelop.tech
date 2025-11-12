@@ -7,6 +7,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   size: "md",
+  message: undefined,
   color: "cyan",
 });
 

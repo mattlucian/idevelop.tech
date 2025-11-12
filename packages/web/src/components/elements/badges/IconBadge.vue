@@ -22,6 +22,7 @@ interface IconBadgeProps {
 withDefaults(defineProps<IconBadgeProps>(), {
   size: "md",
   color: "cyan",
+  icon: undefined,
   bordered: false,
 });
 

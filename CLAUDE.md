@@ -94,6 +94,34 @@ When writing or updating documentation in this repository:
 
 ## MANDATORY RULES
 
+### 🚨 MOST CRITICAL RULE: NEVER PUSH DIRECTLY TO PROTECTED BRANCHES 🚨
+
+**STOP AND READ THIS BEFORE ANY `git push` COMMAND:**
+
+❌ **FORBIDDEN**: `git push origin main`
+❌ **FORBIDDEN**: `git push origin develop`
+❌ **FORBIDDEN**: Direct commits to `main` or `develop`
+
+✅ **REQUIRED**: Always create feature branch → commit → push feature branch → create PR to `develop`
+
+**Why this is absolutely critical:**
+- Direct pushes skip ALL PR checks (CodeQL, DeepSource, build validation)
+- Direct pushes skip code review process
+- Direct pushes skip CI/CD validation gates
+- Direct pushes can break production without any safety checks
+
+**Before EVERY `git push`, verify you are on a feature branch:**
+```bash
+git branch --show-current  # Must show "feature/*" or "docs/*" or "hotfix/*", NEVER "develop" or "main"
+```
+
+**If you accidentally push to develop or main:**
+1. IMMEDIATELY notify the user
+2. Create a revert commit if needed
+3. Re-apply changes through proper PR workflow
+
+---
+
 ### 🔴 CRITICAL: Session Start Rules
 
 **Execute these steps when you first start working:**
@@ -161,9 +189,15 @@ When writing or updating documentation in this repository:
 
 ### 🔴 CRITICAL: Git Workflow and Branch Strategy
 
-**NEVER commit directly to protected branches (`main` or `develop`). ALL changes must go through Pull Requests.**
+**🚨 NEVER PUSH DIRECTLY TO `main` OR `develop` BRANCHES 🚨**
 
-**🚨 IMPORTANT: ALL PRs must target `develop` branch first, NOT `main`.**
+**MANDATORY RULE: ALL CHANGES MUST GO THROUGH PULL REQUESTS - NO EXCEPTIONS**
+
+This is a **CRITICAL** rule that must **NEVER** be violated. Direct pushes to protected branches skip:
+- ✅ PR checks (CodeQL security scans, build validation)
+- ✅ DeepSource code quality analysis
+- ✅ Code review process
+- ✅ CI/CD validation gates
 
 **Branch workflow (from BRANCH-STRATEGY.md):**
 
@@ -173,6 +207,8 @@ feature/* → PR → develop → PR → main
           dev stage    production stage
      (dev.idevelop.tech)  (idevelop.tech)
 ```
+
+**🚨 IMPORTANT: ALL PRs must target `develop` branch first, NOT `main`.**
 
 **Required workflow for ALL changes:**
 
