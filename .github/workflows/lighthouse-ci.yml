@@ -88,9 +88,12 @@ jobs:
               }
             }
 
+            const workflowUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const fallbackText = `Reports have been generated! Check the [workflow run](${workflowUrl}) logs.`;
+
             const comment = `## 🔍 Lighthouse CI Reports
 
-${reportLinks || 'Reports have been generated! Check the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) logs.'}
+${reportLinks || fallbackText}
 
 ### Pages Tested
 - **Home page** (\`/\`)
