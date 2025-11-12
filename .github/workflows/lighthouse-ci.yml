@@ -24,6 +24,7 @@ jobs:
         run: cd packages/web && npm run build
 
       - name: Run Lighthouse CI
+        id: lighthouse
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
@@ -35,8 +36,21 @@ jobs:
           configPath: './lighthouserc.json'
         continue-on-error: true
 
-      - name: Check Lighthouse Scores
+      - name: Format Lighthouse Results
+        if: always()
         run: |
-          echo "Lighthouse reports have been generated and uploaded."
-          echo "Review the reports in the temporary public storage link above."
-          echo "This step allows the workflow to succeed while still providing visibility into quality metrics."
+          echo "## 🔍 Lighthouse CI Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Lighthouse reports have been generated for this PR." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Report Links" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check the action output above for the temporary public storage links." >> $GITHUB_STEP_SUMMARY
+          echo "Each URL tested will have a corresponding report link." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📄 Pages Tested" >> $GITHUB_STEP_SUMMARY
+          echo "- Home page (http://localhost:3000/)" >> $GITHUB_STEP_SUMMARY
+          echo "- Hire Me page (http://localhost:3000/hire-me)" >> $GITHUB_STEP_SUMMARY
+          echo "- Tech page (http://localhost:3000/tech)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> **Note:** This workflow runs in informational mode and will not block PRs based on scores." >> $GITHUB_STEP_SUMMARY
