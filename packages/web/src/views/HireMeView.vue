@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useMeta } from "../composables/useMeta";
 import GradientText from "../components/elements/GradientText.vue";
 import CTAForm from "../components/ui/CTAForm.vue";
 import PrimaryButton from "../components/elements/buttons/PrimaryButton.vue";
 import OutlineRouterLink from "../components/elements/buttons/OutlineRouterLink.vue";
-import BenefitCard from "../components/cards/BenefitCard.vue";
 import SimpleTestimonial from "../components/cards/SimpleTestimonial.vue";
 import CheckItem from "../components/elements/CheckItem.vue";
 import Badge from "../components/elements/badges/Badge.vue";
-import CTASection from "../components/ui/CTASection.vue";
 import Timeline from "../components/display/Timeline.vue";
-import IconBadge from "../components/elements/badges/IconBadge.vue";
 import OutlineIcon from "../components/elements/OutlineIcon.vue";
 import Footer from "../components/layout/Footer.vue";
 import { SCHEDULING_LINK, CONTACT, SITE } from "@/constants";

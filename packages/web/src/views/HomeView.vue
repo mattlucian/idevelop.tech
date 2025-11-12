@@ -6,7 +6,6 @@ import TypewriterText from "../components/elements/interactive/TypewriterText.vu
 import GradientText from "../components/elements/GradientText.vue";
 import ServiceCard from "../components/cards/ServiceCard.vue";
 import PrimaryRouterLink from "../components/elements/buttons/PrimaryRouterLink.vue";
-import IconBadge from "../components/elements/badges/IconBadge.vue";
 import { SITE } from "@/constants";
 
 // Platform data
