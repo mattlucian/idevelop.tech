@@ -65,27 +65,55 @@ jobs:
         with:
           script: |
             const workflowUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+            const commentMarker = '<!-- lighthouse-ci-comment -->';
 
-            const comment = '## 🔍 Lighthouse CI Reports\n\n' +
+            const commentBody = commentMarker + '\n## 🔍 Lighthouse CI Reports\n\n' +
               '✅ Lighthouse audits have been completed for this PR!\n\n' +
-              '### 📊 View Reports\n\n' +
+              '### 📊 View Latest Reports\n\n' +
               '**[Click here to view the workflow run](' + workflowUrl + ')**\n\n' +
               'Then expand the **"Run Lighthouse CI"** step and look for lines that say:\n' +
               '```\n' +
               'Open the report at https://storage.googleapis.com/...\n' +
               '```\n\n' +
-              'You\'ll find **3 report links** (one for each page tested).\n\n' +
+              'You\'ll find **5 report links** (one for each page tested).\n\n' +
               '### 📄 Pages Tested\n' +
-              '- **Home page** (`/`)\n' +
-              '- **Hire Me page** (`/hire-me`)\n' +
-              '- **Tech page** (`/tech`)\n\n' +
+              '- **Home page** (`/`) - Marketing/landing pattern\n' +
+              '- **Hire Me page** (`/hire-me`) - Form/contact pattern\n' +
+              '- **Tech page** (`/tech`) - Content/catalog pattern\n' +
+              '- **Service detail** (`/services/integration`) - Service page pattern\n' +
+              '- **Service detail** (`/services/web-development`) - Alternative service pattern\n\n' +
               '---\n' +
               '> ℹ️ **Note:** This is an informational check and will not block the PR. ' +
-              'Reports provide insights into performance, accessibility, SEO, and best practices.';
+              'Reports provide insights into performance, accessibility, SEO, and best practices.\n\n' +
+              '*Last updated: ' + new Date().toISOString() + '*';
 
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: comment
+              issue_number: context.issue.number,
             });
+
+            const existingComment = comments.find(comment =>
+              comment.body && comment.body.includes(commentMarker)
+            );
+
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: commentBody
+              });
+              console.log('Updated existing Lighthouse comment');
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+              console.log('Created new Lighthouse comment');
+            }
