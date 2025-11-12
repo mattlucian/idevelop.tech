@@ -8,13 +8,9 @@ on:
       - 'docs/**'
       - 'LICENSE'
       - '.gitignore'
-  pull_request:
-    branches: [develop, main]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - 'LICENSE'
-      - '.gitignore'
+  # Note: PR analysis disabled due to SonarCloud free tier limitations
+  # Free tier only supports main branch analysis, not PR/branch analysis
+  # Quality checks on PRs are handled by CodeQL (security-and-quality)
 
 permissions:
   contents: read
