@@ -16,6 +16,7 @@ interface BadgeProps {
 
 withDefaults(defineProps<BadgeProps>(), {
   variant: "default",
+  icon: undefined,
 });
 
 const variantClasses = {
