@@ -59,8 +59,9 @@ jobs:
           echo "> **Note:** This workflow runs in informational mode and will not block PRs based on scores." >> $GITHUB_STEP_SUMMARY
 
       - name: Comment on PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request != null
         uses: actions/github-script@v7
+        continue-on-error: true
         with:
           script: |
             // Get manifest data if available (action stores it in specific format)
