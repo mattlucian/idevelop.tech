@@ -61,9 +61,6 @@ const deleteAnalyticsCookies = () => {
     // Delete without domain (works for localhost)
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
-    // Delete with current domain
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${hostname};`;
-
     // Delete with dot-prefixed domain (e.g., .idevelop.tech)
     // Skip for localhost as it doesn't support dot-prefix
     if (hostname !== "localhost" && hostname !== "127.0.0.1") {
@@ -85,7 +82,7 @@ const deleteAnalyticsCookies = () => {
   const allCookies = document.cookie.split(";");
   allCookies.forEach((cookie) => {
     const cookieName = cookie.split("=")[0]?.trim();
-    if (cookieName && cookieName.startsWith("_ga_")) {
+    if (cookieName?.startsWith("_ga_")) {
       deleteCookie(cookieName);
     }
   });
