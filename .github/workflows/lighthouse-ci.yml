@@ -30,6 +30,6 @@ jobs:
             http://localhost:3000/
             http://localhost:3000/hire-me
             http://localhost:3000/tech
-          uploadArtifacts: true
+          uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: './lighthouserc.json'
