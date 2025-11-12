@@ -151,111 +151,56 @@ But **does NOT include**:
 
 ---
 
-### Option 2: SonarCloud (Comprehensive Quality) ⭐⭐
+### Option 2: DeepSource (Free PR Analysis) ⭐⭐
 
-**Best for**: Detailed code quality metrics, technical debt tracking, and maintainability scoring.
+**Best for**: Additional code quality metrics and PR analysis (free tier supports PRs!)
 
 **Features**:
 - Code smells detection
 - Cognitive complexity scoring
 - Duplicate code detection
-- Security hotspots
-- Maintainability rating (A-E)
-- Technical debt estimation
+- Security anti-patterns
+- Performance issues
 - Test coverage tracking
-- Historical quality trends
+- Automatic PR analysis
+- Free for public repos
 
 **Setup**:
 
-1. **Sign up**: https://sonarcloud.io (free for public repos)
+1. **Sign up**: https://deepsource.com (free for public repos)
 
 2. **Connect GitHub repo**:
    - Import `mattlucian/idevelop.tech`
-   - Grant SonarCloud access
+   - Grant DeepSource access
 
-3. **Create workflow**: `.github/workflows/sonarcloud.yml`
+3. **Configure**: Create `.deepsource.toml`
 
-```yaml
-name: SonarCloud Analysis
+```toml
+version = 1
 
-on:
-  push:
-    branches: [develop, main]
-  pull_request:
-    branches: [develop, main]
+[[analyzers]]
+name = "javascript"
+enabled = true
 
-permissions:
-  contents: read
+  [analyzers.meta]
+  plugins = ["vue"]
+  environment = ["nodejs"]
 
-jobs:
-  sonarcloud:
-    name: SonarCloud Scan
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0  # Full history for better analysis
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests with coverage
-        run: |
-          cd packages/web
-          npm run test:coverage || echo "No tests configured yet"
-        continue-on-error: true
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-```
-
-4. **Configure**: Create `sonar-project.properties`
-
-```properties
-sonar.projectKey=mattlucian_idevelop-tech
-sonar.organization=mattlucian
-
-# Project metadata
-sonar.projectName=idevelop.tech
-sonar.projectVersion=1.0
-
-# Source directories
-sonar.sources=packages/web/src,packages/functions/src
-sonar.tests=packages/web/src
-sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
-
-# Exclusions
-sonar.exclusions=**/node_modules/**,**/dist/**,**/*.d.ts,**/coverage/**,.sst/**
-
-# Coverage report (if you add tests)
-sonar.javascript.lcov.reportPaths=packages/web/coverage/lcov.info
-
-# Language
-sonar.language=ts
+[[analyzers]]
+name = "test-coverage"
+enabled = true
 ```
 
 **What you'll see**:
-- Maintainability Rating: A-E
-- Reliability Rating: A-E
-- Security Rating: A-E
-- Code Smells: Count + details
-- Technical Debt: Time to fix
-- Duplications: Percentage
-- Complexity: Per function/file
+- Code quality issues
+- Security issues
+- Performance issues
+- Best practice violations
+- Test coverage metrics
+- PR decoration with findings
 
-**Effort**: 15-30 minutes
-**Impact**: Very High (comprehensive dashboard)
+**Effort**: 10-15 minutes
+**Impact**: High (PR-level feedback)
 
 ---
 
@@ -499,19 +444,18 @@ snyk monitor
 
 ---
 
-### Phase 2: Comprehensive Quality (Week 1)
+### Phase 2: Additional Quality Tools (Week 1) - Optional
 
-**2. Add SonarCloud** ✅
+**2. Add DeepSource** ✅ (Optional)
 - Sign up and connect repository
-- Add workflow
-- Configure `sonar-project.properties`
-- Get comprehensive quality dashboard
+- Configure `.deepsource.toml`
+- Get automatic PR analysis
 
 **Expected results**:
-- Maintainability rating
-- Technical debt metrics
-- Code smell detection
-- Duplication analysis
+- Additional code quality metrics
+- PR-level feedback beyond CodeQL
+- Performance issue detection
+- Best practice violations
 
 ---
 
@@ -551,7 +495,7 @@ snyk monitor
 |------|-------|--------|-------|------|
 | **CodeQL (current)** | Security | ✅ Done | High | Free |
 | **CodeQL +quality** | Security + Quality | 1 min | High | Free |
-| **SonarCloud** | Comprehensive Quality | 30 min | Very High | Free (public) |
+| **DeepSource** | Comprehensive Quality | 15 min | High | Free (public) |
 | **ESLint Enhanced** | Local Quality | 30 min | Medium | Free |
 | **Lighthouse CI** | Performance + A11y | 20 min | High | Free |
 | **Snyk** | Dependency Security | 10 min | Medium | Free (OSS) |
@@ -606,14 +550,15 @@ Then you can decide if you want deeper analysis with SonarCloud.
 **Quick Win** (1 minute):
 - Upgrade CodeQL to `security-and-quality`
 
-**Comprehensive Solution** (30 minutes):
-- Add SonarCloud for full quality dashboard
+**Additional Tools** (Optional):
+- Add DeepSource for additional quality metrics (15 min)
+- Enhance ESLint for local feedback (30 min)
 
 **Long-term Best Practice**:
-- CodeQL: Security + quality baseline
-- SonarCloud: Comprehensive quality metrics
-- ESLint: Local development feedback
-- Lighthouse: Performance monitoring
+- CodeQL: Security + quality baseline (required)
+- DeepSource: Additional quality metrics (optional)
+- ESLint: Local development feedback (recommended)
+- Lighthouse: Performance monitoring (recommended)
 
 ---
 
