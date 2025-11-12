@@ -67,29 +67,61 @@ jobs:
         with:
           script: |
             const commentMarker = '<!-- lighthouse-ci-comment -->';
-            const runId = context.runId;
-            const repo = context.repo;
-            const jobUrl = 'https://github.com/' + repo.owner + '/' + repo.repo + '/actions/runs/' + runId;
+            const linksOutput = `${{ steps.lighthouse.outputs.links }}`;
+            const manifestOutput = `${{ steps.lighthouse.outputs.manifest }}`;
 
-            // Build simple comment with link to logs
-            const commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n' +
-              '**[View reports in workflow logs →](' + jobUrl + ')**\n\n' +
-              'Expand the "Run Lighthouse CI" step and look for 5 links starting with:\n' +
-              '```\n' +
-              'Open the report at https://storage.googleapis.com/...\n' +
-              '```\n\n' +
-              '**Pages tested:**\n' +
-              '- Home (`/`)\n' +
-              '- Hire Me (`/hire-me`)\n' +
-              '- Tech (`/tech`)\n' +
-              '- Integration (`/services/integration`)\n' +
-              '- Web Development (`/services/web-development`)\n\n' +
-              '*Updated: ' + new Date().toISOString() + '*';
+            console.log('Links output:', linksOutput);
+            console.log('Manifest output:', manifestOutput);
+
+            let reportLinks = [];
+
+            // Try to parse the links output
+            if (linksOutput && linksOutput !== '' && linksOutput !== 'undefined') {
+              try {
+                // The links output might be JSON or newline-separated
+                if (linksOutput.startsWith('[') || linksOutput.startsWith('{')) {
+                  const parsed = JSON.parse(linksOutput);
+                  reportLinks = Array.isArray(parsed) ? parsed : Object.values(parsed);
+                } else {
+                  // Try splitting by newlines
+                  reportLinks = linksOutput.split('\n').filter(l => l.trim().startsWith('http'));
+                }
+              } catch (e) {
+                console.log('Could not parse links:', e);
+              }
+            }
+
+            // Try to parse manifest for URLs
+            if (reportLinks.length === 0 && manifestOutput && manifestOutput !== '' && manifestOutput !== 'undefined') {
+              try {
+                const manifest = JSON.parse(manifestOutput);
+                if (Array.isArray(manifest)) {
+                  reportLinks = manifest.map(m => m.url || m.summary || m.reportUrl).filter(Boolean);
+                }
+              } catch (e) {
+                console.log('Could not parse manifest:', e);
+              }
+            }
+
+            const pageNames = ['Home (`/`)', 'Hire Me (`/hire-me`)', 'Tech (`/tech`)', 'Integration (`/services/integration`)', 'Web Development (`/services/web-development`)'];
+
+            let commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n';
+
+            if (reportLinks.length > 0) {
+              reportLinks.forEach((link, idx) => {
+                const pageName = pageNames[idx] || 'Page ' + (idx + 1);
+                commentBody += '**' + pageName + '**: ' + link + '\n';
+              });
+            } else {
+              commentBody += '*No report URLs available. Check the [workflow logs](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ').*\n';
+            }
+
+            commentBody += '\n*Updated: ' + new Date().toISOString() + '*';
 
             // Find and update/create comment
             const { data: comments } = await github.rest.issues.listComments({
-              owner: repo.owner,
-              repo: repo.repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               issue_number: context.issue.number,
             });
 
@@ -99,15 +131,15 @@ jobs:
 
             if (existingComment) {
               await github.rest.issues.updateComment({
-                owner: repo.owner,
-                repo: repo.repo,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
                 comment_id: existingComment.id,
                 body: commentBody
               });
             } else {
               await github.rest.issues.createComment({
-                owner: repo.owner,
-                repo: repo.repo,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
                 issue_number: context.issue.number,
                 body: commentBody
               });
