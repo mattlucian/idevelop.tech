@@ -373,7 +373,7 @@ onUnmounted(() => {
           @click="$event.stopPropagation()"
         >
           <div class="px-6 py-8">
-            <GradientText tag="h2" class="text-3xl sm:text-4xl font-bold mb-2">
+            <GradientText tag="h1" class="text-3xl sm:text-4xl font-bold mb-2">
               Component Library
             </GradientText>
             <p class="text-gray-400 text-sm mb-8">
@@ -383,11 +383,11 @@ onUnmounted(() => {
             <!-- Categories and Components -->
             <div class="space-y-8">
               <div v-for="category in categories" :key="category.name">
-                <h3
+                <h2
                   class="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3"
                 >
                   {{ category.name }}
-                </h3>
+                </h2>
                 <div class="space-y-1">
                   <SelectableItem
                     v-for="component in category.components"
@@ -414,7 +414,7 @@ onUnmounted(() => {
           @click="$event.stopPropagation()"
         >
           <template #header>
-            <GradientText tag="h1" class="text-3xl sm:text-4xl font-bold mb-2">
+            <GradientText tag="h2" class="text-3xl sm:text-4xl font-bold mb-2">
               {{ selectedComponent?.name }}
             </GradientText>
             <p class="text-gray-400">

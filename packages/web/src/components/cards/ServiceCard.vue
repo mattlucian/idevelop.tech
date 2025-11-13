@@ -12,9 +12,12 @@ interface ServiceCardProps {
   stats: { value: string; label: string }[];
   tags: string[];
   heroImage?: string;
+  loading?: "lazy" | "eager";
 }
 
-const props = defineProps<ServiceCardProps>();
+const props = withDefaults(defineProps<ServiceCardProps>(), {
+  loading: "lazy",
+});
 
 const emit = defineEmits<{
   click: [];
@@ -43,7 +46,7 @@ const isIconName = computed(() => iconComponent.value !== undefined);
         :alt="title"
         width="768"
         height="432"
-        loading="lazy"
+        :loading="loading"
         decoding="async"
         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />

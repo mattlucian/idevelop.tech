@@ -1,4 +1,4 @@
-# robots.txt for idevelop.tech
+# robots.txt for idevelop.tech (production)
 
 User-agent: *
 Allow: /
@@ -6,5 +6,7 @@ Allow: /
 # Sitemap
 Sitemap: https://idevelop.tech/sitemap.xml
 
-# Disallow component showcase (internal development page)
+# Disallow internal development pages
 Disallow: /components
+
+# Note: For dev/staging environments, use robots.dev.txt which blocks all crawlers

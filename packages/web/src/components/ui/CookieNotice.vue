@@ -180,7 +180,7 @@ declare global {
                 to="/privacy"
                 class="text-cyan-400 hover:text-cyan-300 transition-colors"
               >
-                Learn more
+                Learn more about our privacy policy
               </RouterLink>
             </p>
           </div>

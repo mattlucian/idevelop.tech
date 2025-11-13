@@ -46,16 +46,19 @@ const handleKeepBrowsing = () => {
           to="/"
           class="flex items-center hover:opacity-80 transition-opacity -ml-1"
         >
-          <img
-            src="/images/brand/logo-black.png"
-            alt="idevelop.tech"
-            class="h-8 transition-all duration-300"
-            :style="
-              isTechPage
-                ? 'filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(450%) hue-rotate(95deg) brightness(95%) contrast(90%);'
-                : 'filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);'
-            "
-          />
+          <picture>
+            <source srcset="/images/brand/logo-black.webp" type="image/webp" />
+            <img
+              src="/images/brand/logo-black.png"
+              alt="idevelop.tech"
+              class="h-8 transition-all duration-300"
+              :style="
+                isTechPage
+                  ? 'filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(450%) hue-rotate(95deg) brightness(95%) contrast(90%);'
+                  : 'filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);'
+              "
+            />
+          </picture>
         </router-link>
 
         <!-- Spacer -->

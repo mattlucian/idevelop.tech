@@ -125,7 +125,7 @@ useMeta({
           <!-- Service Cards Grid -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <ServiceCard
-              v-for="service in serviceCards"
+              v-for="(service, index) in serviceCards"
               :key="service.name"
               :icon="service.icon"
               :label="service.label"
@@ -134,6 +134,7 @@ useMeta({
               :stats="service.stats"
               :tags="service.tags"
               :hero-image="service.heroImage"
+              :loading="index === 0 ? 'eager' : 'lazy'"
               @click="selectService(service.name)"
             />
           </div>
@@ -166,11 +167,19 @@ useMeta({
                 <div class="flex flex-col gap-3">
                   <!-- Logo -->
                   <div class="h-10 flex items-center justify-center">
-                    <img
-                      :src="platform.logo"
-                      :alt="platform.name"
-                      class="max-h-full max-w-[140px] w-auto object-contain"
-                    />
+                    <picture>
+                      <source
+                        :srcset="platform.logo.replace(/\.(png|jpg)$/, '.webp')"
+                        type="image/webp"
+                      />
+                      <img
+                        :src="platform.logo"
+                        :alt="platform.name"
+                        width="140"
+                        height="40"
+                        class="max-h-full max-w-[140px] w-auto object-contain"
+                      />
+                    </picture>
                   </div>
                   <!-- Description -->
                   <p class="text-xs text-gray-400 text-center">
@@ -191,7 +200,7 @@ useMeta({
                 <h2
                   class="text-2xl md:text-3xl font-bold text-white leading-tight tracking-tight"
                 >
-                  No obligations.
+                  Start Here.
                 </h2>
               </div>
 
