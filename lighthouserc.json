@@ -9,7 +9,10 @@
         "http://localhost:3000/tech",
         "http://localhost:3000/services/integration",
         "http://localhost:3000/services/web-development"
-      ]
+      ],
+      "settings": {
+        "onlyCategories": ["performance", "accessibility", "best-practices", "seo", "pwa"]
+      }
     },
     "upload": {
       "target": "temporary-public-storage"
