@@ -137,7 +137,7 @@ jobs:
 
             // Try to parse the links output
             if (linksOutput && linksOutput !== '' && linksOutput !== 'undefined') {
-              try:
+              try {
                 // The links output might be JSON or newline-separated
                 if (linksOutput.startsWith('[') || linksOutput.startsWith('{')) {
                   const parsed = JSON.parse(linksOutput);
