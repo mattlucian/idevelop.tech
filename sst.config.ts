@@ -110,20 +110,7 @@ export default $config({
               items: [
                 {
                   header: "Content-Security-Policy",
-                  value:
-                    "default-src 'self'; " +
-                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com; " +
-                    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-                    "font-src 'self' https://fonts.gstatic.com; " +
-                    "img-src 'self' data: https:; " +
-                    "connect-src 'self' " +
-                    (isProduction
-                      ? "https://api.idevelop.tech https://www.google-analytics.com https://analytics.google.com"
-                      : "https://dev-api.idevelop.tech http://localhost:5173") +
-                    "; " +
-                    "frame-src https://www.google.com; " +
-                    "base-uri 'self'; " +
-                    "form-action 'self';",
+                  value: `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' ${isProduction ? 'https://api.idevelop.tech https://www.google-analytics.com https://analytics.google.com' : 'https://dev-api.idevelop.tech http://localhost:5173'}; frame-src https://www.google.com; base-uri 'self'; form-action 'self';`,
                   override: true,
                 },
                 {

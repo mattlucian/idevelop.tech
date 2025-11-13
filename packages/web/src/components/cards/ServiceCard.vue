@@ -16,6 +16,7 @@ interface ServiceCardProps {
 }
 
 const props = withDefaults(defineProps<ServiceCardProps>(), {
+  heroImage: undefined,
   loading: "lazy",
 });
 
