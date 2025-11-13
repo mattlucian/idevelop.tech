@@ -50,15 +50,21 @@ const colorClasses = {
           colorClasses[colorScheme].shadow,
         ]"
       >
-        <img
-          :src="item.logo"
-          :alt="item.name"
-          width="64"
-          height="64"
-          loading="lazy"
-          decoding="async"
-          class="max-w-full max-h-full object-contain p-2"
-        />
+        <picture>
+          <source
+            :srcset="item.logo.replace(/\.(png|jpg)$/, '.webp')"
+            type="image/webp"
+          />
+          <img
+            :src="item.logo"
+            :alt="item.name"
+            width="64"
+            height="64"
+            loading="lazy"
+            decoding="async"
+            class="max-w-full max-h-full object-contain p-2"
+          />
+        </picture>
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">

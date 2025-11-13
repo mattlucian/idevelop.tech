@@ -1,0 +1,5 @@
+# robots.txt for dev/staging environments
+# This file blocks all search engine crawlers on non-production domains
+
+User-agent: *
+Disallow: /

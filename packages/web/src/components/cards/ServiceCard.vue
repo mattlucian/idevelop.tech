@@ -12,9 +12,13 @@ interface ServiceCardProps {
   stats: { value: string; label: string }[];
   tags: string[];
   heroImage?: string;
+  loading?: "lazy" | "eager";
 }
 
-const props = defineProps<ServiceCardProps>();
+const props = withDefaults(defineProps<ServiceCardProps>(), {
+  heroImage: undefined,
+  loading: "lazy",
+});
 
 const emit = defineEmits<{
   click: [];
@@ -43,7 +47,7 @@ const isIconName = computed(() => iconComponent.value !== undefined);
         :alt="title"
         width="768"
         height="432"
-        loading="lazy"
+        :loading="loading"
         decoding="async"
         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
@@ -108,7 +112,7 @@ const isIconName = computed(() => iconComponent.value !== undefined);
     <div class="p-6">
       <div class="flex items-start justify-between mb-3">
         <div class="flex-1">
-          <h3 class="relative text-2xl font-bold">
+          <h2 class="relative text-2xl font-bold">
             <span
               class="text-white transition-opacity duration-300 group-hover:opacity-0"
               >{{ title }}</span
@@ -117,8 +121,8 @@ const isIconName = computed(() => iconComponent.value !== undefined);
               class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               >{{ title }}</span
             >
-          </h3>
-          <p class="text-sm text-gray-400 mt-1">
+          </h2>
+          <p class="text-sm text-gray-300 mt-1">
             {{ tagline }}
           </p>
         </div>
@@ -142,7 +146,7 @@ const isIconName = computed(() => iconComponent.value !== undefined);
       <!-- Hover CTA text -->
       <div class="relative text-sm font-semibold overflow-hidden">
         <span
-          class="text-gray-400 group-hover:text-cyan-400 transition-colors duration-300"
+          class="text-gray-300 group-hover:text-cyan-400 transition-colors duration-300"
         >
           Learn More →
         </span>

@@ -57,8 +57,8 @@ export default $config({
           actions: ["ses:SendEmail", "ses:SendRawEmail"],
           // Scoped to verified SES identities for security
           resources: [
-            "arn:aws:ses:us-east-1:*:identity/matt@idevelop.tech",
-            "arn:aws:ses:us-east-1:*:identity/idevelop.tech",
+            'arn:aws:ses:us-east-1:*:identity/matt@idevelop.tech',
+            'arn:aws:ses:us-east-1:*:identity/idevelop.tech',
           ],
         },
         {
@@ -101,6 +101,51 @@ export default $config({
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",
         // Only enable Google Analytics in production
         VITE_GA_MEASUREMENT_ID: isProduction ? "G-XS6QVSG7MS" : "",
+      },
+      transform: {
+        cdn: {
+          // CloudFront response headers for security and performance
+          responseHeadersPolicy: {
+            customHeadersConfig: {
+              items: [
+                {
+                  header: "Content-Security-Policy",
+                  value: `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' ${isProduction ? 'https://api.idevelop.tech https://www.google-analytics.com https://analytics.google.com' : 'https://dev-api.idevelop.tech http://localhost:5173'}; frame-src https://www.google.com; base-uri 'self'; form-action 'self';`,
+                  override: true,
+                },
+                {
+                  header: "X-Content-Type-Options",
+                  value: "nosniff",
+                  override: true,
+                },
+                {
+                  header: "X-Frame-Options",
+                  value: "SAMEORIGIN",
+                  override: true,
+                },
+                {
+                  header: "Referrer-Policy",
+                  value: "strict-origin-when-cross-origin",
+                  override: true,
+                },
+                {
+                  header: "Permissions-Policy",
+                  value:
+                    "geolocation=(), microphone=(), camera=(), payment=()",
+                  override: true,
+                },
+              ],
+            },
+            securityHeadersConfig: {
+              strictTransportSecurity: {
+                accessControlMaxAgeSec: 31536000,
+                includeSubdomains: true,
+                preload: true,
+                override: true,
+              },
+            },
+          },
+        },
       },
     });
 

@@ -8,8 +8,11 @@
         "http://localhost:3000/hire-me",
         "http://localhost:3000/tech",
         "http://localhost:3000/services/integration",
-        "http://localhost:3000/services/web-development"
-      ]
+        "http://localhost:3000/services/web-design"
+      ],
+      "settings": {
+        "configPath": "./lighthouse-config.js"
+      }
     },
     "upload": {
       "target": "temporary-public-storage"
