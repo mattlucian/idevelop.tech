@@ -57,8 +57,8 @@ export default $config({
           actions: ["ses:SendEmail", "ses:SendRawEmail"],
           // Scoped to verified SES identities for security
           resources: [
-            "arn:aws:ses:us-east-1:*:identity/matt@idevelop.tech",
-            "arn:aws:ses:us-east-1:*:identity/idevelop.tech",
+            'arn:aws:ses:us-east-1:*:identity/matt@idevelop.tech',
+            'arn:aws:ses:us-east-1:*:identity/idevelop.tech',
           ],
         },
         {

@@ -14,55 +14,6 @@ interface CookieConsent {
 const showBanner = ref(false);
 
 /**
- * Check if user has already made a choice
- */
-onMounted(() => {
-  const consentJson = localStorage.getItem(COOKIE_CONSENT_KEY);
-  if (!consentJson) {
-    showBanner.value = true;
-  } else {
-    const consent: CookieConsent = JSON.parse(consentJson);
-    // Always load essential cookies (reCAPTCHA)
-    loadRecaptchaScript();
-    // Load analytics only if user accepted
-    if (consent.analytics) {
-      loadGoogleAnalytics();
-    }
-  }
-});
-
-/**
- * Handle user declining analytics (essential only)
- */
-const declineCookies = () => {
-  const consent: CookieConsent = {
-    essential: true,
-    analytics: false,
-    timestamp: new Date().toISOString(),
-  };
-  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
-  showBanner.value = false;
-  // Load only essential cookies
-  loadRecaptchaScript();
-};
-
-/**
- * Handle user accepting all cookies
- */
-const acceptCookies = () => {
-  const consent: CookieConsent = {
-    essential: true,
-    analytics: true,
-    timestamp: new Date().toISOString(),
-  };
-  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
-  showBanner.value = false;
-  // Load all cookies
-  loadRecaptchaScript();
-  loadGoogleAnalytics();
-};
-
-/**
  * Load reCAPTCHA script (essential cookie)
  */
 const loadRecaptchaScript = () => {
@@ -115,6 +66,55 @@ const loadGoogleAnalytics = () => {
 
   // Make gtag available globally
   window.gtag = gtag;
+};
+
+/**
+ * Check if user has already made a choice
+ */
+onMounted(() => {
+  const consentJson = localStorage.getItem(COOKIE_CONSENT_KEY);
+  if (!consentJson) {
+    showBanner.value = true;
+  } else {
+    const consent: CookieConsent = JSON.parse(consentJson);
+    // Always load essential cookies (reCAPTCHA)
+    loadRecaptchaScript();
+    // Load analytics only if user accepted
+    if (consent.analytics) {
+      loadGoogleAnalytics();
+    }
+  }
+});
+
+/**
+ * Handle user declining analytics (essential only)
+ */
+const declineCookies = () => {
+  const consent: CookieConsent = {
+    essential: true,
+    analytics: false,
+    timestamp: new Date().toISOString(),
+  };
+  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
+  showBanner.value = false;
+  // Load only essential cookies
+  loadRecaptchaScript();
+};
+
+/**
+ * Handle user accepting all cookies
+ */
+const acceptCookies = () => {
+  const consent: CookieConsent = {
+    essential: true,
+    analytics: true,
+    timestamp: new Date().toISOString(),
+  };
+  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
+  showBanner.value = false;
+  // Load all cookies
+  loadRecaptchaScript();
+  loadGoogleAnalytics();
 };
 
 // TypeScript declarations for Google Analytics
