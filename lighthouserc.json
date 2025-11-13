@@ -11,7 +11,7 @@
         "http://localhost:3000/services/web-development"
       ],
       "settings": {
-        "onlyCategories": ["performance", "accessibility", "best-practices", "seo", "pwa"]
+        "configPath": "./lighthouse-config.js"
       }
     },
     "upload": {
