@@ -1,0 +1,147 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: cd packages/web && npm run build
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:3000/
+            http://localhost:3000/hire-me
+            http://localhost:3000/tech
+            http://localhost:3000/services/integration
+            http://localhost:3000/services/web-development
+          uploadArtifacts: false
+          temporaryPublicStorage: true
+          configPath: './lighthouserc.json'
+        continue-on-error: true
+
+      - name: Format Lighthouse Results
+        if: always()
+        run: |
+          echo "## 🔍 Lighthouse CI Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Lighthouse reports have been generated for this PR." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Report Links" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check the action output above for the temporary public storage links." >> $GITHUB_STEP_SUMMARY
+          echo "Each URL tested will have a corresponding report link." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📄 Pages Tested" >> $GITHUB_STEP_SUMMARY
+          echo "- Home page (http://localhost:3000/)" >> $GITHUB_STEP_SUMMARY
+          echo "- Hire Me page (http://localhost:3000/hire-me)" >> $GITHUB_STEP_SUMMARY
+          echo "- Tech page (http://localhost:3000/tech)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> **Note:** This workflow runs in informational mode and will not block PRs based on scores." >> $GITHUB_STEP_SUMMARY
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && github.event.pull_request != null
+        uses: actions/github-script@v7
+        continue-on-error: true
+        with:
+          script: |
+            const commentMarker = '<!-- lighthouse-ci-comment -->';
+            const linksOutput = `${{ steps.lighthouse.outputs.links }}`;
+            const manifestOutput = `${{ steps.lighthouse.outputs.manifest }}`;
+
+            console.log('Links output:', linksOutput);
+            console.log('Manifest output:', manifestOutput);
+
+            let reportLinks = [];
+
+            // Try to parse the links output
+            if (linksOutput && linksOutput !== '' && linksOutput !== 'undefined') {
+              try {
+                // The links output might be JSON or newline-separated
+                if (linksOutput.startsWith('[') || linksOutput.startsWith('{')) {
+                  const parsed = JSON.parse(linksOutput);
+                  reportLinks = Array.isArray(parsed) ? parsed : Object.values(parsed);
+                } else {
+                  // Try splitting by newlines
+                  reportLinks = linksOutput.split('\n').filter(l => l.trim().startsWith('http'));
+                }
+              } catch (e) {
+                console.log('Could not parse links:', e);
+              }
+            }
+
+            // Try to parse manifest for URLs
+            if (reportLinks.length === 0 && manifestOutput && manifestOutput !== '' && manifestOutput !== 'undefined') {
+              try {
+                const manifest = JSON.parse(manifestOutput);
+                if (Array.isArray(manifest)) {
+                  reportLinks = manifest.map(m => m.url || m.summary || m.reportUrl).filter(Boolean);
+                }
+              } catch (e) {
+                console.log('Could not parse manifest:', e);
+              }
+            }
+
+            const pageNames = ['Home (`/`)', 'Hire Me (`/hire-me`)', 'Tech (`/tech`)', 'Integration (`/services/integration`)', 'Web Development (`/services/web-development`)'];
+
+            let commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n';
+
+            if (reportLinks.length > 0) {
+              reportLinks.forEach((link, idx) => {
+                const pageName = pageNames[idx] || 'Page ' + (idx + 1);
+                commentBody += '- **' + pageName + '**: ' + link + '\n';
+              });
+            } else {
+              const logsUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+              commentBody += '*No report URLs available. Check the workflow logs: ' + logsUrl + '*\n';
+            }
+
+            commentBody += '\n*Updated: ' + new Date().toISOString() + '*';
+
+            // Find and update/create comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existingComment = comments.find(comment =>
+              comment.body && comment.body.includes(commentMarker)
+            );
+
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+            }
