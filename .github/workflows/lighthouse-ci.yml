@@ -57,11 +57,9 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "urls=http://localhost:3000/,http://localhost:3000/hire-me,http://localhost:3000/tech,http://localhost:3000/services/integration,http://localhost:3000/services/web-design" >> $GITHUB_OUTPUT
             echo "environment=local" >> $GITHUB_OUTPUT
-            echo "use_config=true" >> $GITHUB_OUTPUT
           else
             echo "urls=https://dev.idevelop.tech/,https://dev.idevelop.tech/hire-me,https://dev.idevelop.tech/tech,https://dev.idevelop.tech/services/integration,https://dev.idevelop.tech/services/web-design" >> $GITHUB_OUTPUT
             echo "environment=dev" >> $GITHUB_OUTPUT
-            echo "use_config=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Run Lighthouse CI (with local server)
@@ -83,7 +81,7 @@ jobs:
           urls: ${{ steps.urls.outputs.urls }}
           uploadArtifacts: false
           temporaryPublicStorage: true
-          runs: 3
+          configPath: './lighthouserc-deployed.json'
         continue-on-error: true
 
       - name: Set lighthouse outputs
