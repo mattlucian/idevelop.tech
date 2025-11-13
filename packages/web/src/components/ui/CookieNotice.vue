@@ -173,12 +173,12 @@ declare global {
             >
               Cookie Notice
             </h3>
-            <p id="cookie-notice-description" class="text-sm text-gray-300">
+            <p id="cookie-notice-description" class="text-sm text-gray-200">
               We use essential cookies for spam protection on our contact forms.
               We also use analytics cookies to improve your experience.
               <RouterLink
                 to="/privacy"
-                class="text-cyan-400 hover:text-cyan-300 transition-colors"
+                class="text-cyan-300 hover:text-cyan-200 transition-colors"
               >
                 Learn more about our privacy policy
               </RouterLink>

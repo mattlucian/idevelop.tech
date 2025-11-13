@@ -51,6 +51,11 @@ const handleKeepBrowsing = () => {
             <img
               src="/images/brand/logo-black.png"
               alt="idevelop.tech"
+              width="141"
+              height="32"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
               class="h-8 transition-all duration-300"
               :style="
                 isTechPage

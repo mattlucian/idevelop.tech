@@ -106,7 +106,7 @@ useMeta({
               </h1>
 
               <div
-                class="text-sm sm:text-base md:text-lg text-gray-400 max-w-[95%] sm:max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-0.5 sm:gap-1.5 mt-6 px-2 sm:px-0"
+                class="text-sm sm:text-base md:text-lg text-gray-300 max-w-[95%] sm:max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-0.5 sm:gap-1.5 mt-6 px-2 sm:px-0"
               >
                 <span class="text-center sm:text-right sm:whitespace-nowrap"
                   >Get expert help with</span
@@ -147,7 +147,7 @@ useMeta({
               >
                 Platforms & Tools
               </h2>
-              <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+              <p class="text-sm md:text-base text-gray-300 max-w-2xl mx-auto">
                 Experience across industry-leading platforms
               </p>
             </div>
@@ -182,7 +182,7 @@ useMeta({
                     </picture>
                   </div>
                   <!-- Description -->
-                  <p class="text-xs text-gray-400 text-center">
+                  <p class="text-xs text-gray-300 text-center">
                     {{ platform.description }}
                   </p>
                 </div>
