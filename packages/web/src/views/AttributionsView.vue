@@ -98,7 +98,7 @@ const attributions: Attribution[] = [
       <!-- Header -->
       <div class="mb-12">
         <h1
-          class="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"
+          class="text-4xl sm:text-5xl font-bold mb-4 bg-linear-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"
         >
           Image Attributions
         </h1>

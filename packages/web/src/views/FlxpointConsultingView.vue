@@ -37,7 +37,6 @@ const {
   expertiseBadge,
   whatIOffer,
   howItWorks,
-  portfolio: portfolioData,
   cta,
 } = flxpointConsultingData;
 
@@ -67,7 +66,7 @@ const handleBreadcrumbNavigate = (path: string) => {
           class="inline-flex items-center gap-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg px-4 py-3"
         >
           <svg
-            class="w-5 h-5 text-cyan-400 flex-shrink-0"
+            class="w-5 h-5 text-cyan-400 shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

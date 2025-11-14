@@ -8,6 +8,7 @@ export type ColorScheme = "cyan" | "emerald" | "purple" | "orange" | "teal";
 interface ColorClasses {
   text: string;
   textMuted: string;
+  textHover: string;
   bg: string;
   bgHover: string;
   border: string;
@@ -26,6 +27,7 @@ export function useColorScheme(scheme: ColorScheme): ColorClasses {
     cyan: {
       text: "text-cyan-400",
       textMuted: "text-cyan-500",
+      textHover: "hover:text-cyan-400",
       bg: "bg-cyan-500/10",
       bgHover: "hover:bg-cyan-500/20",
       border: "border-cyan-500/30",
@@ -36,6 +38,7 @@ export function useColorScheme(scheme: ColorScheme): ColorClasses {
     emerald: {
       text: "text-emerald-400",
       textMuted: "text-emerald-500",
+      textHover: "hover:text-emerald-400",
       bg: "bg-emerald-500/10",
       bgHover: "hover:bg-emerald-500/20",
       border: "border-emerald-500/30",
@@ -46,6 +49,7 @@ export function useColorScheme(scheme: ColorScheme): ColorClasses {
     purple: {
       text: "text-purple-400",
       textMuted: "text-purple-500",
+      textHover: "hover:text-purple-400",
       bg: "bg-purple-500/10",
       bgHover: "hover:bg-purple-500/20",
       border: "border-purple-500/30",
@@ -56,6 +60,7 @@ export function useColorScheme(scheme: ColorScheme): ColorClasses {
     orange: {
       text: "text-orange-400",
       textMuted: "text-orange-500",
+      textHover: "hover:text-orange-400",
       bg: "bg-orange-500/10",
       bgHover: "hover:bg-orange-500/20",
       border: "border-orange-500/30",
@@ -66,6 +71,7 @@ export function useColorScheme(scheme: ColorScheme): ColorClasses {
     teal: {
       text: "text-teal-400",
       textMuted: "text-teal-500",
+      textHover: "hover:text-teal-400",
       bg: "bg-teal-500/10",
       bgHover: "hover:bg-teal-500/20",
       border: "border-teal-500/30",

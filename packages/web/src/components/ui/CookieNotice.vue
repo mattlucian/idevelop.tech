@@ -151,7 +151,7 @@ declare global {
           class="flex flex-col md:flex-row items-start md:items-center gap-4"
         >
           <!-- Icon -->
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-cyan-400"
@@ -190,7 +190,7 @@ declare global {
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex-shrink-0 w-full md:w-auto flex gap-3">
+          <div class="shrink-0 w-full md:w-auto flex gap-3">
             <OutlineButton
               color-scheme="gray"
               class="flex-1 md:flex-initial opacity-70"

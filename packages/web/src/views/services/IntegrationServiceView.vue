@@ -42,10 +42,6 @@ const {
   cta,
 } = integrationServiceData;
 
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
-
 const handleBreadcrumbNavigate = (path: string) => {
   router.push(path);
 };
@@ -87,7 +83,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
       <!-- Tab Content -->
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Accounting Integration Tab -->
         <div v-if="activeTab === 'accounting'">

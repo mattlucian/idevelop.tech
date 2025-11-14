@@ -20,7 +20,7 @@
 
     <!-- Entity Mapping Container -->
     <div
-      class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
+      class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
     >
       <!-- Entity Headers - Desktop -->
       <div
@@ -51,7 +51,7 @@
           <div class="text-sm font-bold text-cyan-400">Order</div>
           <div class="text-xs text-slate-500 mt-0.5">eCommerce</div>
         </div>
-        <div class="w-8 flex-shrink-0" />
+        <div class="w-8 shrink-0" />
         <div
           class="flex-1 bg-slate-800/60 border border-emerald-500/40 rounded px-2 py-2"
         >
@@ -66,7 +66,7 @@
         <div class="flex items-center gap-3 md:gap-4">
           <!-- Source Field -->
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-cyan-400 truncate">
               id
@@ -77,9 +77,7 @@
           </div>
 
           <!-- Arrow - Desktop -->
-          <div
-            class="hidden md:flex items-center justify-center w-32 flex-shrink-0"
-          >
+          <div class="hidden md:flex items-center justify-center w-32 shrink-0">
             <svg
               class="w-8 h-8 text-cyan-400"
               fill="none"
@@ -96,9 +94,7 @@
           </div>
 
           <!-- Arrow - Mobile -->
-          <div
-            class="md:hidden flex items-center justify-center w-8 flex-shrink-0"
-          >
+          <div class="md:hidden flex items-center justify-center w-8 shrink-0">
             <svg
               class="w-5 h-5 text-cyan-400"
               fill="none"
@@ -116,7 +112,7 @@
 
           <!-- Target Field -->
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div
               class="text-xs md:text-sm font-medium text-emerald-400 truncate"
@@ -132,7 +128,7 @@
         <!-- Mapping 2: orderNumber -> referenceNumber -->
         <div class="flex items-center gap-3 md:gap-4">
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-cyan-400">
               <span class="md:hidden">orderNum</span>
@@ -143,9 +139,7 @@
             </div>
           </div>
 
-          <div
-            class="hidden md:flex items-center justify-center w-32 flex-shrink-0"
-          >
+          <div class="hidden md:flex items-center justify-center w-32 shrink-0">
             <svg
               class="w-8 h-8 text-cyan-400"
               fill="none"
@@ -161,9 +155,7 @@
             </svg>
           </div>
 
-          <div
-            class="md:hidden flex items-center justify-center w-8 flex-shrink-0"
-          >
+          <div class="md:hidden flex items-center justify-center w-8 shrink-0">
             <svg
               class="w-5 h-5 text-cyan-400"
               fill="none"
@@ -180,7 +172,7 @@
           </div>
 
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-emerald-400">
               <span class="md:hidden">refNum</span>
@@ -195,7 +187,7 @@
         <!-- Mapping 3: customerEmail -> customerId (with lookup) -->
         <div class="flex items-stretch gap-3 md:gap-4">
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-cyan-400">
               <span class="md:hidden">custEmail</span>
@@ -207,9 +199,7 @@
           </div>
 
           <!-- Lookup Icon - Desktop -->
-          <div
-            class="hidden md:flex items-center justify-center w-32 flex-shrink-0"
-          >
+          <div class="hidden md:flex items-center justify-center w-32 shrink-0">
             <svg
               class="w-8 h-8 text-purple-400"
               fill="none"
@@ -226,9 +216,7 @@
           </div>
 
           <!-- Lookup Icon - Mobile -->
-          <div
-            class="md:hidden flex items-center justify-center w-8 flex-shrink-0"
-          >
+          <div class="md:hidden flex items-center justify-center w-8 shrink-0">
             <svg
               class="w-5 h-5 text-purple-400"
               fill="none"
@@ -245,7 +233,7 @@
           </div>
 
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-emerald-400">
               <span class="md:hidden">custId</span>
@@ -260,7 +248,7 @@
         <!-- Mapping 4: isPaid -> paymentStatusId (with custom rule) -->
         <div class="flex items-stretch gap-3 md:gap-4">
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-cyan-400 truncate">
               isPaid
@@ -271,9 +259,7 @@
           </div>
 
           <!-- Custom Rule Icon - Desktop -->
-          <div
-            class="hidden md:flex items-center justify-center w-32 flex-shrink-0"
-          >
+          <div class="hidden md:flex items-center justify-center w-32 shrink-0">
             <svg
               class="w-8 h-8 text-emerald-400"
               fill="none"
@@ -296,9 +282,7 @@
           </div>
 
           <!-- Custom Rule Icon - Mobile -->
-          <div
-            class="md:hidden flex items-center justify-center w-8 flex-shrink-0"
-          >
+          <div class="md:hidden flex items-center justify-center w-8 shrink-0">
             <svg
               class="w-5 h-5 text-emerald-400"
               fill="none"
@@ -321,7 +305,7 @@
           </div>
 
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-emerald-400">
               <span class="md:hidden">payStatusId</span>
@@ -336,7 +320,7 @@
         <!-- Mapping 5: total -> amount -->
         <div class="flex items-center gap-3 md:gap-4">
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div class="text-xs md:text-sm font-medium text-cyan-400 truncate">
               total
@@ -346,9 +330,7 @@
             </div>
           </div>
 
-          <div
-            class="hidden md:flex items-center justify-center w-32 flex-shrink-0"
-          >
+          <div class="hidden md:flex items-center justify-center w-32 shrink-0">
             <svg
               class="w-8 h-8 text-cyan-400"
               fill="none"
@@ -364,9 +346,7 @@
             </svg>
           </div>
 
-          <div
-            class="md:hidden flex items-center justify-center w-8 flex-shrink-0"
-          >
+          <div class="md:hidden flex items-center justify-center w-8 shrink-0">
             <svg
               class="w-5 h-5 text-cyan-400"
               fill="none"
@@ -383,7 +363,7 @@
           </div>
 
           <div
-            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-[36px] md:min-h-[52px] flex flex-col justify-center"
+            class="flex-1 bg-slate-800/40 border border-slate-600/30 rounded px-2 py-1.5 md:px-4 md:py-2.5 min-h-9 md:min-h-13 flex flex-col justify-center"
           >
             <div
               class="text-xs md:text-sm font-medium text-emerald-400 truncate"

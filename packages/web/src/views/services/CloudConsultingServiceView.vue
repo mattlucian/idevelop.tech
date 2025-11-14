@@ -41,10 +41,6 @@ const {
   cloudJourneys,
 } = cloudConsultingServiceData;
 
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
-
 const handleBreadcrumbNavigate = (path: string) => {
   router.push(path);
 };
@@ -86,7 +82,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
       <!-- Tab Content -->
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Strategy Tab -->
         <div v-if="activeTab === 'strategy'">
@@ -187,7 +183,7 @@ const handleBreadcrumbNavigate = (path: string) => {
     <!-- Secondary Visual: AWS Services Expertise -->
     <div class="max-w-5xl mx-auto px-6 py-12">
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <h3 class="text-2xl font-bold text-white mb-6 text-center">
           AWS Services Expertise

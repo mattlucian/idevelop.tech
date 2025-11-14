@@ -49,10 +49,6 @@ const {
   cta,
 } = techAdminServiceData;
 
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
-
 const handleBreadcrumbNavigate = (path: string) => {
   router.push(path);
 };
@@ -94,7 +90,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
       <!-- Tab Content -->
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Strategic Planning Tab -->
         <div v-if="activeTab === 'planning'" class="space-y-6">
@@ -356,7 +352,7 @@ const handleBreadcrumbNavigate = (path: string) => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Before -->
         <div
-          class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8"
         >
           <h3 class="text-xl font-bold text-gray-300 mb-6 flex items-center">
             <span class="mr-3">
@@ -386,7 +382,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
         <!-- After -->
         <div
-          class="bg-gradient-to-br from-cyan-900/20 to-cyan-800/20 border border-cyan-500/30 rounded-xl p-8"
+          class="bg-linear-to-br from-cyan-900/20 to-cyan-800/20 border border-cyan-500/30 rounded-xl p-8"
         >
           <h3 class="text-xl font-bold text-cyan-400 mb-6 flex items-center">
             <span class="text-2xl mr-3">✓</span>

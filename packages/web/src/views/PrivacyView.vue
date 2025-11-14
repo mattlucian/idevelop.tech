@@ -150,7 +150,7 @@ const enableConsent = () => {
   <div class="min-h-screen bg-[#0a0a0a] text-white pt-16">
     <!-- Header -->
     <div
-      class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border-b border-slate-700"
+      class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border-b border-slate-700"
     >
       <div class="max-w-4xl mx-auto px-4 py-12 md:py-16">
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">

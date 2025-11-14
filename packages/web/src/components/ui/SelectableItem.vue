@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<SelectableItemProps>(), {
 const colorClasses = computed(() => {
   const schemes = {
     cyan: {
-      selectedBg: "bg-gradient-to-r from-cyan-500/20 to-purple-500/20",
+      selectedBg: "bg-linear-to-r from-cyan-500/20 to-purple-500/20",
       selectedBorder: "border-cyan-500/50",
       selectedText: "text-cyan-400",
       selectedSubtext: "text-cyan-300",
@@ -45,7 +45,7 @@ const colorClasses = computed(() => {
       defaultNumber: "text-gray-400 border-gray-600",
     },
     purple: {
-      selectedBg: "bg-gradient-to-r from-purple-500/20 to-pink-500/20",
+      selectedBg: "bg-linear-to-r from-purple-500/20 to-pink-500/20",
       selectedBorder: "border-purple-500/50",
       selectedText: "text-purple-400",
       selectedSubtext: "text-purple-300",
@@ -94,7 +94,7 @@ const subtitleClasses = computed(() => {
 
 const numberClasses = computed(() => {
   const base =
-    "flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-bold flex-shrink-0 transition-all";
+    "flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-bold shrink-0 transition-all";
 
   if (props.isSelected) {
     return `${base} ${colorClasses.value.selectedNumber}`;

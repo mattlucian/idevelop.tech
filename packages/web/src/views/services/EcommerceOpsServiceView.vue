@@ -41,10 +41,6 @@ const {
   tabContent,
 } = ecommerceOpsServiceData;
 
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
-
 const handleBreadcrumbNavigate = (path: string) => {
   router.push(path);
 };
@@ -86,7 +82,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
       <!-- Tab Content -->
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Order Routing Tab -->
         <div v-if="activeTab === 'order-routing'">
@@ -236,7 +232,7 @@ const handleBreadcrumbNavigate = (path: string) => {
               v-for="(stage, index) in tabContent['product-data'].workflow
                 .stages"
               :key="index"
-              class="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-lg p-5"
+              class="bg-linear-to-br from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-lg p-5"
             >
               <div class="flex items-center gap-2 mb-3">
                 <div

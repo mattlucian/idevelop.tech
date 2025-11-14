@@ -22,13 +22,13 @@ const iconColorClass =
 
 <template>
   <div
-    class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8 h-full"
+    class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8 h-full"
   >
     <!-- Icon and Title -->
     <div class="flex items-start gap-4 mb-4">
       <div
         :class="[
-          'flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center',
+          'shrink-0 w-12 h-12 rounded-lg flex items-center justify-center',
           colorScheme === 'emerald' ? 'bg-emerald-500/10' : 'bg-cyan-500/10',
         ]"
       >

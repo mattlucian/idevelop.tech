@@ -52,7 +52,7 @@ const loadTechData = async () => {
       selectedCategoryIndex.value = -1;
       selectedTopicIndex.value = -1;
     }
-  } catch (error) {
+  } catch (_error) {
     // Error loading tech data - handled gracefully by UI
   }
 };

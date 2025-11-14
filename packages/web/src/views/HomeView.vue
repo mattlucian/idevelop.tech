@@ -205,7 +205,7 @@ useMeta({
               </div>
 
               <!-- CTA Button -->
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <PrimaryRouterLink to="/hire-me">
                   Get in touch
                 </PrimaryRouterLink>

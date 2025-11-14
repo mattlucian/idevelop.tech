@@ -45,10 +45,6 @@ const {
   migrationSteps,
 } = webDesignServiceData;
 
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
-
 const handleBreadcrumbNavigate = (path: string) => {
   router.push(path);
 };
@@ -90,7 +86,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
       <!-- Tab Content -->
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Design Process Tab -->
         <div v-if="activeTab === 'design'">
@@ -229,7 +225,7 @@ const handleBreadcrumbNavigate = (path: string) => {
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Before: Generic Template -->
         <div
-          class="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-red-900/20 to-red-800/10 border border-red-700/30 rounded-xl p-8"
         >
           <h3
             class="text-xl font-semibold text-red-400 mb-4 flex items-center gap-2"
@@ -259,7 +255,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
         <!-- After: Custom Brand Experience -->
         <div
-          class="bg-gradient-to-br from-emerald-900/20 to-emerald-800/10 border border-emerald-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-emerald-900/20 to-emerald-800/10 border border-emerald-700/30 rounded-xl p-8"
         >
           <h3 class="text-xl font-semibold text-emerald-400 mb-4">
             ✓ Custom Brand Experience

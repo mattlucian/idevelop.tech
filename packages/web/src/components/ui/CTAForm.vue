@@ -25,7 +25,7 @@ const formClasses = computed(() => {
   if (props.variant === "dark") {
     return "bg-[#0a0a0a] border border-slate-800 rounded-xl p-6";
   }
-  return "bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm";
+  return "bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm";
 });
 
 const serviceOptions = [
@@ -65,7 +65,7 @@ const checkCookiesEnabled = (): boolean => {
     document.cookie =
       "cookietest=1; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     return cookiesEnabled;
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 };
@@ -190,7 +190,7 @@ const handleSubmit = async () => {
       <div class="flex items-start gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 flex-shrink-0 mt-0.5"
+          class="h-5 w-5 shrink-0 mt-0.5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -306,7 +306,7 @@ const handleSubmit = async () => {
           :href="SCHEDULING_LINK"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex-shrink-0"
+          class="shrink-0"
         >
           <button
             type="button"

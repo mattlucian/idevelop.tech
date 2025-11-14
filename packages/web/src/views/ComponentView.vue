@@ -3,16 +3,16 @@ import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { useMeta } from "../composables/useMeta";
 import type { Step } from "../types/shared/card";
-import { CONTACT, SITE } from "@/constants";
+import { SITE } from "@/constants";
 
 // SEO Meta Tags
 useMeta({
   title: "Component Showcase - Design System | I Develop Tech",
   description:
-    "Interactive design system showcase featuring 36 reusable Vue components. Explore buttons, cards, UI components, and layouts used across the I Develop Tech platform.",
+    "Interactive design system showcase featuring 35 reusable Vue components. Explore buttons, cards, UI components, and layouts used across the I Develop Tech platform.",
   ogTitle: "Component Showcase - Design System | I Develop Tech",
   ogDescription:
-    "Browse our component library: 36 reusable Vue components including buttons, badges, cards, and complex UI elements.",
+    "Browse our component library: 35 reusable Vue components including buttons, badges, cards, and complex UI elements.",
   ogUrl: `${SITE.url}/components`,
   ogImage: `${SITE.url}/og-image-components.jpg`,
 });
@@ -30,7 +30,6 @@ import IconButton from "../components/elements/buttons/IconButton.vue";
 import Badge from "../components/elements/badges/Badge.vue";
 import TypewriterText from "../components/elements/interactive/TypewriterText.vue";
 import GradientText from "../components/elements/GradientText.vue";
-import CheckItem from "../components/elements/CheckItem.vue";
 import NumberedStep from "../components/elements/NumberedStep.vue";
 import SimpleCheckItem from "../components/elements/SimpleCheckItem.vue";
 
@@ -114,12 +113,7 @@ const categories: ComponentCategory[] = [
       {
         id: "check-item",
         name: "Check Item",
-        description: "List item with checkmark",
-      },
-      {
-        id: "simple-check-item",
-        name: "Simple Check Item",
-        description: "Compact list item with checkmark",
+        description: "List item with checkmark (circle and simple variants)",
       },
       {
         id: "numbered-step",
@@ -525,20 +519,25 @@ onUnmounted(() => {
             </div>
           </div>
 
-          <!-- Check Item -->
+          <!-- Check Item (Merged with Simple Check Item) -->
           <div v-if="selectedComponentId === 'check-item'">
-            <ul class="space-y-2">
-              <CheckItem>Systems handling billions of transactions</CheckItem>
-              <CheckItem>50% infrastructure cost reduction</CheckItem>
-              <CheckItem color="emerald">
+            <p class="text-sm text-slate-400 mb-3">Circle variant (compact):</p>
+            <ul class="space-y-2 mb-6">
+              <SimpleCheckItem variant="circle">
+                Systems handling billions of transactions
+              </SimpleCheckItem>
+              <SimpleCheckItem variant="circle">
+                50% infrastructure cost reduction
+              </SimpleCheckItem>
+              <SimpleCheckItem variant="circle" color="emerald">
                 Cloud-native architecture design
-              </CheckItem>
-              <CheckItem color="emerald"> Full-stack development </CheckItem>
+              </SimpleCheckItem>
+              <SimpleCheckItem variant="circle" color="emerald">
+                Full-stack development
+              </SimpleCheckItem>
             </ul>
-          </div>
 
-          <!-- Simple Check Item -->
-          <div v-if="selectedComponentId === 'simple-check-item'">
+            <p class="text-sm text-slate-400 mb-3">Simple variant (default):</p>
             <ul class="space-y-2">
               <SimpleCheckItem>Compact checkmark design</SimpleCheckItem>
               <SimpleCheckItem>Used in service sections</SimpleCheckItem>

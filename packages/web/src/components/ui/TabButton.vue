@@ -5,7 +5,7 @@ interface Props {
   colorScheme?: "cyan" | "emerald" | "purple";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
 });
 

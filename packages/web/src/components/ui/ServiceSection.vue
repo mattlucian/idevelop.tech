@@ -64,7 +64,7 @@ const badgeClasses = computed(
       </div>
       <div
         v-if="$slots.default"
-        class="w-full md:w-[340px] lg:w-[400px] flex-shrink-0"
+        class="w-full md:w-[340px] lg:w-[400px] shrink-0"
       >
         <div class="md:sticky md:top-24">
           <slot />
@@ -96,7 +96,7 @@ const badgeClasses = computed(
     <!-- Expertise Badge (Optional) -->
     <div
       v-if="expertiseBadge"
-      class="bg-gradient-to-br from-slate-800/40 to-slate-900/40 rounded-lg p-6 border border-slate-700/30 text-center"
+      class="bg-linear-to-br from-slate-800/40 to-slate-900/40 rounded-lg p-6 border border-slate-700/30 text-center"
     >
       <div
         :class="[
