@@ -32,6 +32,32 @@ When writing or updating documentation in this repository:
 - **No changelogs** - Git commit history is the source of truth
 - **Focus on principles over specifics** - Document "how to think" not "what exists"
 
+### 🔴 CRITICAL: Temporary Documentation Location
+
+**Task-list documents, planning docs, and session notes must NOT live in `/docs`**
+
+When creating temporary planning or task-tracking documents:
+
+❌ **WRONG**: `/docs/planning-task-list.md`
+❌ **WRONG**: `/docs/SESSION-2025-11-13.md`
+❌ **WRONG**: Any checklist or todo-style doc in `/docs`
+
+✅ **CORRECT**: `/planning/task-list.md`
+✅ **CORRECT**: Use `/docs/PROJECT-PLAN.md` for ongoing project todos
+✅ **CORRECT**: Delete planning docs after extracting valuable content
+
+**Why this matters**:
+- `/docs` is for long-lived reference documentation only
+- Temporary docs mixed with permanent docs cause confusion
+- Makes it unclear what can be safely deleted
+- Planning docs should be in `/planning` (easy to delete entire directory)
+
+**The `/planning` directory**:
+- Contains temporary task lists, analysis documents, and planning notes
+- Safe to delete entire directory after completion
+- Can be git-ignored if desired (optional)
+- Clear separation from permanent documentation
+
 ---
 
 ## Quick Reference Card
@@ -52,26 +78,35 @@ When writing or updating documentation in this repository:
 
 **Quick lookup: When you need to... → Reference this doc**
 
-### Frontend Development (packages/web/)
+### Full-Stack Architecture
 
-| What You Need                                | Documentation File                           |
-| -------------------------------------------- | -------------------------------------------- |
-| Write/edit content (service pages, copy)     | See "Frontend: When Writing Content" ⚠️      |
-| Create/modify components                     | `packages/web/docs/COMPONENT-RULES.md` ⚠️    |
-| Find existing components                     | `packages/web/docs/COMPONENTS.md`            |
-| Apply styles, colors, typography, responsive | `packages/web/docs/DESIGN-SYSTEM.md`         |
-| Work with service/tech data                  | `packages/web/docs/DATA-STRUCTURE.md`        |
-| Understand frontend architecture             | `packages/web/docs/ARCHITECTURE.md`          |
-| Check frontend implementation status         | `packages/web/docs/IMPLEMENTATION-STATUS.md` |
-| Review frontend configuration                | `packages/web/docs/CONFIGURATION.md`         |
-| SEO implementation                           | `packages/web/docs/SEO.md`                   |
+| What You Need                         | Documentation File          |
+| ------------------------------------- | --------------------------- |
+| Complete system architecture overview | `docs/ARCHITECTURE.md` ⭐    |
+| SST monorepo structure                | `docs/ARCHITECTURE.md`      |
+| Backend & infrastructure architecture | `docs/ARCHITECTURE.md`      |
+| CI/CD pipeline and deployment         | `docs/ARCHITECTURE.md`      |
 
-### Backend Development (packages/functions/)
+### Frontend Development
 
-| What You Need                   | Documentation File                  |
-| ------------------------------- | ----------------------------------- |
-| Contact form API implementation | `packages/functions/src/contact.ts` |
-| Email authentication setup      | `docs/SETUP.md` (email section)     |
+| What You Need                                | Documentation File                     |
+| -------------------------------------------- | -------------------------------------- |
+| Write/edit content (service pages, copy)     | See "Frontend: When Writing Content" ⚠️ |
+| Create/modify components                     | `docs/frontend/COMPONENT-RULES.md` ⚠️   |
+| Find existing components                     | `docs/frontend/COMPONENTS.md`          |
+| Apply styles, colors, typography, responsive | `docs/frontend/DESIGN-SYSTEM.md`       |
+| Work with service/tech data                  | `docs/frontend/DATA-STRUCTURE.md`      |
+| Review frontend configuration                | `docs/frontend/CONFIGURATION.md`       |
+| SEO implementation                           | `docs/frontend/SEO.md`                 |
+
+### Backend Development
+
+| What You Need                      | Documentation File                  |
+| ---------------------------------- | ----------------------------------- |
+| Lambda functions overview          | `docs/backend/FUNCTIONS.md`         |
+| Contact form API implementation    | `packages/functions/src/contact.ts` |
+| Email authentication setup         | `docs/SETUP.md` (email section)     |
+| Backend architecture and IAM roles | `docs/ARCHITECTURE.md`              |
 
 ### Infrastructure & Deployment
 
@@ -81,6 +116,7 @@ When writing or updating documentation in this repository:
 | Initial project setup (forking) | `docs/SETUP.md`           |
 | Branch strategy & CI/CD         | `docs/BRANCH-STRATEGY.md` |
 | Project phases & implementation | `docs/PROJECT-PLAN.md`    |
+| Infrastructure architecture     | `docs/ARCHITECTURE.md`    |
 
 ### Migration & Project Management
 
@@ -411,9 +447,9 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/COMPONENT-RULES.md` - Component structure and patterns
-- `packages/web/docs/DESIGN-SYSTEM.md` - Color schemes, design tokens, and responsive patterns
-- `docs/DEEPSOURCE-ANALYSIS-REPORT.md` - Code quality analysis and standards
+- `docs/frontend/COMPONENT-RULES.md` - Component structure and patterns
+- `docs/frontend/DESIGN-SYSTEM.md` - Color schemes, design tokens, and responsive patterns
+- `docs/CODE-SCANNING-STRATEGY.md` - Code quality analysis and standards
 
 ---
 
@@ -425,7 +461,7 @@ feature/* → PR → develop → PR → main
 
 **Component creation workflow (packages/web/):**
 
-1. **Check existing components first**: Review `packages/web/docs/COMPONENTS.md` catalog
+1. **Check existing components first**: Review `docs/frontend/COMPONENTS.md` catalog
 2. **Apply the pattern rule**:
    - See duplicated pattern? → Create a component
    - Writing similar code 2-3 times? → Stop and componentize it
@@ -440,12 +476,12 @@ feature/* → PR → develop → PR → main
 4. **Support dual theming**: Add `colorScheme` or `color` prop
    - `cyan` for services/business pages
    - `emerald` for tech/experience pages
-5. **Document it**: Add to `packages/web/docs/COMPONENTS.md` catalog after creation
+5. **Document it**: Add to `docs/frontend/COMPONENTS.md` catalog after creation
 
 **References**:
 
-- `packages/web/docs/COMPONENT-RULES.md` ⚠️ **MANDATORY READ** - Complete component creation process
-- `packages/web/docs/COMPONENTS.md` - Full catalog of existing components
+- `docs/frontend/COMPONENT-RULES.md` ⚠️ **MANDATORY READ** - Complete component creation process
+- `docs/frontend/COMPONENTS.md` - Full catalog of existing components
 
 **This rule applies to all developers and AI assistants. No exceptions.**
 
@@ -471,7 +507,7 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DESIGN-SYSTEM.md` - Complete color palette, typography, spacing, gradients, and responsive design
+- `docs/frontend/DESIGN-SYSTEM.md` - Complete color palette, typography, spacing, gradients, and responsive design
 
 ---
 
@@ -492,7 +528,7 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DESIGN-SYSTEM.md` - Complete responsive design strategy, typography, and spacing scales
+- `docs/frontend/DESIGN-SYSTEM.md` - Complete responsive design strategy, typography, and spacing scales
 
 ---
 
@@ -511,7 +547,7 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DATA-STRUCTURE.md` - Complete type schemas and data organization
+- `docs/frontend/DATA-STRUCTURE.md` - Complete type schemas and data organization
 - `packages/web/src/constants/index.ts` - Application-wide constants
 
 ---
@@ -548,8 +584,8 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DATA-STRUCTURE.md` - Service data type schemas
-- `packages/web/docs/COMPONENTS.md` - ServiceSection component documentation
+- `docs/frontend/DATA-STRUCTURE.md` - Service data type schemas
+- `docs/frontend/COMPONENTS.md` - ServiceSection component documentation
 
 ---
 
@@ -819,7 +855,7 @@ The site uses a **dual color scheme** that switches contextually:
 
 All components support `colorScheme` or `color` prop for dual theming.
 
-**Reference**: `packages/web/docs/DESIGN-SYSTEM.md` for complete color palette documentation.
+**Reference**: `docs/frontend/DESIGN-SYSTEM.md` for complete color palette documentation.
 
 ---
 
@@ -901,7 +937,7 @@ idevelop.tech/
 └── CLAUDE.md                # This file
 ```
 
-**Reference**: `packages/web/docs/ARCHITECTURE.md` for detailed frontend architecture.
+**Reference**: `docs/ARCHITECTURE.md` for detailed full-stack architecture.
 
 ---
 
@@ -918,7 +954,7 @@ idevelop.tech/
 /404                    # NotFoundView - Custom 404 page
 ```
 
-**Reference**: `packages/web/docs/COMPONENTS.md` for component catalog.
+**Reference**: `docs/frontend/COMPONENTS.md` for component catalog.
 
 ---
 
@@ -931,7 +967,7 @@ packages/web/src/data/
 └── tech.json        # Technical expertise domains
 ```
 
-**Reference**: `packages/web/docs/DATA-STRUCTURE.md` for complete type schemas and data structure.
+**Reference**: `docs/frontend/DATA-STRUCTURE.md` for complete type schemas and data structure.
 
 ---
 
@@ -1055,4 +1091,4 @@ This is a portfolio website and full-stack application for idevelop.tech:
 
 **Goal**: Modern, type-safe, full-stack portfolio with professional DevOps practices.
 
-**Reference**: `packages/web/docs/ARCHITECTURE.md` for complete frontend architecture and technical decisions.
+**Reference**: `docs/ARCHITECTURE.md` for complete full-stack architecture and technical decisions.

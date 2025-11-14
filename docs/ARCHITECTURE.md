@@ -2,26 +2,190 @@
 
 ## Overview
 
-This document captures the key architectural decisions made during the development of the idevelop.tech portfolio website.
+This document captures the key architectural decisions for the full-stack idevelop.tech application, including frontend, backend, infrastructure, and deployment.
+
+## Project Structure
+
+This is an **SST (Serverless Stack) v3 monorepo** containing:
+
+- **packages/web/** - Vue 3 frontend application
+- **packages/functions/** - AWS Lambda functions (API endpoints)
+- **packages/core/** - Shared TypeScript types and utilities
+- **sst.config.ts** - Infrastructure as Code (SST v3, no separate infra/ folder needed)
+
+**Architecture Pattern**: Full-stack serverless monorepo with TypeScript throughout
+
+---
 
 ## Technology Stack
 
-### Core Framework
+### Frontend
 
 - **Vue.js 3.5.22** with Composition API
 - **TypeScript 5.9** for type safety
 - **Vue Router 4.5.1** for navigation
 - **Tailwind CSS 4.1.14** for styling
-
-### Build Tools
-
 - **Vite 7.1.7** - Fast build tool and dev server
+
+### Backend
+
+- **AWS Lambda** - Serverless compute (Node.js 20.x runtime)
+- **API Gateway HTTP API** - RESTful API endpoints
+- **AWS SES** - Email delivery
+- **AWS DynamoDB** - Rate limiting and session storage
+- **AWS SSM Parameter Store** - Secrets management
+
+### Infrastructure
+
+- **SST v3 (Ion)** - Infrastructure as Code (Pulumi-based)
+- **S3 + CloudFront** - Static site hosting with CDN
+- **GitHub Actions** - CI/CD with OIDC authentication
+- **AWS** - Cloud platform (us-east-1)
+
+### Build & Development Tools
+
 - **vue-tsc** - TypeScript checker for Vue
 - **ESLint + Prettier** - Code quality and formatting
+- **Dependabot** - Automated dependency updates
+- **CodeQL + DeepSource** - Security and quality scanning
 
 ### Node Version
 
 - Required: Node 20.19.0+ or 22.12.0+
+
+---
+
+## Backend Architecture
+
+### Lambda Functions
+
+**Location**: `packages/functions/src/`
+
+**Contact Handler** (`contact.ts`):
+- Processes contact form submissions
+- **Input validation**: TypeScript types from `@idevelop-tech/core`
+- **reCAPTCHA verification**: Server-side validation via Google API
+- **Rate limiting**: DynamoDB-based (5/hour per IP, 10/day per email)
+- **Email delivery**: AWS SES to admin and sender
+- **Error handling**: Structured responses with request IDs
+
+**IAM Permissions** (least-privilege):
+- DynamoDB: PutItem, Query (scoped to rate limit table)
+- SES: SendEmail, SendRawEmail (scoped to verified identities)
+- SSM: GetParameter (scoped to stage-specific parameters)
+
+### API Gateway
+
+**Type**: HTTP API (v2)
+**Endpoints**:
+- `POST /contact` - Contact form submission
+
+**Features**:
+- CORS configured per stage (dev vs production)
+- Request/response transformation
+- Custom domains: `dev-api.idevelop.tech`, `api.idevelop.tech`
+
+### DynamoDB Tables
+
+**RateLimitTable**:
+- Primary key: Composite (IP address + email)
+- TTL enabled for automatic cleanup
+- Tracks submission counts per time window
+
+### Email System (SES)
+
+**Verified Identity**: matt@idevelop.tech, idevelop.tech domain
+**Authentication**:
+- DKIM: 3 CNAME records for email signing
+- SPF: TXT record allowing Google Workspace + AWS SES
+- DMARC: Monitor mode with reports
+
+**Email Flow**:
+- Single thread with sender and admin BCC
+- HTML templates with variable substitution
+- Templates bundled via SST `copyFiles` configuration
+
+---
+
+## Infrastructure Architecture
+
+### SST Configuration
+
+**Location**: `sst.config.ts` (root)
+
+**Resources Defined**:
+1. **Frontend**: S3 bucket + CloudFront distribution
+2. **API**: HTTP API Gateway + Lambda function
+3. **Database**: DynamoDB table with TTL
+4. **Storage**: SSM parameters for secrets
+5. **Email**: SES identity verification
+
+**Stages**:
+- `dev` - Development environment (dev.idevelop.tech)
+- `production` - Production environment (CloudFront URL, custom domain pending)
+
+### Deployment Architecture
+
+**Frontend Deployment**:
+```
+Build (Vite) → S3 Bucket → CloudFront (CDN) → Users
+```
+
+**API Deployment**:
+```
+TypeScript → SST Bundle → Lambda Function → API Gateway → Users
+```
+
+**Secrets Flow**:
+```
+SSM Parameter Store (encrypted) → Lambda Environment Variables → Runtime
+```
+
+### CI/CD Pipeline
+
+**GitHub Actions Workflows**:
+
+1. **PR Checks** (`.github/workflows/pr-checks.yml`):
+   - Type checking
+   - ESLint
+   - Build verification
+   - Triggers: PRs to develop/main
+
+2. **Deploy Dev** (`.github/workflows/deploy-dev.yml`):
+   - Deploys to dev stage
+   - Trigger: Push to develop branch
+   - URL: https://dev.idevelop.tech
+
+3. **Deploy Production** (`.github/workflows/deploy-production.yml`):
+   - Deploys to production stage
+   - Trigger: Push to main branch
+   - URL: https://dxeay6n8brs8g.cloudfront.net (CloudFront)
+
+4. **CodeQL Security Scan** (`.github/workflows/codeql.yml`):
+   - Weekly scans + PR scans
+   - Security + quality analysis
+   - 200+ rules (security-and-quality pack)
+
+**Authentication**: AWS OIDC (no long-lived credentials in GitHub)
+
+### Branch Strategy
+
+```
+feature/* → PR → develop → deploy to dev
+                    ↓
+                 (test)
+                    ↓
+            PR → main → deploy to production
+```
+
+**Branch Protection**:
+- PRs required for main and develop
+- CI checks must pass
+- Code review recommended
+
+---
+
+## Frontend Architecture
 
 ## Component Architecture
 
