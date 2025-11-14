@@ -43,7 +43,7 @@ When creating temporary planning or task-tracking documents:
 ❌ **WRONG**: Any checklist or todo-style doc in `/docs`
 
 ✅ **CORRECT**: `/planning/task-list.md`
-✅ **CORRECT**: Use `/docs/PROJECT-PLAN.md` for ongoing project todos
+✅ **CORRECT**: Use `TODO.md` for ongoing project todos
 ✅ **CORRECT**: Delete planning docs after extracting valuable content
 
 **Why this matters**:
@@ -115,7 +115,7 @@ When creating temporary planning or task-tracking documents:
 | Quick reference & commands      | `README.md` ⭐            |
 | Initial project setup (forking) | `docs/SETUP.md`           |
 | Branch strategy & CI/CD         | `docs/BRANCH-STRATEGY.md` |
-| Project phases & implementation | `docs/PROJECT-PLAN.md`    |
+| Active tasks and pending work   | `TODO.md`                 |
 | Infrastructure architecture     | `docs/ARCHITECTURE.md`    |
 
 ---
@@ -292,7 +292,7 @@ feature/* → PR → develop → PR → main
 **References**:
 
 - `docs/BRANCH-STRATEGY.md` - Complete branch strategy documentation
-- `docs/PROJECT-PLAN.md` - Phase-by-phase implementation plan
+- `TODO.md` - Active tasks and pending work
 
 ---
 
@@ -915,7 +915,7 @@ idevelop.tech/
 │
 ├── docs/                    # Centralized documentation
 │   ├── ARCHITECTURE.md      # Full-stack architecture
-│   ├── PROJECT-PLAN.md      # Project roadmap & status
+│   ├── (documentation files)
 │   ├── SETUP.md             # One-time manual setup
 │   ├── BRANCH-STRATEGY.md   # Git workflow & CI/CD
 │   ├── CODE-SCANNING-STRATEGY.md
@@ -926,6 +926,7 @@ idevelop.tech/
 ├── package.json             # Root workspace config
 ├── tsconfig.json            # Root TypeScript config
 ├── README.md                # Main entry point
+├── TODO.md                  # Active tasks and pending work
 └── CLAUDE.md                # This file
 ```
 

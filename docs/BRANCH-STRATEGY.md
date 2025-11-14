@@ -244,5 +244,5 @@ When repository becomes public:
 
 - **AWS Setup:** `docs/AWS-SETUP.md`
 - **Deployment Guide:** `docs/PHASE-5-SETUP-INSTRUCTIONS.md`
-- **Project Plan:** `docs/PROJECT-PLAN.md`
+- **Project Todos:** `TODO.md`
 - **Coding Standards:** `CLAUDE.md`

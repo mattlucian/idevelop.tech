@@ -95,7 +95,7 @@ AWS_PROFILE=idevelop-tech npx sst deploy --stage production
 ## Documentation
 
 ### Project Management
-- **[docs/PROJECT-PLAN.md](docs/PROJECT-PLAN.md)** - Project roadmap and current status
+- **[TODO.md](TODO.md)** - Active tasks and pending work
 - **[docs/BRANCH-STRATEGY.md](docs/BRANCH-STRATEGY.md)** - Git workflow and CI/CD
 
 ### Architecture
