@@ -566,10 +566,52 @@ feature/* → PR → develop → PR → main
 - ✅ Implement error handling and validation
 - ✅ Use AWS SDK v3 (modular imports)
 
+**Including non-code assets (HTML templates, etc.):**
+
+SST v3 requires specific configuration to include non-JS/TS files in Lambda packages:
+
+- ✅ **Use `copyFiles` in sst.config.ts** - NOT esbuild loaders
+- ✅ **List files individually** - Glob patterns (`*.html`) are NOT supported
+- ✅ **Read from `process.cwd()`** - Copied files are in Lambda root directory
+
+**Example configuration:**
+```typescript
+// sst.config.ts
+const handler = new sst.aws.Function("Handler", {
+  handler: "packages/functions/src/myfunction.handler",
+  copyFiles: [
+    {
+      from: "packages/functions/src/templates/template1.html",
+      to: "templates/template1.html",
+    },
+    {
+      from: "packages/functions/src/templates/template2.html",
+      to: "templates/template2.html",
+    },
+  ],
+});
+
+// myfunction.ts
+import { readFileSync } from "fs";
+import { join } from "path";
+
+const template = readFileSync(
+  join(process.cwd(), "templates", "template1.html"),
+  "utf-8"
+);
+```
+
+**What NOT to do:**
+- ❌ `bundle: { loader: { ".html": "text" } }` - Bundle expects string, not object
+- ❌ `nodejs.esbuild: { loader: { ".html": "text" } }` - Loader not supported here
+- ❌ `copyFiles: [{ from: "path/*.html" }]` - Glob patterns don't work
+
 **References**:
 
 - `packages/core/src/types.ts` - Shared request/response types
 - `packages/functions/src/contact.ts` - Contact form implementation example
+- `packages/functions/src/email-templates/` - HTML email template examples
+- `docs/SESSION-2025-11-13-LAMBDA-LIGHTHOUSE.md` - Lambda template bundling journey
 
 ---
 
