@@ -39,9 +39,12 @@ This project follows security best practices:
 - ✅ **No hardcoded secrets** - All sensitive data stored in AWS SSM or GitHub Secrets
 - ✅ **AWS OIDC authentication** - No long-lived credentials in CI/CD
 - ✅ **Environment variable separation** - Dev/production configs isolated
-- ✅ **Dependency scanning** - Automated via Dependabot
+- ✅ **Dependency scanning** - Automated via Dependabot (monthly updates)
+- ✅ **Code scanning** - CodeQL security analysis (weekly + on PRs)
 - ✅ **TypeScript** - Type safety reduces certain vulnerability classes
 - ✅ **CSP headers** - Content Security Policy for XSS protection (when deployed)
+- ✅ **API security** - reCAPTCHA verification, rate limiting, input validation
+- ✅ **Least-privilege IAM** - Scoped permissions for all AWS resources
 
 ## Known Public Information
 
