@@ -43,6 +43,7 @@ cdk.out
 !tailwind.config.js
 !postcss.config.js
 !vite.config.js
+!sst-env.d.ts
 
 # Testing
 coverage
