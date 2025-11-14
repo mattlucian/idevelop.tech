@@ -7,6 +7,12 @@ import { readFileSync } from "fs";
 import { join } from "path";
 
 /**
+ * Logo URL for email templates
+ * Uses production CDN URL for reliable email delivery
+ */
+const LOGO_URL = process.env.LOGO_URL || "https://dxeay6n8brs8g.cloudfront.net/images/brand/logo-black.png";
+
+/**
  * Color scheme matching site design
  */
 export const EMAIL_COLORS = {
@@ -69,9 +75,9 @@ export function loadAndRenderTemplate(
 }
 
 /**
- * Admin notification template variables
+ * Contact confirmation template variables
  */
-export interface AdminNotificationVariables {
+export interface ContactConfirmationVariables {
   name: string;
   email: string;
   service: string;
@@ -93,12 +99,13 @@ export interface SenderConfirmationVariables {
 }
 
 /**
- * Render admin notification email
+ * Render contact confirmation email (sent to both user and admin)
  */
-export function renderAdminNotification(
-  variables: AdminNotificationVariables,
+export function renderContactConfirmation(
+  variables: ContactConfirmationVariables,
 ): string {
-  return loadAndRenderTemplate("admin-notification", {
+  return loadAndRenderTemplate("contact-confirmation", {
+    logoUrl: LOGO_URL,
     name: variables.name,
     email: variables.email,
     service: variables.service,
@@ -117,6 +124,7 @@ export function renderSenderConfirmation(
   variables: SenderConfirmationVariables,
 ): string {
   return loadAndRenderTemplate("sender-confirmation", {
+    logoUrl: LOGO_URL,
     name: variables.name,
     service: variables.service,
     message: variables.message || "(no message provided)",
