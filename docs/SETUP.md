@@ -41,6 +41,94 @@ aws iam create-open-id-connect-provider \
 
 ---
 
+## GitHub Repository Configuration
+
+### Branch Protection Rules
+
+Configure branch protection to enforce PR workflow and prevent accidental direct pushes.
+
+**For `main` branch:**
+```bash
+gh api repos/OWNER/REPO/branches/main/protection -X PUT --input - << 'EOF'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["PR Checks", "CodeQL"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": false,
+    "required_approving_review_count": 0
+  },
+  "restrictions": null,
+  "required_linear_history": false,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+EOF
+```
+
+**For `develop` branch:**
+```bash
+gh api repos/OWNER/REPO/branches/develop/protection -X PUT --input - << 'EOF'
+{
+  "required_status_checks": {
+    "strict": true,
+    "contexts": ["PR Checks"]
+  },
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "dismiss_stale_reviews": true,
+    "require_code_owner_reviews": false,
+    "required_approving_review_count": 0
+  },
+  "restrictions": null,
+  "required_linear_history": false,
+  "allow_force_pushes": false,
+  "allow_deletions": false
+}
+EOF
+```
+
+**What this does:**
+- Requires pull requests before merging (no direct pushes)
+- Requires status checks to pass (PR Checks, CodeQL for main)
+- Enforces rules for admins (no bypass allowed)
+- Prevents force pushes and branch deletion
+- Dismisses stale reviews when new commits are pushed
+
+### Automatic Branch Deletion
+
+Enable automatic deletion of feature branches after PR merge:
+
+```bash
+gh api repos/OWNER/REPO -X PATCH --input - << 'EOF'
+{
+  "delete_branch_on_merge": true
+}
+EOF
+```
+
+**Benefits:**
+- Keeps repository clean with only active branches
+- Automatically removes merged feature branches
+- Enforces completion of work before starting new features
+- Typical state: Only `main`, `develop`, and 1-2 active feature branches
+
+**Cleanup local branches:**
+```bash
+# Prune stale remote references
+git fetch --prune
+
+# Delete local branches that no longer exist on remote
+git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
+```
+
+**Reference**: See `docs/BRANCH-STRATEGY.md` for complete branch workflow
+
+---
+
 ## Email Configuration (Production)
 
 Configure DNS records for email deliverability.

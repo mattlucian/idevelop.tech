@@ -240,6 +240,11 @@ feature/* → PR → develop → PR → main
 - `docs/*` - Documentation
 - `hotfix/*` - Production fixes (branch from main)
 
+**Branch lifecycle:**
+- ✅ **Auto-deletion enabled**: Feature branches are automatically deleted after PR merge
+- Keep repository clean: Only `main`, `develop`, and 1-2 active feature branches
+- Local cleanup: `git fetch --prune` to remove stale remote references
+
 **Why this is critical:**
 Direct pushes skip PR checks (CodeQL, DeepSource, build validation), code review, and CI/CD gates.
 
