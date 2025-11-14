@@ -1,10 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { computed } from "vue";
+import { useColorScheme, type ColorScheme } from "@/composables/useColorScheme";
 
-type ColorScheme = "cyan" | "emerald" | "purple";
-
-interface SelectableItemProps {
+interface Props {
   title: string;
   subtitle?: string;
   number?: number;
@@ -12,52 +11,56 @@ interface SelectableItemProps {
   isSelected?: boolean;
 }
 
-const props = withDefaults(defineProps<SelectableItemProps>(), {
+const props = withDefaults(defineProps<Props>(), {
   subtitle: undefined,
   number: undefined,
   colorScheme: "cyan",
   isSelected: false,
 });
 
-// Color theme mappings
-const colorClasses = computed(() => {
-  const schemes = {
+const colors = useColorScheme(props.colorScheme);
+
+// Extended color mappings for selected state
+const selectedColors = computed(() => {
+  const selectedMaps = {
     cyan: {
-      selectedBg: "bg-gradient-to-r from-cyan-500/20 to-purple-500/20",
-      selectedBorder: "border-cyan-500/50",
-      selectedText: "text-cyan-400",
-      selectedSubtext: "text-cyan-300",
-      selectedNumber: "text-cyan-400 border-cyan-500",
-      hoverBorder: "hover:border-gray-600",
-      defaultText: "text-white",
-      defaultSubtext: "text-gray-400",
-      defaultNumber: "text-gray-400 border-gray-600",
+      bg: "bg-linear-to-r from-cyan-500/20 to-purple-500/20",
+      border: "border-cyan-500/50",
+      text: colors.text,
+      subtext: "text-cyan-300",
+      number: `${colors.text} border-cyan-500`,
     },
     emerald: {
-      selectedBg: "bg-[#1a1a1a]",
-      selectedBorder: "border-emerald-700",
-      selectedText: "text-emerald-400",
-      selectedSubtext: "text-emerald-300",
-      selectedNumber: "text-emerald-400 border-emerald-500",
-      hoverBorder: "hover:border-gray-600",
-      defaultText: "text-white",
-      defaultSubtext: "text-gray-400",
-      defaultNumber: "text-gray-400 border-gray-600",
+      bg: "bg-[#1a1a1a]",
+      border: "border-emerald-700",
+      text: colors.text,
+      subtext: "text-emerald-300",
+      number: `${colors.text} border-emerald-500`,
     },
     purple: {
-      selectedBg: "bg-gradient-to-r from-purple-500/20 to-pink-500/20",
-      selectedBorder: "border-purple-500/50",
-      selectedText: "text-purple-400",
-      selectedSubtext: "text-purple-300",
-      selectedNumber: "text-purple-400 border-purple-500",
-      hoverBorder: "hover:border-gray-600",
-      defaultText: "text-white",
-      defaultSubtext: "text-gray-400",
-      defaultNumber: "text-gray-400 border-gray-600",
+      bg: "bg-linear-to-r from-purple-500/20 to-pink-500/20",
+      border: "border-purple-500/50",
+      text: colors.text,
+      subtext: "text-purple-300",
+      number: `${colors.text} border-purple-500`,
+    },
+    orange: {
+      bg: "bg-linear-to-r from-orange-500/20 to-red-500/20",
+      border: "border-orange-500/50",
+      text: colors.text,
+      subtext: "text-orange-300",
+      number: `${colors.text} border-orange-500`,
+    },
+    teal: {
+      bg: "bg-linear-to-r from-teal-500/20 to-cyan-500/20",
+      border: "border-teal-500/50",
+      text: colors.text,
+      subtext: "text-teal-300",
+      number: `${colors.text} border-teal-500`,
     },
   };
 
-  return schemes[props.colorScheme];
+  return selectedMaps[props.colorScheme];
 });
 
 const containerClasses = computed(() => {
@@ -65,10 +68,10 @@ const containerClasses = computed(() => {
   const padding = props.number !== undefined ? "p-4" : "px-4 py-3";
 
   if (props.isSelected) {
-    return `${base} ${padding} ${colorClasses.value.selectedBg} ${colorClasses.value.selectedBorder} shadow-sm`;
+    return `${base} ${padding} ${selectedColors.value.bg} ${selectedColors.value.border} shadow-sm`;
   }
 
-  return `${base} ${padding} bg-[#0f0f0f] border-[#333333] ${colorClasses.value.hoverBorder}`;
+  return `${base} ${padding} bg-[#0f0f0f] border-[#333333] hover:border-gray-600`;
 });
 
 const titleClasses = computed(() => {
@@ -76,31 +79,31 @@ const titleClasses = computed(() => {
   const size = props.number !== undefined ? "text-base" : "text-sm";
 
   if (props.isSelected) {
-    return `${base} ${size} ${colorClasses.value.selectedText}`;
+    return `${base} ${size} ${selectedColors.value.text}`;
   }
 
-  return `${base} ${size} ${colorClasses.value.defaultText}`;
+  return `${base} ${size} text-white`;
 });
 
 const subtitleClasses = computed(() => {
   const base = props.number !== undefined ? "text-sm mt-1" : "text-xs mt-0.5";
 
   if (props.isSelected) {
-    return `${base} ${colorClasses.value.selectedSubtext}`;
+    return `${base} ${selectedColors.value.subtext}`;
   }
 
-  return `${base} ${colorClasses.value.defaultSubtext}`;
+  return `${base} text-gray-400`;
 });
 
 const numberClasses = computed(() => {
   const base =
-    "flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-bold flex-shrink-0 transition-all";
+    "flex items-center justify-center w-8 h-8 rounded-full border-2 text-sm font-bold shrink-0 transition-all";
 
   if (props.isSelected) {
-    return `${base} ${colorClasses.value.selectedNumber}`;
+    return `${base} ${selectedColors.value.number}`;
   }
 
-  return `${base} ${colorClasses.value.defaultNumber}`;
+  return `${base} text-gray-400 border-gray-600`;
 });
 </script>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useColorScheme, type ColorScheme } from "@/composables/useColorScheme";
 import SimpleCheckItem from "../elements/SimpleCheckItem.vue";
 import NumberedStep from "../elements/NumberedStep.vue";
 
@@ -6,31 +8,45 @@ interface Props {
   leftColumn: {
     title: string;
     items: string[];
-    color?: "cyan" | "emerald" | "purple";
+    color?: ColorScheme;
     type: "check" | "number";
   };
   rightColumn: {
     title: string;
     items: string[];
-    color?: "cyan" | "emerald" | "purple";
+    color?: ColorScheme;
     type: "check" | "number";
   };
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   leftColumn: () => ({
     title: "",
     items: [],
-    color: "cyan",
-    type: "check",
+    color: "cyan" as ColorScheme,
+    type: "check" as const,
   }),
   rightColumn: () => ({
     title: "",
     items: [],
-    color: "purple",
-    type: "number",
+    color: "purple" as ColorScheme,
+    type: "number" as const,
   }),
 });
+
+const leftColors = useColorScheme(props.leftColumn.color || "cyan");
+const rightColors = useColorScheme(props.rightColumn.color || "purple");
+
+const leftTitleClass = computed(() => leftColors.text);
+const rightTitleClass = computed(() => rightColors.text);
+
+// Cast colors to NumberedStep-compatible type
+const leftColor = computed(
+  () => (props.leftColumn.color || "cyan") as "cyan" | "emerald" | "purple",
+);
+const rightColor = computed(
+  () => (props.rightColumn.color || "purple") as "cyan" | "emerald" | "purple",
+);
 </script>
 
 <template>
@@ -42,11 +58,7 @@ withDefaults(defineProps<Props>(), {
           <h2
             :class="[
               'text-sm font-semibold uppercase tracking-wider mb-4',
-              leftColumn.color === 'cyan'
-                ? 'text-cyan-400'
-                : leftColumn.color === 'emerald'
-                  ? 'text-emerald-400'
-                  : 'text-purple-400',
+              leftTitleClass,
             ]"
           >
             {{ leftColumn.title }}
@@ -66,7 +78,7 @@ withDefaults(defineProps<Props>(), {
                 v-for="(item, index) in leftColumn.items"
                 :key="`number-${index}`"
                 :number="index + 1"
-                :color="leftColumn.color"
+                :color="leftColor"
               >
                 {{ item }}
               </NumberedStep>
@@ -79,11 +91,7 @@ withDefaults(defineProps<Props>(), {
           <h2
             :class="[
               'text-sm font-semibold uppercase tracking-wider mb-4',
-              rightColumn.color === 'cyan'
-                ? 'text-cyan-400'
-                : rightColumn.color === 'emerald'
-                  ? 'text-emerald-400'
-                  : 'text-purple-400',
+              rightTitleClass,
             ]"
           >
             {{ rightColumn.title }}
@@ -103,7 +111,7 @@ withDefaults(defineProps<Props>(), {
                 v-for="(item, index) in rightColumn.items"
                 :key="`number-${index}`"
                 :number="index + 1"
-                :color="rightColumn.color"
+                :color="rightColor"
               >
                 {{ item }}
               </NumberedStep>

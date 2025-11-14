@@ -18,17 +18,6 @@ const isTechPage = computed(
 );
 const isHireMePage = computed(() => route.name === "hire-me");
 
-const handleBackNavigation = () => {
-  if (isHireMePage.value) {
-    router.push("/");
-  } else if (isTechPage.value) {
-    router.push("/hire-me");
-  } else {
-    router.back();
-  }
-  isMobileMenuOpen.value = false;
-};
-
 const handleKeepBrowsing = () => {
   router.go(-2); // Go back twice to make /tech feel like a modal
   isMobileMenuOpen.value = false;

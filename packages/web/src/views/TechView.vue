@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-import { useMeta } from "../composables/useMeta";
+import { usePageMeta } from "@/composables/usePageMeta";
 import PanelSidebar from "../components/ui/PanelSidebar.vue";
 import PanelContent from "../components/ui/PanelContent.vue";
 import SelectableItem from "../components/ui/SelectableItem.vue";
@@ -11,22 +11,21 @@ import { techContent } from "../data/tech";
 import { SITE } from "@/constants";
 
 // Set meta tags for Tech Experience page
-useMeta({
+usePageMeta({
   title:
     "Technical Expertise | I Develop Tech - Small Business Technology Solutions",
+  slug: "tech",
   description:
     "Expert technical capabilities for small businesses: software development, cloud infrastructure, DevOps automation, system integrations, and technical leadership. 10+ years delivering scalable, cost-effective solutions.",
-  ogTitle: "Technical Expertise | I Develop Tech",
   ogDescription:
     "Comprehensive technical expertise helping small businesses build scalable systems, automate operations, and grow efficiently. Software engineering, cloud architecture, integrations, and more.",
-  ogUrl: `${SITE.url}/tech`,
   ogImage: SITE.ogImage,
-  twitterCard: "summary_large_image",
 });
 
 const router = useRouter();
 
 const domainData = ref<TechContent | null>(null);
+const loadError = ref(false);
 const selectedCategoryIndex = ref(-1);
 const selectedTopicIndex = ref(-1);
 const contentPanelRef = ref<InstanceType<typeof PanelContent> | null>(null);
@@ -40,9 +39,14 @@ const selectedTopic = computed<Expertise | undefined>(
 );
 
 // Load tech experience data
-const loadTechData = async () => {
+const loadTechData = () => {
   try {
     domainData.value = techContent;
+
+    // Validate data structure
+    if (!domainData.value || !domainData.value.categories?.length) {
+      throw new Error("Tech content data is invalid or empty");
+    }
 
     // Auto-select first topic on desktop/tablet (1024px+)
     if (window.innerWidth >= 1024) {
@@ -53,7 +57,10 @@ const loadTechData = async () => {
       selectedTopicIndex.value = -1;
     }
   } catch (error) {
-    console.error("Error loading tech data:", error);
+    loadError.value = true;
+    if (import.meta.env.DEV) {
+      console.error("Failed to load tech data:", error);
+    }
   }
 };
 
@@ -88,6 +95,10 @@ const handlePanelClose = () => {
   }
 };
 
+const refreshPage = () => {
+  window.location.reload();
+};
+
 // Load data when component mounts
 onMounted(() => {
   loadTechData();
@@ -103,7 +114,26 @@ onUnmounted(() => {
 
 <template>
   <div class="fixed inset-0 top-16 bg-[#0a0a0a] text-white overflow-hidden">
-    <div v-if="domainData" class="w-full h-full">
+    <!-- Error State -->
+    <div v-if="loadError" class="flex items-center justify-center h-full px-6">
+      <div class="text-center max-w-md">
+        <h2 class="text-2xl font-bold text-red-400 mb-4">
+          Unable to Load Technical Expertise
+        </h2>
+        <p class="text-slate-400 mb-6">
+          We encountered an error loading the technical expertise data. Please
+          refresh the page to try again.
+        </p>
+        <button
+          class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors"
+          @click="refreshPage"
+        >
+          Refresh Page
+        </button>
+      </div>
+    </div>
+
+    <div v-else-if="domainData" class="w-full h-full">
       <!-- Background overlay - clickable to close -->
       <div
         class="absolute inset-0 bg-[#0a0a0a]/95 z-50 cursor-pointer"

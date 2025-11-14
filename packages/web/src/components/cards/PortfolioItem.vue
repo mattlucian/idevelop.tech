@@ -38,7 +38,7 @@ const colorClasses = {
     target="_blank"
     rel="noopener noreferrer"
     :class="[
-      'block bg-gradient-to-br from-slate-800/40 to-slate-900/40 rounded-lg border overflow-hidden hover:shadow-lg transition-all group',
+      'block bg-linear-to-br from-slate-800/40 to-slate-900/40 rounded-lg border overflow-hidden hover:shadow-lg transition-all group',
       colorClasses[colorScheme].border,
       colorClasses[colorScheme].shadow,
     ]"
@@ -46,7 +46,7 @@ const colorClasses = {
     <div class="flex items-center gap-4 p-4">
       <div
         :class="[
-          'w-16 h-16 bg-white rounded-lg flex items-center justify-center flex-shrink-0 shadow-md transition-shadow',
+          'w-16 h-16 bg-white rounded-lg flex items-center justify-center shrink-0 shadow-md transition-shadow',
           colorClasses[colorScheme].shadow,
         ]"
       >
@@ -78,7 +78,7 @@ const colorClasses = {
           </h4>
           <svg
             :class="[
-              'w-4 h-4 text-gray-500 transition-colors flex-shrink-0',
+              'w-4 h-4 text-gray-500 transition-colors shrink-0',
               colorClasses[colorScheme].iconHover,
             ]"
             fill="none"

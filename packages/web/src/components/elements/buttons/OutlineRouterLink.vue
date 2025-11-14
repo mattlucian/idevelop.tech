@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface OutlineRouterLinkProps {
+interface Props {
   /** Target route path or external URL */
   to: string;
   /** Color scheme variant */
@@ -10,7 +10,7 @@ interface OutlineRouterLinkProps {
   external?: boolean;
 }
 
-withDefaults(defineProps<OutlineRouterLinkProps>(), {
+withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
   fullWidth: false,
   external: false,

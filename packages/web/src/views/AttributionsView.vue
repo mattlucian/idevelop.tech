@@ -1,50 +1,3 @@
-<template>
-  <div class="min-h-screen bg-[#0a0a0a] text-white pt-16">
-    <div class="w-full max-w-[1200px] mx-auto px-6 py-12">
-      <!-- Header -->
-      <div class="mb-12">
-        <h1
-          class="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"
-        >
-          Image Attributions
-        </h1>
-        <p class="text-lg text-gray-400 max-w-3xl">
-          We use beautiful images from talented photographers on Unsplash. All
-          images are used under the
-          <a
-            href="https://unsplash.com/license"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-teal-400 hover:text-teal-300 underline"
-          >
-            Unsplash License </a
-          >.
-        </p>
-      </div>
-
-      <!-- Services Section -->
-      <section class="mb-12">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-teal-400">
-          Service Images
-        </h2>
-        <div class="grid gap-6 sm:grid-cols-2">
-          <AttributionCard
-            v-for="(attribution, index) in attributions"
-            :key="index"
-            :title="attribution.title"
-            :image-url="attribution.imageUrl"
-            :image-alt="attribution.imageAlt"
-            :description="attribution.description"
-            :photographer="attribution.photographer"
-            :photographer-url="attribution.photographerUrl"
-            :photo-url="attribution.photoUrl"
-          />
-        </div>
-      </section>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useMeta } from "../composables/useMeta";
 import AttributionCard from "../components/cards/AttributionCard.vue";
@@ -138,3 +91,50 @@ const attributions: Attribution[] = [
   },
 ];
 </script>
+
+<template>
+  <div class="min-h-screen bg-[#0a0a0a] text-white pt-16">
+    <div class="w-full max-w-[1200px] mx-auto px-6 py-12">
+      <!-- Header -->
+      <div class="mb-12">
+        <h1
+          class="text-4xl sm:text-5xl font-bold mb-4 bg-linear-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"
+        >
+          Image Attributions
+        </h1>
+        <p class="text-lg text-gray-400 max-w-3xl">
+          We use beautiful images from talented photographers on Unsplash. All
+          images are used under the
+          <a
+            href="https://unsplash.com/license"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-teal-400 hover:text-teal-300 underline"
+          >
+            Unsplash License </a
+          >.
+        </p>
+      </div>
+
+      <!-- Services Section -->
+      <section class="mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-6 text-teal-400">
+          Service Images
+        </h2>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <AttributionCard
+            v-for="(attribution, index) in attributions"
+            :key="index"
+            :title="attribution.title"
+            :image-url="attribution.imageUrl"
+            :image-alt="attribution.imageAlt"
+            :description="attribution.description"
+            :photographer="attribution.photographer"
+            :photographer-url="attribution.photographerUrl"
+            :photo-url="attribution.photoUrl"
+          />
+        </div>
+      </section>
+    </div>
+  </div>
+</template>

@@ -91,4 +91,25 @@ const router = createRouter({
   ],
 });
 
+// Handle router errors (e.g., chunk loading failures)
+router.onError((error) => {
+  if (import.meta.env.DEV) {
+    console.error("Router error:", error);
+  }
+
+  // Handle chunk loading errors (network failures during lazy loading)
+  if (
+    error.message.includes("Failed to fetch dynamically imported module") ||
+    error.message.includes("Importing a module script failed")
+  ) {
+    // Suggest page refresh or navigate to error page
+    if (import.meta.env.DEV) {
+      console.warn(
+        "Chunk loading failed - suggest user refresh or check network connection",
+      );
+    }
+    // In production, could show a toast/modal suggesting page refresh
+  }
+});
+
 export default router;

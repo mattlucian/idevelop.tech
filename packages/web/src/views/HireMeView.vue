@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
-import { useMeta } from "../composables/useMeta";
+import { usePageMeta } from "@/composables/usePageMeta";
 import GradientText from "../components/elements/GradientText.vue";
 import CTAForm from "../components/ui/CTAForm.vue";
 import PrimaryButton from "../components/elements/buttons/PrimaryButton.vue";
 import OutlineRouterLink from "../components/elements/buttons/OutlineRouterLink.vue";
 import SimpleTestimonial from "../components/cards/SimpleTestimonial.vue";
-import CheckItem from "../components/elements/CheckItem.vue";
+import SimpleCheckItem from "../components/elements/SimpleCheckItem.vue";
 import Badge from "../components/elements/badges/Badge.vue";
 import Timeline from "../components/display/Timeline.vue";
 import OutlineIcon from "../components/elements/OutlineIcon.vue";
@@ -47,25 +46,18 @@ const workExperience = [
 ];
 
 // Set meta tags for Hire Me page
-useMeta({
+usePageMeta({
   title: "Hire Me - Matt Myers | Technical Consulting",
+  slug: "hire-me",
   description:
     "CTO, full-stack engineer, and technology leader available for technical consulting. 10+ years experience in cloud architecture, software engineering, and team leadership.",
-  ogTitle: "Hire Me - Matt Myers | Technical Consulting",
   ogDescription:
     "Schedule a consultation with an experienced CTO and full-stack engineer. Expert in cloud infrastructure, DevOps, and technical leadership.",
-  ogUrl: `${SITE.url}/hire-me`,
   ogImage: SITE.ogImage,
 });
 
-const router = useRouter();
-
 const openSchedulingLink = () => {
   window.open(SCHEDULING_LINK, "_blank", "noopener,noreferrer");
-};
-
-const goToService = (serviceId: string) => {
-  router.push(`/services/${serviceId}`);
 };
 </script>
 
@@ -117,7 +109,7 @@ const goToService = (serviceId: string) => {
             </div>
           </div>
         </div>
-        <div class="w-full md:w-[340px] lg:w-[400px] flex-shrink-0">
+        <div class="w-full md:w-[340px] lg:w-[400px] shrink-0">
           <div class="md:sticky md:top-24">
             <CTAForm show-service-selector variant="dark" />
           </div>
@@ -139,7 +131,7 @@ const goToService = (serviceId: string) => {
       <div class="grid md:grid-cols-2 gap-8">
         <!-- Project-Based -->
         <div
-          class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
+          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-4">
             <OutlineIcon :icon="ClipboardDocumentIcon" size="lg" />
@@ -149,13 +141,21 @@ const goToService = (serviceId: string) => {
             Focused engagements for specific goals and deliverables
           </p>
           <ul class="space-y-3 mb-8">
-            <CheckItem color="cyan"> Starting at 10+ hours </CheckItem>
-            <CheckItem color="cyan"> Fixed-fee pricing </CheckItem>
-            <CheckItem color="cyan">
+            <SimpleCheckItem variant="circle" color="cyan">
+              Starting at 10+ hours
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
+              Fixed-fee pricing
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Clear milestones and deliverables
-            </CheckItem>
-            <CheckItem color="cyan"> Regular progress updates </CheckItem>
-            <CheckItem color="cyan"> Documentation included </CheckItem>
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
+              Regular progress updates
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
+              Documentation included
+            </SimpleCheckItem>
           </ul>
           <div class="flex items-center gap-2">
             <Badge variant="cyan"> Perfect for one-time builds </Badge>
@@ -164,7 +164,7 @@ const goToService = (serviceId: string) => {
 
         <!-- Retainer Model -->
         <div
-          class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
+          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-4">
             <OutlineIcon :icon="ArrowPathIcon" size="lg" />
@@ -175,17 +175,21 @@ const goToService = (serviceId: string) => {
             Ongoing partnership for evolving technical needs
           </p>
           <ul class="space-y-3 mb-8">
-            <CheckItem color="cyan"> 6+ months, 10-30 hrs/month </CheckItem>
-            <CheckItem color="cyan">
+            <SimpleCheckItem variant="circle" color="cyan">
+              6+ months, 10-30 hrs/month
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Burst capacity when you need it
-            </CheckItem>
-            <CheckItem color="cyan"> Responsive communication </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
+              Responsive communication
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Strategic planning + hands-on work
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Fractional CTO services included
-            </CheckItem>
+            </SimpleCheckItem>
           </ul>
           <div class="flex items-center gap-2">
             <Badge variant="cyan"> Best for ongoing support </Badge>
@@ -211,7 +215,7 @@ const goToService = (serviceId: string) => {
       <div class="grid md:grid-cols-2 gap-8">
         <!-- Technical Achievements -->
         <div
-          class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-6">
             <OutlineIcon :icon="RocketLaunchIcon" size="lg" />
@@ -220,46 +224,48 @@ const goToService = (serviceId: string) => {
             </h3>
           </div>
           <ul class="space-y-3">
-            <CheckItem color="cyan">
+            <SimpleCheckItem variant="circle" color="cyan">
               Built systems handling billions of transactions
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Delivered 50% infrastructure cost reduction
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Designed cloud-native architectures (AWS)
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Full-stack expertise across several languages
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               100+ successful integrations delivered
-            </CheckItem>
+            </SimpleCheckItem>
           </ul>
         </div>
 
         <!-- Leadership Experience -->
         <div
-          class="bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
         >
           <div class="flex items-center gap-3 mb-6">
             <OutlineIcon :icon="UserGroupIcon" size="lg" />
             <h3 class="text-2xl font-bold text-white">Leadership Experience</h3>
           </div>
           <ul class="space-y-3">
-            <CheckItem color="cyan">
+            <SimpleCheckItem variant="circle" color="cyan">
               Scaled engineering teams 5→20 people
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Managed $1M+ annual technology budgets
-            </CheckItem>
-            <CheckItem color="cyan"> Led SOC2 compliance efforts </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
+              Led SOC2 compliance efforts
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Established engineering culture & processes
-            </CheckItem>
-            <CheckItem color="cyan">
+            </SimpleCheckItem>
+            <SimpleCheckItem variant="circle" color="cyan">
               Mentored 10+ junior to senior engineers
-            </CheckItem>
+            </SimpleCheckItem>
           </ul>
         </div>
       </div>
@@ -273,7 +279,7 @@ const goToService = (serviceId: string) => {
     <!-- Tech Skills Link Section -->
     <div class="max-w-5xl mx-auto px-6 py-8">
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
       >
         <div class="flex flex-col md:flex-row items-center gap-6">
           <!-- Text Content -->
@@ -287,7 +293,7 @@ const goToService = (serviceId: string) => {
           </div>
 
           <!-- CTA Button -->
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <OutlineRouterLink
               to="/tech"
               color-scheme="emerald"
@@ -333,7 +339,7 @@ const goToService = (serviceId: string) => {
 
     <!-- CTA: Schedule a Call -->
     <div
-      class="bg-gradient-to-br from-cyan-950/30 to-purple-950/20 border-y border-cyan-900/30"
+      class="bg-linear-to-br from-cyan-950/30 to-purple-950/20 border-y border-cyan-900/30"
     >
       <div class="max-w-5xl mx-auto px-6 py-20">
         <div class="text-center">
@@ -350,8 +356,8 @@ const goToService = (serviceId: string) => {
             <PrimaryButton
               :show-arrow="true"
               :full-width="false"
-              @click="openSchedulingLink"
               class="w-full sm:w-auto"
+              @click="openSchedulingLink"
             >
               <span class="flex items-center gap-2 whitespace-nowrap">
                 <OutlineIcon :icon="CalendarIcon" size="sm" color="white" />

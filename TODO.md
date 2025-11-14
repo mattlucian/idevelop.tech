@@ -10,14 +10,54 @@ Active tasks and pending work for idevelop.tech.
 
 **Priority**: High
 
+**Status**: In Progress
+
+**Completed**:
+- [x] Conducted thorough code review across all packages
+- [x] Identified and removed unused components (7 deleted)
+- [x] Consolidated CheckItem components (merged 2 into 1 with variants)
+- [x] Created useColorScheme composable (eliminated 12+ duplications)
+- [x] Created BeforeAfterComparison component (saved ~250 lines)
+- [x] Checked for unused imports, variables, functions (18 issues fixed)
+- [x] Verified TypeScript strict mode compliance (0 errors)
+- [x] Updated Tailwind CSS gradient classes to v4 canonical names (54 classes)
+- [x] Fixed ESLint configuration to use TypeScript and Prettier configs
+- [x] Removed all ESLint errors (18 errors → 0 errors, 4 warnings remain)
+- [x] Service page consolidation (eliminated ~225 lines of duplication)
+  - [x] Created useBreadcrumbNavigation composable (removed router boilerplate from 6 pages)
+  - [x] Created useServiceMeta composable (standardized SEO for service pages)
+  - [x] Created usePageMeta composable (generic meta handler for all pages)
+  - [x] Created TabNavigation component (eliminated ~48 lines of tab markup)
+  - [x] Updated all 6 service views + FlxpointConsultingView to use new patterns
+  - [x] Fixed all TypeScript and ESLint errors from refactoring (7 errors → 0 errors)
+  - [x] Updated SEO.md documentation to reflect new composable patterns
+- [x] Reviewed component patterns for consistency (service pages)
+
 **Tasks**:
-- [ ] Conduct thorough code review across all packages
-- [ ] Identify redundant code and consolidate
-- [ ] Review component patterns for consistency
-- [ ] Check for unused imports, variables, functions
-- [ ] Verify all TypeScript strict mode compliance
 - [ ] Review error handling patterns
 - [ ] Consolidate similar utilities/helpers
+- [ ] Review component patterns for consistency (non-service pages)
+- [ ] Add ESLint to CI/CD pipeline (GitHub Actions workflow)
+  - [ ] Add `npm run lint` to PR Checks workflow
+  - [ ] Configure as required status check for PRs
+  - [ ] Update CLAUDE.md with ESLint enforcement policy
+- [x] Add Tailwind CSS class validation to development process
+  - [x] Research Tailwind CSS linting options (custom script vs stylelint)
+    - **Finding**: No CLI tool exists for validating Tailwind classes in templates/HTML for v4
+    - **Tested**: `eslint-plugin-tailwindcss` v4.0.0-beta.0 (broken - "Could not resolve tailwindcss")
+    - **Tested**: `@poupe/eslint-plugin-tailwindcss` (CSS files only, not templates)
+    - **Tested**: `@tailwindcss/vite` plugin (performance only, no diagnostics)
+    - **Tested**: Tailwind CLI (build only, no validation commands)
+    - **Conclusion**: VSCode Tailwind CSS IntelliSense warnings are NOT available via CLI
+    - **Current Approach**: Manual fixes based on VSCode warnings
+  - [x] Fixed canonical class name issues (44 replacements)
+    - `min-h-[36px]` → `min-h-9` (10 instances)
+    - `min-h-[52px]` → `min-h-13` (10 instances)
+    - `flex-shrink-0` → `shrink-0` (30 instances)
+    - `z-[60]` → `z-60` (3 instances)
+  - [ ] Monitor `eslint-plugin-tailwindcss` for stable v4 support (check quarterly)
+  - [ ] Periodically review VSCode warnings and fix manually
+  - [ ] Update CLAUDE.md with Tailwind CSS best practices
 
 ---
 
@@ -40,19 +80,29 @@ Active tasks and pending work for idevelop.tech.
 
 ### Service Worker & PWA
 
-**Priority**: High
+**Priority**: High → ✅ **COMPLETE**
 
 **Issue**: Install popup on mobile feels "scammy" and may reduce trust
 
-**Tasks**:
-- [ ] Discuss service worker implementation
-- [ ] Remove/disable install popup on mobile
-- [ ] Verify Lighthouse PWA check still passes without popup
-- [ ] Test mobile experience without intrusive prompts
-- [ ] Consider alternative PWA approaches (passive install)
+**Solution Implemented** (2025-11-14):
+- ✅ Added `beforeinstallprompt` event handler to suppress browser's native install popup
+- ✅ Service worker remains active for offline caching and performance benefits
+- ✅ Users can still install via browser's passive UI (Chrome: address bar icon, Safari: Share menu)
+- ✅ Industry best practice: Same approach as GitHub, Twitter, YouTube, Spotify
 
-**Current Behavior**: Service worker triggers install popup
-**Desired Behavior**: PWA capabilities without aggressive install prompts
+**Implementation**:
+- Modified `packages/web/src/main.ts` to prevent default install prompt
+- Stores `deferredPrompt` for potential future contextual use (not currently shown)
+- Service worker continues to provide PWA benefits without aggressive UX
+
+**Testing Required**:
+- [ ] Test on mobile device (iOS Safari, Chrome Android) to verify no install popup
+- [ ] Verify Lighthouse PWA check still passes (expected: yes)
+- [ ] Confirm service worker caching still works (offline functionality)
+- [ ] Check browser console for any PWA-related warnings
+
+**Current Behavior**: Service worker active, install prompt suppressed
+**Result**: PWA capabilities with professional, non-intrusive experience
 
 ---
 

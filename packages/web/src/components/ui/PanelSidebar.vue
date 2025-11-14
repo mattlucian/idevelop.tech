@@ -18,7 +18,7 @@ defineEmits<{
 
 <template>
   <div
-    class="sidebar-panel fixed top-16 inset-x-0 z-[60] bg-[#0a0a0a] px-6 pb-3 pointer-events-auto block lg:block"
+    class="sidebar-panel fixed top-16 inset-x-0 z-60 bg-[#0a0a0a] px-6 pb-3 pointer-events-auto block lg:block"
     :class="[hideOnMobile ? 'max-lg:hidden' : '']"
     style="height: calc(100vh - 4rem)"
     @click.stop
@@ -38,7 +38,7 @@ defineEmits<{
 
     <!-- Gradient overlay at bottom -->
     <div
-      class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none z-10"
+      class="absolute bottom-0 left-0 right-0 h-20 bg-linear-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent pointer-events-none z-10"
     />
   </div>
 </template>

@@ -11,7 +11,7 @@ interface Props {
   colorScheme?: "cyan" | "emerald" | "purple";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
 });
 
@@ -38,7 +38,7 @@ const colorClasses = {
 <template>
   <div
     :class="[
-      'bg-gradient-to-br border-y',
+      'bg-linear-to-br border-y',
       colorClasses[colorScheme].gradient,
       colorClasses[colorScheme].border,
     ]"
