@@ -77,8 +77,12 @@ export default $config({
       },
       copyFiles: [
         {
-          from: "packages/functions/src/email-templates/*.html",
-          to: "email-templates/",
+          from: "packages/functions/src/email-templates/admin-notification.html",
+          to: "email-templates/admin-notification.html",
+        },
+        {
+          from: "packages/functions/src/email-templates/sender-confirmation.html",
+          to: "email-templates/sender-confirmation.html",
         },
       ],
     });
