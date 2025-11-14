@@ -81,6 +81,89 @@ Active tasks and pending work for idevelop.tech.
 
 ---
 
+### GitHub Repository Management
+
+**Priority**: High
+
+**Tasks**:
+
+#### Branch Cleanup
+- [ ] Review all existing branches
+- [ ] Delete merged/stale branches
+- [ ] Verify only main, develop, and 1-2 active feature branches remain
+
+#### Branch Protection Rules
+- [ ] Enable branch protection for `main`
+  - [ ] Require pull request before merging
+  - [ ] Require status checks: PR Checks, CodeQL
+  - [ ] Require approvals (if team expands)
+  - [ ] Do not allow bypassing
+- [ ] Enable branch protection for `develop`
+  - [ ] Require pull request before merging
+  - [ ] Require status checks: PR Checks
+  - [ ] Allow fast-forward merges
+
+#### Branch Management Strategy
+- [ ] Enable automatic branch deletion after merge (Settings → General)
+- [ ] Document branch lifecycle in BRANCH-STRATEGY.md
+  - Create feature branch → PR → Merge → Auto-delete
+  - Only 1-2 active feature branches at a time
+- [ ] Add branch naming conventions to CLAUDE.md (if not present)
+
+**Goal**: Keep repository clean with only main, develop, and 1-2 active branches
+
+---
+
+### Enhanced README
+
+**Priority**: High
+
+**Goal**: Professional, visual README that showcases project quality
+
+**Tasks**:
+
+#### Visual Diagrams
+- [ ] Create branch & CI/CD flow diagram
+  - Show: feature/* → PR → develop → test → PR → main → production
+  - Include: Auto-deployments, status checks, CodeQL scans
+  - Format: Mermaid diagram or embedded image
+- [ ] Create architecture diagram (optional)
+  - High-level: Frontend → API Gateway → Lambda → DynamoDB/SES
+  - Link to detailed ARCHITECTURE.md
+
+#### Badges & Status
+- [ ] Add all relevant badges at top
+  - [x] Deploy Production status (already present)
+  - [x] PR Checks status (already present)
+  - [x] DeepSource active issues (already present)
+  - [x] DeepSource resolved issues (already present)
+  - [x] License badge (already present)
+  - [ ] CodeQL status badge
+  - [ ] Lighthouse CI scores (if possible)
+  - [ ] Test coverage (if applicable)
+- [ ] Verify all badges link to correct dashboards
+
+#### Content Enhancement
+- [ ] Add "Why This Project?" section
+  - Showcase architectural decisions
+  - Highlight DevOps best practices
+  - Emphasize type safety, security, monitoring
+- [ ] Add "Key Features" section with visual callouts
+- [ ] Improve "Quick Start" with collapsible sections
+- [ ] Add "Contributing" section (even if solo project)
+- [ ] Include screenshots/GIFs of key features (optional)
+
+#### Professional Polish
+- [ ] Consistent formatting throughout
+- [ ] Clear hierarchy and navigation
+- [ ] Concise but comprehensive
+- [ ] Links to all relevant documentation
+- [ ] Code examples where helpful
+
+**Reference**: Review top open-source projects for README inspiration
+
+---
+
 ### Documentation Review
 
 **Priority**: Medium
