@@ -157,11 +157,15 @@ const handleSubmit = async () => {
       showError.value = true;
       errorMessage.value = getErrorMessage(response.error.code);
 
-      console.error("Form submission error:", response.error);
+      if (import.meta.env.DEV) {
+        console.error("Form submission error:", response.error);
+      }
     }
   } catch (error) {
     // Handle unexpected errors (reCAPTCHA load failure, network issues, etc.)
-    console.error("Form submission error:", error);
+    if (import.meta.env.DEV) {
+      console.error("Form submission error:", error);
+    }
     showError.value = true;
     errorMessage.value =
       "Unable to submit form. Please try again or email me directly.";

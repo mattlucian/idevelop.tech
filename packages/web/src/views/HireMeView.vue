@@ -350,8 +350,8 @@ const goToService = (serviceId: string) => {
             <PrimaryButton
               :show-arrow="true"
               :full-width="false"
-              @click="openSchedulingLink"
               class="w-full sm:w-auto"
+              @click="openSchedulingLink"
             >
               <span class="flex items-center gap-2 whitespace-nowrap">
                 <OutlineIcon :icon="CalendarIcon" size="sm" color="white" />

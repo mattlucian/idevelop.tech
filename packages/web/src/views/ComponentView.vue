@@ -9,10 +9,10 @@ import { CONTACT, SITE } from "@/constants";
 useMeta({
   title: "Component Showcase - Design System | I Develop Tech",
   description:
-    "Interactive design system showcase featuring 42 reusable Vue components. Explore buttons, cards, UI components, and layouts used across the I Develop Tech platform.",
+    "Interactive design system showcase featuring 36 reusable Vue components. Explore buttons, cards, UI components, and layouts used across the I Develop Tech platform.",
   ogTitle: "Component Showcase - Design System | I Develop Tech",
   ogDescription:
-    "Browse our component library: 42 reusable Vue components including buttons, badges, cards, and complex UI elements.",
+    "Browse our component library: 36 reusable Vue components including buttons, badges, cards, and complex UI elements.",
   ogUrl: `${SITE.url}/components`,
   ogImage: `${SITE.url}/og-image-components.jpg`,
 });
@@ -28,19 +28,14 @@ import OutlineButton from "../components/elements/buttons/OutlineButton.vue";
 import OutlineRouterLink from "../components/elements/buttons/OutlineRouterLink.vue";
 import IconButton from "../components/elements/buttons/IconButton.vue";
 import Badge from "../components/elements/badges/Badge.vue";
-import IconBadge from "../components/elements/badges/IconBadge.vue";
 import TypewriterText from "../components/elements/interactive/TypewriterText.vue";
 import GradientText from "../components/elements/GradientText.vue";
 import CheckItem from "../components/elements/CheckItem.vue";
-import ContactInfoItem from "../components/elements/ContactInfoItem.vue";
-import LoadingSpinner from "../components/elements/LoadingSpinner.vue";
-import SocialIcon from "../components/elements/SocialIcon.vue";
 import NumberedStep from "../components/elements/NumberedStep.vue";
 import SimpleCheckItem from "../components/elements/SimpleCheckItem.vue";
 
 // Cards
 import ServiceCard from "../components/cards/ServiceCard.vue";
-import InfoCard from "../components/cards/InfoCard.vue";
 import AttributionCard from "../components/cards/AttributionCard.vue";
 import PortfolioItem from "../components/cards/PortfolioItem.vue";
 import BenefitCard from "../components/cards/BenefitCard.vue";
@@ -58,7 +53,6 @@ import TabButton from "../components/ui/TabButton.vue";
 import TwoColumnListSection from "../components/ui/TwoColumnListSection.vue";
 import CTASection from "../components/ui/CTASection.vue";
 import CTAForm from "../components/ui/CTAForm.vue";
-import FloatingActionBar from "../components/ui/FloatingActionBar.vue";
 
 // Integration Components
 import SystemBox from "../components/integration/SystemBox.vue";
@@ -105,7 +99,7 @@ const categories: ComponentCategory[] = [
       {
         id: "badges",
         name: "Badges",
-        description: "Text badges and icon badges",
+        description: "Text badges with color variants",
       },
       {
         id: "gradient-text",
@@ -132,21 +126,6 @@ const categories: ComponentCategory[] = [
         name: "Numbered Step",
         description: "Numbered process step item",
       },
-      {
-        id: "contact-info",
-        name: "Contact Info Item",
-        description: "Contact information display",
-      },
-      {
-        id: "loading-spinner",
-        name: "Loading Spinner",
-        description: "Loading indicator",
-      },
-      {
-        id: "social-icon",
-        name: "Social Icon",
-        description: "Social media icons",
-      },
     ],
   },
   {
@@ -161,11 +140,6 @@ const categories: ComponentCategory[] = [
         id: "benefit-card",
         name: "Benefit Card",
         description: "Feature benefit display",
-      },
-      {
-        id: "info-card",
-        name: "Info Card",
-        description: "Information display card",
       },
       {
         id: "simple-testimonial",
@@ -236,11 +210,6 @@ const categories: ComponentCategory[] = [
         id: "cta-form",
         name: "CTA Form",
         description: "Contact form with service selector",
-      },
-      {
-        id: "floating-action-bar",
-        name: "Floating Action Bar",
-        description: "Sticky call-to-action button",
       },
     ],
   },
@@ -517,18 +486,6 @@ onUnmounted(() => {
                 <Badge variant="muted"> Muted </Badge>
               </div>
             </div>
-            <div>
-              <h3 class="text-xl font-bold mb-4 text-white">Icon Badges</h3>
-              <p class="text-sm text-gray-400 mb-4">
-                Badges with icon and text combinations
-              </p>
-              <div class="flex flex-wrap gap-2">
-                <IconBadge icon="⚡" />
-                <IconBadge icon="🚀" color-scheme="emerald" />
-                <IconBadge icon="🎨" color-scheme="purple" />
-                <IconBadge icon="📊" size="lg" />
-              </div>
-            </div>
           </div>
 
           <!-- Gradient Text -->
@@ -604,55 +561,6 @@ onUnmounted(() => {
             </ul>
           </div>
 
-          <!-- Contact Info Item -->
-          <div v-if="selectedComponentId === 'contact-info'">
-            <div class="space-y-3">
-              <ContactInfoItem icon="📧" label="Email">
-                <a
-                  :href="`mailto:${CONTACT.email}`"
-                  class="text-cyan-400 hover:text-cyan-300"
-                >
-                  {{ CONTACT.email }}
-                </a>
-              </ContactInfoItem>
-              <ContactInfoItem icon="📍" label="Location">
-                {{ CONTACT.location }}
-              </ContactInfoItem>
-              <ContactInfoItem icon="💼" label="Status" color="emerald">
-                Available for consulting
-              </ContactInfoItem>
-            </div>
-          </div>
-
-          <!-- Loading Spinner -->
-          <div v-if="selectedComponentId === 'loading-spinner'">
-            <div class="space-y-8">
-              <div class="flex gap-6 items-center">
-                <LoadingSpinner size="sm" />
-                <LoadingSpinner size="md" />
-                <LoadingSpinner size="lg" />
-              </div>
-              <div class="flex gap-6">
-                <LoadingSpinner message="Loading calendar..." />
-                <LoadingSpinner color="emerald" message="Processing..." />
-              </div>
-            </div>
-          </div>
-
-          <!-- Social Icon -->
-          <div v-if="selectedComponentId === 'social-icon'">
-            <div class="flex gap-4">
-              <SocialIcon
-                platform="linkedin"
-                url="https://www.linkedin.com/in/matt-lucian/"
-              />
-              <SocialIcon
-                platform="github"
-                url="https://github.com/mattlucian"
-              />
-            </div>
-          </div>
-
           <!-- Service Card -->
           <div v-if="selectedComponentId === 'service-card'">
             <ServiceCard v-bind="serviceCardExample" />
@@ -669,22 +577,6 @@ onUnmounted(() => {
                 title="Precise Solutions"
                 description="Targeted approaches designed specifically for your unique business needs."
               />
-            </div>
-          </div>
-
-          <!-- Info Card -->
-          <div v-if="selectedComponentId === 'info-card'">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoCard title="Information Card" icon="ℹ️">
-                <p class="text-gray-400">
-                  This card displays important information with a clean layout.
-                </p>
-              </InfoCard>
-              <InfoCard title="Key Feature" icon="🔑">
-                <p class="text-gray-400">
-                  Important information displayed clearly
-                </p>
-              </InfoCard>
             </div>
           </div>
 
@@ -1014,40 +906,6 @@ onUnmounted(() => {
                 :show-service-selector="true"
                 form-title="Get in Touch"
               />
-            </div>
-          </div>
-
-          <!-- Floating Action Bar -->
-          <div v-if="selectedComponentId === 'floating-action-bar'">
-            <div class="space-y-6">
-              <p class="text-gray-400">
-                The Floating Action Bar appears after scrolling 200px down the
-                page. It shows as a top-right button on desktop and a sticky
-                bottom bar on mobile.
-              </p>
-              <div
-                class="bg-slate-900/60 border border-slate-700 rounded-lg p-6"
-              >
-                <h3 class="text-xl font-bold mb-4 text-white">Color Schemes</h3>
-                <div class="space-y-3">
-                  <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-400 w-24">Cyan:</span>
-                    <FloatingActionBar color-scheme="cyan" />
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-400 w-24">Emerald:</span>
-                    <FloatingActionBar color-scheme="emerald" />
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <span class="text-sm text-gray-400 w-24">Purple:</span>
-                    <FloatingActionBar color-scheme="purple" />
-                  </div>
-                </div>
-                <p class="text-sm text-gray-400 mt-4">
-                  Note: In production, this component listens to scroll events
-                  and auto-shows/hides.
-                </p>
-              </div>
             </div>
           </div>
 

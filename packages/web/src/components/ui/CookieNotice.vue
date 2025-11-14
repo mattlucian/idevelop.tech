@@ -24,7 +24,9 @@ const loadRecaptchaScript = () => {
 
   const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
   if (!siteKey) {
-    console.warn("reCAPTCHA site key not configured");
+    if (import.meta.env.DEV) {
+      console.warn("reCAPTCHA site key not configured");
+    }
     return;
   }
 
@@ -46,7 +48,9 @@ const loadGoogleAnalytics = () => {
 
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
   if (!measurementId) {
-    console.warn("Google Analytics measurement ID not configured");
+    if (import.meta.env.DEV) {
+      console.warn("Google Analytics measurement ID not configured");
+    }
     return;
   }
 

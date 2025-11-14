@@ -9,12 +9,11 @@ import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import SimpleCheckItem from "../../components/elements/SimpleCheckItem.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
+import BeforeAfterComparison from "../../components/ui/BeforeAfterComparison.vue";
 import OutlineIcon from "../../components/elements/OutlineIcon.vue";
 import { aiEnablementServiceData } from "@/data/services/ai-enablement";
 import { SITE } from "@/constants";
 import {
-  XCircleIcon,
-  CheckCircleIcon,
   CommandLineIcon,
   BoltIcon,
   BeakerIcon,
@@ -98,184 +97,22 @@ const handleBreadcrumbNavigate = (path: string) => {
         class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Workflow Analysis Tab -->
-        <div v-if="activeTab === 'workflow'">
-          <h3 class="text-2xl font-bold text-white mb-3">
-            {{ tabContent.workflow.title }}
-          </h3>
-          <p class="text-slate-300 mb-8">
-            {{ tabContent.workflow.description }}
-          </p>
-
-          <div class="grid md:grid-cols-2 gap-8">
-            <!-- Before Column -->
-            <div>
-              <div
-                class="flex items-center gap-2 mb-4 pb-2 border-b border-red-500/30"
-              >
-                <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
-                <h4 class="text-lg font-semibold text-red-400">
-                  {{ tabContent.workflow.beforeTitle }}
-                </h4>
-              </div>
-              <div class="space-y-3">
-                <div
-                  v-for="(item, index) in tabContent.workflow.beforeItems"
-                  :key="`before-${index}`"
-                  class="flex items-start gap-3 text-slate-400"
-                >
-                  <span class="text-red-400 mt-0.5">•</span>
-                  <span>{{ item }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- After Column -->
-            <div>
-              <div
-                class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
-              >
-                <OutlineIcon
-                  :icon="CheckCircleIcon"
-                  size="md"
-                  color="emerald"
-                />
-                <h4 class="text-lg font-semibold text-emerald-400">
-                  {{ tabContent.workflow.afterTitle }}
-                </h4>
-              </div>
-              <div class="space-y-3">
-                <div
-                  v-for="(item, index) in tabContent.workflow.afterItems"
-                  :key="`after-${index}`"
-                  class="flex items-start gap-3 text-slate-300"
-                >
-                  <span class="text-emerald-400 mt-0.5">✓</span>
-                  <span>{{ item }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BeforeAfterComparison
+          v-if="activeTab === 'workflow'"
+          v-bind="tabContent.workflow"
+        />
 
         <!-- Training Tab -->
-        <div v-if="activeTab === 'training'">
-          <h3 class="text-2xl font-bold text-white mb-3">
-            {{ tabContent.training.title }}
-          </h3>
-          <p class="text-slate-300 mb-8">
-            {{ tabContent.training.description }}
-          </p>
-
-          <div class="grid md:grid-cols-2 gap-8">
-            <!-- Before Column -->
-            <div>
-              <div
-                class="flex items-center gap-2 mb-4 pb-2 border-b border-red-500/30"
-              >
-                <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
-                <h4 class="text-lg font-semibold text-red-400">
-                  {{ tabContent.training.beforeTitle }}
-                </h4>
-              </div>
-              <div class="space-y-3">
-                <div
-                  v-for="(item, index) in tabContent.training.beforeItems"
-                  :key="`before-${index}`"
-                  class="flex items-start gap-3 text-slate-400"
-                >
-                  <span class="text-red-400 mt-0.5">•</span>
-                  <span>{{ item }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- After Column -->
-            <div>
-              <div
-                class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
-              >
-                <OutlineIcon
-                  :icon="CheckCircleIcon"
-                  size="md"
-                  color="emerald"
-                />
-                <h4 class="text-lg font-semibold text-emerald-400">
-                  {{ tabContent.training.afterTitle }}
-                </h4>
-              </div>
-              <div class="space-y-3">
-                <div
-                  v-for="(item, index) in tabContent.training.afterItems"
-                  :key="`after-${index}`"
-                  class="flex items-start gap-3 text-slate-300"
-                >
-                  <span class="text-emerald-400 mt-0.5">✓</span>
-                  <span>{{ item }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BeforeAfterComparison
+          v-if="activeTab === 'training'"
+          v-bind="tabContent.training"
+        />
 
         <!-- Implementation Tab -->
-        <div v-if="activeTab === 'implementation'">
-          <h3 class="text-2xl font-bold text-white mb-3">
-            {{ tabContent.implementation.title }}
-          </h3>
-          <p class="text-slate-300 mb-8">
-            {{ tabContent.implementation.description }}
-          </p>
-
-          <div class="grid md:grid-cols-2 gap-8">
-            <!-- Before Column -->
-            <div>
-              <div
-                class="flex items-center gap-2 mb-4 pb-2 border-b border-red-500/30"
-              >
-                <OutlineIcon :icon="XCircleIcon" size="md" color="slate" />
-                <h4 class="text-lg font-semibold text-red-400">
-                  {{ tabContent.implementation.beforeTitle }}
-                </h4>
-              </div>
-              <div class="space-y-3">
-                <div
-                  v-for="(item, index) in tabContent.implementation.beforeItems"
-                  :key="`before-${index}`"
-                  class="flex items-start gap-3 text-slate-400"
-                >
-                  <span class="text-red-400 mt-0.5">•</span>
-                  <span>{{ item }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- After Column -->
-            <div>
-              <div
-                class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
-              >
-                <OutlineIcon
-                  :icon="CheckCircleIcon"
-                  size="md"
-                  color="emerald"
-                />
-                <h4 class="text-lg font-semibold text-emerald-400">
-                  {{ tabContent.implementation.afterTitle }}
-                </h4>
-              </div>
-              <div class="space-y-3">
-                <div
-                  v-for="(item, index) in tabContent.implementation.afterItems"
-                  :key="`after-${index}`"
-                  class="flex items-start gap-3 text-slate-300"
-                >
-                  <span class="text-emerald-400 mt-0.5">✓</span>
-                  <span>{{ item }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BeforeAfterComparison
+          v-if="activeTab === 'implementation'"
+          v-bind="tabContent.implementation"
+        />
       </div>
     </div>
 

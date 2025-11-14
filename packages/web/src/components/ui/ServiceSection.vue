@@ -3,6 +3,7 @@ import { computed } from "vue";
 import BenefitCard from "../cards/BenefitCard.vue";
 import PortfolioItem from "../cards/PortfolioItem.vue";
 import SimpleTestimonial from "../cards/SimpleTestimonial.vue";
+import { useColorScheme } from "@/composables/useColorScheme";
 import type {
   BenefitItem,
   PortfolioItem as PortfolioItemType,
@@ -30,18 +31,10 @@ const props = withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
 });
 
-const colorClasses = computed(() => ({
-  text: {
-    cyan: "text-cyan-400",
-    emerald: "text-emerald-400",
-    purple: "text-purple-400",
-  }[props.colorScheme],
-  badge: {
-    cyan: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
-    emerald: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
-    purple: "bg-purple-500/10 border-purple-500/20 text-purple-400",
-  }[props.colorScheme],
-}));
+const colors = computed(() => useColorScheme(props.colorScheme));
+const badgeClasses = computed(
+  () => `${colors.value.bg} ${colors.value.border} ${colors.value.text}`,
+);
 </script>
 
 <template>
@@ -108,7 +101,7 @@ const colorClasses = computed(() => ({
       <div
         :class="[
           'inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-3',
-          colorClasses.badge,
+          badgeClasses,
         ]"
       >
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -133,7 +126,7 @@ const colorClasses = computed(() => ({
       <h2
         :class="[
           'text-sm font-semibold uppercase tracking-wider mb-8',
-          colorClasses.text,
+          colors.text,
         ]"
       >
         {{ title }}

@@ -53,7 +53,7 @@ const loadTechData = async () => {
       selectedTopicIndex.value = -1;
     }
   } catch (error) {
-    console.error("Error loading tech data:", error);
+    // Error loading tech data - handled gracefully by UI
   }
 };
 

@@ -7,9 +7,12 @@ import CookieNotice from "./components/ui/CookieNotice.vue";
 
 const route = useRoute();
 
-// Hide footer on hire-me and tech pages
+// Hide footer on fullscreen panel pages
 const showFooter = computed(
-  () => route.name !== "hire-me" && route.name !== "tech",
+  () =>
+    route.name !== "hire-me" &&
+    route.name !== "tech" &&
+    route.name !== "components",
 );
 </script>
 
