@@ -20,23 +20,19 @@
     .email-container { max-width: 600px; margin: 0 auto; }
     .content-wrapper { background-color: #0a0a0a; }
 
-    /* Header styles with gradient */
+    /* Header styles with solid background */
     .header {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
-      padding: 32px 24px;
+      background-color: #0a0a0a;
+      padding: 24px 24px 16px 24px;
       text-align: center;
-      border-bottom: 2px solid;
-      border-image: linear-gradient(90deg, #06b6d4 0%, #a855f7 100%) 1;
     }
 
-    .logo-text {
-      font-size: 24px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: #06b6d4; /* Fallback for email clients that don't support gradient text */
+    .logo-img {
+      height: 48px;
+      width: auto;
+      display: inline-block;
+      /* Apply teal/cyan filter to match website logo on service pages */
+      filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);
     }
 
     /* Content styles */
@@ -113,40 +109,21 @@
     }
 
     .metadata {
-      background-color: #0a0a0a;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 16px;
-      margin-top: 24px;
+      border-top: 1px solid #1f2937;
+      padding-top: 16px;
+      margin-top: 32px;
+      text-align: center;
     }
 
     .metadata-item {
-      font-size: 12px;
-      color: #94a3b8;
-      margin: 4px 0;
+      font-size: 11px;
+      color: #64748b;
+      margin: 0;
     }
 
     .metadata-label {
-      font-weight: 600;
-      color: #94a3b8;
-    }
-
-    /* Button styles */
-    .button-container {
-      text-align: center;
-      margin: 32px 0 24px 0;
-    }
-
-    .button {
-      display: inline-block;
-      background: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%);
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      padding: 14px 32px;
-      border-radius: 6px;
-      text-align: center;
+      font-weight: 400;
+      color: #64748b;
     }
 
     /* Footer styles */
@@ -161,7 +138,7 @@
     @media only screen and (max-width: 600px) {
       .content { margin: 16px; padding: 24px 16px; }
       .header { padding: 24px 16px; }
-      .logo-text { font-size: 20px; }
+      .logo-img { height: 40px; }
       .title { font-size: 18px; }
     }
   </style>
@@ -174,7 +151,9 @@
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
           <tr>
             <td class="header">
-              <div class="logo-text">I DEVELOP TECH</div>
+              <a href="https://idevelop.tech" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
+                <img src="{{logoUrl}}" alt="I Develop Tech" class="logo-img" />
+              </a>
             </td>
           </tr>
         </table>
@@ -184,53 +163,53 @@
           <tr>
             <td>
               <div class="content">
-                <h1 class="title">New Contact Form Submission</h1>
-                <p class="subtitle">You have a new inquiry from your website</p>
+                <h1 class="title">I've received your request</h1>
+                <p class="subtitle">Hi {{name}},</p>
 
-                <!-- Contact Information -->
+                <!-- Confirmation Message -->
                 <div class="section">
-                  <h2 class="section-title">Contact Information</h2>
+                  <p class="field-value" style="margin-bottom: 16px;">
+                    Thanks for your request about <strong>{{service}}</strong>. I'll get back to you soon.
+                  </p>
+                  <p class="field-value" style="margin-bottom: 16px;">
+                    Feel free to reply if you'd like to add any additional details.
+                  </p>
+                </div>
+
+                <!-- Closing -->
+                <div class="section">
+                  <p class="field-value" style="margin-bottom: 0;">
+                    <strong>Matt</strong>
+                  </p>
+                </div>
+
+                <!-- Divider -->
+                <div style="border-top: 1px solid #1f2937; margin: 32px 0 24px 0;"></div>
+
+                <!-- Submission Summary -->
+                <div class="section">
+                  <h2 class="section-title">Your Request</h2>
 
                   <div class="field">
-                    <p class="field-label">Name</p>
-                    <p class="field-value">{{name}}</p>
-                  </div>
-
-                  <div class="field">
-                    <p class="field-label">Email</p>
-                    <p class="field-value-primary">{{email}}</p>
-                  </div>
-
-                  <div class="field">
-                    <p class="field-label">Service Interested In</p>
+                    <p class="field-label">Service</p>
                     <p class="field-value">{{service}}</p>
                   </div>
+
+                  <div class="field">
+                    <p class="field-label">Message</p>
+                    <div class="message-box">{{message}}</div>
+                  </div>
+
+                  <div class="field">
+                    <p class="field-label">Submitted</p>
+                    <p class="field-value">{{timestamp}}</p>
+                  </div>
                 </div>
 
-                <!-- Message -->
-                <div class="section">
-                  <h2 class="section-title">Message</h2>
-                  <div class="message-box">{{message}}</div>
-                </div>
-
-                <!-- Reply Button -->
-                <div class="button-container">
-                  <a href="mailto:{{email}}" class="button">Reply to {{name}}</a>
-                </div>
-
-                <!-- Metadata -->
+                <!-- Metadata (for reference) -->
                 <div class="metadata">
                   <div class="metadata-item">
-                    <span class="metadata-label">Request ID:</span> {{requestId}}
-                  </div>
-                  <div class="metadata-item">
-                    <span class="metadata-label">Submitted:</span> {{timestamp}}
-                  </div>
-                  <div class="metadata-item">
-                    <span class="metadata-label">User Agent:</span> {{userAgent}}
-                  </div>
-                  <div class="metadata-item">
-                    <span class="metadata-label">Referrer:</span> {{referrer}}
+                    <span class="metadata-label">Reference:</span> {{requestId}}
                   </div>
                 </div>
               </div>
