@@ -189,11 +189,17 @@ git branch --show-current  # Must show "feature/*" or "docs/*" or "hotfix/*", NE
    - Ensures consistency with user's "format on save" IDE setting
    - Prevents unnecessary git diffs
 
-3. **Test in browser**: Check dev server output for changes
+3. **Run ESLint**:
+   - Frontend: `cd packages/web && npm run lint`
+   - Must pass with 0 errors
+   - Fix any linting errors before proceeding
+   - ESLint runs automatically in CI/CD and will block PRs if errors exist
+
+4. **Test in browser**: Check dev server output for changes
    - Verify no console errors or warnings
    - Check affected pages still render correctly
 
-4. **Verify changes**: Quick visual check if UI was modified
+5. **Verify changes**: Quick visual check if UI was modified
    - Look for layout issues, styling problems, broken interactions
 
 **Why this matters**: The user has "format on save" enabled. If you don't format, your changes create unnecessary diffs when they save, causing confusion in source control.
@@ -206,6 +212,7 @@ git branch --show-current  # Must show "feature/*" or "docs/*" or "hotfix/*", NE
 
 - [ ] All type checks pass (frontend: `npm run type-check` shows 0 errors)
 - [ ] All modified files formatted (frontend: `npm run format` executed)
+- [ ] All ESLint checks pass (frontend: `npm run lint` shows 0 errors)
 - [ ] No console errors in browser dev tools
 - [ ] Changes tested at relevant breakpoints (mobile 320px, tablet 768px, desktop 1024px+)
 - [ ] Git status reviewed - no unintended file changes
@@ -246,7 +253,7 @@ feature/* → PR → develop → PR → main
 - Local cleanup: `git fetch --prune` to remove stale remote references
 
 **Why this is critical:**
-Direct pushes skip PR checks (CodeQL, DeepSource, build validation), code review, and CI/CD gates.
+Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), code review, and CI/CD gates.
 
 **See `docs/BRANCH-STRATEGY.md` for complete workflow details.**
 
