@@ -399,7 +399,12 @@ async function recordRateLimit(
 
 /**
  * Send initial contact email via AWS SES
- * Sends to both user and admin to create a shared email thread
+ * Sends to customer with BCC to admin for conversation tracking
+ *
+ * IMPORTANT: This requires SES to be out of sandbox mode to send to unverified
+ * customer email addresses. To move out of sandbox:
+ * 1. AWS Console → SES → Account dashboard → "Request production access"
+ * 2. Fill out use case form (usually approved within 24 hours)
  */
 async function sendInitialContactEmail(
   requestData: ContactFormRequest,
@@ -432,12 +437,14 @@ async function sendInitialContactEmail(
       referrer: requestData.metadata?.referrer || "N/A",
     });
 
-    // Send email to both user and admin
-    // This creates a shared email thread where any reply includes both parties
+    // Send email to customer with BCC to admin
+    // Customer sees confirmation, admin gets copy for tracking
+    // When customer replies, it goes to ReplyTo address (admin)
     const command = new SendEmailCommand({
       Source: SES_FROM_EMAIL,
       Destination: {
-        ToAddresses: [email, SES_TO_EMAIL], // Both receive the same email
+        ToAddresses: [email], // Customer receives the email
+        BccAddresses: [SES_TO_EMAIL], // Admin gets BCC copy for tracking
       },
       Message: {
         Subject: {
@@ -451,7 +458,7 @@ async function sendInitialContactEmail(
           },
         },
       },
-      ReplyToAddresses: [SES_TO_EMAIL, email], // Replies go to both
+      ReplyToAddresses: [SES_TO_EMAIL], // Customer replies go to admin
     });
 
     await sesClient.send(command);

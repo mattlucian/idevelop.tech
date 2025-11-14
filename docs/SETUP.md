@@ -164,7 +164,19 @@ aws iam create-open-id-connect-provider \
 
 ---
 
-## 6. Email Authentication (Optional)
+## 6. Email Configuration
+
+### SES Production Access (Required)
+
+By default, AWS SES is in sandbox mode and can only send to verified email addresses. For the contact form to work with customer emails:
+
+1. Request production access: [SES Console](https://console.aws.amazon.com/ses) → Account dashboard → "Request production access"
+2. Fill out the form (see `docs/SES-SANDBOX-PRODUCTION.md` for detailed instructions)
+3. Usually approved within 24 hours
+
+**Without production access**, the contact form will fail when customers submit with unverified email addresses.
+
+### Email Authentication (Optional)
 
 For production email deliverability, configure:
 

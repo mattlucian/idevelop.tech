@@ -10,22 +10,22 @@ Processes contact form submissions with:
 - Request validation
 - reCAPTCHA verification
 - Rate limiting (IP and email based)
-- Email delivery to both sender and admin
+- Email delivery to customer with BCC to admin
 
 ### Email Flow
 
 When a user submits the contact form:
-1. Single email sent to **both** sender and admin (creates shared thread)
-2. Uses `contact-confirmation.html` template
-3. Any reply automatically includes both parties
+1. Confirmation email sent to customer (`ToAddresses`)
+2. Admin receives BCC copy for tracking (`BccAddresses`)
+3. Uses `contact-confirmation.html` template
+4. Customer replies go to admin via `ReplyToAddresses`
+
+**Important:** This requires AWS SES to be out of sandbox mode. See `docs/SES-SANDBOX-PRODUCTION.md` for setup instructions.
 
 ### Email Templates
 
-**Active Template:**
-- `src/email-templates/contact-confirmation.html` - Customer-facing confirmation email
-
-**Archived Template:**
-- `src/email-templates/sender-confirmation.html` - Kept for future use (not currently deployed)
+**Templates:**
+- `src/email-templates/contact-confirmation.html` - Customer-facing confirmation email (sent to customer with BCC to admin)
 
 ### Preview Emails
 
