@@ -38,7 +38,7 @@ idevelop.tech/
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 20.19.0+ or 22.12.0+
 - AWS CLI (for deployment)
 
 ### Development
@@ -101,10 +101,10 @@ AWS_PROFILE=idevelop-tech npx sst deploy --stage production
 ### Architecture
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Full-stack architecture decisions
 - **[docs/frontend/](docs/frontend/)** - Frontend documentation
-  - `COMPONENTS.md` - Component catalog
   - `COMPONENT-RULES.md` - Component patterns (2-3 rule)
   - `DESIGN-SYSTEM.md` - Design tokens and styling
   - `DATA-STRUCTURE.md` - Type schemas
+  - `CONFIGURATION.md` - Key configuration files
 - **[docs/backend/FUNCTIONS.md](docs/backend/FUNCTIONS.md)** - Lambda functions
 
 ### Development

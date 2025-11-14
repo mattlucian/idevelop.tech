@@ -21,11 +21,11 @@ This is an **SST (Serverless Stack) v3 monorepo** containing:
 
 ### Frontend
 
-- **Vue.js 3.5.22** with Composition API
-- **TypeScript 5.9** for type safety
-- **Vue Router 4.5.1** for navigation
-- **Tailwind CSS 4.1.14** for styling
-- **Vite 7.1.7** - Fast build tool and dev server
+- **Vue.js 3** with Composition API
+- **TypeScript** for type safety
+- **Vue Router** for navigation
+- **Tailwind CSS** for styling
+- **Vite** - Fast build tool and dev server
 
 ### Backend
 
@@ -48,10 +48,6 @@ This is an **SST (Serverless Stack) v3 monorepo** containing:
 - **ESLint + Prettier** - Code quality and formatting
 - **Dependabot** - Automated dependency updates
 - **CodeQL + DeepSource** - Security and quality scanning
-
-### Node Version
-
-- Required: Node 20.19.0+ or 22.12.0+
 
 ---
 
@@ -205,8 +201,6 @@ feature/* → PR → develop → deploy to dev
 - Scalable as component library grows
 - Enforces reusability patterns
 
-**Reference**: See `docs/frontend/COMPONENTS.md` for complete component catalog
-
 ### State Management Pattern
 
 **Decision:** Use Vue Composition API with composables instead of Vuex/Pinia.
@@ -340,35 +334,8 @@ feature/* → PR → develop → deploy to dev
 
 ---
 
-## Future Considerations
-
-### State Management
-
-**Current**: Vue Composition API with composables
-
-**When to add Pinia**:
-- Multiple complex state domains emerge
-- Need dev tools time-travel debugging
-- State persistence requirements
-- Team scaling beyond solo development
-
-### Performance Optimization
-
-**Implemented**:
-- Route-based code splitting
-- Lazy loading for all views
-- CloudFront CDN for static assets
-
-**Future**:
-- Image optimization (WebP, responsive images)
-- Service Worker for offline support
-- PWA features for mobile
-
----
-
 ## Related Documentation
 
-- **[frontend/COMPONENTS.md](./frontend/COMPONENTS.md)** - Component catalog
 - **[frontend/COMPONENT-RULES.md](./frontend/COMPONENT-RULES.md)** - Component creation rules
 - **[frontend/DESIGN-SYSTEM.md](./frontend/DESIGN-SYSTEM.md)** - Design patterns and tokens
 - **[frontend/DATA-STRUCTURE.md](./frontend/DATA-STRUCTURE.md)** - Type schemas and data organization
