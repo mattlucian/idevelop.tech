@@ -26,7 +26,12 @@ feature/* → PR → develop → PR → main
   - Frontend: https://dev.idevelop.tech
   - API: https://dev-api.idevelop.tech
   - Stage: `dev`
-- **Protection:** None (allows fast iteration)
+- **Protection:** ✅ **ENABLED**
+  - Require PR before merge
+  - Require status checks: PR Checks
+  - Enforce for admins (no bypass allowed)
+  - No force pushes
+  - No deletions
 - **Workflow:** `.github/workflows/deploy-dev.yml`
 
 ### `main` - Production Branch
@@ -36,9 +41,10 @@ feature/* → PR → develop → PR → main
   - Frontend: CloudFront URL (custom domain pending)
   - API: https://api.idevelop.tech
   - Stage: `production`
-- **Protection:** Branch protection recommended for public repositories
+- **Protection:** ✅ **ENABLED**
   - Require PR before merge
-  - Require status checks to pass
+  - Require status checks: PR Checks, CodeQL
+  - Enforce for admins (no bypass allowed)
   - No force pushes
   - No deletions
 - **Workflow:** `.github/workflows/deploy-production.yml`
@@ -163,12 +169,54 @@ Both stages use environment-specific configuration:
 
 ---
 
+## Branch Lifecycle
+
+### Automatic Branch Deletion
+
+✅ **ENABLED:** Branches are automatically deleted after PR merge
+
+**How it works:**
+1. Create feature branch from `develop`
+2. Push branch and create PR to `develop`
+3. After PR is merged → **Branch is automatically deleted** from GitHub
+4. Local branches remain until manually deleted
+
+**Cleanup local branches:**
+```bash
+# Prune stale remote references
+git fetch --prune
+
+# Delete local branches that no longer exist on remote
+git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
+```
+
+### Branch Management Policy
+
+**Active branches should be limited to:**
+- `main` - Production branch
+- `develop` - Development/staging branch
+- 1-2 active feature branches at most
+
+**Why this matters:**
+- Reduces repository clutter
+- Makes it clear which branches are actively worked on
+- Prevents confusion about which branch to use
+- Enforces completion of work before starting new features
+
+**If you need to keep work-in-progress:**
+- Commit and push your branch
+- Open a draft PR to signal active work
+- Branch will only be deleted after PR merge
+
+---
+
 ## Best Practices
 
 ### Feature Development
 - Always branch from `develop`
 - Keep feature branches short-lived (< 1 week)
 - Squash commits when merging to keep history clean
+- Open draft PR early to signal active work
 
 ### Testing
 - Test locally first: `npm run dev` (in both root and packages/web)
