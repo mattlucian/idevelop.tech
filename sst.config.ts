@@ -69,13 +69,18 @@ export default $config({
           ],
         },
       ],
-      bundle: {
-        minify: isProduction,
-        sourcemap: !isProduction,
-        loader: {
-          ".html": "text",
+      nodejs: {
+        esbuild: {
+          minify: isProduction,
+          sourcemap: !isProduction,
         },
       },
+      copyFiles: [
+        {
+          from: "packages/functions/src/email-templates/*.html",
+          to: "email-templates/",
+        },
+      ],
     });
 
     // API Routes
