@@ -69,13 +69,11 @@ export default $config({
           ],
         },
       ],
-      nodejs: {
-        esbuild: {
-          minify: isProduction,
-          sourcemap: !isProduction,
-          loader: {
-            ".html": "text",
-          },
+      bundle: {
+        minify: isProduction,
+        sourcemap: !isProduction,
+        loader: {
+          ".html": "text",
         },
       },
     });
