@@ -1,5 +1,6 @@
 import { ref, computed, type Ref } from "vue";
 import { STORAGE_KEYS, type CookieConsent } from "@/constants/storage";
+import { logger } from "@/utils/logger";
 
 // Declare Google Analytics types on window
 declare global {
@@ -30,9 +31,9 @@ export function useCookieConsent() {
       try {
         consent.value = JSON.parse(stored);
       } catch (error) {
-        if (import.meta.env.DEV) {
-          console.error("Failed to parse cookie consent:", error);
-        }
+        logger.error("Failed to parse cookie consent", error, {
+          composable: "useCookieConsent",
+        });
         consent.value = null;
       }
     }

@@ -63,15 +63,30 @@ export function renderTemplate(
 /**
  * Load and render an email template
  * Templates are copied to email-templates/ directory in Lambda package via copyFiles
+ * @throws Error if template file cannot be loaded or is invalid
  */
 export function loadAndRenderTemplate(
   templateName: string,
   variables: TemplateVariables,
 ): string {
-  // In Lambda, copied files are in email-templates/ relative to process.cwd()
-  const templatePath = join(process.cwd(), "email-templates", `${templateName}.html`);
-  const template = readFileSync(templatePath, "utf-8");
-  return renderTemplate(template, variables);
+  try {
+    // In Lambda, copied files are in email-templates/ relative to process.cwd()
+    const templatePath = join(process.cwd(), "email-templates", `${templateName}.html`);
+    const template = readFileSync(templatePath, "utf-8");
+
+    if (!template || template.trim().length === 0) {
+      throw new Error(`Template file "${templateName}.html" is empty`);
+    }
+
+    return renderTemplate(template, variables);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Failed to load email template "${templateName}":`, errorMessage);
+    throw new Error(
+      `Failed to load email template "${templateName}": ${errorMessage}. ` +
+      `Ensure template file exists in email-templates/ directory.`
+    );
+  }
 }
 
 /**
