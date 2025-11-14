@@ -1,30 +1,27 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useMeta } from "@/composables/useMeta";
+import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
+import { useServiceMeta } from "@/composables/useServiceMeta";
 import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
 import ServiceSection from "../../components/ui/ServiceSection.vue";
-import TabButton from "../../components/ui/TabButton.vue";
+import TabNavigation from "../../components/ui/TabNavigation.vue";
 import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
 import IconFlowStep from "../../components/display/IconFlowStep.vue";
 import { ecommerceOpsServiceData } from "@/data/services/ecommerce-ops";
-import { SITE } from "@/constants";
 
 // SEO Meta Tags
-useMeta({
-  title: "eCommerce Operations & Automation Services | I Develop Tech",
+useServiceMeta({
+  serviceName: "eCommerce Operations & Automation Services",
+  slug: "ecommerce-ops",
   description:
     "Automate your eCommerce operations with expert order routing, inventory sync, and product data management. Connect Shopify, 3PLs, and marketplaces for multi-channel selling.",
-  ogTitle: "eCommerce Operations & Automation Services | I Develop Tech",
   ogDescription:
     "Automated order routing, inventory sync, and product data management across your sales channels.",
-  ogUrl: `${SITE.url}/services/ecommerce-ops`,
-  ogImage: `${SITE.url}/og-image-ecommerce-ops.jpg`,
 });
 
-const router = useRouter();
+const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("order-routing");
 
 // Destructure typed data
@@ -40,10 +37,6 @@ const {
   cta,
   tabContent,
 } = ecommerceOpsServiceData;
-
-const handleBreadcrumbNavigate = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -68,17 +61,7 @@ const handleBreadcrumbNavigate = (path: string) => {
     <!-- Visual/Interactive Section with Tabs -->
     <div class="max-w-5xl mx-auto px-6 py-6">
       <!-- Tab Navigation -->
-      <div
-        class="flex flex-col md:flex-row gap-2 mb-6 md:border-b md:border-slate-700/30"
-      >
-        <TabButton
-          v-for="tab in tabs"
-          :key="tab.id"
-          :label="tab.label"
-          :active="activeTab === tab.id"
-          @click="activeTab = tab.id"
-        />
-      </div>
+      <TabNavigation v-model="activeTab" :tabs="tabs" />
 
       <!-- Tab Content -->
       <div

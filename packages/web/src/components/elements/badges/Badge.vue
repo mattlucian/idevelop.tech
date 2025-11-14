@@ -7,16 +7,15 @@ type BadgeVariant =
   | "emerald"
   | "muted";
 
-interface BadgeProps {
+interface Props {
   /** Visual variant of the badge */
   variant?: BadgeVariant;
   /** Show icon before text */
   icon?: string;
 }
 
-withDefaults(defineProps<BadgeProps>(), {
+withDefaults(defineProps<Props>(), {
   variant: "default",
-  icon: undefined,
 });
 
 const variantClasses = {

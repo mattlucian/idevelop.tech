@@ -1,31 +1,28 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useMeta } from "@/composables/useMeta";
+import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
+import { useServiceMeta } from "@/composables/useServiceMeta";
 import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
 import ServiceSection from "../../components/ui/ServiceSection.vue";
-import TabButton from "../../components/ui/TabButton.vue";
+import TabNavigation from "../../components/ui/TabNavigation.vue";
 import IntegrationDiagram from "../../components/integration/IntegrationDiagram.vue";
 import DetailedEntityMapping from "../../components/integration/DetailedEntityMapping.vue";
 import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
 import { integrationServiceData } from "@/data/services/integration";
-import { SITE } from "@/constants";
 
 // SEO Meta Tags
-useMeta({
-  title: "System Integration Services | I Develop Tech",
+useServiceMeta({
+  serviceName: "System Integration Services",
+  slug: "integration",
   description:
     "Expert system integration services connecting Shopify, NetSuite, 3PLs, and more. Custom API integrations, data mapping, and automation for seamless business operations. 100+ integrations delivered.",
-  ogTitle: "System Integration Services | I Develop Tech",
   ogDescription:
     "Connect your business systems seamlessly. Expert integration services for Shopify, NetSuite, 3PLs, and custom APIs. Field-level data mapping and real-time synchronization.",
-  ogUrl: `${SITE.url}/services/integration`,
-  ogImage: `${SITE.url}/og-image-integration.jpg`,
 });
 
-const router = useRouter();
+const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("accounting");
 
 // Destructure typed data
@@ -41,10 +38,6 @@ const {
   portfolio: portfolioData,
   cta,
 } = integrationServiceData;
-
-const handleBreadcrumbNavigate = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -69,17 +62,7 @@ const handleBreadcrumbNavigate = (path: string) => {
     <!-- Integration Examples with Tabs -->
     <div class="max-w-5xl mx-auto px-6 py-6">
       <!-- Tab Navigation -->
-      <div
-        class="flex flex-col md:flex-row gap-2 mb-6 md:border-b md:border-slate-700/30"
-      >
-        <TabButton
-          v-for="tab in tabs"
-          :key="tab.id"
-          :label="tab.label"
-          :active="activeTab === tab.id"
-          @click="activeTab = tab.id"
-        />
-      </div>
+      <TabNavigation v-model="activeTab" :tabs="tabs" />
 
       <!-- Tab Content -->
       <div

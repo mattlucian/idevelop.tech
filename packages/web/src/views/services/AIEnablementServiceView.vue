@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useMeta } from "@/composables/useMeta";
+import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
+import { useServiceMeta } from "@/composables/useServiceMeta";
 import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
 import ServiceSection from "../../components/ui/ServiceSection.vue";
-import TabButton from "../../components/ui/TabButton.vue";
+import TabNavigation from "../../components/ui/TabNavigation.vue";
 import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import SimpleCheckItem from "../../components/elements/SimpleCheckItem.vue";
@@ -12,7 +12,6 @@ import CTAForm from "../../components/ui/CTAForm.vue";
 import BeforeAfterComparison from "../../components/ui/BeforeAfterComparison.vue";
 import OutlineIcon from "../../components/elements/OutlineIcon.vue";
 import { aiEnablementServiceData } from "@/data/services/ai-enablement";
-import { SITE } from "@/constants";
 import {
   CommandLineIcon,
   BoltIcon,
@@ -21,18 +20,16 @@ import {
 } from "@heroicons/vue/24/outline";
 
 // SEO Meta Tags
-useMeta({
-  title: "AI Enablement & Team Training Services | I Develop Tech",
+useServiceMeta({
+  serviceName: "AI Enablement & Team Training Services",
+  slug: "ai-enablement",
   description:
     "Practical AI adoption for your team. Hands-on training workshops, workflow analysis, and tool implementation. Move beyond ChatGPT to AI-powered documentation, testing, and code generation.",
-  ogTitle: "AI Enablement & Team Training Services | I Develop Tech",
   ogDescription:
     "Help your team adopt AI effectively. Custom workshops, workflow optimization, and practical implementation. Focus on real productivity gains, not hype.",
-  ogUrl: `${SITE.url}/services/ai-enablement`,
-  ogImage: `${SITE.url}/og-image-ai-enablement.jpg`,
 });
 
-const router = useRouter();
+const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("workflow");
 
 // Destructure typed data
@@ -48,10 +45,6 @@ const {
   portfolio: portfolioData,
   cta,
 } = aiEnablementServiceData;
-
-const handleBreadcrumbNavigate = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -76,17 +69,7 @@ const handleBreadcrumbNavigate = (path: string) => {
     <!-- AI Approach Examples with Tabs -->
     <div class="max-w-5xl mx-auto px-6 py-6">
       <!-- Tab Navigation -->
-      <div
-        class="flex flex-col md:flex-row gap-2 mb-6 md:border-b md:border-slate-700/30"
-      >
-        <TabButton
-          v-for="tab in tabs"
-          :key="tab.id"
-          :label="tab.label"
-          :active="activeTab === tab.id"
-          @click="activeTab = tab.id"
-        />
-      </div>
+      <TabNavigation v-model="activeTab" :tabs="tabs" />
 
       <!-- Tab Content -->
       <div

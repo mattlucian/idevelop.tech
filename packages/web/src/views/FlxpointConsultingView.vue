@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useMeta } from "@/composables/useMeta";
+import { usePageMeta } from "@/composables/usePageMeta";
+import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
 import BreadcrumbNav from "../components/ui/BreadcrumbNav.vue";
 import ServiceSection from "../components/ui/ServiceSection.vue";
-import TabButton from "../components/ui/TabButton.vue";
+import TabNavigation from "../components/ui/TabNavigation.vue";
 import ServiceAreaCard from "../components/cards/ServiceAreaCard.vue";
 import TwoColumnListSection from "../components/ui/TwoColumnListSection.vue";
 import CTASection from "../components/ui/CTASection.vue";
@@ -13,18 +14,18 @@ import { flxpointConsultingData } from "@/data/services/flxpoint-consulting";
 import { SITE } from "@/constants";
 
 // SEO Meta Tags
-useMeta({
-  title: "Flxpoint Consulting - Former CTO | I Develop Tech",
+usePageMeta({
+  title: "Flxpoint Consulting - Former CTO",
+  slug: "flxpoint-consulting",
   description:
     "Expert Flxpoint consulting from their former CTO. Technical assistance for onboarding, configuration, order routing, catalog management, and custom integrations.",
-  ogTitle: "Flxpoint Consulting - Former CTO | I Develop Tech",
   ogDescription:
     "Technical assistance and consulting for Flxpoint from their former CTO. Catalog management, order routing, integrations, and strategic guidance.",
-  ogUrl: `${SITE.url}/flxpoint-consulting`,
   ogImage: SITE.ogImage,
 });
 
 const router = useRouter();
+const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("catalog");
 
 // Destructure typed data
@@ -42,10 +43,6 @@ const {
 
 const goToHireMe = () => {
   router.push("/hire-me");
-};
-
-const handleBreadcrumbNavigate = (path: string) => {
-  router.push(path);
 };
 </script>
 
@@ -111,17 +108,7 @@ const handleBreadcrumbNavigate = (path: string) => {
       </div>
 
       <!-- Tab Navigation -->
-      <div
-        class="flex flex-col md:flex-row gap-2 mb-6 md:border-b md:border-slate-700/30 md:justify-center"
-      >
-        <TabButton
-          v-for="tab in tabs"
-          :key="tab.id"
-          :label="tab.label"
-          :active="activeTab === tab.id"
-          @click="activeTab = tab.id"
-        />
-      </div>
+      <TabNavigation v-model="activeTab" :tabs="tabs" />
 
       <!-- Tab Content -->
       <div>

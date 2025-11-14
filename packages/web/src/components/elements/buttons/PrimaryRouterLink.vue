@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface PrimaryRouterLinkProps {
+interface Props {
   /** Target route path or external URL */
   to: string;
   /** Show arrow icon (default: true) */
@@ -8,7 +8,7 @@ interface PrimaryRouterLinkProps {
   external?: boolean;
 }
 
-withDefaults(defineProps<PrimaryRouterLinkProps>(), {
+withDefaults(defineProps<Props>(), {
   showArrow: true,
   external: false,
 });

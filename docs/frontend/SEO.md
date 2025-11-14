@@ -7,7 +7,7 @@ Essential SEO implementation for all views in the idevelop.tech portfolio site.
 ## 🔴 Critical Rules
 
 **Every view must:**
-- [ ] Call `useMeta()` with unique title and description
+- [ ] Call `useServiceMeta()` or `usePageMeta()` with unique title and description
 - [ ] Use `SITE.url` constant (never hardcode URLs)
 - [ ] Have clean URLs (no query parameters)
 - [ ] Include one H1 heading
@@ -26,7 +26,7 @@ Essential SEO implementation for all views in the idevelop.tech portfolio site.
 **SEO for SPAs:**
 
 - Clean, semantic URL structure (no query parameters)
-- Dynamic meta tags on every view via `useMeta` composable
+- Dynamic meta tags on every view via `useServiceMeta` or `usePageMeta` composables
 - Proper Open Graph and Twitter Card tags
 - Use application constants for all URLs
 
@@ -34,19 +34,31 @@ Essential SEO implementation for all views in the idevelop.tech portfolio site.
 
 ## Implementation Pattern
 
-### Required on Every View
+### Service Pages - Use `useServiceMeta`
 
 ```typescript
-import { useMeta } from "@/composables/useMeta";
+import { useServiceMeta } from "@/composables/useServiceMeta";
+
+useServiceMeta({
+  serviceName: "Service Name",
+  slug: "service-slug",
+  description: "Clear, value-focused description (150-160 chars)",
+  ogDescription: "Social sharing description",
+});
+```
+
+### Other Pages - Use `usePageMeta`
+
+```typescript
+import { usePageMeta } from "@/composables/usePageMeta";
 import { SITE } from "@/constants";
 
-useMeta({
-  title: "Page Title | I Develop Tech",
+usePageMeta({
+  title: "Page Title",
+  slug: "page-slug",
   description: "Clear, value-focused description (150-160 chars)",
-  ogTitle: "Page Title | I Develop Tech",
   ogDescription: "Social sharing description",
-  ogUrl: `${SITE.url}/page-path`,
-  ogImage: SITE.ogImage,
+  ogImage: SITE.ogImage, // Optional: defaults to og-image-{slug}.jpg
 });
 ```
 
@@ -69,7 +81,7 @@ useMeta({
 - Dimensions: 1200×630px
 
 **Twitter Cards:**
-Automatically generated from Open Graph tags by `useMeta` composable.
+Automatically generated from Open Graph tags.
 
 ---
 
@@ -167,7 +179,7 @@ ogUrl: `${SITE.url}/services/ai-enablement`;
 ```
 
 **❌ Missing Meta Tags:**
-Every view must call `useMeta()`. No exceptions.
+Every view must call `useServiceMeta()` or `usePageMeta()`. No exceptions.
 
 **❌ Query Parameter URLs:**
 ```typescript
@@ -204,7 +216,7 @@ description: "Practical AI adoption for your team. Hands-on training workshops, 
 
 **The Three Pillars:**
 1. **Clean URLs** - Semantic paths, no query parameters
-2. **Meta Tags** - `useMeta()` on every view with unique content
+2. **Meta Tags** - `useServiceMeta()` or `usePageMeta()` on every view with unique content
 3. **Constants** - Always use `SITE.url` and other constants
 
 SEO is about making content accessible, shareable, and valuable to both search engines and humans.

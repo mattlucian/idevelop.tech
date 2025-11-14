@@ -21,8 +21,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
-  customGradient: undefined,
-  customBorder: undefined,
   filterStyle: "none",
   variant: "default",
 });

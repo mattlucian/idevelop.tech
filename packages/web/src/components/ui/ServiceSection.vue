@@ -23,11 +23,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  subtitle: undefined,
-  benefits: undefined,
-  items: undefined,
-  testimonial: undefined,
-  expertiseBadge: undefined,
   colorScheme: "cyan",
 });
 

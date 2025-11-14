@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMeta } from "../composables/useMeta";
+import { usePageMeta } from "@/composables/usePageMeta";
 import GradientText from "../components/elements/GradientText.vue";
 import CTAForm from "../components/ui/CTAForm.vue";
 import PrimaryButton from "../components/elements/buttons/PrimaryButton.vue";
@@ -46,14 +46,13 @@ const workExperience = [
 ];
 
 // Set meta tags for Hire Me page
-useMeta({
+usePageMeta({
   title: "Hire Me - Matt Myers | Technical Consulting",
+  slug: "hire-me",
   description:
     "CTO, full-stack engineer, and technology leader available for technical consulting. 10+ years experience in cloud architecture, software engineering, and team leadership.",
-  ogTitle: "Hire Me - Matt Myers | Technical Consulting",
   ogDescription:
     "Schedule a consultation with an experienced CTO and full-stack engineer. Expert in cloud infrastructure, DevOps, and technical leadership.",
-  ogUrl: `${SITE.url}/hire-me`,
   ogImage: SITE.ogImage,
 });
 

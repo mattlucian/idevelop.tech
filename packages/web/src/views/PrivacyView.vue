@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useMeta } from "@/composables/useMeta";
+import { useCookieConsent } from "@/composables/useCookieConsent";
 import { CONTACT } from "@/constants";
 import OutlineButton from "@/components/elements/buttons/OutlineButton.vue";
 
@@ -10,139 +11,48 @@ useMeta({
     "Simple, transparent privacy. We use cookies for spam protection and analytics. We don't sell your data. Marketing emails require opt-in consent.",
 });
 
-const COOKIE_CONSENT_KEY = "cookie_consent";
-
-interface CookieConsent {
-  essential: boolean;
-  analytics: boolean;
-  timestamp: string;
-}
-
-const consentStatus = ref<CookieConsent | null>(null);
 const showRevokeSuccess = ref(false);
 const successMessage = ref("");
 const isGALoaded = ref(false);
 
-/**
- * Check if Google Analytics is actually loaded
- */
-const checkGALoaded = (): boolean => {
-  return (
-    typeof window.gtag !== "undefined" &&
-    typeof window.dataLayer !== "undefined"
-  );
-};
+const {
+  consent,
+  loadConsent,
+  revokeConsent: revokeConsentComposable,
+  enableConsent: enableConsentComposable,
+  isGoogleAnalyticsLoaded,
+} = useCookieConsent();
 
 /**
  * Load current consent status from localStorage
  */
 onMounted(() => {
-  const consentJson = localStorage.getItem(COOKIE_CONSENT_KEY);
-  if (consentJson) {
-    consentStatus.value = JSON.parse(consentJson);
-  }
+  loadConsent();
 
   // Check if GA is actually loaded
-  isGALoaded.value = checkGALoaded();
+  isGALoaded.value = isGoogleAnalyticsLoaded();
 });
-
-/**
- * Delete Google Analytics cookies
- * Note: This only deletes cookies on our domain (localhost/idevelop.tech).
- * Third-party cookies on Google's domains (.google.com) cannot be deleted
- * from our code due to browser security restrictions.
- */
-const deleteAnalyticsCookies = () => {
-  const hostname = window.location.hostname;
-  const cookiesToDelete = ["_ga", "_gid", "_gat"];
-
-  // Helper function to delete a single cookie with all domain variations
-  const deleteCookie = (name: string) => {
-    // Delete without domain (works for localhost)
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-
-    // Delete with dot-prefixed domain (e.g., .idevelop.tech)
-    // Skip for localhost as it doesn't support dot-prefix
-    if (hostname !== "localhost" && hostname !== "127.0.0.1") {
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${hostname};`;
-
-      // Also try parent domain if applicable (e.g., .tech from idevelop.tech)
-      const parts = hostname.split(".");
-      if (parts.length > 2) {
-        const parentDomain = parts.slice(1).join(".");
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${parentDomain};`;
-      }
-    }
-  };
-
-  // Delete standard GA cookies
-  cookiesToDelete.forEach(deleteCookie);
-
-  // Delete property-specific GA cookies (pattern: _ga_*)
-  const allCookies = document.cookie.split(";");
-  allCookies.forEach((cookie) => {
-    const cookieName = cookie.split("=")[0]?.trim();
-    if (cookieName?.startsWith("_ga_")) {
-      deleteCookie(cookieName);
-    }
-  });
-};
 
 /**
  * Revoke analytics consent
  */
-const revokeConsent = () => {
-  // Delete GA cookies immediately (if any exist on our domain)
-  deleteAnalyticsCookies();
-
-  // Update consent preference to analytics = false
-  const newConsent: CookieConsent = {
-    essential: true,
-    analytics: false,
-    timestamp: new Date().toISOString(),
-  };
-  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(newConsent));
-  consentStatus.value = newConsent;
-
-  // Show success message
-  successMessage.value =
-    "Analytics consent revoked successfully. Google Analytics will not load on future visits. Reloading page...";
+const handleRevokeConsent = () => {
+  successMessage.value = revokeConsentComposable();
   showRevokeSuccess.value = true;
   setTimeout(() => {
     showRevokeSuccess.value = false;
   }, 5000);
-
-  // Reload page to stop any running GA scripts
-  setTimeout(() => {
-    window.location.reload();
-  }, 1500);
 };
 
 /**
  * Re-enable analytics consent
  */
-const enableConsent = () => {
-  // Update consent preference to analytics = true
-  const newConsent: CookieConsent = {
-    essential: true,
-    analytics: true,
-    timestamp: new Date().toISOString(),
-  };
-  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(newConsent));
-  consentStatus.value = newConsent;
-
-  // Show success message
-  successMessage.value =
-    "Analytics consent enabled successfully. Google Analytics will start tracking on reload. Reloading page...";
+const handleEnableConsent = () => {
+  successMessage.value = enableConsentComposable();
   showRevokeSuccess.value = true;
   setTimeout(() => {
     showRevokeSuccess.value = false;
   }, 5000);
-
-  // Reload page to load GA scripts
-  setTimeout(() => {
-    window.location.reload();
-  }, 1500);
 };
 </script>
 
@@ -203,7 +113,7 @@ const enableConsent = () => {
 
         <!-- Cookie Consent Status -->
         <section
-          v-if="consentStatus"
+          v-if="consent"
           class="bg-slate-900/60 border border-slate-700 rounded-xl p-6"
         >
           <h2 class="text-xl font-semibold text-white mb-4">
@@ -222,16 +132,14 @@ const enableConsent = () => {
             <div class="flex items-center gap-3">
               <span
                 :class="
-                  consentStatus.analytics
-                    ? 'text-emerald-400'
-                    : 'text-slate-500'
+                  consent.analytics ? 'text-emerald-400' : 'text-slate-500'
                 "
               >
-                {{ consentStatus.analytics ? "✓" : "✗" }}
+                {{ consent.analytics ? "✓" : "✗" }}
               </span>
               <span class="text-gray-300">
                 <strong class="text-white">Analytics Cookies:</strong>
-                {{ consentStatus.analytics ? "Enabled" : "Disabled" }}
+                {{ consent.analytics ? "Enabled" : "Disabled" }}
               </span>
             </div>
 
@@ -251,15 +159,15 @@ const enableConsent = () => {
 
             <p class="text-sm text-gray-400 mt-2">
               Last updated:
-              {{ new Date(consentStatus.timestamp).toLocaleDateString() }}
+              {{ new Date(consent.timestamp).toLocaleDateString() }}
             </p>
           </div>
 
           <!-- Action Buttons -->
           <div class="space-y-3">
             <!-- Revoke Button (only show if analytics enabled) -->
-            <div v-if="consentStatus.analytics">
-              <OutlineButton color-scheme="gray" @click="revokeConsent">
+            <div v-if="consent.analytics">
+              <OutlineButton color-scheme="gray" @click="handleRevokeConsent">
                 Revoke Analytics Consent
               </OutlineButton>
               <p class="text-sm text-gray-400 mt-2">
@@ -272,7 +180,7 @@ const enableConsent = () => {
 
             <!-- Enable Button (only show if analytics disabled) -->
             <div v-else>
-              <OutlineButton color-scheme="cyan" @click="enableConsent">
+              <OutlineButton color-scheme="cyan" @click="handleEnableConsent">
                 Enable Analytics Cookies
               </OutlineButton>
               <p class="text-sm text-gray-400 mt-2">

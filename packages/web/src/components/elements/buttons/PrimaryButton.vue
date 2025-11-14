@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface PrimaryButtonProps {
+interface Props {
   /** Show arrow icon (default: true) */
   showArrow?: boolean;
   /** Full width button (default: false for inline CTAs) */
@@ -8,7 +8,7 @@ interface PrimaryButtonProps {
   disabled?: boolean;
 }
 
-withDefaults(defineProps<PrimaryButtonProps>(), {
+withDefaults(defineProps<Props>(), {
   showArrow: true,
   fullWidth: false,
   disabled: false,

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useColorScheme, type ColorScheme } from "@/composables/useColorScheme";
 import OutlineIcon from "../elements/OutlineIcon.vue";
 import { XCircleIcon, CheckCircleIcon } from "@heroicons/vue/24/outline";
 
@@ -9,9 +11,22 @@ interface Props {
   beforeItems: string[];
   afterTitle: string;
   afterItems: string[];
+  colorScheme?: ColorScheme;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  colorScheme: "emerald",
+});
+
+const colors = useColorScheme(props.colorScheme);
+
+// Compute after column classes based on color scheme
+const afterBorderClass = computed(() => `border-${props.colorScheme}-500/30`);
+const afterIconColor = computed(
+  () => props.colorScheme as "cyan" | "emerald" | "purple",
+);
+const afterTitleClass = computed(() => colors.text);
+const afterBulletClass = computed(() => colors.text);
 </script>
 
 <template>
@@ -48,10 +63,17 @@ defineProps<Props>();
       <!-- After column -->
       <div>
         <div
-          class="flex items-center gap-2 mb-4 pb-2 border-b border-emerald-500/30"
+          :class="[
+            'flex items-center gap-2 mb-4 pb-2 border-b',
+            afterBorderClass,
+          ]"
         >
-          <OutlineIcon :icon="CheckCircleIcon" size="md" color="emerald" />
-          <h4 class="text-lg font-semibold text-emerald-400">
+          <OutlineIcon
+            :icon="CheckCircleIcon"
+            size="md"
+            :color="afterIconColor"
+          />
+          <h4 :class="['text-lg font-semibold', afterTitleClass]">
             {{ afterTitle }}
           </h4>
         </div>
@@ -61,7 +83,7 @@ defineProps<Props>();
             :key="`after-${index}`"
             class="flex items-start gap-3 text-slate-300"
           >
-            <span class="text-emerald-400 mt-0.5">✓</span>
+            <span :class="['mt-0.5', afterBulletClass]">✓</span>
             <span>{{ item }}</span>
           </div>
         </div>

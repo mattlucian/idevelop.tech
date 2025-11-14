@@ -9,7 +9,6 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  title: undefined,
   variant: "default",
 });
 </script>

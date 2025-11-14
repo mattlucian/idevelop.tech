@@ -2,7 +2,7 @@
 type IconButtonSize = "sm" | "md" | "lg";
 type IconButtonType = "back" | "close";
 
-interface IconButtonProps {
+interface Props {
   /** Size variant */
   size?: IconButtonSize;
   /** Button type (back arrow or close X) */
@@ -11,7 +11,7 @@ interface IconButtonProps {
   absolutePosition?: boolean;
 }
 
-withDefaults(defineProps<IconButtonProps>(), {
+withDefaults(defineProps<Props>(), {
   size: "md",
   type: "close",
   absolutePosition: false,

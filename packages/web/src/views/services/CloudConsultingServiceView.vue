@@ -1,30 +1,27 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useMeta } from "@/composables/useMeta";
+import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
+import { useServiceMeta } from "@/composables/useServiceMeta";
 import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
 import ServiceSection from "../../components/ui/ServiceSection.vue";
-import TabButton from "../../components/ui/TabButton.vue";
+import TabNavigation from "../../components/ui/TabNavigation.vue";
 import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
 import IconFlowStep from "../../components/display/IconFlowStep.vue";
 import { cloudConsultingServiceData } from "@/data/services/cloud-consulting";
-import { SITE } from "@/constants";
 
 // SEO Meta Tags
-useMeta({
-  title: "Cloud & AWS Infrastructure Consulting | I Develop Tech",
+useServiceMeta({
+  serviceName: "Cloud & AWS Infrastructure Consulting",
+  slug: "cloud-consulting",
   description:
     "AWS cloud infrastructure consulting and migration services. Expert guidance on cloud strategy, cost optimization, and infrastructure architecture. Reduce cloud costs by 30-50% with proper architecture.",
-  ogTitle: "Cloud & AWS Infrastructure Consulting | I Develop Tech",
   ogDescription:
     "Optimize your AWS infrastructure. Cloud strategy, low-risk migrations, and cost optimization consulting. Get control of your cloud spending with expert guidance.",
-  ogUrl: `${SITE.url}/services/cloud-consulting`,
-  ogImage: `${SITE.url}/og-image-cloud-consulting.jpg`,
 });
 
-const router = useRouter();
+const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("strategy");
 
 // Destructure typed data
@@ -40,10 +37,6 @@ const {
   cta,
   cloudJourneys,
 } = cloudConsultingServiceData;
-
-const handleBreadcrumbNavigate = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -68,17 +61,7 @@ const handleBreadcrumbNavigate = (path: string) => {
     <!-- Cloud Journey Visualization with Tabs -->
     <div class="max-w-5xl mx-auto px-6 py-6">
       <!-- Tab Navigation -->
-      <div
-        class="flex flex-col md:flex-row gap-2 mb-6 md:border-b md:border-slate-700/30"
-      >
-        <TabButton
-          v-for="tab in tabs"
-          :key="tab.id"
-          :label="tab.label"
-          :active="activeTab === tab.id"
-          @click="activeTab = tab.id"
-        />
-      </div>
+      <TabNavigation v-model="activeTab" :tabs="tabs" />
 
       <!-- Tab Content -->
       <div

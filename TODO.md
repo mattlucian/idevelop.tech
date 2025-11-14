@@ -23,11 +23,20 @@ Active tasks and pending work for idevelop.tech.
 - [x] Updated Tailwind CSS gradient classes to v4 canonical names (54 classes)
 - [x] Fixed ESLint configuration to use TypeScript and Prettier configs
 - [x] Removed all ESLint errors (18 errors → 0 errors, 4 warnings remain)
+- [x] Service page consolidation (eliminated ~225 lines of duplication)
+  - [x] Created useBreadcrumbNavigation composable (removed router boilerplate from 6 pages)
+  - [x] Created useServiceMeta composable (standardized SEO for service pages)
+  - [x] Created usePageMeta composable (generic meta handler for all pages)
+  - [x] Created TabNavigation component (eliminated ~48 lines of tab markup)
+  - [x] Updated all 6 service views + FlxpointConsultingView to use new patterns
+  - [x] Fixed all TypeScript and ESLint errors from refactoring (7 errors → 0 errors)
+  - [x] Updated SEO.md documentation to reflect new composable patterns
+- [x] Reviewed component patterns for consistency (service pages)
 
 **Tasks**:
-- [ ] Review component patterns for consistency
 - [ ] Review error handling patterns
 - [ ] Consolidate similar utilities/helpers
+- [ ] Review component patterns for consistency (non-service pages)
 - [ ] Add ESLint to CI/CD pipeline (GitHub Actions workflow)
   - [ ] Add `npm run lint` to PR Checks workflow
   - [ ] Configure as required status check for PRs

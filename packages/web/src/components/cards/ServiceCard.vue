@@ -3,7 +3,7 @@ import { computed } from "vue";
 import Badge from "../elements/badges/Badge.vue";
 import { getIconByName } from "@/utils/iconMapping";
 
-interface ServiceCardProps {
+interface Props {
   icon: string;
   label: string;
   title: string;
@@ -14,8 +14,7 @@ interface ServiceCardProps {
   loading?: "lazy" | "eager";
 }
 
-const props = withDefaults(defineProps<ServiceCardProps>(), {
-  heroImage: undefined,
+const props = withDefaults(defineProps<Props>(), {
   loading: "lazy",
 });
 
