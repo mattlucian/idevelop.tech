@@ -3,9 +3,8 @@
  * Provides rendering functions for HTML email templates
  */
 
-// Import HTML templates as text (esbuild loader configured in sst.config.ts)
-import adminNotificationTemplate from "./admin-notification.html";
-import senderConfirmationTemplate from "./sender-confirmation.html";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 /**
  * Color scheme matching site design
@@ -56,27 +55,16 @@ export function renderTemplate(
 }
 
 /**
- * Get template content by name
- */
-function getTemplate(templateName: string): string {
-  switch (templateName) {
-    case "admin-notification":
-      return adminNotificationTemplate;
-    case "sender-confirmation":
-      return senderConfirmationTemplate;
-    default:
-      throw new Error(`Unknown template: ${templateName}`);
-  }
-}
-
-/**
  * Load and render an email template
+ * Templates are copied to email-templates/ directory in Lambda package via copyFiles
  */
 export function loadAndRenderTemplate(
   templateName: string,
   variables: TemplateVariables,
 ): string {
-  const template = getTemplate(templateName);
+  // In Lambda, copied files are in email-templates/ relative to process.cwd()
+  const templatePath = join(process.cwd(), "email-templates", `${templateName}.html`);
+  const template = readFileSync(templatePath, "utf-8");
   return renderTemplate(template, variables);
 }
 
