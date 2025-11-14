@@ -7,7 +7,7 @@ import router from "./router";
 // Prevent aggressive PWA install prompt (industry best practice)
 // Service worker still provides offline caching and performance benefits
 // Users can install via browser menu (Chrome: address bar, Safari: Share menu)
-let deferredPrompt: BeforeInstallPromptEvent | null = null;
+let _deferredPrompt: BeforeInstallPromptEvent | null = null;
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -19,7 +19,7 @@ window.addEventListener("beforeinstallprompt", (e: Event) => {
   e.preventDefault();
 
   // Store event for potential future use (e.g., contextual prompt after engagement)
-  deferredPrompt = e as BeforeInstallPromptEvent;
+  _deferredPrompt = e as BeforeInstallPromptEvent;
 
   // For now, we suppress the prompt entirely for better UX
   // Users can still install via browser's native UI

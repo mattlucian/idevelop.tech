@@ -21,8 +21,11 @@ export default [
       // Vue rules
       "vue/multi-word-component-names": "off",
       "vue/no-v-html": "warn",
-      "vue/require-default-prop": "off",
+      "vue/require-default-prop": "warn", // Catch missing prop defaults (DeepSource JS-0682)
       "vue/no-required-prop-with-default": "off",
+
+      // Code quality rules (catch DeepSource issues locally)
+      "default-case": "warn", // Catch missing default in switch statements (DeepSource JS-0047)
 
       // Development rules (allow during dev, should be removed before production)
       "no-console": "warn", // Warn but don't error (we gate these with import.meta.env.DEV)
