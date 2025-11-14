@@ -46,6 +46,10 @@ function logMessage(
     case "log":
       console.log(`ℹ️ ${formattedMessage}`);
       break;
+    default:
+      // Defensive coding: handle unexpected log levels at runtime
+      console.log(`ℹ️ ${formattedMessage}`);
+      break;
   }
 }
 

@@ -12,6 +12,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  subtitle: undefined,
+  number: undefined,
   colorScheme: "cyan",
   isSelected: false,
 });

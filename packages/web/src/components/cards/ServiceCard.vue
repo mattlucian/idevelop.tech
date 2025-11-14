@@ -15,6 +15,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  heroImage: undefined,
   loading: "lazy",
 });
 

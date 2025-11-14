@@ -16,6 +16,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   variant: "default",
+  icon: undefined,
 });
 
 const variantClasses = {

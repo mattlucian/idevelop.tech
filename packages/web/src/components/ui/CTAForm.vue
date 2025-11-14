@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
   serviceName: "General Inquiry",
   variant: "default",
   showServiceSelector: false,
+  formTitle: undefined,
 });
 
 const formClasses = computed(() => {
