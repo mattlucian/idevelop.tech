@@ -1,77 +1,125 @@
 # Setup Guide
 
-Quick setup instructions for forking and deploying this project.
+Manual one-time setup for external services and configurations.
+
+**Note**: For development commands and deployment, see the main README.
 
 ---
 
-## Prerequisites
+## GitHub Actions (CI/CD)
 
-- Node.js 20+
-- AWS Account
-- Domain name (optional, uses CloudFront URL by default)
+### Create OIDC Identity Provider
+
+One-time AWS setup for GitHub Actions authentication:
+
+```bash
+aws iam create-open-id-connect-provider \
+  --url https://token.actions.githubusercontent.com \
+  --client-id-list sts.amazonaws.com \
+  --thumbprint-list 6938fd4d98bab03faadb97b34396831e3780aea1
+```
+
+### Create IAM Role
+
+1. Go to [IAM Console](https://console.aws.amazon.com/iam) → Roles → Create role
+2. Select "Web identity"
+3. Identity provider: `token.actions.githubusercontent.com`
+4. Audience: `sts.amazonaws.com`
+5. Add condition: `token.actions.githubusercontent.com:sub` = `repo:YOUR_USERNAME/YOUR_REPO:*`
+6. Attach policy: `AdministratorAccess` (or more restrictive)
+7. Name: `github-actions-role`
+8. Copy the role ARN
+
+### Add GitHub Secret
+
+1. Go to repository → Settings → Secrets and variables → Actions
+2. New repository secret:
+   - Name: `AWS_ROLE_ARN`
+   - Value: `arn:aws:iam::ACCOUNT_ID:role/github-actions-role`
+
+**Reference**: `.github/workflows/deploy-*.yml` uses this role for deployments
 
 ---
 
-## 1. AWS Configuration
+## Email Configuration (Production)
 
-### Install AWS CLI
+Configure DNS records for email deliverability.
 
-```bash
-# Mac
-brew install awscli
+### SPF Record
 
-# Linux
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip && sudo ./aws/install
+Allows AWS SES to send email on your behalf:
+
+```
+Type: TXT
+Host: yourdomain.com
+Value: "v=spf1 include:_spf.google.com include:amazonses.com ~all"
 ```
 
-### Configure AWS SSO
+**Note**: Includes both Google Workspace and AWS SES
 
-```bash
-aws configure sso
+### DMARC Record
 
-# Prompts:
-# - SSO session name: your-project-sso
-# - SSO start URL: https://d-xxxxxxxxxx.awsapps.com/start
-# - SSO region: us-east-1
-# - CLI profile name: your-project
+Email authentication reporting:
+
+```
+Type: TXT
+Host: _dmarc.yourdomain.com
+Value: "v=DMARC1; p=none; rua=mailto:you@yourdomain.com"
 ```
 
-### Login to AWS
+### DKIM Records (AWS SES)
 
+1. Go to [SES Console](https://console.aws.amazon.com/ses) → Verified identities
+2. Select your domain → DKIM authentication
+3. Copy the 3 CNAME records
+4. Add to your DNS provider
+
+**Verification**: All 3 CNAME records must show "Successful" in SES console
+
+---
+
+## reCAPTCHA
+
+Get site keys from [Google reCAPTCHA Admin](https://www.google.com/recaptcha/admin):
+
+1. Register a new site
+2. Type: reCAPTCHA v3
+3. Domains: `yourdomain.com`, `dev.yourdomain.com`
+4. Copy keys:
+   - **Site Key** → Add to `.env.production` and `.env.development`
+   - **Secret Key** → Store in AWS SSM Parameter Store (see below)
+
+**Environment files**:
+- `packages/web/.env.production` → `VITE_RECAPTCHA_SITE_KEY`
+- `packages/web/.env.development` → `VITE_RECAPTCHA_SITE_KEY`
+
+**Secret storage** (if using AWS SSM):
 ```bash
-aws sso login --profile your-project
-export AWS_PROFILE=your-project
-aws sts get-caller-identity  # Verify
+aws ssm put-parameter \
+  --name "/your-project/production/recaptcha-secret" \
+  --value "YOUR_SECRET_KEY" \
+  --type "SecureString"
 ```
 
 ---
 
-## 2. Install Dependencies
+## AWS SES Email Verification
 
-```bash
-npm install
-```
+Verify sending email address:
+
+1. Go to [SES Console](https://console.aws.amazon.com/ses)
+2. Verified identities → Create identity
+3. Identity type: Email address or Domain
+4. Enter: `you@yourdomain.com` or `yourdomain.com`
+5. Verify via email link or DNS records
 
 ---
 
-## 3. Configure Project
+## Custom Domain (Optional)
 
-### Update `sst.config.ts`
+Update `sst.config.ts` to enable custom domain:
 
 ```typescript
-// Change app name
-const app = new aws.sst.App({
-  name: "your-project-name",  // Change this
-  home: "aws",
-  providers: {
-    aws: {
-      region: "us-east-1",
-    },
-  },
-});
-
-// Configure domain (optional)
 domain: isProduction
   ? {
       name: "yourdomain.com",
@@ -83,145 +131,4 @@ domain: isProduction
     }
 ```
 
-### Update `packages/web/src/constants/index.ts`
-
-```typescript
-export const SITE = {
-  name: 'Your Site Name',
-  url: 'https://yourdomain.com',
-  companyName: 'Your Company LLC',
-  // ... other constants
-}
-
-export const CONTACT = {
-  email: 'you@yourdomain.com',
-  // ... other contact info
-}
-```
-
-### Environment Variables
-
-Contact form requires:
-- **reCAPTCHA**: Get site key from [Google reCAPTCHA](https://www.google.com/recaptcha/admin)
-- **AWS SES**: Verify email identity in [AWS SES Console](https://console.aws.amazon.com/ses)
-
-```bash
-# Store in AWS Systems Manager Parameter Store
-aws ssm put-parameter \
-  --name "/your-project/dev/recaptcha-secret" \
-  --value "YOUR_SECRET_KEY" \
-  --type "SecureString"
-
-aws ssm put-parameter \
-  --name "/your-project/production/recaptcha-secret" \
-  --value "YOUR_SECRET_KEY" \
-  --type "SecureString"
-```
-
----
-
-## 4. Deploy
-
-### Dev Environment
-
-```bash
-npm run dev  # Deploys to personal dev stage
-```
-
-### Production Deployment
-
-Set up GitHub Actions:
-
-1. Configure AWS OIDC in GitHub (see below)
-2. Push to `main` branch → auto-deploys production
-3. Push to `develop` branch → auto-deploys dev stage
-
----
-
-## 5. GitHub Actions Setup
-
-### Create OIDC Identity Provider (One-Time)
-
-```bash
-aws iam create-open-id-connect-provider \
-  --url https://token.actions.githubusercontent.com \
-  --client-id-list sts.amazonaws.com \
-  --thumbprint-list 6938fd4d98bab03faadb97b34396831e3780aea1
-```
-
-### Create IAM Role for GitHub Actions
-
-1. Go to [IAM Console](https://console.aws.amazon.com/iam)
-2. Create role → Web identity → GitHub token.actions.githubusercontent.com
-3. Add condition: `token.actions.githubusercontent.com:sub` = `repo:YOUR_GITHUB_USERNAME/YOUR_REPO:*`
-4. Attach `AdministratorAccess` policy (or more restrictive)
-5. Copy role ARN
-
-### Add GitHub Secret
-
-1. Go to repository → Settings → Secrets and variables → Actions
-2. Add secret: `AWS_ROLE_ARN` = `arn:aws:iam::ACCOUNT_ID:role/github-actions-role`
-
----
-
-## 6. Email Authentication (Optional)
-
-For production email deliverability, configure:
-
-**SPF Record:**
-```
-yourdomain.com  TXT  "v=spf1 include:amazonses.com ~all"
-```
-
-**DMARC Record:**
-```
-_dmarc.yourdomain.com  TXT  "v=DMARC1; p=none; rua=mailto:you@yourdomain.com"
-```
-
-**SES DKIM:**
-1. Go to [SES Console](https://console.aws.amazon.com/ses)
-2. Verified identities → Select domain → DKIM
-3. Add 3 CNAME records to DNS
-
----
-
-## Quick Commands
-
-```bash
-# Development
-cd packages/web && npm run dev  # Frontend only
-AWS_PROFILE=your-project npm run dev  # Full-stack with SST
-
-# Type checking
-cd packages/web && npm run type-check
-
-# Deployment
-git push origin develop  # Deploy to dev
-git push origin main     # Deploy to production
-
-# AWS
-aws sso login --profile your-project
-export AWS_PROFILE=your-project
-```
-
----
-
-## Documentation
-
-- **`docs/PROJECT-PLAN.md`** - Implementation phases and project plan
-- **`docs/BRANCH-STRATEGY.md`** - Git workflow and CI/CD
-- **`docs/QUICK-START.md`** - Quick reference for common tasks
-- **`CLAUDE.md`** - Development guidelines and coding standards
-
----
-
-## Architecture
-
-- **Frontend**: Vue 3 + TypeScript + Tailwind CSS
-- **Backend**: AWS Lambda (Node.js)
-- **Database**: DynamoDB
-- **Email**: AWS SES
-- **Hosting**: S3 + CloudFront
-- **IaC**: SST v3
-
-See `packages/web/docs/ARCHITECTURE.md` for frontend architecture details.
+**Deployment**: Next deployment will configure domain and output nameservers

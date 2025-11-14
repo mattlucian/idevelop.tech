@@ -112,19 +112,11 @@ When creating temporary planning or task-tracking documents:
 
 | What You Need                   | Documentation File        |
 | ------------------------------- | ------------------------- |
-| Quick reference & commands      | `docs/QUICK-START.md` ⭐  |
+| Quick reference & commands      | `README.md` ⭐            |
 | Initial project setup (forking) | `docs/SETUP.md`           |
 | Branch strategy & CI/CD         | `docs/BRANCH-STRATEGY.md` |
 | Project phases & implementation | `docs/PROJECT-PLAN.md`    |
 | Infrastructure architecture     | `docs/ARCHITECTURE.md`    |
-
-### Migration & Project Management
-
-| What You Need               | Documentation File         |
-| --------------------------- | -------------------------- |
-| Migration plan and phases   | `MIGRATION-PLAN.md`        |
-| Migration completion report | `MIGRATION-REPORT.md`      |
-| Quick deployment reference  | `DEPLOYMENT-QUICKSTART.md` |
 
 ---
 
@@ -921,19 +913,19 @@ idevelop.tech/
 │       │   └── types.ts     # Shared TypeScript types
 │       └── package.json
 │
-├── docs/                    # Root-level documentation
-│   ├── AWS-SETUP.md
-│   ├── BRANCH-STRATEGY.md
-│   ├── PROJECT-PLAN.md
-│   ├── QUICK-START.md
-│   └── SES-EMAIL-DELIVERABILITY.md
+├── docs/                    # Centralized documentation
+│   ├── ARCHITECTURE.md      # Full-stack architecture
+│   ├── PROJECT-PLAN.md      # Project roadmap & status
+│   ├── SETUP.md             # One-time manual setup
+│   ├── BRANCH-STRATEGY.md   # Git workflow & CI/CD
+│   ├── CODE-SCANNING-STRATEGY.md
+│   ├── frontend/            # Frontend docs
+│   └── backend/             # Backend docs
 │
-├── sst.config.ts            # SST configuration
+├── sst.config.ts            # Infrastructure as Code
 ├── package.json             # Root workspace config
 ├── tsconfig.json            # Root TypeScript config
-├── MIGRATION-PLAN.md        # Migration strategy
-├── MIGRATION-REPORT.md      # Phase 1 completion report
-├── README.md                # Project README
+├── README.md                # Main entry point
 └── CLAUDE.md                # This file
 ```
 
