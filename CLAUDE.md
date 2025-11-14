@@ -32,6 +32,32 @@ When writing or updating documentation in this repository:
 - **No changelogs** - Git commit history is the source of truth
 - **Focus on principles over specifics** - Document "how to think" not "what exists"
 
+### 🔴 CRITICAL: Temporary Documentation Location
+
+**Task-list documents, planning docs, and session notes must NOT live in `/docs`**
+
+When creating temporary planning or task-tracking documents:
+
+❌ **WRONG**: `/docs/planning-task-list.md`
+❌ **WRONG**: `/docs/SESSION-2025-11-13.md`
+❌ **WRONG**: Any checklist or todo-style doc in `/docs`
+
+✅ **CORRECT**: `/planning/task-list.md`
+✅ **CORRECT**: Use `TODO.md` for ongoing project todos
+✅ **CORRECT**: Delete planning docs after extracting valuable content
+
+**Why this matters**:
+- `/docs` is for long-lived reference documentation only
+- Temporary docs mixed with permanent docs cause confusion
+- Makes it unclear what can be safely deleted
+- Planning docs should be in `/planning` (easy to delete entire directory)
+
+**The `/planning` directory**:
+- Contains temporary task lists, analysis documents, and planning notes
+- Safe to delete entire directory after completion
+- Can be git-ignored if desired (optional)
+- Clear separation from permanent documentation
+
 ---
 
 ## Quick Reference Card
@@ -52,43 +78,45 @@ When writing or updating documentation in this repository:
 
 **Quick lookup: When you need to... → Reference this doc**
 
-### Frontend Development (packages/web/)
+### Full-Stack Architecture
 
-| What You Need                                | Documentation File                           |
-| -------------------------------------------- | -------------------------------------------- |
-| Write/edit content (service pages, copy)     | See "Frontend: When Writing Content" ⚠️      |
-| Create/modify components                     | `packages/web/docs/COMPONENT-RULES.md` ⚠️    |
-| Find existing components                     | `packages/web/docs/COMPONENTS.md`            |
-| Apply styles, colors, typography, responsive | `packages/web/docs/DESIGN-SYSTEM.md`         |
-| Work with service/tech data                  | `packages/web/docs/DATA-STRUCTURE.md`        |
-| Understand frontend architecture             | `packages/web/docs/ARCHITECTURE.md`          |
-| Check frontend implementation status         | `packages/web/docs/IMPLEMENTATION-STATUS.md` |
-| Review frontend configuration                | `packages/web/docs/CONFIGURATION.md`         |
-| SEO implementation                           | `packages/web/docs/SEO.md`                   |
+| What You Need                         | Documentation File          |
+| ------------------------------------- | --------------------------- |
+| Complete system architecture overview | `docs/ARCHITECTURE.md` ⭐    |
+| SST monorepo structure                | `docs/ARCHITECTURE.md`      |
+| Backend & infrastructure architecture | `docs/ARCHITECTURE.md`      |
+| CI/CD pipeline and deployment         | `docs/ARCHITECTURE.md`      |
 
-### Backend Development (packages/functions/)
+### Frontend Development
 
-| What You Need                   | Documentation File                  |
-| ------------------------------- | ----------------------------------- |
-| Contact form API implementation | `packages/functions/src/contact.ts` |
-| Email authentication setup      | `docs/SETUP.md` (email section)     |
+| What You Need                                | Documentation File                     |
+| -------------------------------------------- | -------------------------------------- |
+| Write/edit content (service pages, copy)     | See "Frontend: When Writing Content" ⚠️ |
+| Create/modify components                     | `docs/frontend/COMPONENT-RULES.md` ⚠️   |
+| Find existing components                     | Check `/src/components/` directory     |
+| Apply styles, colors, typography, responsive | `docs/frontend/DESIGN-SYSTEM.md`       |
+| Work with service/tech data                  | `docs/frontend/DATA-STRUCTURE.md`      |
+| Review frontend configuration                | `docs/frontend/CONFIGURATION.md`       |
+| SEO implementation                           | `docs/frontend/SEO.md`                 |
+
+### Backend Development
+
+| What You Need                      | Documentation File                  |
+| ---------------------------------- | ----------------------------------- |
+| Lambda functions overview          | `docs/backend/FUNCTIONS.md`         |
+| Contact form API implementation    | `packages/functions/src/contact.ts` |
+| Email authentication setup         | `docs/SETUP.md` (email section)     |
+| Backend architecture and IAM roles | `docs/ARCHITECTURE.md`              |
 
 ### Infrastructure & Deployment
 
 | What You Need                   | Documentation File        |
 | ------------------------------- | ------------------------- |
-| Quick reference & commands      | `docs/QUICK-START.md` ⭐  |
+| Quick reference & commands      | `README.md` ⭐            |
 | Initial project setup (forking) | `docs/SETUP.md`           |
 | Branch strategy & CI/CD         | `docs/BRANCH-STRATEGY.md` |
-| Project phases & implementation | `docs/PROJECT-PLAN.md`    |
-
-### Migration & Project Management
-
-| What You Need               | Documentation File         |
-| --------------------------- | -------------------------- |
-| Migration plan and phases   | `MIGRATION-PLAN.md`        |
-| Migration completion report | `MIGRATION-REPORT.md`      |
-| Quick deployment reference  | `DEPLOYMENT-QUICKSTART.md` |
+| Active tasks and pending work   | `TODO.md`                 |
+| Infrastructure architecture     | `docs/ARCHITECTURE.md`    |
 
 ---
 
@@ -191,80 +219,31 @@ git branch --show-current  # Must show "feature/*" or "docs/*" or "hotfix/*", NE
 
 **🚨 NEVER PUSH DIRECTLY TO `main` OR `develop` BRANCHES 🚨**
 
-**MANDATORY RULE: ALL CHANGES MUST GO THROUGH PULL REQUESTS - NO EXCEPTIONS**
+**MANDATORY: ALL CHANGES MUST GO THROUGH PULL REQUESTS**
 
-This is a **CRITICAL** rule that must **NEVER** be violated. Direct pushes to protected branches skip:
-- ✅ PR checks (CodeQL security scans, build validation)
-- ✅ DeepSource code quality analysis
-- ✅ Code review process
-- ✅ CI/CD validation gates
-
-**Branch workflow (from BRANCH-STRATEGY.md):**
-
+**Branch workflow:**
 ```
 feature/* → PR → develop → PR → main
               ↓              ↓
           dev stage    production stage
-     (dev.idevelop.tech)  (idevelop.tech)
 ```
 
-**🚨 IMPORTANT: ALL PRs must target `develop` branch first, NOT `main`.**
+**Required workflow:**
+1. Create feature branch from `develop`
+2. Make changes and commit
+3. Push branch and create PR to `develop` (NOT `main`)
+4. After PR merged to develop → test on dev.idevelop.tech
+5. Create PR from `develop` to `main` when ready for production
 
-**Required workflow for ALL changes:**
+**Branch naming:**
+- `feature/*` - New features
+- `docs/*` - Documentation
+- `hotfix/*` - Production fixes (branch from main)
 
-1. **Create feature branch** from `develop`:
+**Why this is critical:**
+Direct pushes skip PR checks (CodeQL, DeepSource, build validation), code review, and CI/CD gates.
 
-   ```bash
-   git checkout develop
-   git pull origin develop
-   git checkout -b feature/my-feature  # or docs/*, hotfix/*
-   ```
-
-2. **Branch naming conventions**:
-   - `feature/*` - New features or enhancements
-   - `docs/*` - Documentation updates
-   - `hotfix/*` - Critical production fixes (branch from main, backport to develop)
-
-3. **Make changes and commit**:
-
-   ```bash
-   git add .
-   git commit -m "feat: description"  # Use conventional commit format
-   ```
-
-4. **Push branch and create PR to develop**:
-
-   ```bash
-   git push origin feature/my-feature
-   gh pr create --base develop --title "feat: description"
-   ```
-
-   **⚠️ CRITICAL: Always use `--base develop` when creating PRs. NEVER create PRs directly to `main`.**
-
-5. **After PR is merged to develop**:
-   - Changes deploy to dev stage (dev.idevelop.tech)
-   - Test on staging environment
-   - Create separate PR from `develop` to `main` when ready for production
-
-6. **NEVER skip this workflow**:
-   - ❌ `git commit -m "..." && git push origin main` (FORBIDDEN)
-   - ❌ `git commit -m "..." && git push origin develop` (FORBIDDEN)
-   - ❌ `gh pr create --base main` (FORBIDDEN - should be `--base develop`)
-   - ✅ Always create branch → commit → push → create PR to develop
-   - ✅ After testing on dev stage → create PR from develop to main
-
-**Why this matters**:
-
-- Direct commits bypass CI checks, code review, and branch protection
-- PRs to develop first ensure changes are tested on staging before production
-- Maintains clean history and allows rollback if needed
-- Demonstrates professional DevOps practices
-- Prevents accidental production deployments
-
-**References**:
-
-- `docs/BRANCH-STRATEGY.md` - Complete branch strategy documentation
-- `docs/PROJECT-PLAN.md` - Phase-by-phase implementation plan
+**See `docs/BRANCH-STRATEGY.md` for complete workflow details.**
 
 ---
 
@@ -411,9 +390,9 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/COMPONENT-RULES.md` - Component structure and patterns
-- `packages/web/docs/DESIGN-SYSTEM.md` - Color schemes, design tokens, and responsive patterns
-- `docs/DEEPSOURCE-ANALYSIS-REPORT.md` - Code quality analysis and standards
+- `docs/frontend/COMPONENT-RULES.md` - Component structure and patterns
+- `docs/frontend/DESIGN-SYSTEM.md` - Color schemes, design tokens, and responsive patterns
+- `docs/CODE-SCANNING-STRATEGY.md` - Code quality analysis and standards
 
 ---
 
@@ -425,7 +404,7 @@ feature/* → PR → develop → PR → main
 
 **Component creation workflow (packages/web/):**
 
-1. **Check existing components first**: Review `packages/web/docs/COMPONENTS.md` catalog
+1. **Check existing components first**: Browse `/src/components/` directory structure
 2. **Apply the pattern rule**:
    - See duplicated pattern? → Create a component
    - Writing similar code 2-3 times? → Stop and componentize it
@@ -440,12 +419,10 @@ feature/* → PR → develop → PR → main
 4. **Support dual theming**: Add `colorScheme` or `color` prop
    - `cyan` for services/business pages
    - `emerald` for tech/experience pages
-5. **Document it**: Add to `packages/web/docs/COMPONENTS.md` catalog after creation
 
 **References**:
 
-- `packages/web/docs/COMPONENT-RULES.md` ⚠️ **MANDATORY READ** - Complete component creation process
-- `packages/web/docs/COMPONENTS.md` - Full catalog of existing components
+- `docs/frontend/COMPONENT-RULES.md` ⚠️ **MANDATORY READ** - Complete component creation process
 
 **This rule applies to all developers and AI assistants. No exceptions.**
 
@@ -471,7 +448,7 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DESIGN-SYSTEM.md` - Complete color palette, typography, spacing, gradients, and responsive design
+- `docs/frontend/DESIGN-SYSTEM.md` - Complete color palette, typography, spacing, gradients, and responsive design
 
 ---
 
@@ -492,7 +469,7 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DESIGN-SYSTEM.md` - Complete responsive design strategy, typography, and spacing scales
+- `docs/frontend/DESIGN-SYSTEM.md` - Complete responsive design strategy, typography, and spacing scales
 
 ---
 
@@ -511,7 +488,7 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DATA-STRUCTURE.md` - Complete type schemas and data organization
+- `docs/frontend/DATA-STRUCTURE.md` - Complete type schemas and data organization
 - `packages/web/src/constants/index.ts` - Application-wide constants
 
 ---
@@ -548,8 +525,8 @@ feature/* → PR → develop → PR → main
 
 **References**:
 
-- `packages/web/docs/DATA-STRUCTURE.md` - Service data type schemas
-- `packages/web/docs/COMPONENTS.md` - ServiceSection component documentation
+- `docs/frontend/DATA-STRUCTURE.md` - Service data type schemas
+- `docs/frontend/COMPONENT-RULES.md` - Component creation patterns
 
 ---
 
@@ -710,228 +687,40 @@ export interface ContactFormResponse {
 
 ## Version Control & Deployment
 
-### When Using Git/Creating Commits
+**🔴 See "MANDATORY RULES" section above for critical git workflow requirements.**
 
-**🔴 CRITICAL: See "MANDATORY RULES → Git Workflow and Branch Strategy" section above for complete branch workflow requirements.**
+### Commit Guidelines
 
-**Version control workflow:**
+- NEVER commit without user explicitly requesting
+- Review before committing: `git status` and `git diff`
+- Use HEREDOC for commit messages with Claude Code co-author attribution
+- NEVER use `--no-verify` or skip hooks
+- NEVER force push to main/master
+- NEVER amend commits from other developers
 
-- ✅ **NEVER commit directly to `main` or `develop`** - ALL changes require feature branches and PRs
-- ✅ **NEVER commit without user explicitly requesting**
-- ✅ **Review before committing**: Run `git status` and `git diff` in parallel
-- ✅ **Check recent commits**: Run `git log` to match commit message style
-- ✅ **Follow commit format**:
+### PR Creation
 
-  ```
-  Concise description of changes (focus on "why" not "what")
+Use `gh pr create --base develop` with summary and test plan. Always specify `--base develop`.
 
-  🤖 Generated with [Claude Code](https://claude.com/claude-code)
-
-  Co-Authored-By: Claude <noreply@anthropic.com>
-  ```
-
-- ✅ **Use HEREDOC for commit messages**: Ensures proper formatting
-- ❌ **NEVER use --no-verify or skip hooks**
-- ❌ **NEVER force push to main/master**
-- ❌ **NEVER amend commits from other developers**
-
-**Pre-commit hook workflow:**
-
-1. If commit fails due to pre-commit hook changes, verify it's safe to amend:
-   - Check authorship: `git log -1 --format='%an %ae'`
-   - Check not pushed: `git status` shows "Your branch is ahead"
-2. If both true: amend the commit. Otherwise: create NEW commit.
-
----
-
-### When Creating Pull Requests
-
-**PR creation workflow:**
-
-1. **Gather context**: Run in parallel:
-   - `git status` - See all untracked files
-   - `git diff` - See staged and unstaged changes
-   - `git log` + `git diff develop...HEAD` - Full commit history since branch diverged from develop
-2. **Analyze changes**: Review ALL commits that will be included (not just latest)
-3. **Push if needed**: Use `-u` flag for new branches
-4. **Create PR to develop**: Use `gh pr create --base develop` with HEREDOC for body:
-
-   ```bash
-   gh pr create --base develop --title "PR title" --body "$(cat <<'EOF'
-   ## Summary
-   - Bullet point summary
-
-   ## Test plan
-   - [ ] Testing checklist
-
-   🤖 Generated with [Claude Code](https://claude.com/claude-code)
-   EOF
-   )"
-   ```
-
-   **🚨 CRITICAL: Always specify `--base develop`. Never create PRs directly to `main`.**
-
-5. **Return PR URL**: Show user the created PR link
-
----
-
-### When Deploying with SST
-
-**SST deployment workflow:**
-
-_To be documented in Phase 3 when deploying infrastructure_
-
-**Planned commands:**
-
-```bash
-# Development (local Lambda testing)
-npm run dev
-
-# Deploy to staging
-npm run deploy --stage staging
-
-# Deploy to production
-npm run deploy --stage production
-
-# Remove infrastructure
-npm run remove --stage [staging|production]
-```
+**See `docs/BRANCH-STRATEGY.md` for complete git and deployment workflows.**
 
 ---
 
 ## Project Architecture
 
-### Frontend Architecture (packages/web/)
+**SST v3 full-stack serverless monorepo:**
 
-- **Vue.js 3** with Composition API (`<script setup>`)
-- **TypeScript** for type safety
-- **Vue Router** for navigation with custom scroll behavior
-- **Tailwind CSS** for styling
-- **JSON/TypeScript** for content structure
+- **packages/web/** - Vue 3 (Composition API) + TypeScript + Tailwind CSS
+- **packages/functions/** - AWS Lambda functions (contact form API)
+- **packages/core/** - Shared TypeScript types
+- **sst.config.ts** - Infrastructure as Code
 
-**Color Scheme Strategy:**
+**Color Schemes:**
+- Services/Business: Cyan/Purple (`cyan-400`, `purple-400`)
+- Tech/Experience: Emerald (`emerald-400`)
+- Components support `colorScheme` prop for dual theming
 
-The site uses a **dual color scheme** that switches contextually:
-
-- **Services/Business Pages** (Home, Services, Hire Me): Cyan (`cyan-400`, `cyan-500`) and purple theme
-- **Tech/Experience Pages** (Tech domain pages): Emerald green (`emerald-400`, `emerald-500`) theme
-- **Dynamic Elements**: Logo and "Hire Me" button adapt to page context (cyan → emerald on Tech pages)
-
-All components support `colorScheme` or `color` prop for dual theming.
-
-**Reference**: `packages/web/docs/DESIGN-SYSTEM.md` for complete color palette documentation.
-
----
-
-### Backend Architecture (packages/functions/)
-
-_To be documented in Phase 3_
-
-**Planned stack:**
-
-- **AWS Lambda** - Serverless compute
-- **API Gateway** - HTTP API endpoints
-- **DynamoDB** - Rate limiting and session storage
-- **SES** - Email delivery
-- **TypeScript** - Type-safe Lambda functions
-
----
-
-### Infrastructure Architecture (SST)
-
-_To be documented in Phase 3_
-
-**Planned resources:**
-
-- **S3 + CloudFront** - Static site hosting
-- **API Gateway + Lambda** - Backend API
-- **Route 53** - DNS management
-- **DynamoDB** - Database
-- **SES** - Email service
-
----
-
-### File Structure
-
-```
-idevelop.tech/
-├── packages/
-│   ├── web/                 # Vue frontend application
-│   │   ├── src/
-│   │   │   ├── components/  # Reusable Vue components
-│   │   │   │   ├── elements/
-│   │   │   │   ├── cards/
-│   │   │   │   ├── ui/
-│   │   │   │   ├── display/
-│   │   │   │   ├── layout/
-│   │   │   │   └── integration/
-│   │   │   ├── views/       # Page-level components
-│   │   │   ├── data/        # Content data files
-│   │   │   ├── types/       # TypeScript type definitions
-│   │   │   ├── constants/   # Application constants
-│   │   │   └── router/      # Vue Router configuration
-│   │   ├── public/          # Static assets
-│   │   ├── docs/            # Frontend documentation
-│   │   └── package.json
-│   │
-│   ├── functions/           # Lambda functions (API)
-│   │   ├── src/
-│   │   │   └── contact.ts   # Contact form handler
-│   │   └── package.json
-│   │
-│   └── core/                # Shared types and utilities
-│       ├── src/
-│       │   ├── index.ts     # Package entry point
-│       │   └── types.ts     # Shared TypeScript types
-│       └── package.json
-│
-├── docs/                    # Root-level documentation
-│   ├── AWS-SETUP.md
-│   ├── BRANCH-STRATEGY.md
-│   ├── PROJECT-PLAN.md
-│   ├── QUICK-START.md
-│   └── SES-EMAIL-DELIVERABILITY.md
-│
-├── sst.config.ts            # SST configuration
-├── package.json             # Root workspace config
-├── tsconfig.json            # Root TypeScript config
-├── MIGRATION-PLAN.md        # Migration strategy
-├── MIGRATION-REPORT.md      # Phase 1 completion report
-├── README.md                # Project README
-└── CLAUDE.md                # This file
-```
-
-**Reference**: `packages/web/docs/ARCHITECTURE.md` for detailed frontend architecture.
-
----
-
-### URL Structure & Routes
-
-```
-/                       # HomeView - Service cards grid
-/services/{name}        # Service detail pages
-/hire-me                # HireMeView - Contact and hiring info
-/tech                   # TechView - Technical expertise browser
-/components             # ComponentView - Design system showcase
-/attributions           # AttributionsView - Image credits
-/accessibility          # AccessibilityView - Accessibility statement
-/404                    # NotFoundView - Custom 404 page
-```
-
-**Reference**: `packages/web/docs/COMPONENTS.md` for component catalog.
-
----
-
-### Data Organization
-
-```
-packages/web/src/data/
-├── services/        # Individual service TypeScript files
-├── services.json    # Service configuration/metadata
-└── tech.json        # Technical expertise domains
-```
-
-**Reference**: `packages/web/docs/DATA-STRUCTURE.md` for complete type schemas and data structure.
+**See `docs/ARCHITECTURE.md` for complete architecture details, file structure, and technology decisions.**
 
 ---
 
@@ -1028,23 +817,6 @@ SITE.ogImage; // https://idevelop.tech/images/brand/og-image.png
 
 ---
 
-## Migration Status
-
-**Current Phase**: Phase 2 (Verification)
-
-**Completed:**
-
-- ✅ Phase 1: SST project setup and Vue app migration
-
-**Next Steps:**
-
-- ⚠️ Phase 2: Verify Vue app works in new structure (USER TASK)
-- 🔜 Phase 3: Add infrastructure and API implementation
-
-**Reference**: `MIGRATION-PLAN.md` for complete migration strategy
-
----
-
 ## Project Overview
 
 This is a portfolio website and full-stack application for idevelop.tech:
@@ -1055,4 +827,4 @@ This is a portfolio website and full-stack application for idevelop.tech:
 
 **Goal**: Modern, type-safe, full-stack portfolio with professional DevOps practices.
 
-**Reference**: `packages/web/docs/ARCHITECTURE.md` for complete frontend architecture and technical decisions.
+**Reference**: `docs/ARCHITECTURE.md` for complete full-stack architecture and technical decisions.

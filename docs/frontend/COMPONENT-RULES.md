@@ -62,13 +62,6 @@
 - [ ] Replace old markup with component
 - [ ] Verify functionality preserved
 - [ ] Test responsive behavior (320px, 768px, 1024px+)
-- [ ] Add to `/docs/COMPONENTS.md` catalog
-
----
-
-## Component Catalog
-
-**📚 See [COMPONENTS.md](./COMPONENTS.md) for the complete catalog.**
 
 ---
 
@@ -214,7 +207,6 @@ onUnmounted(() => {
 - [ ] TypeScript: `npm run type-check` passes
 - [ ] Code formatted: `npm run format` executed
 - [ ] No console errors or warnings
-- [ ] Component added to `/docs/COMPONENTS.md`
 
 ---
 
@@ -222,7 +214,7 @@ onUnmounted(() => {
 
 **If any UI pattern appears 2-3+ times in the codebase, extract it to a component.**
 
-See [COMPONENTS.md](./COMPONENTS.md) for existing components to reuse before creating new ones.
+Check existing components in `/src/components/` before creating new ones.
 
 ---
 

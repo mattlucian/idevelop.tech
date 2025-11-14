@@ -1,9 +1,5 @@
 # Branch Strategy
 
-**Last Updated:** 2025-11-11
-
----
-
 ## Overview
 
 This repository uses a **two-branch deployment strategy** with separate environments for development and production.
@@ -37,10 +33,10 @@ feature/* → PR → develop → PR → main
 - **Purpose:** Stable production-ready code
 - **Deployment:** Automatically deploys to `production` stage on push
 - **Environment:**
-  - Frontend: CloudFront URL (Phase 7: will be https://idevelop.tech)
+  - Frontend: CloudFront URL (custom domain pending)
   - API: https://api.idevelop.tech
   - Stage: `production`
-- **Protection:** Will be enabled in Phase 8 (when repo goes public)
+- **Protection:** Branch protection recommended for public repositories
   - Require PR before merge
   - Require status checks to pass
   - No force pushes
@@ -89,7 +85,7 @@ feature/* → PR → develop → PR → main
    ```
 
 7. **Merge to main → Automatic deployment to production**
-   - Frontend: CloudFront URL (Phase 7: idevelop.tech)
+   - Frontend: CloudFront URL (custom domain pending)
    - API: https://api.idevelop.tech
 
 ---
@@ -118,7 +114,7 @@ feature/* → PR → develop → PR → main
 - **Purpose:** Deploy to production environment
 - **Actions:**
   - Run `npx sst deploy --stage production`
-  - Deploy to CloudFront (Phase 7: idevelop.tech)
+  - Deploy to CloudFront (custom domain pending)
 
 ---
 
@@ -143,7 +139,7 @@ cors: {
 ### `production` Stage (sst.config.ts)
 ```typescript
 domain: isProduction
-  ? undefined  // No custom domain until Phase 7
+  ? undefined  // Custom domain configuration pending
   : { ... }
 
 cors: {
@@ -198,28 +194,6 @@ git push origin develop
 
 ---
 
-## Phase 8 Changes (Post-Public)
-
-When repository becomes public:
-
-1. **Enable branch protection on `main`:**
-   - Require pull request reviews
-   - Require status checks to pass
-   - No force pushes
-   - No branch deletion
-
-2. **Optional: Enable branch protection on `develop`:**
-   - Require status checks to pass (optional)
-   - Allow force pushes (for history cleanup)
-
-3. **Add CODEOWNERS file** (optional):
-   ```
-   # Require review from owner
-   * @mattlucian
-   ```
-
----
-
 ## Troubleshooting
 
 ### Workflow not triggering
@@ -244,5 +218,5 @@ When repository becomes public:
 
 - **AWS Setup:** `docs/AWS-SETUP.md`
 - **Deployment Guide:** `docs/PHASE-5-SETUP-INSTRUCTIONS.md`
-- **Project Plan:** `docs/PROJECT-PLAN.md`
+- **Project Todos:** `TODO.md`
 - **Coding Standards:** `CLAUDE.md`
