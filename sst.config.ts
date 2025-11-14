@@ -55,11 +55,10 @@ export default $config({
         },
         {
           actions: ["ses:SendEmail", "ses:SendRawEmail"],
-          // Scoped to verified SES identities for security
-          resources: [
-            'arn:aws:ses:us-east-1:*:identity/matt@idevelop.tech',
-            'arn:aws:ses:us-east-1:*:identity/idevelop.tech',
-          ],
+          // Allow sending from verified identities to any email address
+          // Note: In SES sandbox mode, can only send to verified addresses
+          // In production mode, can send to any address
+          resources: ["*"],
         },
         {
           actions: ["ssm:GetParameter"],
