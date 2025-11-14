@@ -50,24 +50,17 @@ jobs:
         if: github.event_name == 'pull_request'
         run: cd packages/web && npm run build
 
-      # Set URLs based on event type
-      - name: Set Lighthouse URLs
-        id: urls
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "urls=http://localhost:3000/,http://localhost:3000/hire-me,http://localhost:3000/tech,http://localhost:3000/services/integration,http://localhost:3000/services/web-design" >> $GITHUB_OUTPUT
-            echo "environment=local" >> $GITHUB_OUTPUT
-          else
-            echo "urls=https://dev.idevelop.tech/,https://dev.idevelop.tech/hire-me,https://dev.idevelop.tech/tech,https://dev.idevelop.tech/services/integration,https://dev.idevelop.tech/services/web-design" >> $GITHUB_OUTPUT
-            echo "environment=dev" >> $GITHUB_OUTPUT
-          fi
-
       - name: Run Lighthouse CI (with local server)
         if: github.event_name == 'pull_request'
         id: lighthouse-local
         uses: treosh/lighthouse-ci-action@v10
         with:
-          urls: ${{ steps.urls.outputs.urls }}
+          urls: |
+            http://localhost:3000/
+            http://localhost:3000/hire-me
+            http://localhost:3000/tech
+            http://localhost:3000/services/integration
+            http://localhost:3000/services/web-design
           uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: './lighthouserc.json'
@@ -78,7 +71,12 @@ jobs:
         id: lighthouse-deployed
         uses: treosh/lighthouse-ci-action@v10
         with:
-          urls: ${{ steps.urls.outputs.urls }}
+          urls: |
+            https://dev.idevelop.tech/
+            https://dev.idevelop.tech/hire-me
+            https://dev.idevelop.tech/tech
+            https://dev.idevelop.tech/services/integration
+            https://dev.idevelop.tech/services/web-design
           uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: './lighthouserc-deployed.json'
@@ -90,9 +88,11 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "links=${{ steps.lighthouse-local.outputs.links }}" >> $GITHUB_OUTPUT
             echo "manifest=${{ steps.lighthouse-local.outputs.manifest }}" >> $GITHUB_OUTPUT
+            echo "environment=local" >> $GITHUB_OUTPUT
           else
             echo "links=${{ steps.lighthouse-deployed.outputs.links }}" >> $GITHUB_OUTPUT
             echo "manifest=${{ steps.lighthouse-deployed.outputs.manifest }}" >> $GITHUB_OUTPUT
+            echo "environment=dev" >> $GITHUB_OUTPUT
           fi
 
       - name: Format Lighthouse Results
