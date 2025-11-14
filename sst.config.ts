@@ -73,6 +73,9 @@ export default $config({
         esbuild: {
           minify: isProduction,
           sourcemap: !isProduction,
+          loader: {
+            ".html": "text",
+          },
         },
       },
     });
