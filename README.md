@@ -27,20 +27,23 @@ Production-ready full-stack development practices:
 ## Tech Stack
 
 ```
+Frontend
 ┌─────────────────────────────────────────────────────────────────┐
-│ Frontend                                                        │
-│ Vue 3 • TypeScript • Tailwind CSS • Vite • Vue Router          │
+│ Vue 3 • TypeScript • Tailwind CSS • Vite • Vue Router           │
 └─────────────────────────────────────────────────────────────────┘
+
+Backend & API
 ┌─────────────────────────────────────────────────────────────────┐
-│ Backend & API                                                   │
-│ AWS Lambda • API Gateway • DynamoDB • SSM Parameters           │
+│ AWS Lambda • API Gateway • DynamoDB • SSM Parameters            │
 └─────────────────────────────────────────────────────────────────┘
+
+Infrastructure & Services
 ┌─────────────────────────────────────────────────────────────────┐
-│ Infrastructure & Services                                       │
-│ SST v3 • S3 • CloudFront • SES • GitHub Actions                │
+│ SST v3 • S3 • CloudFront • SES • GitHub Actions                 │
 └─────────────────────────────────────────────────────────────────┘
+
+Code Quality & Security
 ┌─────────────────────────────────────────────────────────────────┐
-│ Code Quality & Security                                         │
 │ TypeScript (strict) • ESLint • CodeQL • DeepSource • reCAPTCHA  │
 └─────────────────────────────────────────────────────────────────┘
 ```
