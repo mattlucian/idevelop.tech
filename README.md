@@ -258,106 +258,30 @@ AWS_PROFILE=idevelop-tech npx sst deploy --stage production
 
 ---
 
-## Configuration
-
-### For Forking/Adaptation
-
-1. **One-time manual setup**: See [docs/SETUP.md](docs/SETUP.md)
-   - GitHub Actions OIDC
-   - Email DNS (SPF, DMARC, DKIM)
-   - reCAPTCHA keys
-   - AWS SES verification
-
-2. **Update application constants**: `packages/web/src/constants/index.ts`
-   - Site name, URL, company name
-   - Contact information
-   - Social media links
-
-3. **Environment variables**: `packages/web/.env.*`
-   - `VITE_API_URL` - API endpoint
-   - `VITE_RECAPTCHA_SITE_KEY` - reCAPTCHA public key
-   - `VITE_GA_MEASUREMENT_ID` - Analytics (optional)
-
----
-
 ## Documentation
 
-### Project Management
-- **[TODO.md](TODO.md)** - Active tasks and pending work
-- **[docs/BRANCH-STRATEGY.md](docs/BRANCH-STRATEGY.md)** - Git workflow and CI/CD
+**Architecture & Development**:
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Full-stack architecture decisions
+- [CLAUDE.md](CLAUDE.md) - AI development guidelines and coding standards
+- [BRANCH-STRATEGY.md](docs/BRANCH-STRATEGY.md) - Git workflow and CI/CD
 
-### Architecture
-- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Full-stack architecture decisions
-- **[docs/frontend/](docs/frontend/)** - Frontend documentation
-  - `COMPONENT-RULES.md` - Component patterns (2-3 rule)
-  - `DESIGN-SYSTEM.md` - Design tokens and styling
-  - `DATA-STRUCTURE.md` - Type schemas
-  - `CONFIGURATION.md` - Key configuration files
-- **[docs/backend/FUNCTIONS.md](docs/backend/FUNCTIONS.md)** - Lambda functions
+**Frontend**:
+- [Component Rules](docs/frontend/COMPONENT-RULES.md) - Component patterns (2-3 rule)
+- [Design System](docs/frontend/DESIGN-SYSTEM.md) - Design tokens and styling
+- [Data Structure](docs/frontend/DATA-STRUCTURE.md) - Type schemas
 
-### Development
-- **[CLAUDE.md](CLAUDE.md)** - AI development guidelines and coding standards
-- **[.github/SECURITY.md](.github/SECURITY.md)** - Security policy
+**Backend**:
+- [Lambda Functions](docs/backend/FUNCTIONS.md) - API implementation
 
----
+**Setup & Configuration**:
+- [SETUP.md](docs/SETUP.md) - Initial project setup and configuration
+- [TODO.md](TODO.md) - Active tasks and pending work
 
-## Contributing
-
-Contributions are welcome! This project follows professional development practices:
-
-### Branch Strategy
-
-1. **Create feature branch** from `develop`:
-   ```bash
-   git checkout develop
-   git pull origin develop
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make changes** with quality checks:
-   ```bash
-   # After changes
-   npm run type-check   # Must pass
-   npm run lint         # Must pass
-   npm run format       # Must run
-   ```
-
-3. **Create Pull Request** to `develop`:
-   - All status checks must pass
-   - ESLint, TypeScript, CodeQL, DeepSource
-   - PRs to `main` are only from `develop`
-
-4. **Branch cleanup**: Feature branches auto-delete after merge
-
-### Code Standards
-
-- **TypeScript**: Strict mode, no `any` types, no non-null assertions (`!`)
-- **Vue 3**: Composition API with `<script setup lang="ts">`
-- **Components**: Follow 2-3 pattern rule (see `docs/frontend/COMPONENT-RULES.md`)
-- **Styling**: Tailwind CSS, follow design system tokens
-- **Error Handling**: Centralized logger, structured errors, proper validation
-
-See [CLAUDE.md](CLAUDE.md) for complete development guidelines.
-
----
-
-## Security
-
-- AWS OIDC authentication (no long-lived credentials)
-- Secrets managed via AWS SSM and GitHub Secrets
-- Automated security scanning (CodeQL, DeepSource)
-- Dependency scanning (Dependabot)
-- Branch protection with required reviews
-- Environment variable validation
-
-See [.github/SECURITY.md](.github/SECURITY.md) for vulnerability reporting.
+**Security**:
+- [SECURITY.md](.github/SECURITY.md) - Security policy and vulnerability reporting
 
 ---
 
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-**Built with Vue 3, TypeScript, Tailwind CSS, SST, and AWS**
