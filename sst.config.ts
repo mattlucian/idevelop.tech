@@ -77,7 +77,7 @@ export default $config({
         // Axiom configuration (logs)
         AXIOM_TOKEN: axiomToken.value,
         AXIOM_DATASET: axiomDataset,
-        AXIOM_URL: "api.axiom.co",
+        AXIOM_URL: "https://api.axiom.co",
 
         // OpenTelemetry configuration (distributed tracing)
         AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler",
