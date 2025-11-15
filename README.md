@@ -98,9 +98,9 @@ graph TB
     I --> M[CodeQL Security]
     I --> N[DeepSource]
 
-    style B fill:#bbf,stroke:#333
-    style D fill:#fbb,stroke:#333
-    style I fill:#f9f,stroke:#333
+    style B fill:#5b9bd5,stroke:#333
+    style D fill:#e74c3c,stroke:#333
+    style I fill:#ed7d31,stroke:#333
 ```
 
 **Branch Types**:
@@ -111,7 +111,7 @@ graph TB
 ### 2. Development Workflow (PR → develop)
 
 ```mermaid
-graph LR
+graph TB
     A[feature/* branch] -->|open PR| B[PR to develop]
     B -->|status checks| C{All Checks Pass?}
     C -->|No| D[Fix Issues]
@@ -120,9 +120,9 @@ graph LR
     E -->|auto-deploy| F[Dev Environment]
     F -->|verify| G[dev.idevelop.tech]
 
-    style C fill:#f9f,stroke:#333
-    style F fill:#bbf,stroke:#333
-    style G fill:#bbf,stroke:#333
+    style C fill:#ed7d31,stroke:#333
+    style F fill:#5b9bd5,stroke:#333
+    style G fill:#5b9bd5,stroke:#333
 ```
 
 **What Happens**:
@@ -133,7 +133,7 @@ graph LR
 ### 3. Production Deployment (develop → main)
 
 ```mermaid
-graph LR
+graph TB
     A[develop branch] -->|open PR| B[PR to main]
     B -->|status checks| C{All Checks Pass?}
     C -->|No| D[Fix Issues]
@@ -142,9 +142,9 @@ graph LR
     E -->|auto-deploy| F[Production]
     F -->|live at| G[idevelop.tech]
 
-    style C fill:#f9f,stroke:#333
-    style F fill:#bfb,stroke:#333
-    style G fill:#bfb,stroke:#333
+    style C fill:#ed7d31,stroke:#333
+    style F fill:#70ad47,stroke:#333
+    style G fill:#70ad47,stroke:#333
 ```
 
 **What Happens**:
