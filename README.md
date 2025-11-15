@@ -76,32 +76,87 @@ This repository demonstrates production-ready full-stack development practices:
 
 ## CI/CD Workflow
 
-```mermaid
-graph LR
-    A[Feature Branch] -->|Push| B[PR to develop]
-    B -->|PR Checks| C{Checks Pass?}
-    C -->|No| D[Fix Issues]
-    D -->|Push| B
-    C -->|Yes| E[Merge to develop]
-    E -->|Auto-deploy| F[Dev Environment]
-    F -->|Test| G[PR to main]
-    G -->|PR Checks| H{Checks Pass?}
-    H -->|No| I[Fix Issues]
-    I -->|Push| G
-    H -->|Yes| J[Merge to main]
-    J -->|Auto-deploy| K[Production]
+### 1. Branch Creation & Pull Request
 
-    style C fill:#f9f,stroke:#333
-    style H fill:#f9f,stroke:#333
-    style F fill:#bbf,stroke:#333
-    style K fill:#bfb,stroke:#333
+```mermaid
+graph TB
+    A[develop branch] -->|create branch| B[feature/my-feature]
+    C[main branch] -->|create branch| D[hotfix/critical-fix]
+
+    B -->|code changes| E[Commit & Push]
+    D -->|code changes| F[Commit & Push]
+
+    E -->|open PR| G[PR to develop]
+    F -->|open PR| H[PR to main]
+
+    G -->|triggers| I[Status Checks]
+    H -->|triggers| I
+
+    I --> J[TypeScript Check]
+    I --> K[ESLint]
+    I --> L[Build Validation]
+    I --> M[CodeQL Security]
+    I --> N[DeepSource]
+
+    style B fill:#bbf,stroke:#333
+    style D fill:#fbb,stroke:#333
+    style I fill:#f9f,stroke:#333
 ```
 
-**Status Checks** (required for merge):
+**Branch Types**:
+- `feature/*` - New features (from develop)
+- `docs/*` - Documentation (from develop)
+- `hotfix/*` - Production fixes (from main)
+
+### 2. Development Workflow (PR → develop)
+
+```mermaid
+graph LR
+    A[feature/* branch] -->|open PR| B[PR to develop]
+    B -->|status checks| C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D -->|push changes| B
+    C -->|Yes| E[Merge to develop]
+    E -->|auto-deploy| F[Dev Environment]
+    F -->|verify| G[dev.idevelop.tech]
+
+    style C fill:#f9f,stroke:#333
+    style F fill:#bbf,stroke:#333
+    style G fill:#bbf,stroke:#333
+```
+
+**What Happens**:
+- All status checks must pass (TypeScript, ESLint, Build, CodeQL, DeepSource)
+- After merge, automatic deployment to dev environment
+- Test changes at https://dev.idevelop.tech
+
+### 3. Production Deployment (develop → main)
+
+```mermaid
+graph LR
+    A[develop branch] -->|open PR| B[PR to main]
+    B -->|status checks| C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D -->|merge to develop| A
+    C -->|Yes| E[Merge to main]
+    E -->|auto-deploy| F[Production]
+    F -->|live at| G[idevelop.tech]
+
+    style C fill:#f9f,stroke:#333
+    style F fill:#bfb,stroke:#333
+    style G fill:#bfb,stroke:#333
+```
+
+**What Happens**:
+- Additional CodeQL security scan required for production
+- After merge, automatic deployment to production
+- Live at https://idevelop.tech (custom domain) or CloudFront URL
+
+**Status Checks** (required for all PRs):
 - ✅ TypeScript type checking
 - ✅ ESLint code quality
 - ✅ Build validation
-- ✅ CodeQL security scan
+- ✅ CodeQL security scan (main only)
 - ✅ DeepSource analysis
 
 ---
