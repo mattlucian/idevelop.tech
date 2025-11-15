@@ -14,8 +14,14 @@ exporters:
       authorization: Bearer ${env:AXIOM_TOKEN}
       x-axiom-dataset: ${env:AXIOM_DATASET}
 
+  logging:
+    loglevel: warn
+
 service:
   pipelines:
     traces:
       receivers: [otlp]
       exporters: [otlphttp]
+    metrics:
+      receivers: [otlp]
+      exporters: [logging]
