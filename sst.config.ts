@@ -88,8 +88,8 @@ export default $config({
 
         // Export traces to Axiom via OTLP
         OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf",
-        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co/v1/traces",
-        OTEL_EXPORTER_OTLP_HEADERS: $interpolate`x-axiom-dataset=${axiomDataset},Authorization=Bearer ${axiomToken.value}`,
+        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co",
+        OTEL_EXPORTER_OTLP_HEADERS: $interpolate`Authorization=Bearer ${axiomToken.value},X-Axiom-Dataset=${axiomDataset}`,
 
         // Sampling configuration (100% for low-traffic portfolio site)
         OTEL_TRACES_SAMPLER: "always_on",
