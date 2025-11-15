@@ -203,6 +203,103 @@ Verify sending email address:
 
 ---
 
+## Axiom Observability
+
+Configure Axiom for Lambda distributed tracing and log aggregation.
+
+### Create Axiom Account
+
+1. Sign up at [Axiom](https://app.axiom.co)
+2. Free tier includes **500GB/month** data ingestion (sufficient for portfolio sites)
+
+### Create Datasets
+
+Datasets store your Lambda logs and OpenTelemetry traces:
+
+**Development Dataset:**
+```
+Name: dev.idevelop.tech
+Description: Development stage logs and traces
+```
+
+**Production Dataset:**
+```
+Name: idevelop.tech
+Description: Production stage logs and traces
+```
+
+### Create API Tokens
+
+Generate stage-specific API tokens with **Ingest** permissions:
+
+**Development Token:**
+1. Go to Settings → API Tokens → Create Token
+2. Name: `dev.idevelop.tech opentelemetry token`
+3. Permissions: **Ingest** (select `dev.idevelop.tech` dataset)
+4. Copy the token (shown only once!)
+
+**Production Token:**
+1. Name: `idevelop.tech opentelemetry token`
+2. Permissions: **Ingest** (select `idevelop.tech` dataset)
+3. Copy the token
+
+### Set SST Secrets
+
+Store API tokens as SST secrets (encrypted in AWS):
+
+**Development:**
+```bash
+npx sst secret set AxiomToken YOUR_DEV_TOKEN_HERE --stage dev
+```
+
+**Production:**
+```bash
+npx sst secret set AxiomToken YOUR_PRODUCTION_TOKEN_HERE --stage production
+```
+
+**Verification:**
+```bash
+npx sst secret list --stage dev
+```
+
+### Verify Integration
+
+After deployment, verify traces are appearing:
+
+1. Deploy your application: `npx sst deploy --stage dev`
+2. Trigger a Lambda invocation (e.g., submit contact form)
+3. Go to Axiom dashboard → Select dataset (`dev.idevelop.tech`)
+4. You should see:
+   - Lambda logs from Axiom Extension
+   - Distributed traces from ADOT with spans showing:
+     - API Gateway requests (with HTTP status codes)
+     - Lambda invocations (with cold start indicators)
+     - AWS service calls (SES, DynamoDB, etc.)
+
+**Query examples:**
+```apl
+// Find all traces
+['dev.idevelop.tech']
+| where kind == "span"
+
+// Track HTTP status codes
+['dev.idevelop.tech']
+| where ['http.status_code'] > 0
+| summarize count() by ['http.status_code']
+
+// Monitor cold starts
+['dev.idevelop.tech']
+| where ['faas.coldstart'] == true
+| summarize count() by bin(_time, 1h)
+```
+
+**Reference**: Lambda functions are configured in `sst.config.ts` with:
+- Axiom Lambda Extension layer for log collection
+- ADOT Lambda layer for OpenTelemetry distributed tracing
+- OTLP exporter sending traces to Axiom
+
+---
+
 ## Custom Domain (Optional)
 
 Update `sst.config.ts` to enable custom domain:
