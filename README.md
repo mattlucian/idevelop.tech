@@ -24,6 +24,69 @@ Production-ready full-stack development practices:
 
 ---
 
+## Quick Start
+
+<details>
+<summary><b>Prerequisites</b></summary>
+
+- Node.js 20.19.0+ or 22.12.0+
+- AWS CLI (for deployment)
+- AWS account with appropriate permissions
+
+</details>
+
+<details>
+<summary><b>Development Setup</b></summary>
+
+```bash
+# Clone repository
+git clone https://github.com/mattlucian/idevelop.tech.git
+cd idevelop.tech
+
+# Install dependencies
+npm install
+
+# Frontend development
+cd packages/web
+npm run dev          # http://localhost:5173
+npm run type-check   # TypeScript validation
+npm run lint         # ESLint + auto-fix
+npm run format       # Prettier
+npm run build        # Production build
+```
+
+</details>
+
+<details>
+<summary><b>Environment Variables</b></summary>
+
+Create `packages/web/.env.local`:
+
+```env
+VITE_API_URL=your-api-gateway-url
+VITE_RECAPTCHA_SITE_KEY=your-recaptcha-site-key
+VITE_GA_MEASUREMENT_ID=your-ga-id  # Optional
+```
+
+</details>
+
+<details>
+<summary><b>Deployment</b></summary>
+
+**Automated via GitHub Actions:**
+- Push to `develop` → Deploy to dev environment
+- Push to `main` → Deploy to production
+
+**Manual deployment:**
+```bash
+aws sso login --profile idevelop-tech
+AWS_PROFILE=idevelop-tech npx sst deploy --stage production
+```
+
+</details>
+
+---
+
 ## Tech Stack
 
 ```
@@ -46,6 +109,68 @@ Code Quality & Security
 ┌─────────────────────────────────────────────────────────────────┐
 │ TypeScript (strict) • ESLint • CodeQL • DeepSource • reCAPTCHA  │
 └─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Architecture
+
+### Request Flow
+
+```mermaid
+graph TB
+    A[User Browser] -->|HTTPS| B[CloudFront CDN]
+    B --> C[S3 Static Assets<br/>Vue 3 SPA]
+
+    A -->|reCAPTCHA| D[Google reCAPTCHA v3]
+
+    C -->|API Request| E[API Gateway]
+    E -->|IAM Auth| F[Lambda Functions<br/>Contact Handler]
+
+    F --> G[DynamoDB<br/>Rate Limiting]
+    F --> H[SES<br/>Email Delivery]
+    F --> I[SSM Parameter Store<br/>Secrets]
+
+    style B fill:#5b9bd5,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+```
+
+### Deployment Architecture
+
+```mermaid
+graph TB
+    A[Developer] -->|git push| B[GitHub Repository]
+    B -->|triggers| C[GitHub Actions<br/>CI/CD Pipeline]
+
+    C -->|OIDC Auth| D[AWS]
+
+    C -->|SST Deploy| E[CloudFormation]
+
+    E --> F[S3 + CloudFront<br/>Frontend]
+    E --> G[API Gateway + Lambda<br/>Backend]
+    E --> H[DynamoDB + SES<br/>Services]
+
+    style C fill:#ed7d31,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+    style G fill:#70ad47,stroke:#333
+    style H fill:#70ad47,stroke:#333
+```
+
+---
+
+## Project Structure
+
+```
+idevelop.tech/
+├── packages/
+│   ├── web/         # Vue 3 frontend
+│   ├── functions/   # AWS Lambda functions
+│   └── core/        # Shared TypeScript types
+├── sst.config.ts    # Infrastructure as Code
+├── docs/            # Documentation
+└── .github/         # CI/CD workflows
 ```
 
 ---
@@ -130,131 +255,6 @@ graph TB
 - ✅ Build validation
 - ✅ CodeQL security scan (main only)
 - ✅ DeepSource analysis
-
----
-
-## Architecture
-
-### Request Flow
-
-```mermaid
-graph TB
-    A[User Browser] -->|HTTPS| B[CloudFront CDN]
-    B --> C[S3 Static Assets<br/>Vue 3 SPA]
-
-    A -->|reCAPTCHA| D[Google reCAPTCHA v3]
-
-    C -->|API Request| E[API Gateway]
-    E -->|IAM Auth| F[Lambda Functions<br/>Contact Handler]
-
-    F --> G[DynamoDB<br/>Rate Limiting]
-    F --> H[SES<br/>Email Delivery]
-    F --> I[SSM Parameter Store<br/>Secrets]
-
-    style B fill:#5b9bd5,stroke:#333
-    style E fill:#5b9bd5,stroke:#333
-    style F fill:#70ad47,stroke:#333
-```
-
-### Deployment Architecture
-
-```mermaid
-graph TB
-    A[Developer] -->|git push| B[GitHub Repository]
-    B -->|triggers| C[GitHub Actions<br/>CI/CD Pipeline]
-
-    C -->|OIDC Auth| D[AWS]
-
-    C -->|SST Deploy| E[CloudFormation]
-
-    E --> F[S3 + CloudFront<br/>Frontend]
-    E --> G[API Gateway + Lambda<br/>Backend]
-    E --> H[DynamoDB + SES<br/>Services]
-
-    style C fill:#ed7d31,stroke:#333
-    style E fill:#5b9bd5,stroke:#333
-    style F fill:#70ad47,stroke:#333
-    style G fill:#70ad47,stroke:#333
-    style H fill:#70ad47,stroke:#333
-```
-
----
-
-## Project Structure
-
-```
-idevelop.tech/
-├── packages/
-│   ├── web/         # Vue 3 frontend
-│   ├── functions/   # AWS Lambda functions
-│   └── core/        # Shared TypeScript types
-├── sst.config.ts    # Infrastructure as Code
-├── docs/            # Documentation
-└── .github/         # CI/CD workflows
-```
-
----
-
-## Quick Start
-
-<details>
-<summary><b>Prerequisites</b></summary>
-
-- Node.js 20.19.0+ or 22.12.0+
-- AWS CLI (for deployment)
-- AWS account with appropriate permissions
-
-</details>
-
-<details>
-<summary><b>Development Setup</b></summary>
-
-```bash
-# Clone repository
-git clone https://github.com/mattlucian/idevelop.tech.git
-cd idevelop.tech
-
-# Install dependencies
-npm install
-
-# Frontend development
-cd packages/web
-npm run dev          # http://localhost:5173
-npm run type-check   # TypeScript validation
-npm run lint         # ESLint + auto-fix
-npm run format       # Prettier
-npm run build        # Production build
-```
-
-</details>
-
-<details>
-<summary><b>Environment Variables</b></summary>
-
-Create `packages/web/.env.local`:
-
-```env
-VITE_API_URL=your-api-gateway-url
-VITE_RECAPTCHA_SITE_KEY=your-recaptcha-site-key
-VITE_GA_MEASUREMENT_ID=your-ga-id  # Optional
-```
-
-</details>
-
-<details>
-<summary><b>Deployment</b></summary>
-
-**Automated via GitHub Actions:**
-- Push to `develop` → Deploy to dev environment
-- Push to `main` → Deploy to production
-
-**Manual deployment:**
-```bash
-aws sso login --profile idevelop-tech
-AWS_PROFILE=idevelop-tech npx sst deploy --stage production
-```
-
-</details>
 
 ---
 
