@@ -14,8 +14,8 @@ exporters:
       authorization: Bearer ${env:AXIOM_TOKEN}
       x-axiom-dataset: ${env:AXIOM_DATASET}
 
-  logging:
-    loglevel: warn
+  debug:
+    verbosity: normal
 
 service:
   pipelines:
@@ -24,4 +24,4 @@ service:
       exporters: [otlphttp]
     metrics:
       receivers: [otlp]
-      exporters: [logging]
+      exporters: [debug]
