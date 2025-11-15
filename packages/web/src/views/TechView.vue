@@ -9,6 +9,7 @@ import Badge from "../components/elements/badges/Badge.vue";
 import type { TechContent, Expertise } from "../types/tech";
 import { techContent } from "../data/tech";
 import { SITE } from "@/constants";
+import { logger } from "@/utils/logger";
 
 // Set meta tags for Tech Experience page
 usePageMeta({
@@ -58,9 +59,7 @@ const loadTechData = () => {
     }
   } catch (error) {
     loadError.value = true;
-    if (import.meta.env.DEV) {
-      console.error("Failed to load tech data:", error);
-    }
+    logger.error("Failed to load tech data", error, { component: "TechView" });
   }
 };
 

@@ -7,7 +7,9 @@
     "./*": "./src/*.ts"
   },
   "scripts": {
-    "preview-emails": "tsx scripts/preview-email.ts"
+    "preview-emails": "tsx scripts/preview-email.ts",
+    "lint": "eslint . --fix",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",

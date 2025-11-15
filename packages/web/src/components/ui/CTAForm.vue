@@ -6,6 +6,7 @@ import { useRecaptcha } from "@/composables/useRecaptcha";
 import { submitContactForm } from "@/services/contactApi";
 import type { ContactFormRequest } from "@/types/api";
 import { ContactFormErrorCode } from "@/types/api";
+import { logger } from "@/utils/logger";
 
 interface Props {
   serviceName?: string;
@@ -157,15 +158,17 @@ const handleSubmit = async () => {
       showError.value = true;
       errorMessage.value = getErrorMessage(response.error.code);
 
-      if (import.meta.env.DEV) {
-        console.error("Form submission error:", response.error);
-      }
+      logger.error("Form submission failed", response.error, {
+        component: "CTAForm",
+        errorCode: response.error.code,
+      });
     }
   } catch (error) {
     // Handle unexpected errors (reCAPTCHA load failure, network issues, etc.)
-    if (import.meta.env.DEV) {
-      console.error("Form submission error:", error);
-    }
+    logger.error("Form submission error", error, {
+      component: "CTAForm",
+      action: "submit",
+    });
     showError.value = true;
     errorMessage.value =
       "Unable to submit form. Please try again or email me directly.";

@@ -26,6 +26,8 @@ export default [
 
       // Code quality rules (catch DeepSource issues locally)
       "default-case": "warn", // Catch missing default in switch statements (DeepSource JS-0047)
+      "prefer-template": "warn", // Prefer template literals over string concatenation
+      "no-useless-concat": "error", // Catch useless string concatenation
 
       // Development rules (allow during dev, should be removed before production)
       "no-console": "warn", // Warn but don't error (we gate these with import.meta.env.DEV)
