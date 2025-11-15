@@ -90,9 +90,9 @@ export default $config({
         // Propagators for trace context (W3C Trace Context standard)
         OTEL_PROPAGATORS: "tracecontext,baggage",
 
-        // Export traces to Axiom via OTLP (using generic variables for ADOT)
+        // Export traces to Axiom via OTLP (SDK appends /v1/traces automatically)
         OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf",
-        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co/v1/traces",
+        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co",
         OTEL_EXPORTER_OTLP_HEADERS: $interpolate`authorization=Bearer ${axiomToken.value},x-axiom-dataset=${axiomDataset}`,
         OTEL_EXPORTER_OTLP_COMPRESSION: "gzip",
 
