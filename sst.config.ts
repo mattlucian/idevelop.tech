@@ -90,11 +90,11 @@ export default $config({
         // Propagators for trace context (W3C Trace Context standard)
         OTEL_PROPAGATORS: "tracecontext,baggage",
 
-        // Export traces to Axiom via OTLP (per Axiom docs)
-        OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: "http/protobuf",
-        OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "https://api.axiom.co/v1/traces",
-        OTEL_EXPORTER_OTLP_TRACES_HEADERS: $interpolate`authorization=Bearer ${axiomToken.value},x-axiom-dataset=${axiomDataset}`,
-        OTEL_EXPORTER_OTLP_COMPRESSION: "gzip", // Required by Axiom
+        // Export traces to Axiom via OTLP (using generic variables for ADOT)
+        OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf",
+        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co/v1/traces",
+        OTEL_EXPORTER_OTLP_HEADERS: $interpolate`authorization=Bearer ${axiomToken.value},x-axiom-dataset=${axiomDataset}`,
+        OTEL_EXPORTER_OTLP_COMPRESSION: "gzip",
 
         // Batch Span Processor configuration (aggressive flushing for Lambda)
         OTEL_BSP_SCHEDULE_DELAY: "1000", // Export every 1 second
