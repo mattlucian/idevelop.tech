@@ -74,43 +74,15 @@ export default $config({
         SES_TO_EMAIL: "matt@idevelop.tech",
         STAGE: stage,
 
-        // Axiom configuration (logs)
-        AXIOM_TOKEN: axiomToken.value,
+        // Axiom configuration (referenced by collector.yaml)
+        AXIOM_TOKEN: $interpolate`Bearer ${axiomToken.value}`,
         AXIOM_DATASET: axiomDataset,
         AXIOM_URL: "https://api.axiom.co",
 
-        // OpenTelemetry configuration (distributed tracing)
-        AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler",
+        // ADOT configuration (per Axiom docs)
+        AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-instrument",
+        OPENTELEMETRY_COLLECTOR_CONFIG_FILE: "/var/task/collector.yaml",
         OTEL_SERVICE_NAME: "contact-api",
-        OTEL_LOG_LEVEL: "debug", // Enable verbose logging to debug 400 error
-
-        // Selective instrumentation (reduces cold start overhead)
-        OTEL_NODE_ENABLED_INSTRUMENTATIONS: "aws-sdk,http,aws-lambda",
-
-        // Propagators for trace context (W3C Trace Context standard)
-        OTEL_PROPAGATORS: "tracecontext,baggage",
-
-        // Export traces to Axiom via OTLP (SDK appends /v1/traces automatically)
-        OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf",
-        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co",
-        OTEL_EXPORTER_OTLP_HEADERS: $interpolate`authorization=Bearer ${axiomToken.value},x-axiom-dataset=${axiomDataset}`,
-        OTEL_EXPORTER_OTLP_COMPRESSION: "gzip",
-
-        // Batch Span Processor configuration (aggressive flushing for Lambda)
-        OTEL_BSP_SCHEDULE_DELAY: "1000", // Export every 1 second
-        OTEL_BSP_MAX_EXPORT_BATCH_SIZE: "10", // Small batches for quick export
-        OTEL_BSP_EXPORT_TIMEOUT: "5000", // 5 second timeout for exports
-
-        // Sampling configuration (100% for low-traffic portfolio site)
-        OTEL_TRACES_SAMPLER: "always_on",
-
-        // Disable metrics export (Axiom doesn't support OTLP metrics yet)
-        OTEL_METRICS_EXPORTER: "none",
-
-        // Logs exporter configuration
-        OTEL_LOGS_EXPORTER: "none", // Axiom Extension handles logs separately
-
-        // Resource attributes (helps identify service in Axiom)
         OTEL_RESOURCE_ATTRIBUTES: $interpolate`service.name=contact-api,service.version=1.0.0,deployment.environment=${stage}`,
       },
 
@@ -151,6 +123,10 @@ export default $config({
         {
           from: "packages/functions/src/email-templates/contact-confirmation.html",
           to: "email-templates/contact-confirmation.html",
+        },
+        {
+          from: "packages/functions/src/collector.yaml",
+          to: "collector.yaml",
         },
       ],
     });
