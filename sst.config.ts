@@ -82,6 +82,7 @@ export default $config({
         // OpenTelemetry configuration (distributed tracing)
         AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler",
         OTEL_SERVICE_NAME: "contact-api",
+        OTEL_LOG_LEVEL: "debug", // Enable verbose logging to debug 400 error
 
         // Selective instrumentation (reduces cold start overhead)
         OTEL_NODE_ENABLED_INSTRUMENTATIONS: "aws-sdk,http,aws-lambda",
