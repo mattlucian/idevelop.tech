@@ -6,12 +6,23 @@ export default $config({
       name: "idevelop-tech",
       removal: input?.stage === "production" ? "retain" : "remove",
       home: "aws",
+      providers: {
+        aws: {
+          profile: "idevelop-tech",
+        },
+      },
     };
   },
   async run() {
     // Stage-specific configuration
     const stage = $app.stage;
     const isProduction = stage === "production";
+
+    // Axiom observability configuration
+    const axiomToken = new sst.Secret("AxiomToken");
+    const axiomDataset = isProduction
+      ? "idevelop.tech" // Production dataset (create later)
+      : "dev.idevelop.tech"; // Development dataset
 
     // DynamoDB Table for Rate Limiting
     const rateLimitTable = new sst.aws.Dynamo("RateLimitTable", {
@@ -39,15 +50,53 @@ export default $config({
     const contactHandler = new sst.aws.Function("ContactHandler", {
       handler: "packages/functions/src/contact.handler",
       runtime: "nodejs20.x",
+      architecture: "arm64",
       memory: "512 MB",
-      timeout: "10 seconds",
+      timeout: "30 seconds", // Increased for ADOT cold start overhead
+
+      // Lambda layers for observability
+      layers: [
+        // Axiom Lambda Extension (logs + platform metrics)
+        "arn:aws:lambda:us-east-1:694952825951:layer:axiom-extension-arm64:11",
+
+        // ADOT Lambda Layer (distributed tracing with OpenTelemetry)
+        "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-nodejs-arm64-ver-1-30-2:1",
+      ],
+
       environment: {
+        // Existing environment variables
         RATE_LIMIT_TABLE_NAME: rateLimitTable.name,
         RECAPTCHA_SECRET_PARAMETER: `/idevelop-tech/${stage}/recaptcha-secret`,
         SES_FROM_EMAIL: "matt@idevelop.tech", // Using matt@ for now, will change to noreply@ later
         SES_TO_EMAIL: "matt@idevelop.tech",
         STAGE: stage,
+
+        // Axiom configuration (logs)
+        AXIOM_TOKEN: axiomToken.value,
+        AXIOM_DATASET: axiomDataset,
+        AXIOM_URL: "api.axiom.co",
+
+        // OpenTelemetry configuration (distributed tracing)
+        AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler",
+        OTEL_SERVICE_NAME: "contact-api",
+
+        // Selective instrumentation (reduces cold start overhead)
+        OTEL_NODE_ENABLED_INSTRUMENTATIONS: "aws-sdk,http,aws-lambda",
+
+        // Export traces to Axiom via OTLP
+        OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf",
+        OTEL_EXPORTER_OTLP_ENDPOINT: "https://api.axiom.co/v1/traces",
+        OTEL_EXPORTER_OTLP_HEADERS: $interpolate`x-axiom-dataset=${axiomDataset},Authorization=Bearer ${axiomToken.value}`,
+
+        // Sampling configuration (100% for low-traffic portfolio site)
+        OTEL_TRACES_SAMPLER: "always_on",
+
+        // Resource attributes (helps identify service in Axiom)
+        OTEL_RESOURCE_ATTRIBUTES: $interpolate`service.name=contact-api,service.version=1.0.0,deployment.environment=${stage}`,
       },
+
+      // Link Axiom secret for runtime access
+      link: [axiomToken],
       permissions: [
         {
           actions: ["dynamodb:PutItem", "dynamodb:Query"],
@@ -66,6 +115,11 @@ export default $config({
           resources: [
             `arn:aws:ssm:us-east-1:*:parameter/idevelop-tech/${stage}/*`,
           ],
+        },
+        {
+          // X-Ray permissions for ADOT distributed tracing
+          actions: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
+          resources: ["*"],
         },
       ],
       nodejs: {
