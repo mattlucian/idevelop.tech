@@ -15,62 +15,21 @@ Full-stack portfolio application showcasing technical consulting services, cloud
 
 ## Why This Project?
 
-This repository demonstrates production-ready full-stack development practices:
+Production-ready full-stack development practices:
 
-**🏗️ Architecture Excellence**
-- Serverless-first design for cost-effectiveness and scalability
-- Type-safe monorepo with shared types across frontend and backend
-- Infrastructure as Code with SST v3 (Pulumi-based)
-
-**🔒 Security & DevOps**
-- AWS OIDC authentication (zero long-lived credentials)
-- Automated security scanning (CodeQL, DeepSource)
-- Branch protection with required status checks
-- Comprehensive error handling and logging
-
-**⚡ Developer Experience**
-- Full TypeScript throughout (frontend, backend, infrastructure)
-- Automated code quality (ESLint, Prettier, TypeScript)
-- Hot reload development with Vite
-- AI-assisted development guidelines (CLAUDE.md)
-
-**🚀 CI/CD Automation**
-- GitHub Actions for automated testing and deployment
-- Separate dev and production environments
-- Automated branch cleanup and PR workflows
+- **🏗️ Architecture** - Serverless-first, type-safe monorepo, Infrastructure as Code (SST v3)
+- **🔒 Security** - AWS OIDC auth, automated scanning (CodeQL, DeepSource), branch protection
+- **⚡ Developer Experience** - Full TypeScript, automated quality checks, hot reload, AI guidelines
+- **🚀 CI/CD** - GitHub Actions, separate dev/prod environments, automated workflows
 
 ---
 
-## Key Features
+## Tech Stack
 
-### Frontend
-- **Vue 3** with Composition API and `<script setup>` syntax
-- **Tailwind CSS** design system with dual color schemes
-- **Type-safe routing** with Vue Router
-- **SEO optimization** with dynamic meta tags
-- **PWA support** with offline caching (non-intrusive)
-- **Responsive design** (mobile-first, 320px → 1440px+)
-
-### Backend
-- **AWS Lambda** serverless functions
-- **API Gateway** HTTP endpoints
-- **DynamoDB** for rate limiting
-- **SES** for transactional email
-- **reCAPTCHA v3** spam protection
-- **Structured error handling** with typed responses
-
-### Infrastructure
-- **S3 + CloudFront** static hosting with HTTPS
-- **SST v3** infrastructure as code
-- **GitHub Actions** CI/CD with OIDC
-- **Automated deployments** to dev and production stages
-
-### Code Quality
-- **TypeScript** strict mode (0 errors)
-- **ESLint** with Vue and TypeScript rules
-- **Prettier** code formatting
-- **CodeQL** security analysis
-- **DeepSource** code quality analysis
+**Frontend**: Vue 3 (Composition API) + TypeScript + Tailwind CSS + Vite
+**Backend**: AWS Lambda + API Gateway + DynamoDB + SES
+**Infrastructure**: SST v3 + S3 + CloudFront + GitHub Actions
+**Architecture**: Serverless monorepo with TypeScript throughout
 
 ---
 
