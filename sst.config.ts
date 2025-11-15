@@ -6,11 +6,14 @@ export default $config({
       name: "idevelop-tech",
       removal: input?.stage === "production" ? "retain" : "remove",
       home: "aws",
-      providers: {
-        aws: {
-          profile: "idevelop-tech",
-        },
-      },
+      // Use AWS profile locally, OIDC role in CI/CD
+      providers: process.env.CI
+        ? undefined // CI/CD uses OIDC role from GitHub Actions
+        : {
+            aws: {
+              profile: "idevelop-tech", // Local development profile
+            },
+          },
     };
   },
   async run() {
