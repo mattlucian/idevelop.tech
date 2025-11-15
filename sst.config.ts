@@ -75,13 +75,13 @@ export default $config({
         STAGE: stage,
 
         // Axiom configuration (referenced by collector.yaml)
-        AXIOM_TOKEN: $interpolate`Bearer ${axiomToken.value}`,
+        AXIOM_TOKEN: axiomToken.value,
         AXIOM_DATASET: axiomDataset,
         AXIOM_URL: "https://api.axiom.co",
 
-        // ADOT configuration (per Axiom docs)
-        AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-instrument",
-        OPENTELEMETRY_COLLECTOR_CONFIG_FILE: "/var/task/collector.yaml",
+        // ADOT configuration (Node.js specific)
+        AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler",
+        OPENTELEMETRY_COLLECTOR_CONFIG_URI: "/var/task/collector.yaml",
         OTEL_SERVICE_NAME: "contact-api",
         OTEL_RESOURCE_ATTRIBUTES: $interpolate`service.name=contact-api,service.version=1.0.0,deployment.environment=${stage}`,
       },
