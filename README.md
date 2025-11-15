@@ -26,10 +26,24 @@ Production-ready full-stack development practices:
 
 ## Tech Stack
 
-**Frontend**: Vue 3 (Composition API) + TypeScript + Tailwind CSS + Vite
-**Backend**: AWS Lambda + API Gateway + DynamoDB + SES
-**Infrastructure**: SST v3 + S3 + CloudFront + GitHub Actions
-**Architecture**: Serverless monorepo with TypeScript throughout
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Frontend                                                        │
+│ Vue 3 • TypeScript • Tailwind CSS • Vite • Vue Router          │
+└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│ Backend & API                                                   │
+│ AWS Lambda • API Gateway • DynamoDB • SSM Parameters           │
+└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│ Infrastructure & Services                                       │
+│ SST v3 • S3 • CloudFront • SES • GitHub Actions                │
+└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│ Code Quality & Security                                         │
+│ TypeScript (strict) • ESLint • CodeQL • DeepSource • reCAPTCHA  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -148,15 +162,6 @@ graph TB
     style E fill:#bfb,stroke:#333
     style J fill:#fbb,stroke:#333
 ```
-
----
-
-## Tech Stack
-
-**Frontend**: Vue 3 (Composition API) + TypeScript + Tailwind CSS + Vite
-**Backend**: AWS Lambda + API Gateway + DynamoDB + SES
-**Infrastructure**: SST v3 + S3 + CloudFront + GitHub Actions
-**Architecture**: Serverless monorepo with TypeScript throughout
 
 ---
 
