@@ -117,12 +117,10 @@ graph TB
     C -->|No| D[Fix Issues]
     D -->|push changes| B
     C -->|Yes| E[Merge to develop]
-    E -->|auto-deploy| F[Dev Environment]
-    F -->|verify| G[dev.idevelop.tech]
+    E -->|auto-deploy| F[Dev Environment<br/>dev.idevelop.tech]
 
     style C fill:#ed7d31,stroke:#333
     style F fill:#5b9bd5,stroke:#333
-    style G fill:#5b9bd5,stroke:#333
 ```
 
 **What Happens**:
@@ -139,12 +137,10 @@ graph TB
     C -->|No| D[Fix Issues]
     D -->|merge to develop| A
     C -->|Yes| E[Merge to main]
-    E -->|auto-deploy| F[Production]
-    F -->|live at| G[idevelop.tech]
+    E -->|auto-deploy| F[Production<br/>idevelop.tech]
 
     style C fill:#ed7d31,stroke:#333
     style F fill:#70ad47,stroke:#333
-    style G fill:#70ad47,stroke:#333
 ```
 
 **What Happens**:
