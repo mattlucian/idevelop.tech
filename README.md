@@ -15,153 +15,12 @@ Full-stack portfolio application showcasing technical consulting services, cloud
 
 ## Why This Project?
 
-This repository demonstrates production-ready full-stack development practices:
+Production-ready full-stack development practices:
 
-**🏗️ Architecture Excellence**
-- Serverless-first design for cost-effectiveness and scalability
-- Type-safe monorepo with shared types across frontend and backend
-- Infrastructure as Code with SST v3 (Pulumi-based)
-
-**🔒 Security & DevOps**
-- AWS OIDC authentication (zero long-lived credentials)
-- Automated security scanning (CodeQL, DeepSource)
-- Branch protection with required status checks
-- Comprehensive error handling and logging
-
-**⚡ Developer Experience**
-- Full TypeScript throughout (frontend, backend, infrastructure)
-- Automated code quality (ESLint, Prettier, TypeScript)
-- Hot reload development with Vite
-- AI-assisted development guidelines (CLAUDE.md)
-
-**🚀 CI/CD Automation**
-- GitHub Actions for automated testing and deployment
-- Separate dev and production environments
-- Automated branch cleanup and PR workflows
-
----
-
-## Key Features
-
-### Frontend
-- **Vue 3** with Composition API and `<script setup>` syntax
-- **Tailwind CSS** design system with dual color schemes
-- **Type-safe routing** with Vue Router
-- **SEO optimization** with dynamic meta tags
-- **PWA support** with offline caching (non-intrusive)
-- **Responsive design** (mobile-first, 320px → 1440px+)
-
-### Backend
-- **AWS Lambda** serverless functions
-- **API Gateway** HTTP endpoints
-- **DynamoDB** for rate limiting
-- **SES** for transactional email
-- **reCAPTCHA v3** spam protection
-- **Structured error handling** with typed responses
-
-### Infrastructure
-- **S3 + CloudFront** static hosting with HTTPS
-- **SST v3** infrastructure as code
-- **GitHub Actions** CI/CD with OIDC
-- **Automated deployments** to dev and production stages
-
-### Code Quality
-- **TypeScript** strict mode (0 errors)
-- **ESLint** with Vue and TypeScript rules
-- **Prettier** code formatting
-- **CodeQL** security analysis
-- **DeepSource** code quality analysis
-
----
-
-## CI/CD Workflow
-
-```mermaid
-graph LR
-    A[Feature Branch] -->|Push| B[PR to develop]
-    B -->|PR Checks| C{Checks Pass?}
-    C -->|No| D[Fix Issues]
-    D -->|Push| B
-    C -->|Yes| E[Merge to develop]
-    E -->|Auto-deploy| F[Dev Environment]
-    F -->|Test| G[PR to main]
-    G -->|PR Checks| H{Checks Pass?}
-    H -->|No| I[Fix Issues]
-    I -->|Push| G
-    H -->|Yes| J[Merge to main]
-    J -->|Auto-deploy| K[Production]
-
-    style C fill:#f9f,stroke:#333
-    style H fill:#f9f,stroke:#333
-    style F fill:#bbf,stroke:#333
-    style K fill:#bfb,stroke:#333
-```
-
-**Status Checks** (required for merge):
-- ✅ TypeScript type checking
-- ✅ ESLint code quality
-- ✅ Build validation
-- ✅ CodeQL security scan
-- ✅ DeepSource analysis
-
----
-
-## Architecture
-
-```mermaid
-graph TB
-    subgraph "Frontend"
-        A[Vue 3 SPA] -->|HTTPS| B[CloudFront CDN]
-        B --> C[S3 Bucket]
-    end
-
-    subgraph "Backend"
-        A -->|API Calls| D[API Gateway]
-        D --> E[Lambda Functions]
-        E --> F[DynamoDB]
-        E --> G[SES Email]
-        E --> H[SSM Parameters]
-    end
-
-    subgraph "Security"
-        A -->|Verify| I[reCAPTCHA v3]
-        D -->|IAM| E
-    end
-
-    subgraph "CI/CD"
-        J[GitHub Actions] -->|Deploy| B
-        J -->|Deploy| D
-        K[OIDC] -->|Auth| J
-    end
-
-    style A fill:#bbf,stroke:#333
-    style E fill:#bfb,stroke:#333
-    style J fill:#fbb,stroke:#333
-```
-
----
-
-## Tech Stack
-
-**Frontend**: Vue 3 (Composition API) + TypeScript + Tailwind CSS + Vite
-**Backend**: AWS Lambda + API Gateway + DynamoDB + SES
-**Infrastructure**: SST v3 + S3 + CloudFront + GitHub Actions
-**Architecture**: Serverless monorepo with TypeScript throughout
-
----
-
-## Project Structure
-
-```
-idevelop.tech/
-├── packages/
-│   ├── web/         # Vue 3 frontend
-│   ├── functions/   # AWS Lambda functions
-│   └── core/        # Shared TypeScript types
-├── sst.config.ts    # Infrastructure as Code
-├── docs/            # Documentation
-└── .github/         # CI/CD workflows
-```
+- **🏗️ Architecture** - Serverless-first, type-safe monorepo, Infrastructure as Code (SST v3)
+- **🔒 Security** - AWS OIDC auth, automated scanning (CodeQL, DeepSource), branch protection
+- **⚡ Developer Experience** - Full TypeScript, automated quality checks, hot reload, AI guidelines
+- **🚀 CI/CD** - GitHub Actions, separate dev/prod environments, automated workflows
 
 ---
 
@@ -228,106 +87,201 @@ AWS_PROFILE=idevelop-tech npx sst deploy --stage production
 
 ---
 
-## Configuration
+## Tech Stack
 
-### For Forking/Adaptation
+```
+Frontend
+┌─────────────────────────────────────────────────────────────────┐
+│ Vue 3 • TypeScript • Tailwind CSS • Vite • Vue Router           │
+└─────────────────────────────────────────────────────────────────┘
 
-1. **One-time manual setup**: See [docs/SETUP.md](docs/SETUP.md)
-   - GitHub Actions OIDC
-   - Email DNS (SPF, DMARC, DKIM)
-   - reCAPTCHA keys
-   - AWS SES verification
+Backend & API
+┌─────────────────────────────────────────────────────────────────┐
+│ AWS Lambda • API Gateway • DynamoDB • SSM Parameters            │
+└─────────────────────────────────────────────────────────────────┘
 
-2. **Update application constants**: `packages/web/src/constants/index.ts`
-   - Site name, URL, company name
-   - Contact information
-   - Social media links
+Infrastructure & Services
+┌─────────────────────────────────────────────────────────────────┐
+│ SST v3 • S3 • CloudFront • SES • GitHub Actions                 │
+└─────────────────────────────────────────────────────────────────┘
 
-3. **Environment variables**: `packages/web/.env.*`
-   - `VITE_API_URL` - API endpoint
-   - `VITE_RECAPTCHA_SITE_KEY` - reCAPTCHA public key
-   - `VITE_GA_MEASUREMENT_ID` - Analytics (optional)
+Code Quality & Security
+┌─────────────────────────────────────────────────────────────────┐
+│ TypeScript (strict) • ESLint • CodeQL • DeepSource • reCAPTCHA  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Architecture
+
+### Request Flow
+
+```mermaid
+graph TB
+    A[User Browser] -->|HTTPS| B[CloudFront CDN]
+    B --> C[S3 Static Assets<br/>Vue 3 SPA]
+
+    A -->|reCAPTCHA| D[Google reCAPTCHA v3]
+
+    C -->|API Request| E[API Gateway]
+    E -->|IAM Auth| F[Lambda Functions<br/>Contact Handler]
+
+    F --> G[DynamoDB<br/>Rate Limiting]
+    F --> H[SES<br/>Email Delivery]
+    F --> I[SSM Parameter Store<br/>Secrets]
+
+    style B fill:#5b9bd5,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+```
+
+### Deployment Architecture
+
+```mermaid
+graph TB
+    A[Developer] -->|git push| B[GitHub Repository]
+    B -->|triggers| C[GitHub Actions<br/>CI/CD Pipeline]
+
+    C -->|OIDC Auth| D[AWS]
+
+    C -->|SST Deploy| E[CloudFormation]
+
+    E --> F[S3 + CloudFront<br/>Frontend]
+    E --> G[API Gateway + Lambda<br/>Backend]
+    E --> H[DynamoDB + SES<br/>Services]
+
+    style C fill:#ed7d31,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+    style G fill:#70ad47,stroke:#333
+    style H fill:#70ad47,stroke:#333
+```
+
+---
+
+## Project Structure
+
+```
+idevelop.tech/
+├── packages/
+│   ├── web/         # Vue 3 frontend
+│   ├── functions/   # AWS Lambda functions
+│   └── core/        # Shared TypeScript types
+├── sst.config.ts    # Infrastructure as Code
+├── docs/            # Documentation
+└── .github/         # CI/CD workflows
+```
+
+---
+
+## CI/CD Workflow
+
+### 1. Branch Creation & Pull Request
+
+```mermaid
+graph TB
+    A[develop branch] -->|create branch| B[feature/my-feature]
+    C[main branch] -->|create branch| D[hotfix/critical-fix]
+
+    B -->|code changes| E[Commit & Push]
+    D -->|code changes| F[Commit & Push]
+
+    E -->|open PR| G[PR to develop]
+    F -->|open PR| H[PR to main]
+
+    G -->|triggers| I[Status Checks]
+    H -->|triggers| I
+
+    I --> J[TypeScript Check]
+    I --> K[ESLint]
+    I --> L[Build Validation]
+    I --> M[CodeQL Security]
+    I --> N[DeepSource]
+
+    style B fill:#5b9bd5,stroke:#333
+    style D fill:#e74c3c,stroke:#333
+    style I fill:#ed7d31,stroke:#333
+```
+
+**Branch Types**:
+- `feature/*` - New features (from develop)
+- `docs/*` - Documentation (from develop)
+- `hotfix/*` - Production fixes (from main)
+
+### 2. Development Workflow (PR → develop)
+
+```mermaid
+graph TB
+    A[feature/* branch] -->|open PR| B[PR to develop]
+    B -->|status checks| C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D -->|push changes| B
+    C -->|Yes| E[Merge to develop]
+    E -->|auto-deploy| F[Dev Environment<br/>dev.idevelop.tech]
+
+    style C fill:#ed7d31,stroke:#333
+    style F fill:#5b9bd5,stroke:#333
+```
+
+**What Happens**:
+- All status checks must pass (TypeScript, ESLint, Build, CodeQL, DeepSource)
+- After merge, automatic deployment to dev environment
+- Test changes at https://dev.idevelop.tech
+
+### 3. Production Deployment (develop → main)
+
+```mermaid
+graph TB
+    A[develop branch] -->|open PR| B[PR to main]
+    B -->|status checks| C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D -->|merge to develop| A
+    C -->|Yes| E[Merge to main]
+    E -->|auto-deploy| F[Production<br/>idevelop.tech]
+
+    style C fill:#ed7d31,stroke:#333
+    style F fill:#70ad47,stroke:#333
+```
+
+**What Happens**:
+- Additional CodeQL security scan required for production
+- After merge, automatic deployment to production
+- Live at https://idevelop.tech (custom domain) or CloudFront URL
+
+**Status Checks** (required for all PRs):
+- ✅ TypeScript type checking
+- ✅ ESLint code quality
+- ✅ Build validation
+- ✅ CodeQL security scan (main only)
+- ✅ DeepSource analysis
 
 ---
 
 ## Documentation
 
-### Project Management
-- **[TODO.md](TODO.md)** - Active tasks and pending work
-- **[docs/BRANCH-STRATEGY.md](docs/BRANCH-STRATEGY.md)** - Git workflow and CI/CD
+**Architecture & Development**:
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Full-stack architecture decisions
+- [CLAUDE.md](CLAUDE.md) - AI development guidelines and coding standards
+- [BRANCH-STRATEGY.md](docs/BRANCH-STRATEGY.md) - Git workflow and CI/CD
 
-### Architecture
-- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Full-stack architecture decisions
-- **[docs/frontend/](docs/frontend/)** - Frontend documentation
-  - `COMPONENT-RULES.md` - Component patterns (2-3 rule)
-  - `DESIGN-SYSTEM.md` - Design tokens and styling
-  - `DATA-STRUCTURE.md` - Type schemas
-  - `CONFIGURATION.md` - Key configuration files
-- **[docs/backend/FUNCTIONS.md](docs/backend/FUNCTIONS.md)** - Lambda functions
+**Frontend**:
+- [Component Rules](docs/frontend/COMPONENT-RULES.md) - Component patterns (2-3 rule)
+- [Design System](docs/frontend/DESIGN-SYSTEM.md) - Design tokens and styling
+- [Data Structure](docs/frontend/DATA-STRUCTURE.md) - Type schemas
 
-### Development
-- **[CLAUDE.md](CLAUDE.md)** - AI development guidelines and coding standards
-- **[.github/SECURITY.md](.github/SECURITY.md)** - Security policy
+**Backend**:
+- [Lambda Functions](docs/backend/FUNCTIONS.md) - API implementation
 
----
+**Setup & Configuration**:
+- [SETUP.md](docs/SETUP.md) - Initial project setup and configuration
+- [TODO.md](TODO.md) - Active tasks and pending work
 
-## Contributing
-
-Contributions are welcome! This project follows professional development practices:
-
-### Branch Strategy
-
-1. **Create feature branch** from `develop`:
-   ```bash
-   git checkout develop
-   git pull origin develop
-   git checkout -b feature/your-feature-name
-   ```
-
-2. **Make changes** with quality checks:
-   ```bash
-   # After changes
-   npm run type-check   # Must pass
-   npm run lint         # Must pass
-   npm run format       # Must run
-   ```
-
-3. **Create Pull Request** to `develop`:
-   - All status checks must pass
-   - ESLint, TypeScript, CodeQL, DeepSource
-   - PRs to `main` are only from `develop`
-
-4. **Branch cleanup**: Feature branches auto-delete after merge
-
-### Code Standards
-
-- **TypeScript**: Strict mode, no `any` types, no non-null assertions (`!`)
-- **Vue 3**: Composition API with `<script setup lang="ts">`
-- **Components**: Follow 2-3 pattern rule (see `docs/frontend/COMPONENT-RULES.md`)
-- **Styling**: Tailwind CSS, follow design system tokens
-- **Error Handling**: Centralized logger, structured errors, proper validation
-
-See [CLAUDE.md](CLAUDE.md) for complete development guidelines.
-
----
-
-## Security
-
-- AWS OIDC authentication (no long-lived credentials)
-- Secrets managed via AWS SSM and GitHub Secrets
-- Automated security scanning (CodeQL, DeepSource)
-- Dependency scanning (Dependabot)
-- Branch protection with required reviews
-- Environment variable validation
-
-See [.github/SECURITY.md](.github/SECURITY.md) for vulnerability reporting.
+**Security**:
+- [SECURITY.md](.github/SECURITY.md) - Security policy and vulnerability reporting
 
 ---
 
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-**Built with Vue 3, TypeScript, Tailwind CSS, SST, and AWS**
