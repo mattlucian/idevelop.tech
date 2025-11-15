@@ -94,6 +94,9 @@ export default $config({
         // Sampling configuration (100% for low-traffic portfolio site)
         OTEL_TRACES_SAMPLER: "always_on",
 
+        // Disable metrics export (Axiom doesn't support OTLP metrics yet)
+        OTEL_METRICS_EXPORTER: "none",
+
         // Resource attributes (helps identify service in Axiom)
         OTEL_RESOURCE_ATTRIBUTES: $interpolate`service.name=contact-api,service.version=1.0.0,deployment.environment=${stage}`,
       },
