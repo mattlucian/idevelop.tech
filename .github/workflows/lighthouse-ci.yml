@@ -1,8 +1,6 @@
 name: Lighthouse CI
 
 on:
-  pull_request:
-    branches: [develop, main]
   push:
     branches: [develop, main]
 
@@ -10,7 +8,6 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write
       contents: read
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +19,7 @@ jobs:
 
       # Wait for deployment to complete when testing deployed URLs
       - name: Wait for deployment
-        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/develop'
         run: |
           echo "Waiting for deployment to complete..."
           sleep 120  # Wait 2 minutes for SST deployment to complete
@@ -41,34 +38,8 @@ jobs:
           done
           echo "⚠️ dev.idevelop.tech not accessible after $max_attempts attempts, continuing anyway..."
 
-      # Install dependencies and build only for PR testing (localhost)
-      - name: Install dependencies
-        if: github.event_name == 'pull_request'
-        run: npm ci
-
-      - name: Build site
-        if: github.event_name == 'pull_request'
-        run: cd packages/web && npm run build
-
-      - name: Run Lighthouse CI (with local server)
-        if: github.event_name == 'pull_request'
-        id: lighthouse-local
-        uses: treosh/lighthouse-ci-action@v10
-        with:
-          urls: |
-            http://localhost:3000/
-            http://localhost:3000/hire-me
-            http://localhost:3000/tech
-            http://localhost:3000/services/integration
-            http://localhost:3000/services/web-design
-          uploadArtifacts: false
-          temporaryPublicStorage: true
-          configPath: './lighthouserc.json'
-        continue-on-error: true
-
-      - name: Run Lighthouse CI (deployed site)
-        if: github.event_name == 'push'
-        id: lighthouse-deployed
+      - name: Run Lighthouse CI
+        id: lighthouse
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
@@ -82,29 +53,12 @@ jobs:
           configPath: './lighthouserc-deployed.json'
         continue-on-error: true
 
-      - name: Set lighthouse outputs
-        id: lighthouse
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "links=${{ steps.lighthouse-local.outputs.links }}" >> $GITHUB_OUTPUT
-            echo "manifest=${{ steps.lighthouse-local.outputs.manifest }}" >> $GITHUB_OUTPUT
-            echo "environment=local" >> $GITHUB_OUTPUT
-          else
-            echo "links=${{ steps.lighthouse-deployed.outputs.links }}" >> $GITHUB_OUTPUT
-            echo "manifest=${{ steps.lighthouse-deployed.outputs.manifest }}" >> $GITHUB_OUTPUT
-            echo "environment=dev" >> $GITHUB_OUTPUT
-          fi
-
       - name: Format Lighthouse Results
         if: always()
         run: |
           echo "## 🔍 Lighthouse CI Reports" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          if [ "${{ steps.urls.outputs.environment }}" = "local" ]; then
-            echo "Testing against **localhost** (PR preview build)" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "Testing against **dev.idevelop.tech** (deployed site with CloudFront)" >> $GITHUB_STEP_SUMMARY
-          fi
+          echo "Testing against **dev.idevelop.tech** (deployed site with CloudFront)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📊 Report Links" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -119,90 +73,3 @@ jobs:
           echo "- Web Design service page" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "> **Note:** This workflow runs in informational mode and will not block based on scores." >> $GITHUB_STEP_SUMMARY
-
-      - name: Comment on PR
-        if: github.event_name == 'pull_request' && github.event.pull_request != null
-        uses: actions/github-script@v7
-        continue-on-error: true
-        with:
-          script: |
-            const commentMarker = '<!-- lighthouse-ci-comment -->';
-            const linksOutput = `${{ steps.lighthouse.outputs.links }}`;
-            const manifestOutput = `${{ steps.lighthouse.outputs.manifest }}`;
-
-            console.log('Links output:', linksOutput);
-            console.log('Manifest output:', manifestOutput);
-
-            let reportLinks = [];
-
-            // Try to parse the links output
-            if (linksOutput && linksOutput !== '' && linksOutput !== 'undefined') {
-              try {
-                // The links output might be JSON or newline-separated
-                if (linksOutput.startsWith('[') || linksOutput.startsWith('{')) {
-                  const parsed = JSON.parse(linksOutput);
-                  reportLinks = Array.isArray(parsed) ? parsed : Object.values(parsed);
-                } else {
-                  // Try splitting by newlines
-                  reportLinks = linksOutput.split('\n').filter(l => l.trim().startsWith('http'));
-                }
-              } catch (e) {
-                console.log('Could not parse links:', e);
-              }
-            }
-
-            // Try to parse manifest for URLs
-            if (reportLinks.length === 0 && manifestOutput && manifestOutput !== '' && manifestOutput !== 'undefined') {
-              try {
-                const manifest = JSON.parse(manifestOutput);
-                if (Array.isArray(manifest)) {
-                  reportLinks = manifest.map(m => m.url || m.summary || m.reportUrl).filter(Boolean);
-                }
-              } catch (e) {
-                console.log('Could not parse manifest:', e);
-              }
-            }
-
-            const pageNames = ['Home (`/`)', 'Hire Me (`/hire-me`)', 'Tech (`/tech`)', 'Integration (`/services/integration`)', 'Web Design (`/services/web-design`)'];
-
-            let commentBody = commentMarker + '\n## 🔍 Lighthouse Reports\n\n';
-            commentBody += '**Testing against:** localhost (PR preview build)\n\n';
-
-            if (reportLinks.length > 0) {
-              reportLinks.forEach((link, idx) => {
-                const pageName = pageNames[idx] || 'Page ' + (idx + 1);
-                commentBody += '- **' + pageName + '**: ' + link + '\n';
-              });
-            } else {
-              const logsUrl = 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
-              commentBody += '*No report URLs available. Check the workflow logs: ' + logsUrl + '*\n';
-            }
-
-            commentBody += '\n*Updated: ' + new Date().toISOString() + '*';
-
-            // Find and update/create comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-            });
-
-            const existingComment = comments.find(comment =>
-              comment.body && comment.body.includes(commentMarker)
-            );
-
-            if (existingComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: commentBody
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: commentBody
-              });
-            }
