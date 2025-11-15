@@ -135,35 +135,47 @@ graph TB
 
 ## Architecture
 
+### Request Flow
+
 ```mermaid
 graph TB
-    subgraph "Frontend"
-        A[Vue 3 SPA] -->|HTTPS| B[CloudFront CDN]
-        B --> C[S3 Bucket]
-    end
+    A[User Browser] -->|HTTPS| B[CloudFront CDN]
+    B --> C[S3 Static Assets<br/>Vue 3 SPA]
 
-    subgraph "Backend"
-        A -->|API Calls| D[API Gateway]
-        D --> E[Lambda Functions]
-        E --> F[DynamoDB]
-        E --> G[SES Email]
-        E --> H[SSM Parameters]
-    end
+    A -->|reCAPTCHA| D[Google reCAPTCHA v3]
 
-    subgraph "Security"
-        A -->|Verify| I[reCAPTCHA v3]
-        D -->|IAM| E
-    end
+    C -->|API Request| E[API Gateway]
+    E -->|IAM Auth| F[Lambda Functions<br/>Contact Handler]
 
-    subgraph "CI/CD"
-        J[GitHub Actions] -->|Deploy| B
-        J -->|Deploy| D
-        K[OIDC] -->|Auth| J
-    end
+    F --> G[DynamoDB<br/>Rate Limiting]
+    F --> H[SES<br/>Email Delivery]
+    F --> I[SSM Parameter Store<br/>Secrets]
 
-    style A fill:#bbf,stroke:#333
-    style E fill:#bfb,stroke:#333
-    style J fill:#fbb,stroke:#333
+    style B fill:#5b9bd5,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+```
+
+### Deployment Architecture
+
+```mermaid
+graph TB
+    A[Developer] -->|git push| B[GitHub Repository]
+    B -->|triggers| C[GitHub Actions<br/>CI/CD Pipeline]
+
+    C -->|OIDC Auth| D[AWS]
+
+    C -->|SST Deploy| E[CloudFormation]
+
+    E --> F[S3 + CloudFront<br/>Frontend]
+    E --> G[API Gateway + Lambda<br/>Backend]
+    E --> H[DynamoDB + SES<br/>Services]
+
+    style C fill:#ed7d31,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+    style G fill:#70ad47,stroke:#333
+    style H fill:#70ad47,stroke:#333
 ```
 
 ---
