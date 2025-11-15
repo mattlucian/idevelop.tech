@@ -484,7 +484,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   let requestData: ContactFormRequest;
   try {
     requestData = JSON.parse(event.body || "{}");
-  } catch (error) {
+  } catch (_error) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
       error: {

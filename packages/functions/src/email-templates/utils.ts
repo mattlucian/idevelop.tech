@@ -84,7 +84,7 @@ export function loadAndRenderTemplate(
     console.error(`Failed to load email template "${templateName}":`, errorMessage);
     throw new Error(
       `Failed to load email template "${templateName}": ${errorMessage}. ` +
-      `Ensure template file exists in email-templates/ directory.`
+      "Ensure template file exists in email-templates/ directory."
     );
   }
 }
