@@ -11,7 +11,7 @@ exporters:
     compression: gzip
     endpoint: https://api.axiom.co
     headers:
-      authorization: ${env:AXIOM_TOKEN}
+      authorization: Bearer ${env:AXIOM_TOKEN}
       x-axiom-dataset: ${env:AXIOM_DATASET}
 
 service:
