@@ -25,7 +25,7 @@ export default $config({
     const axiomToken = new sst.Secret("AxiomToken");
     const axiomDataset = isProduction
       ? "idevelop.tech" // Production dataset (create later)
-      : "dev.idevelop.tech"; // Development dataset
+      : "dev-idevelop-tech"; // Development dataset (Events type)
 
     // DynamoDB Table for Rate Limiting
     const rateLimitTable = new sst.aws.Dynamo("RateLimitTable", {
