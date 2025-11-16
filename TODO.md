@@ -121,26 +121,44 @@ npm run format      # Ensures consistent formatting
 
 ### Monitoring & Observability (Dev Environment)
 
-**Priority**: High - Complete before launch
+**Priority**: High - Core implementation complete ✅
 
-**Status**: Deciding on monitoring solution
+**Status**: Observability layer implemented, alerting pending
 
-**Options**:
-- DataDog Lambda monitoring
-- Alternative solutions (AWS CloudWatch Insights, Sentry, etc.)
-- Cost evaluation needed
+**Solution Chosen**: Axiom (500GB/month free tier) with AWS Distro for OpenTelemetry (ADOT)
 
-**Tasks**:
-- [ ] Choose monitoring solution
-- [ ] Set up monitoring on dev environment
-- [ ] Configure Lambda monitoring (errors, latency, invocations)
+**Completed Tasks**:
+- [x] Choose monitoring solution (Axiom + ADOT)
+- [x] Set up Axiom account and datasets
+- [x] Configure ADOT Lambda layer for distributed tracing
+- [x] Configure Axiom Lambda Extension for logs and platform metrics
+- [x] Create collector.yaml for OTLP configuration
+- [x] Set up dev dataset (dev-idevelop-tech, Events type)
+- [x] Configure environment variables and secrets
+- [x] Test trace ingestion (API Gateway → Lambda → AWS services)
+- [x] Verify Lambda dashboard populates (invocations, duration, memory)
+- [x] Document Axiom setup in docs/SETUP.md
+- [x] Update sst.config.ts with observability configuration
+
+**Current Observability Stack**:
+- **OTLP Traces**: Full distributed tracing with trace IDs, spans, HTTP status codes
+- **Lambda Platform Metrics**: Invocations, duration, memory usage, cold starts
+- **Lambda Logs**: Function logs with context and correlation
+- **Dashboard**: Prebuilt Lambda dashboard with performance metrics
+
+**Remaining Tasks**:
+- [ ] Set up alerting for critical errors (Lambda failures, high error rates)
 - [ ] Configure CloudFront monitoring (cache hit rate, errors)
-- [ ] Set up alerting for critical errors
 - [ ] Test monitoring with intentional errors
 - [ ] Verify alerts trigger correctly
-- [ ] Document monitoring setup
+- [ ] Document alerting configuration
 
-**Note**: Must be complete before domain migration/launch
+**Reference**:
+- Implementation: `sst.config.ts`, `packages/functions/src/collector.yaml`
+- Documentation: `docs/SETUP.md` (Axiom Observability section)
+- Dashboard: https://app.axiom.co
+
+**Note**: Core observability complete, alerting should be added before launch
 
 ---
 
@@ -276,15 +294,25 @@ npm run format      # Ensures consistent formatting
 
 **Priority**: High - Complete shortly after launch
 
-**Status**: TBD
+**Status**: Ready to deploy (same stack as dev)
+
+**Solution**: Axiom + ADOT (same configuration as dev environment)
 
 **Tasks**:
-- [ ] Deploy monitoring solution to production (same as dev)
-- [ ] Configure production-specific alerts
-- [ ] Set up error tracking for production Lambda
-- [ ] Configure CloudFront production monitoring
-- [ ] Set up uptime monitoring (optional)
+- [ ] Create production Axiom dataset (idevelop.tech, Events type)
+- [ ] Create production Axiom API token with Ingest permissions
+- [ ] Set production SST secret: `npx sst secret set AxiomToken TOKEN --stage production`
+- [ ] Deploy to production (observability already configured in sst.config.ts)
+- [ ] Verify traces and logs appear in production dataset
+- [ ] Configure production-specific alerts (Lambda failures, high error rates)
+- [ ] Set up CloudFront production monitoring
+- [ ] Set up uptime monitoring (optional - Axiom monitors, external service)
 - [ ] Establish incident response process
 - [ ] Document production monitoring setup
 
-**Note**: Should use same solution as dev environment for consistency
+**Reference**:
+- Configuration already in `sst.config.ts` (stage-aware)
+- Setup guide: `docs/SETUP.md` (Axiom Observability section)
+- Same layers, environment variables, collector.yaml as dev
+
+**Note**: Infrastructure is stage-aware and ready for production deployment
