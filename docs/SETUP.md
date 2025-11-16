@@ -216,15 +216,19 @@ Configure Axiom for Lambda distributed tracing and log aggregation.
 
 Datasets store your Lambda logs and OpenTelemetry traces:
 
+**IMPORTANT**: When creating the dataset, select **"Events"** type (NOT "OpenTelemetry Metrics"). The Events type supports both logs and traces, while the Metrics type only supports metrics.
+
 **Development Dataset:**
 ```
-Name: dev.idevelop.tech
+Name: dev-idevelop-tech
+Type: Events
 Description: Development stage logs and traces
 ```
 
 **Production Dataset:**
 ```
 Name: idevelop.tech
+Type: Events
 Description: Production stage logs and traces
 ```
 
@@ -234,8 +238,8 @@ Generate stage-specific API tokens with **Ingest** permissions:
 
 **Development Token:**
 1. Go to Settings → API Tokens → Create Token
-2. Name: `dev.idevelop.tech opentelemetry token`
-3. Permissions: **Ingest** (select `dev.idevelop.tech` dataset)
+2. Name: `dev-idevelop-tech opentelemetry token`
+3. Permissions: **Ingest** (select `dev-idevelop-tech` dataset)
 4. Copy the token (shown only once!)
 
 **Production Token:**
@@ -268,7 +272,7 @@ After deployment, verify traces are appearing:
 
 1. Deploy your application: `npx sst deploy --stage dev`
 2. Trigger a Lambda invocation (e.g., submit contact form)
-3. Go to Axiom dashboard → Select dataset (`dev.idevelop.tech`)
+3. Go to Axiom dashboard → Select dataset (`dev-idevelop-tech`)
 4. You should see:
    - Lambda logs from Axiom Extension
    - Distributed traces from ADOT with spans showing:
@@ -279,16 +283,16 @@ After deployment, verify traces are appearing:
 **Query examples:**
 ```apl
 // Find all traces
-['dev.idevelop.tech']
+['dev-idevelop-tech']
 | where kind == "span"
 
 // Track HTTP status codes
-['dev.idevelop.tech']
+['dev-idevelop-tech']
 | where ['http.status_code'] > 0
 | summarize count() by ['http.status_code']
 
 // Monitor cold starts
-['dev.idevelop.tech']
+['dev-idevelop-tech']
 | where ['faas.coldstart'] == true
 | summarize count() by bin(_time, 1h)
 ```
