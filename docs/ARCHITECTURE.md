@@ -42,6 +42,13 @@ This is an **SST (Serverless Stack) v3 monorepo** containing:
 - **GitHub Actions** - CI/CD with OIDC authentication
 - **AWS** - Cloud platform (us-east-1)
 
+### Observability & Monitoring
+
+- **Axiom** - Log aggregation and observability platform (500GB/month free tier)
+- **AWS Distro for OpenTelemetry (ADOT)** - Distributed tracing
+- **OpenTelemetry Protocol (OTLP)** - Vendor-agnostic telemetry
+- **Axiom Lambda Extension** - Lambda logs and platform metrics
+
 ### Build & Development Tools
 
 - **vue-tsc** - TypeScript checker for Vue
@@ -178,6 +185,170 @@ feature/* → PR → develop → deploy to dev
 - PRs required for main and develop
 - CI checks must pass
 - Code review recommended
+
+---
+
+## Observability & Monitoring
+
+### Solution Architecture
+
+**Platform**: Axiom (500GB/month free tier) with AWS Distro for OpenTelemetry (ADOT)
+
+**Observability Stack**:
+```
+Lambda Function
+    ├─ ADOT Layer (OpenTelemetry)
+    │   ├─ Auto-instrumentation (AWS SDK, HTTP, etc.)
+    │   ├─ OTLP Collector (collector.yaml)
+    │   └─ Exports → Axiom (OTLP/HTTP with gzip)
+    │
+    └─ Axiom Lambda Extension
+        ├─ Lambda logs
+        ├─ Platform metrics (invocations, duration, memory, cold starts)
+        └─ Exports → Axiom (native API)
+```
+
+### Lambda Layers Configuration
+
+**ADOT Lambda Layer** (`sst.config.ts:66`):
+- ARN: `arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-nodejs-arm64-ver-1-30-2:1`
+- Purpose: Distributed tracing with OpenTelemetry
+- Auto-instruments: AWS SDK calls, HTTP requests, Lambda invocations
+- Sends: OTLP traces to Axiom
+
+**Axiom Lambda Extension** (`sst.config.ts:63`):
+- ARN: `arn:aws:lambda:us-east-1:694952825951:layer:axiom-extension-arm64:11`
+- Purpose: Lambda logs and platform metrics
+- Collects: Function logs, invocation count, execution duration, memory usage, cold starts
+- Sends: Logs and metrics to Axiom (native format)
+
+### OTLP Collector Configuration
+
+**Location**: `packages/functions/src/collector.yaml`
+
+**Pipelines**:
+1. **Traces Pipeline**:
+   - Receiver: OTLP (grpc:4317, http:4318)
+   - Exporter: OTLP/HTTP to Axiom with gzip compression
+   - Data: Distributed traces with spans for API Gateway, Lambda, AWS services
+
+2. **Metrics Pipeline**:
+   - Receiver: OTLP (grpc:4317, http:4318)
+   - Exporter: Debug (discards data)
+   - Rationale: OTLP metrics require separate dataset, not needed for current use case
+
+**Environment Variables** (`sst.config.ts:77-86`):
+```typescript
+// Axiom configuration (used by both layers)
+AXIOM_TOKEN: axiomToken.value              // SST secret
+AXIOM_DATASET: "dev-idevelop-tech"         // Stage-specific dataset
+AXIOM_URL: "https://api.axiom.co"          // Axiom API endpoint
+
+// ADOT configuration
+AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler"                    // Node.js wrapper
+OPENTELEMETRY_COLLECTOR_CONFIG_URI: "/var/task/collector.yaml"  // Collector config
+OTEL_SERVICE_NAME: "contact-api"                                // Service identifier
+OTEL_RESOURCE_ATTRIBUTES: "service.name=contact-api,..."        // Metadata
+```
+
+### Dataset Architecture
+
+**Development Dataset**:
+- Name: `dev-idevelop-tech`
+- Type: Events (supports logs and traces)
+- Data: Lambda logs, OTLP traces, platform metrics
+
+**Production Dataset** (pending):
+- Name: `idevelop.tech`
+- Type: Events
+- Configuration: Same as dev, different token
+
+**Why Events Dataset Type**:
+- Axiom offers two dataset types: "Events" and "OpenTelemetry Metrics (Preview)"
+- Events type: Accepts logs AND traces (required for our use case)
+- Metrics type: Only accepts OTLP metrics (not logs/traces)
+- OTLP metrics require separate dataset with `x-axiom-metrics-dataset` header
+
+### Observability Data Collected
+
+**OTLP Traces** (via ADOT):
+- Full distributed tracing across request lifecycle
+- Trace IDs for correlation across services
+- Spans for each operation:
+  - API Gateway HTTP request (method, path, status code)
+  - Lambda function invocation (cold start indicator, duration)
+  - AWS SDK calls (DynamoDB queries, SES emails, SSM parameters)
+- Span attributes: HTTP status codes, error messages, service metadata
+
+**Lambda Platform Metrics** (via Axiom Extension):
+- Invocation count
+- Execution duration
+- Memory usage (allocated vs used)
+- Cold start occurrences
+- Billed duration
+
+**Lambda Logs** (via Axiom Extension):
+- Function logs with timestamps
+- Request/response details
+- Error messages and stack traces
+- Correlated with trace IDs
+
+### Querying and Monitoring
+
+**Axiom Dashboard**: Prebuilt Lambda dashboard shows invocations, duration, errors
+
+**APL Query Examples**:
+```apl
+// View all traces
+['dev-idevelop-tech']
+| where kind == "span"
+| sort by _time desc
+
+// Track HTTP status codes
+['dev-idevelop-tech']
+| where ['http.status_code'] > 0
+| summarize count() by ['http.status_code']
+
+// Monitor cold starts
+['dev-idevelop-tech']
+| where ['faas.coldstart'] == true
+| summarize count() by bin(_time, 1h)
+
+// Find errors
+['dev-idevelop-tech']
+| where ['otel.status_code'] == "ERROR"
+| project _time, ['service.name'], ['exception.message']
+```
+
+### IAM Permissions
+
+**X-Ray Permissions** (`sst.config.ts:110-114`):
+```typescript
+{
+  actions: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
+  resources: ["*"]
+}
+```
+
+Required for ADOT to send trace data to AWS X-Ray backend (used internally by OTLP collector).
+
+### Alerting (Pending)
+
+**Planned Alerts**:
+- Lambda function errors (5xx responses)
+- High error rates (>5% of requests)
+- Increased cold starts (performance degradation)
+- Rate limit hits (potential abuse)
+
+**Reference**: See `TODO.md` for alerting implementation tasks
+
+### Setup Reference
+
+**Documentation**: `docs/SETUP.md` (Axiom Observability section)
+
+**Configuration Files**:
+- `sst.config.ts` - Lambda layers, environment variables, permissions
+- `packages/functions/src/collector.yaml` - OTLP collector configuration
 
 ---
 
@@ -325,12 +496,13 @@ feature/* → PR → develop → deploy to dev
 
 1. **Serverless-First**: Full-stack serverless architecture with AWS Lambda and SST
 2. **Type Safety**: TypeScript throughout (frontend, backend, infrastructure)
-3. **Component Reusability**: 2-3 pattern rule enforced (see `docs/frontend/COMPONENT-RULES.md`)
-4. **Data-Driven Design**: Components render from TypeScript data files, not hardcoded content
-5. **Separation of Concerns**: Clear boundaries between content, presentation, and styling
-6. **Infrastructure as Code**: All AWS resources defined in `sst.config.ts`
-7. **CI/CD Automation**: GitHub Actions with OIDC authentication
-8. **Least-Privilege Security**: IAM permissions scoped to minimum required access
+3. **Observability by Default**: Distributed tracing and monitoring integrated at infrastructure level
+4. **Component Reusability**: 2-3 pattern rule enforced (see `docs/frontend/COMPONENT-RULES.md`)
+5. **Data-Driven Design**: Components render from TypeScript data files, not hardcoded content
+6. **Separation of Concerns**: Clear boundaries between content, presentation, and styling
+7. **Infrastructure as Code**: All AWS resources defined in `sst.config.ts`
+8. **CI/CD Automation**: GitHub Actions with OIDC authentication
+9. **Least-Privilege Security**: IAM permissions scoped to minimum required access
 
 ---
 
