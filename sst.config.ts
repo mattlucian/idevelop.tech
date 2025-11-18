@@ -49,7 +49,7 @@ export default $config({
 
     // Lambda Function for Contact Form
     const contactHandler = new sst.aws.Function("ContactHandler", {
-      handler: "/opt/nodejs/node_modules/newrelic-esm-lambda-wrapper/index.handler", // New Relic ESM wrapper for Node.js 20 ES modules
+      handler: "newrelic-lambda-wrapper.handler", // New Relic CommonJS wrapper - testing if it exists in layer
       runtime: "nodejs20.x",
       architecture: "arm64",
       memory: "512 MB",
