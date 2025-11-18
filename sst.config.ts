@@ -57,10 +57,10 @@ export default $config({
 
       // Lambda layers for observability
       layers: [
-        // New Relic Lambda Extension (logs, metrics, traces) - ARM64
-        // Version 40 confirmed for ARM64 architecture
+        // New Relic Node.js 20 APM Agent + Extension - ARM64
+        // Includes full APM instrumentation for code-level tracing
         // Latest versions: https://layers.newrelic-external.com/
-        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicLambdaExtensionARM64:40",
+        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS20XARM64:95",
       ],
 
       environment: {
