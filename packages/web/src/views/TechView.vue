@@ -75,8 +75,20 @@ const selectTopic = async (categoryIndex: number, topicIndex: number) => {
 };
 
 const goBack = () => {
-  // Navigate to previous page
-  router.back();
+  // Smart navigation: go back if user came from same domain, otherwise go home
+  const referrer = document.referrer;
+  const currentDomain = window.location.origin;
+
+  // Check if referrer is from the same domain (internal navigation)
+  const isInternalNavigation = referrer && referrer.startsWith(currentDomain);
+
+  if (isInternalNavigation) {
+    // Safe to go back - user navigated from another page on our site
+    router.back();
+  } else {
+    // Direct visit or external referrer - navigate to home instead
+    router.push("/");
+  }
 };
 
 const goBackToTopics = () => {
