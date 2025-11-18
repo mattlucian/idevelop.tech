@@ -21,11 +21,9 @@ export default $config({
     const stage = $app.stage;
     const isProduction = stage === "production";
 
-    // Axiom observability configuration
-    const axiomToken = new sst.Secret("AxiomToken");
-    const axiomDataset = isProduction
-      ? "idevelop.tech" // Production dataset (create later)
-      : "dev-idevelop-tech"; // Development dataset (Events type)
+    // New Relic observability configuration
+    const newRelicLicenseKey = new sst.Secret("NewRelicLicenseKey");
+    const newRelicAccountId = "7377610"; // New Relic account ID (not sensitive)
 
     // DynamoDB Table for Rate Limiting
     const rateLimitTable = new sst.aws.Dynamo("RateLimitTable", {
@@ -55,39 +53,38 @@ export default $config({
       runtime: "nodejs20.x",
       architecture: "arm64",
       memory: "512 MB",
-      timeout: "30 seconds", // Increased for ADOT cold start overhead
+      timeout: "30 seconds",
 
       // Lambda layers for observability
       layers: [
-        // Axiom Lambda Extension (logs + platform metrics)
-        "arn:aws:lambda:us-east-1:694952825951:layer:axiom-extension-arm64:11",
-
-        // ADOT Lambda Layer (distributed tracing with OpenTelemetry)
-        "arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-nodejs-arm64-ver-1-30-2:1",
+        // New Relic Lambda Extension (logs, metrics, traces) - ARM64
+        // Latest version: https://layers.newrelic-external.com/
+        // Select us-east-1 region and ARM64 architecture
+        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicLambdaExtensionARM64:69",
       ],
 
       environment: {
-        // Existing environment variables
+        // Application environment variables
         RATE_LIMIT_TABLE_NAME: rateLimitTable.name,
         RECAPTCHA_SECRET_PARAMETER: `/idevelop-tech/${stage}/recaptcha-secret`,
-        SES_FROM_EMAIL: "matt@idevelop.tech", // Using matt@ for now, will change to noreply@ later
+        SES_FROM_EMAIL: "matt@idevelop.tech",
         SES_TO_EMAIL: "matt@idevelop.tech",
         STAGE: stage,
 
-        // Axiom configuration (referenced by collector.yaml)
-        AXIOM_TOKEN: axiomToken.value,
-        AXIOM_DATASET: axiomDataset,
-        AXIOM_URL: "https://api.axiom.co",
-
-        // ADOT configuration (Node.js specific)
-        AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler",
-        OPENTELEMETRY_COLLECTOR_CONFIG_URI: "/var/task/collector.yaml",
-        OTEL_SERVICE_NAME: "contact-api",
-        OTEL_RESOURCE_ATTRIBUTES: $interpolate`service.name=contact-api,service.version=1.0.0,deployment.environment=${stage}`,
+        // New Relic observability configuration
+        NEW_RELIC_LICENSE_KEY: newRelicLicenseKey.value,
+        NEW_RELIC_ACCOUNT_ID: newRelicAccountId,
+        NEW_RELIC_APP_NAME: isProduction
+          ? "api-idevelop-tech" // Production: api.idevelop.tech
+          : "dev-api-idevelop-tech", // Development: dev-api.idevelop.tech
+        NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true", // Send Lambda logs to New Relic
+        NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true", // Enable New Relic extension
+        NEW_RELIC_DATA_COLLECTION_TIMEOUT: "10s", // Timeout for data collection
+        NEW_RELIC_EXTENSION_LOG_LEVEL: "INFO", // Extension log level
       },
 
-      // Link Axiom secret for runtime access
-      link: [axiomToken],
+      // Link New Relic secret for runtime access
+      link: [newRelicLicenseKey],
       permissions: [
         {
           actions: ["dynamodb:PutItem", "dynamodb:Query"],
@@ -107,11 +104,6 @@ export default $config({
             `arn:aws:ssm:us-east-1:*:parameter/idevelop-tech/${stage}/*`,
           ],
         },
-        {
-          // X-Ray permissions for ADOT distributed tracing
-          actions: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
-          resources: ["*"],
-        },
       ],
       nodejs: {
         esbuild: {
@@ -123,10 +115,6 @@ export default $config({
         {
           from: "packages/functions/src/email-templates/contact-confirmation.html",
           to: "email-templates/contact-confirmation.html",
-        },
-        {
-          from: "packages/functions/src/collector.yaml",
-          to: "collector.yaml",
         },
       ],
     });

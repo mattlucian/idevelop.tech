@@ -6,59 +6,6 @@ Active tasks and pending work for idevelop.tech.
 
 ## Pre-Launch Tasks
 
-### Code Review & Consolidation
-
-**Priority**: High
-
-**Status**: In Progress
-
-**Completed**:
-- [x] Conducted thorough code review across all packages
-- [x] Identified and removed unused components (7 deleted)
-- [x] Consolidated CheckItem components (merged 2 into 1 with variants)
-- [x] Created useColorScheme composable (eliminated 12+ duplications)
-- [x] Created BeforeAfterComparison component (saved ~250 lines)
-- [x] Checked for unused imports, variables, functions (18 issues fixed)
-- [x] Verified TypeScript strict mode compliance (0 errors)
-- [x] Updated Tailwind CSS gradient classes to v4 canonical names (54 classes)
-- [x] Fixed ESLint configuration to use TypeScript and Prettier configs
-- [x] Removed all ESLint errors (18 errors → 0 errors, 4 warnings remain)
-- [x] Service page consolidation (eliminated ~225 lines of duplication)
-  - [x] Created useBreadcrumbNavigation composable (removed router boilerplate from 6 pages)
-  - [x] Created useServiceMeta composable (standardized SEO for service pages)
-  - [x] Created usePageMeta composable (generic meta handler for all pages)
-  - [x] Created TabNavigation component (eliminated ~48 lines of tab markup)
-  - [x] Updated all 6 service views + FlxpointConsultingView to use new patterns
-  - [x] Fixed all TypeScript and ESLint errors from refactoring (7 errors → 0 errors)
-  - [x] Updated SEO.md documentation to reflect new composable patterns
-- [x] Reviewed component patterns for consistency (service pages)
-
-**Tasks**:
-- [ ] Review error handling patterns
-- [ ] Consolidate similar utilities/helpers
-- [ ] Review component patterns for consistency (non-service pages)
-- [ ] Add ESLint to CI/CD pipeline (GitHub Actions workflow)
-  - [ ] Add `npm run lint` to PR Checks workflow
-  - [ ] Configure as required status check for PRs
-  - [ ] Update CLAUDE.md with ESLint enforcement policy
-- [x] Add Tailwind CSS class validation to development process
-  - [x] Research Tailwind CSS linting options (custom script vs stylelint)
-    - **Finding**: No CLI tool exists for validating Tailwind classes in templates/HTML for v4
-    - **Tested**: `eslint-plugin-tailwindcss` v4.0.0-beta.0 (broken - "Could not resolve tailwindcss")
-    - **Tested**: `@poupe/eslint-plugin-tailwindcss` (CSS files only, not templates)
-    - **Tested**: `@tailwindcss/vite` plugin (performance only, no diagnostics)
-    - **Tested**: Tailwind CLI (build only, no validation commands)
-    - **Conclusion**: VSCode Tailwind CSS IntelliSense warnings are NOT available via CLI
-    - **Current Approach**: Manual fixes based on VSCode warnings
-  - [x] Fixed canonical class name issues (44 replacements)
-    - `min-h-[36px]` → `min-h-9` (10 instances)
-    - `min-h-[52px]` → `min-h-13` (10 instances)
-    - `flex-shrink-0` → `shrink-0` (30 instances)
-    - `z-[60]` → `z-60` (3 instances)
-  - [ ] Monitor `eslint-plugin-tailwindcss` for stable v4 support (check quarterly)
-  - [ ] Periodically review VSCode warnings and fix manually
-  - [ ] Update CLAUDE.md with Tailwind CSS best practices
-
 ---
 
 ### DeepSource Issues
@@ -119,46 +66,48 @@ npm run format      # Ensures consistent formatting
 
 ---
 
-### Monitoring & Observability (Dev Environment)
+### Monitoring & Observability
 
-**Priority**: High - Core implementation complete ✅
+**Priority**: High - Integration complete, testing pending ⏸️
 
-**Status**: Observability layer implemented, alerting pending
+**Status**: New Relic integration implemented, awaiting deployment verification
 
-**Solution Chosen**: Axiom (500GB/month free tier) with AWS Distro for OpenTelemetry (ADOT)
+**Solution Chosen**: New Relic (100 GB/month free tier) - Industry-standard APM platform
 
 **Completed Tasks**:
-- [x] Choose monitoring solution (Axiom + ADOT)
-- [x] Set up Axiom account and datasets
-- [x] Configure ADOT Lambda layer for distributed tracing
-- [x] Configure Axiom Lambda Extension for logs and platform metrics
-- [x] Create collector.yaml for OTLP configuration
-- [x] Set up dev dataset (dev-idevelop-tech, Events type)
-- [x] Configure environment variables and secrets
-- [x] Test trace ingestion (API Gateway → Lambda → AWS services)
-- [x] Verify Lambda dashboard populates (invocations, duration, memory)
-- [x] Document Axiom setup in docs/SETUP.md
-- [x] Update sst.config.ts with observability configuration
+- [x] Evaluate observability platforms (Axiom, DataDog, Grafana, New Relic, CloudWatch)
+- [x] Choose New Relic for free tier + unlimited alerts + professional platform
+- [x] Create New Relic account (Account ID: 7377610)
+- [x] Generate ingest license key
+- [x] Set SST secrets for dev and production environments
+- [x] Configure New Relic Lambda Extension layer (ARM64)
+- [x] Update sst.config.ts with New Relic configuration
+- [x] Set environment-aware service names (dev-api-idevelop-tech, api-idevelop-tech)
+- [x] Remove legacy Axiom/ADOT configuration
 
-**Current Observability Stack**:
-- **OTLP Traces**: Full distributed tracing with trace IDs, spans, HTTP status codes
-- **Lambda Platform Metrics**: Invocations, duration, memory usage, cold starts
-- **Lambda Logs**: Function logs with context and correlation
-- **Dashboard**: Prebuilt Lambda dashboard with performance metrics
+**Current Configuration**:
+- **Service Names**: Environment-aware (dev-api-idevelop-tech / api-idevelop-tech)
+- **Lambda Extension**: New Relic Lambda Extension ARM64
+- **Data Collection**: Logs, metrics, traces automatically sent to New Relic
+- **Account ID**: 7377610 (not sensitive, identifies New Relic account)
+- **License Key**: Stored as SST secret (encrypted in AWS Parameter Store)
 
 **Remaining Tasks**:
-- [ ] Set up alerting for critical errors (Lambda failures, high error rates)
-- [ ] Configure CloudFront monitoring (cache hit rate, errors)
-- [ ] Test monitoring with intentional errors
-- [ ] Verify alerts trigger correctly
-- [ ] Document alerting configuration
+- [ ] Deploy to dev and verify New Relic integration
+- [ ] Verify service appears in New Relic APM dashboard
+- [ ] Test with contact form submission (generate telemetry)
+- [ ] Set up alert policies (Lambda errors, high error rates, performance)
+- [ ] Test alerting with intentional errors
+- [ ] Deploy to production and verify
+- [ ] Document alerting configuration and monitoring runbook
 
 **Reference**:
-- Implementation: `sst.config.ts`, `packages/functions/src/collector.yaml`
-- Documentation: `docs/SETUP.md` (Axiom Observability section)
-- Dashboard: https://app.axiom.co
+- Implementation: `sst.config.ts` (lines 24-82)
+- Documentation: `docs/OBSERVABILITY-COMPARISON.md` (platform evaluation)
+- Dashboard: https://one.newrelic.com
+- Account ID: 7377610
 
-**Note**: Core observability complete, alerting should be added before launch
+**Next Steps**: Merge PR to develop → Auto-deploy to dev → Verify in New Relic → Set up alerts
 
 ---
 
@@ -199,56 +148,6 @@ npm run format      # Ensures consistent formatting
 
 ---
 
-### Enhanced README
-
-**Priority**: High
-
-**Goal**: Professional, visual README that showcases project quality
-
-**Tasks**:
-
-#### Visual Diagrams
-- [ ] Create branch & CI/CD flow diagram
-  - Show: feature/* → PR → develop → test → PR → main → production
-  - Include: Auto-deployments, status checks, CodeQL scans
-  - Format: Mermaid diagram or embedded image
-- [ ] Create architecture diagram (optional)
-  - High-level: Frontend → API Gateway → Lambda → DynamoDB/SES
-  - Link to detailed ARCHITECTURE.md
-
-#### Badges & Status
-- [ ] Add all relevant badges at top
-  - [x] Deploy Production status (already present)
-  - [x] PR Checks status (already present)
-  - [x] DeepSource active issues (already present)
-  - [x] DeepSource resolved issues (already present)
-  - [x] License badge (already present)
-  - [ ] CodeQL status badge
-  - [ ] Lighthouse CI scores (if possible)
-  - [ ] Test coverage (if applicable)
-- [ ] Verify all badges link to correct dashboards
-
-#### Content Enhancement
-- [ ] Add "Why This Project?" section
-  - Showcase architectural decisions
-  - Highlight DevOps best practices
-  - Emphasize type safety, security, monitoring
-- [ ] Add "Key Features" section with visual callouts
-- [ ] Improve "Quick Start" with collapsible sections
-- [ ] Add "Contributing" section (even if solo project)
-- [ ] Include screenshots/GIFs of key features (optional)
-
-#### Professional Polish
-- [ ] Consistent formatting throughout
-- [ ] Clear hierarchy and navigation
-- [ ] Concise but comprehensive
-- [ ] Links to all relevant documentation
-- [ ] Code examples where helpful
-
-**Reference**: Review top open-source projects for README inspiration
-
----
-
 ### Documentation Review
 
 **Priority**: Medium
@@ -267,7 +166,7 @@ npm run format      # Ensures consistent formatting
 
 ## Domain Migration
 
-**Blocked by**: AWS SES production access approval
+**Status**: ✅ Ready to proceed (AWS SES production access approved)
 
 **Tasks**:
 - [ ] Confirm AWS SES production access granted
@@ -294,25 +193,33 @@ npm run format      # Ensures consistent formatting
 
 **Priority**: High - Complete shortly after launch
 
-**Status**: Ready to deploy (same stack as dev)
+**Status**: ✅ Ready to deploy (same New Relic account, stage-aware config)
 
-**Solution**: Axiom + ADOT (same configuration as dev environment)
+**Solution**: New Relic (100 GB/month free tier - same account for dev and prod)
 
 **Tasks**:
-- [ ] Create production Axiom dataset (idevelop.tech, Events type)
-- [ ] Create production Axiom API token with Ingest permissions
-- [ ] Set production SST secret: `npx sst secret set AxiomToken TOKEN --stage production`
+- [x] Set production SST secret: `npx sst secret set NewRelicLicenseKey LICENSE_KEY --stage production`
 - [ ] Deploy to production (observability already configured in sst.config.ts)
-- [ ] Verify traces and logs appear in production dataset
-- [ ] Configure production-specific alerts (Lambda failures, high error rates)
-- [ ] Set up CloudFront production monitoring
-- [ ] Set up uptime monitoring (optional - Axiom monitors, external service)
-- [ ] Establish incident response process
-- [ ] Document production monitoring setup
+- [ ] Verify `api-idevelop-tech` service appears in New Relic
+- [ ] Test with contact form submission on production domain
+- [ ] Configure production-specific alert policies (stricter thresholds than dev)
+- [ ] Set up CloudFront production monitoring (optional)
+- [ ] Set up external uptime monitoring (optional - UptimeRobot, Pingdom, etc.)
+- [ ] Establish incident response runbook
+- [ ] Document production alerting configuration
+
+**Configuration**:
+- **Same New Relic account** for both dev and prod (Account ID: 7377610)
+- **Same license key** for both environments (best practice: separate keys, but acceptable for portfolio site)
+- **Service differentiation**: Service names are environment-aware
+  - Dev: `dev-api-idevelop-tech`
+  - Prod: `api-idevelop-tech`
+- **Alert policies**: Create separate policies for dev vs prod with different thresholds
 
 **Reference**:
-- Configuration already in `sst.config.ts` (stage-aware)
-- Setup guide: `docs/SETUP.md` (Axiom Observability section)
-- Same layers, environment variables, collector.yaml as dev
+- Configuration: `sst.config.ts` (lines 24-82, stage-aware)
+- Platform comparison: `docs/OBSERVABILITY-COMPARISON.md`
+- Dashboard: https://one.newrelic.com
+- Account ID: 7377610
 
-**Note**: Infrastructure is stage-aware and ready for production deployment
+**Note**: Infrastructure is fully stage-aware and ready for production deployment
