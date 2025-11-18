@@ -11,6 +11,10 @@ export default [
       globals: {
         ...globals.node,
       },
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       // Code quality rules (catch DeepSource issues locally)
