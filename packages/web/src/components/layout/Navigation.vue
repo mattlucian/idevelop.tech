@@ -19,7 +19,21 @@ const isTechPage = computed(
 const isHireMePage = computed(() => route.name === "hire-me");
 
 const handleKeepBrowsing = () => {
-  router.go(-2); // Go back twice to make /tech feel like a modal
+  // Smart navigation: go back if user came from same domain, otherwise go home
+  const referrer = document.referrer;
+  const currentDomain = window.location.origin;
+
+  // Check if referrer is from the same domain (internal navigation)
+  const isInternalNavigation = referrer?.startsWith(currentDomain);
+
+  if (isInternalNavigation) {
+    // Safe to go back - user navigated from another page on our site
+    router.go(-2); // Go back twice to make /tech feel like a modal
+  } else {
+    // Direct visit or external referrer - navigate to home instead
+    router.push("/");
+  }
+
   isMobileMenuOpen.value = false;
 };
 </script>
