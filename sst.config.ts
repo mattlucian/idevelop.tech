@@ -57,10 +57,10 @@ export default $config({
 
       // Lambda layers for observability
       layers: [
-        // New Relic Lambda Extension (logs, metrics, traces)
-        // Layer supports both x86_64 and arm64 architectures
-        // Latest version: https://layers.newrelic-external.com/
-        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicLambdaExtension:69",
+        // New Relic Node.js 20 APM Agent + Extension - ARM64
+        // Includes full APM instrumentation for code-level tracing
+        // Latest versions: https://layers.newrelic-external.com/
+        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS20XARM64:95",
       ],
 
       environment: {
@@ -77,6 +77,7 @@ export default $config({
         NEW_RELIC_APP_NAME: isProduction
           ? "api-idevelop-tech" // Production: api.idevelop.tech
           : "dev-api-idevelop-tech", // Development: dev-api.idevelop.tech
+        NEW_RELIC_LOG_LEVEL: "info", // APM agent log level (controls trace verbosity)
         NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true", // Send Lambda logs to New Relic
         NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true", // Enable New Relic extension
         NEW_RELIC_DATA_COLLECTION_TIMEOUT: "10s", // Timeout for data collection

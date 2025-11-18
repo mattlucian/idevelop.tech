@@ -192,159 +192,172 @@ feature/* → PR → develop → deploy to dev
 
 ### Solution Architecture
 
-**Platform**: Axiom (500GB/month free tier) with AWS Distro for OpenTelemetry (ADOT)
+**Platform**: New Relic (100 GB/month free tier) - Industry-standard APM and observability
 
 **Observability Stack**:
 ```
 Lambda Function
-    ├─ ADOT Layer (OpenTelemetry)
-    │   ├─ Auto-instrumentation (AWS SDK, HTTP, etc.)
-    │   ├─ OTLP Collector (collector.yaml)
-    │   └─ Exports → Axiom (OTLP/HTTP with gzip)
-    │
-    └─ Axiom Lambda Extension
-        ├─ Lambda logs
-        ├─ Platform metrics (invocations, duration, memory, cold starts)
-        └─ Exports → Axiom (native API)
+    └─ New Relic Node.js 20 APM Layer (ARM64)
+        ├─ APM Agent (auto-instrumentation)
+        │   ├─ Code-level tracing
+        │   ├─ AWS SDK instrumentation
+        │   ├─ HTTP request tracing
+        │   └─ Database query monitoring
+        │
+        └─ New Relic Extension
+            ├─ Lambda logs
+            ├─ Platform metrics (invocations, duration, memory, cold starts)
+            ├─ Distributed traces
+            └─ Exports → New Relic (native protocol)
 ```
 
-### Lambda Layers Configuration
+### Lambda Layer Configuration
 
-**ADOT Lambda Layer** (`sst.config.ts:66`):
-- ARN: `arn:aws:lambda:us-east-1:901920570463:layer:aws-otel-nodejs-arm64-ver-1-30-2:1`
-- Purpose: Distributed tracing with OpenTelemetry
-- Auto-instruments: AWS SDK calls, HTTP requests, Lambda invocations
-- Sends: OTLP traces to Axiom
+**New Relic Node.js 20 APM Layer** (`sst.config.ts:59-64`):
+- ARN: `arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS20XARM64:95`
+- Architecture: ARM64 (matches Lambda architecture)
+- Runtime: nodejs20.x
+- Purpose: Full APM instrumentation + Lambda Extension
+- Auto-instruments:
+  - AWS SDK calls (DynamoDB, SES, SSM, etc.)
+  - HTTP requests (API Gateway, external APIs)
+  - Database queries (if added)
+  - Custom application code
+- Sends: Traces, logs, metrics, errors to New Relic
 
-**Axiom Lambda Extension** (`sst.config.ts:63`):
-- ARN: `arn:aws:lambda:us-east-1:694952825951:layer:axiom-extension-arm64:11`
-- Purpose: Lambda logs and platform metrics
-- Collects: Function logs, invocation count, execution duration, memory usage, cold starts
-- Sends: Logs and metrics to Axiom (native format)
+**Finding Latest Layers**:
+Visit https://layers.newrelic-external.com/ to find the latest layer versions for your:
+- Region (us-east-1)
+- Runtime (Node.js 20.x)
+- Architecture (ARM64 or x86_64)
 
-### OTLP Collector Configuration
+### Environment Variables
 
-**Location**: `packages/functions/src/collector.yaml`
-
-**Pipelines**:
-1. **Traces Pipeline**:
-   - Receiver: OTLP (grpc:4317, http:4318)
-   - Exporter: OTLP/HTTP to Axiom with gzip compression
-   - Data: Distributed traces with spans for API Gateway, Lambda, AWS services
-
-2. **Metrics Pipeline**:
-   - Receiver: OTLP (grpc:4317, http:4318)
-   - Exporter: Debug (discards data)
-   - Rationale: OTLP metrics require separate dataset, not needed for current use case
-
-**Environment Variables** (`sst.config.ts:77-86`):
+**Configuration** (`sst.config.ts:73-82`):
 ```typescript
-// Axiom configuration (used by both layers)
-AXIOM_TOKEN: axiomToken.value              // SST secret
-AXIOM_DATASET: "dev-idevelop-tech"         // Stage-specific dataset
-AXIOM_URL: "https://api.axiom.co"          // Axiom API endpoint
-
-// ADOT configuration
-AWS_LAMBDA_EXEC_WRAPPER: "/opt/otel-handler"                    // Node.js wrapper
-OPENTELEMETRY_COLLECTOR_CONFIG_URI: "/var/task/collector.yaml"  // Collector config
-OTEL_SERVICE_NAME: "contact-api"                                // Service identifier
-OTEL_RESOURCE_ATTRIBUTES: "service.name=contact-api,..."        // Metadata
+// New Relic observability configuration
+NEW_RELIC_LICENSE_KEY: newRelicLicenseKey.value  // SST secret (encrypted)
+NEW_RELIC_ACCOUNT_ID: "7377610"                  // Account identifier (not sensitive)
+NEW_RELIC_APP_NAME: isProduction
+  ? "api-idevelop-tech"                          // Production service name
+  : "dev-api-idevelop-tech"                      // Development service name
+NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true"   // Send Lambda logs to New Relic
+NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true"       // Enable New Relic extension
+NEW_RELIC_DATA_COLLECTION_TIMEOUT: "10s"         // Timeout for data collection
+NEW_RELIC_EXTENSION_LOG_LEVEL: "INFO"            // Extension log level
 ```
 
-### Dataset Architecture
+### Service Architecture
 
-**Development Dataset**:
-- Name: `dev-idevelop-tech`
-- Type: Events (supports logs and traces)
-- Data: Lambda logs, OTLP traces, platform metrics
+**Environment-Aware Service Naming**:
+- Development: `dev-api-idevelop-tech` (mirrors dev-api.idevelop.tech)
+- Production: `api-idevelop-tech` (mirrors api.idevelop.tech)
 
-**Production Dataset** (pending):
-- Name: `idevelop.tech`
-- Type: Events
-- Configuration: Same as dev, different token
-
-**Why Events Dataset Type**:
-- Axiom offers two dataset types: "Events" and "OpenTelemetry Metrics (Preview)"
-- Events type: Accepts logs AND traces (required for our use case)
-- Metrics type: Only accepts OTLP metrics (not logs/traces)
-- OTLP metrics require separate dataset with `x-axiom-metrics-dataset` header
+This naming:
+- Reflects the entire API service (not just contact endpoint)
+- Makes it easy to distinguish dev vs prod in New Relic UI
+- Scales to multiple endpoints (auth, webhooks, etc.)
 
 ### Observability Data Collected
 
-**OTLP Traces** (via ADOT):
-- Full distributed tracing across request lifecycle
+**Distributed Traces**:
+- Full request flow: API Gateway → Lambda → AWS Services → Response
+- Individual spans for each operation with timing data
 - Trace IDs for correlation across services
-- Spans for each operation:
-  - API Gateway HTTP request (method, path, status code)
-  - Lambda function invocation (cold start indicator, duration)
-  - AWS SDK calls (DynamoDB queries, SES emails, SSM parameters)
-- Span attributes: HTTP status codes, error messages, service metadata
+- HTTP status codes, methods, paths
+- Error details and stack traces
+- Custom attributes and metadata
 
-**Lambda Platform Metrics** (via Axiom Extension):
+**APM Metrics**:
+- Transaction throughput (requests/minute)
+- Response time percentiles (p50, p95, p99)
+- Error rate and error types
+- Apdex score (application performance index)
+- External service call timing
+- Database query performance (if applicable)
+
+**Lambda Platform Metrics**:
 - Invocation count
 - Execution duration
-- Memory usage (allocated vs used)
-- Cold start occurrences
-- Billed duration
+- Memory usage (allocated vs actual)
+- Cold start frequency and duration
+- Concurrent executions
+- Throttles and errors
 
-**Lambda Logs** (via Axiom Extension):
-- Function logs with timestamps
-- Request/response details
-- Error messages and stack traces
-- Correlated with trace IDs
+**Lambda Logs**:
+- Function logs with full context
+- Request/response payloads
+- Error messages with stack traces
+- Correlated with traces via trace IDs
+- Searchable and filterable
+
+**Infrastructure Events**:
+- Deployment events
+- Configuration changes
+- Error spikes
+- Performance anomalies
 
 ### Querying and Monitoring
 
-**Axiom Dashboard**: Prebuilt Lambda dashboard shows invocations, duration, errors
+**New Relic Dashboard**: Pre-built Lambda monitoring dashboard
 
-**APL Query Examples**:
-```apl
-// View all traces
-['dev-idevelop-tech']
-| where kind == "span"
-| sort by _time desc
+**NRQL Query Examples**:
+```sql
+-- View recent transactions
+SELECT * FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+SINCE 1 hour ago
 
-// Track HTTP status codes
-['dev-idevelop-tech']
-| where ['http.status_code'] > 0
-| summarize count() by ['http.status_code']
+-- Track HTTP status codes
+SELECT count(*) FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+FACET http.statusCode
+SINCE 1 day ago
 
-// Monitor cold starts
-['dev-idevelop-tech']
-| where ['faas.coldstart'] == true
-| summarize count() by bin(_time, 1h)
+-- Monitor error rate
+SELECT percentage(count(*), WHERE error IS true)
+FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+TIMESERIES SINCE 1 day ago
 
-// Find errors
-['dev-idevelop-tech']
-| where ['otel.status_code'] == "ERROR"
-| project _time, ['service.name'], ['exception.message']
+-- Find slow transactions
+SELECT average(duration), percentile(duration, 95, 99)
+FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+FACET name
+SINCE 1 day ago
+
+-- Monitor cold starts
+SELECT count(*) FROM AwsLambdaInvocation
+WHERE aws.lambda.coldStart = true
+FACET aws.lambda.arn
+SINCE 1 day ago
 ```
 
-### IAM Permissions
+### Alerting
 
-**X-Ray Permissions** (`sst.config.ts:110-114`):
-```typescript
-{
-  actions: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
-  resources: ["*"]
-}
-```
+**Alert Policies** (to be configured):
+- Lambda 5xx errors (critical)
+- High error rate >5% (warning)
+- Response time >2s p95 (warning)
+- Cold start spike (informational)
+- Rate limit hits (security)
 
-Required for ADOT to send trace data to AWS X-Ray backend (used internally by OTLP collector).
-
-### Alerting (Pending)
-
-**Planned Alerts**:
-- Lambda function errors (5xx responses)
-- High error rates (>5% of requests)
-- Increased cold starts (performance degradation)
-- Rate limit hits (potential abuse)
-
-**Reference**: See `TODO.md` for alerting implementation tasks
+**Notification Channels**:
+- Email: matt@idevelop.tech
+- Optional: Slack, Discord, PagerDuty
 
 ### Setup Reference
 
-**Documentation**: `docs/SETUP.md` (Axiom Observability section)
+**New Relic Account**:
+- Account ID: 7377610
+- Dashboard: https://one.newrelic.com
+- License Key: Stored as SST secret (encrypted in AWS Parameter Store)
+
+**Documentation**:
+- Platform comparison: `docs/OBSERVABILITY-COMPARISON.md`
+- Setup guide: `TODO.md` (Monitoring & Observability section)
+- Layer versions: https://layers.newrelic-external.com/
 
 **Configuration Files**:
 - `sst.config.ts` - Lambda layers, environment variables, permissions
