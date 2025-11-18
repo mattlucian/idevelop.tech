@@ -77,6 +77,7 @@ export default $config({
         NEW_RELIC_APP_NAME: isProduction
           ? "api-idevelop-tech" // Production: api.idevelop.tech
           : "dev-api-idevelop-tech", // Development: dev-api.idevelop.tech
+        NEW_RELIC_LOG_LEVEL: "info", // APM agent log level (controls trace verbosity)
         NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true", // Send Lambda logs to New Relic
         NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true", // Enable New Relic extension
         NEW_RELIC_DATA_COLLECTION_TIMEOUT: "10s", // Timeout for data collection
