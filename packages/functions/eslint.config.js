@@ -3,11 +3,19 @@ import tseslint from "typescript-eslint";
 import globals from "globals";
 
 export default [
+  // Ignore config files and build artifacts
+  {
+    ignores: [
+      "node_modules",
+      "*.d.ts",
+      "eslint.config.js", // Ignore this config file itself
+      "scripts/**/*", // Ignore scripts directory
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  // TypeScript files with type-aware linting
   {
-    files: ["src/**/*.ts"],
+    files: ["src/**/*.ts"], // Only apply to TypeScript source files
     languageOptions: {
       globals: {
         ...globals.node,
@@ -36,20 +44,5 @@ export default [
         },
       ],
     },
-  },
-  // JavaScript config files (no type-aware linting needed)
-  {
-    files: ["**/*.js", "**/*.mjs"],
-    languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-    },
-    rules: {
-      "no-console": "off",
-    },
-  },
-  {
-    ignores: ["node_modules", "*.d.ts"],
   },
 ];
