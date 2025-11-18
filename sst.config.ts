@@ -57,10 +57,10 @@ export default $config({
 
       // Lambda layers for observability
       layers: [
-        // New Relic Lambda Extension (logs, metrics, traces) - ARM64
+        // New Relic Lambda Extension (logs, metrics, traces)
+        // Layer supports both x86_64 and arm64 architectures
         // Latest version: https://layers.newrelic-external.com/
-        // Select us-east-1 region and ARM64 architecture
-        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicLambdaExtensionARM64:69",
+        "arn:aws:lambda:us-east-1:451483290750:layer:NewRelicLambdaExtension:69",
       ],
 
       environment: {
