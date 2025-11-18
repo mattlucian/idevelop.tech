@@ -1,6 +1,3 @@
-// IMPORTANT: New Relic agent must be imported first for APM instrumentation
-import "newrelic";
-
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
