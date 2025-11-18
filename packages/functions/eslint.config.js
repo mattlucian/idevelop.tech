@@ -3,13 +3,26 @@ import tseslint from "typescript-eslint";
 import globals from "globals";
 
 export default [
+  // Ignore config files and build artifacts
+  {
+    ignores: [
+      "node_modules",
+      "*.d.ts",
+      "eslint.config.js", // Ignore this config file itself
+      "scripts/**/*", // Ignore scripts directory
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ["**/*.{js,mjs,cjs,ts}"],
+    files: ["src/**/*.ts"], // Only apply to TypeScript source files
     languageOptions: {
       globals: {
         ...globals.node,
+      },
+      parserOptions: {
+        project: "./tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
@@ -31,8 +44,5 @@ export default [
         },
       ],
     },
-  },
-  {
-    ignores: ["node_modules", "*.d.ts"],
   },
 ];
