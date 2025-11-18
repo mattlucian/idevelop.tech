@@ -81,24 +81,21 @@ nodejs: {
 
 ### Environment Filtering Strategy
 
-**Dashboard Variable:**
-- Name: `{{environment}}`
-- Type: String
-- Values: `dev`, `prod`
+Due to different hostname patterns (dev: `dev-api.idevelop.tech`, prod: `api.idevelop.tech`), we use two different variables:
 
-**For AwsLambdaInvocation / Span events:**
-```sql
-WHERE
-  CASE
-    WHEN {{environment}} = 'dev' THEN request.headers.host = 'dev-api.idevelop.tech'
-    WHEN {{environment}} = 'prod' THEN request.headers.host = 'api.idevelop.tech'
-  END
-```
+**Dashboard Variables:**
 
-**For Log events:**
-```sql
-WHERE faas.name LIKE CONCAT('%-', {{environment}}, '-%')
-```
+1. **For AwsLambdaInvocation/Span queries:**
+   - Name: `{{api_host}}`
+   - Type: String
+   - Values: `dev-api.idevelop.tech`, `api.idevelop.tech`
+   - Usage: `WHERE request.headers.host = '{{api_host}}'`
+
+2. **For Log queries:**
+   - Name: `{{environment}}`
+   - Type: String
+   - Values: `dev`, `production`
+   - Usage: `WHERE faas.name LIKE '%-{{environment}}-%'`
 
 ### Key Metrics
 
@@ -106,11 +103,7 @@ WHERE faas.name LIKE CONCAT('%-', {{environment}}, '-%')
 ```sql
 SELECT count(*)
 FROM AwsLambdaInvocation
-WHERE
-  CASE
-    WHEN {{environment}} = 'dev' THEN request.headers.host = 'dev-api.idevelop.tech'
-    WHEN {{environment}} = 'prod' THEN request.headers.host = 'api.idevelop.tech'
-  END
+WHERE request.headers.host = '{{api_host}}'
 FACET request.uri
 TIMESERIES AUTO
 ```
@@ -122,11 +115,7 @@ SELECT
   max(duration * 1000) as 'Max Response Time (ms)',
   percentile(duration * 1000, 95) as 'P95 Response Time (ms)'
 FROM AwsLambdaInvocation
-WHERE
-  CASE
-    WHEN {{environment}} = 'dev' THEN request.headers.host = 'dev-api.idevelop.tech'
-    WHEN {{environment}} = 'prod' THEN request.headers.host = 'api.idevelop.tech'
-  END
+WHERE request.headers.host = '{{api_host}}'
 TIMESERIES AUTO
 ```
 
@@ -134,11 +123,7 @@ TIMESERIES AUTO
 ```sql
 SELECT percentage(count(*), WHERE error IS true) as 'Error Rate %'
 FROM AwsLambdaInvocation
-WHERE
-  CASE
-    WHEN {{environment}} = 'dev' THEN request.headers.host = 'dev-api.idevelop.tech'
-    WHEN {{environment}} = 'prod' THEN request.headers.host = 'api.idevelop.tech'
-  END
+WHERE request.headers.host = '{{api_host}}'
 TIMESERIES AUTO
 ```
 
@@ -146,7 +131,7 @@ TIMESERIES AUTO
 ```sql
 SELECT timestamp, message
 FROM Log
-WHERE faas.name LIKE CONCAT('%-', {{environment}}, '-%')
+WHERE faas.name LIKE '%-{{environment}}-%'
 AND (message LIKE '%error%' OR message LIKE '%Error%')
 SINCE 1 day ago
 LIMIT 50
@@ -158,11 +143,7 @@ SELECT
   average(provider.maxMemoryUsed.Average / provider.memorySize.Average * 100) as 'Avg Memory %',
   max(provider.maxMemoryUsed.Average / provider.memorySize.Average * 100) as 'Peak Memory %'
 FROM AwsLambdaInvocation
-WHERE
-  CASE
-    WHEN {{environment}} = 'dev' THEN request.headers.host = 'dev-api.idevelop.tech'
-    WHEN {{environment}} = 'prod' THEN request.headers.host = 'api.idevelop.tech'
-  END
+WHERE request.headers.host = '{{api_host}}'
 TIMESERIES AUTO
 ```
 
@@ -170,11 +151,7 @@ TIMESERIES AUTO
 ```sql
 SELECT count(*)
 FROM AwsLambdaInvocation
-WHERE
-  CASE
-    WHEN {{environment}} = 'dev' THEN request.headers.host = 'dev-api.idevelop.tech'
-    WHEN {{environment}} = 'prod' THEN request.headers.host = 'api.idevelop.tech'
-  END
+WHERE request.headers.host = '{{api_host}}'
 FACET request.uri
 SINCE 1 day ago
 ```
