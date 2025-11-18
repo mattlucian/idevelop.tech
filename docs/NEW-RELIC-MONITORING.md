@@ -43,6 +43,9 @@ environment: {
     ? "api-idevelop-tech"
     : "dev-api-idevelop-tech",
   NEW_RELIC_LOG_LEVEL: "info",
+  NEW_RELIC_LABELS: isProduction
+    ? "environment:production"
+    : "environment:dev",  // Tags all telemetry (queryable as tags.environment)
 
   // New Relic Lambda Extension
   NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true",
@@ -81,21 +84,19 @@ nodejs: {
 
 ### Environment Filtering Strategy
 
-Due to different hostname patterns (dev: `dev-api.idevelop.tech`, prod: `api.idevelop.tech`), we use two different variables:
+All telemetry is automatically tagged with environment using `NEW_RELIC_LABELS`:
 
-**Dashboard Variables:**
+**Dashboard Variable:**
+- Name: `{{environment}}`
+- Type: String
+- Values: `dev`, `production`
 
-1. **For AwsLambdaInvocation/Span queries:**
-   - Name: `{{api_host}}`
-   - Type: String
-   - Values: `dev-api.idevelop.tech`, `api.idevelop.tech`
-   - Usage: `WHERE request.headers.host = '{{api_host}}'`
+**Universal filtering (works for all event types):**
+```sql
+WHERE tags.environment = '{{environment}}'
+```
 
-2. **For Log queries:**
-   - Name: `{{environment}}`
-   - Type: String
-   - Values: `dev`, `production`
-   - Usage: `WHERE faas.name LIKE '%-{{environment}}-%'`
+This approach uses New Relic's built-in labels feature, similar to Datadog's `DD_ENV`. The `NEW_RELIC_LABELS` environment variable automatically tags all AwsLambdaInvocation, Span, and Log events with no code changes required.
 
 ### Key Metrics
 
@@ -103,7 +104,7 @@ Due to different hostname patterns (dev: `dev-api.idevelop.tech`, prod: `api.ide
 ```sql
 SELECT count(*)
 FROM AwsLambdaInvocation
-WHERE request.headers.host = '{{api_host}}'
+WHERE tags.environment = '{{environment}}'
 FACET request.uri
 TIMESERIES AUTO
 ```
@@ -115,7 +116,7 @@ SELECT
   max(duration * 1000) as 'Max Response Time (ms)',
   percentile(duration * 1000, 95) as 'P95 Response Time (ms)'
 FROM AwsLambdaInvocation
-WHERE request.headers.host = '{{api_host}}'
+WHERE tags.environment = '{{environment}}'
 TIMESERIES AUTO
 ```
 
@@ -123,7 +124,7 @@ TIMESERIES AUTO
 ```sql
 SELECT percentage(count(*), WHERE error IS true) as 'Error Rate %'
 FROM AwsLambdaInvocation
-WHERE request.headers.host = '{{api_host}}'
+WHERE tags.environment = '{{environment}}'
 TIMESERIES AUTO
 ```
 
@@ -131,7 +132,7 @@ TIMESERIES AUTO
 ```sql
 SELECT timestamp, message
 FROM Log
-WHERE faas.name LIKE '%-{{environment}}-%'
+WHERE tags.environment = '{{environment}}'
 AND (message LIKE '%error%' OR message LIKE '%Error%')
 SINCE 1 day ago
 LIMIT 50
@@ -143,7 +144,7 @@ SELECT
   average(provider.maxMemoryUsed.Average / provider.memorySize.Average * 100) as 'Avg Memory %',
   max(provider.maxMemoryUsed.Average / provider.memorySize.Average * 100) as 'Peak Memory %'
 FROM AwsLambdaInvocation
-WHERE request.headers.host = '{{api_host}}'
+WHERE tags.environment = '{{environment}}'
 TIMESERIES AUTO
 ```
 
@@ -151,7 +152,7 @@ TIMESERIES AUTO
 ```sql
 SELECT count(*)
 FROM AwsLambdaInvocation
-WHERE request.headers.host = '{{api_host}}'
+WHERE tags.environment = '{{environment}}'
 FACET request.uri
 SINCE 1 day ago
 ```
