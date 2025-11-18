@@ -5,8 +5,9 @@ import globals from "globals";
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  // TypeScript files with type-aware linting
   {
-    files: ["src/**/*.ts"], // Only apply type-aware rules to src files
+    files: ["src/**/*.ts"],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -34,6 +35,18 @@ export default [
           caughtErrorsIgnorePattern: "^_",
         },
       ],
+    },
+  },
+  // JavaScript config files (no type-aware linting needed)
+  {
+    files: ["**/*.js", "**/*.mjs"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      "no-console": "off",
     },
   },
   {
