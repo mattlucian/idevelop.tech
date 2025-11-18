@@ -80,7 +80,7 @@ const goBack = () => {
   const currentDomain = window.location.origin;
 
   // Check if referrer is from the same domain (internal navigation)
-  const isInternalNavigation = referrer && referrer.startsWith(currentDomain);
+  const isInternalNavigation = referrer?.startsWith(currentDomain);
 
   if (isInternalNavigation) {
     // Safe to go back - user navigated from another page on our site
