@@ -203,104 +203,88 @@ Verify sending email address:
 
 ---
 
-## Axiom Observability
+## New Relic Observability
 
-Configure Axiom for Lambda distributed tracing and log aggregation.
+Configure New Relic for Lambda monitoring, distributed tracing, and APM.
 
-### Create Axiom Account
+### Create New Relic Account
 
-1. Sign up at [Axiom](https://app.axiom.co)
-2. Free tier includes **500GB/month** data ingestion (sufficient for portfolio sites)
+1. Sign up at [New Relic](https://newrelic.com/signup)
+2. Free tier includes **100 GB/month** data ingestion with unlimited alerts
+3. Note your Account ID from the account dropdown (e.g., 7377610)
 
-### Create Datasets
+**Note**: Sign up directly via New Relic website (AWS Marketplace signup also works)
 
-Datasets store your Lambda logs and OpenTelemetry traces:
+### Get License Key
 
-**IMPORTANT**: When creating the dataset, select **"Events"** type (NOT "OpenTelemetry Metrics"). The Events type supports both logs and traces, while the Metrics type only supports metrics.
-
-**Development Dataset:**
-```
-Name: dev-idevelop-tech
-Type: Events
-Description: Development stage logs and traces
-```
-
-**Production Dataset:**
-```
-Name: idevelop.tech
-Type: Events
-Description: Production stage logs and traces
-```
-
-### Create API Tokens
-
-Generate stage-specific API tokens with **Ingest** permissions:
-
-**Development Token:**
-1. Go to Settings → API Tokens → Create Token
-2. Name: `dev-idevelop-tech opentelemetry token`
-3. Permissions: **Ingest** (select `dev-idevelop-tech` dataset)
-4. Copy the token (shown only once!)
-
-**Production Token:**
-1. Name: `idevelop.tech opentelemetry token`
-2. Permissions: **Ingest** (select `idevelop.tech` dataset)
-3. Copy the token
+1. Go to [API Keys](https://one.newrelic.com/launcher/api-keys-ui.api-keys-launcher) in New Relic dashboard
+2. Create or copy an existing **Ingest - License** key
+   - **Important**: Use the Ingest License key (used for sending data), NOT the User API key (starts with NRAK)
+   - If no ingest key exists, create one: Click "Create a key" → Type: "Ingest - License"
+3. Copy the key value (shown only once during creation)
 
 ### Set SST Secrets
 
-Store API tokens as SST secrets (encrypted in AWS):
+Store the license key as an SST secret (encrypted in AWS Parameter Store):
 
 **Development:**
 ```bash
-npx sst secret set AxiomToken YOUR_DEV_TOKEN_HERE --stage dev
+npx sst secret set NewRelicLicenseKey YOUR_LICENSE_KEY_HERE --stage dev
 ```
 
 **Production:**
 ```bash
-npx sst secret set AxiomToken YOUR_PRODUCTION_TOKEN_HERE --stage production
+npx sst secret set NewRelicLicenseKey YOUR_LICENSE_KEY_HERE --stage production
 ```
+
+**Note**: You can use the same license key for both dev and production. Service differentiation is handled via `NEW_RELIC_APP_NAME` environment variable (dev-api-idevelop-tech vs api-idevelop-tech).
 
 **Verification:**
 ```bash
 npx sst secret list --stage dev
+npx sst secret list --stage production
 ```
 
 ### Verify Integration
 
-After deployment, verify traces are appearing:
+After deployment, verify your service appears in New Relic:
 
 1. Deploy your application: `npx sst deploy --stage dev`
 2. Trigger a Lambda invocation (e.g., submit contact form)
-3. Go to Axiom dashboard → Select dataset (`dev-idevelop-tech`)
-4. You should see:
-   - Lambda logs from Axiom Extension
-   - Distributed traces from ADOT with spans showing:
-     - API Gateway requests (with HTTP status codes)
-     - Lambda invocations (with cold start indicators)
-     - AWS service calls (SES, DynamoDB, etc.)
+3. Go to [New Relic APM](https://one.newrelic.com/nr1-core?filters=(domain%3D%27APM%27ANDtype%3D%27APPLICATION%27))
+4. You should see your service: `dev-api-idevelop-tech` (or `api-idevelop-tech` for production)
+5. Click into the service to view:
+   - Distributed traces with full request flow
+   - Lambda logs with request/response details
+   - Performance metrics (duration, throughput, errors)
+   - Cold start tracking
+   - AWS service call timing (DynamoDB, SES, etc.)
 
-**Query examples:**
-```apl
-// Find all traces
-['dev-idevelop-tech']
-| where kind == "span"
+**NRQL Query Examples:**
+```sql
+-- View recent transactions
+SELECT * FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+SINCE 1 hour ago
 
-// Track HTTP status codes
-['dev-idevelop-tech']
-| where ['http.status_code'] > 0
-| summarize count() by ['http.status_code']
+-- Track HTTP status codes
+SELECT count(*) FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+FACET http.statusCode
+SINCE 1 day ago
 
-// Monitor cold starts
-['dev-idevelop-tech']
-| where ['faas.coldstart'] == true
-| summarize count() by bin(_time, 1h)
+-- Monitor error rate
+SELECT percentage(count(*), WHERE error IS true)
+FROM Transaction
+WHERE appName = 'dev-api-idevelop-tech'
+TIMESERIES SINCE 1 day ago
 ```
 
-**Reference**: Lambda functions are configured in `sst.config.ts` with:
-- Axiom Lambda Extension layer for log collection
-- ADOT Lambda layer for OpenTelemetry distributed tracing
-- OTLP exporter sending traces to Axiom
+**Reference**:
+- Lambda configuration: `sst.config.ts` (New Relic Node.js 20 APM layer)
+- Architecture documentation: `docs/ARCHITECTURE.md` (Observability & Monitoring section)
+- Platform comparison: `docs/OBSERVABILITY-COMPARISON.md`
+- Latest layer versions: https://layers.newrelic-external.com/
 
 ---
 
