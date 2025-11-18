@@ -15,6 +15,7 @@ import type {
   RateLimitRecord,
 } from "@idevelop-tech/core";
 import { renderContactConfirmation } from "./email-templates/utils";
+import newrelic from "newrelic";
 
 // AWS Clients
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -470,9 +471,9 @@ async function sendInitialContactEmail(
 
 
 /**
- * Main Lambda handler
+ * Main Lambda handler (wrapped with New Relic APM instrumentation)
  */
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+const contactHandler: APIGatewayProxyHandlerV2 = async (event) => {
   const requestId = crypto.randomUUID();
 
   console.log("Contact form submission received:", {
@@ -609,3 +610,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     body: JSON.stringify(successResponse),
   };
 };
+
+// Export handler wrapped with New Relic instrumentation
+export const handler = newrelic.setLambdaHandler(contactHandler);
