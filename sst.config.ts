@@ -49,7 +49,7 @@ export default $config({
 
     // Lambda Function for Contact Form
     const contactHandler = new sst.aws.Function("ContactHandler", {
-      handler: "newrelic-lambda-wrapper.handler", // New Relic wrapper handler
+      handler: "packages/functions/src/newrelic-wrapper.handler", // New Relic APM wrapper for API handler
       runtime: "nodejs20.x",
       architecture: "arm64",
       memory: "512 MB",
@@ -77,7 +77,6 @@ export default $config({
         NEW_RELIC_APP_NAME: isProduction
           ? "api-idevelop-tech" // Production: api.idevelop.tech
           : "dev-api-idevelop-tech", // Development: dev-api.idevelop.tech
-        NEW_RELIC_LAMBDA_HANDLER: "packages/functions/src/contact.handler", // Original handler path
         NEW_RELIC_LOG_LEVEL: "info", // APM agent log level (controls trace verbosity)
         NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true", // Send Lambda logs to New Relic
         NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true", // Enable New Relic extension
