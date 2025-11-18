@@ -110,7 +110,6 @@ export default $config({
         esbuild: {
           minify: isProduction,
           sourcemap: !isProduction,
-          external: ["newrelic"], // Provided by New Relic Lambda layer at runtime
         },
       },
       copyFiles: [
