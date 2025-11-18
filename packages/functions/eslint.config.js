@@ -6,7 +6,7 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ["**/*.{js,mjs,cjs,ts}"],
+    files: ["src/**/*.ts"], // Only apply type-aware rules to src files
     languageOptions: {
       globals: {
         ...globals.node,
