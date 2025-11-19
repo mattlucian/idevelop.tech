@@ -135,15 +135,9 @@ export default $config({
         command: "npm run build",
         output: "dist",
       },
-      // IMPORTANT: Custom domain disabled for production until Phase 7
-      // Current production site: idevelop.tech (Wix) - intentionally not migrated yet
-      // New CloudFront site available for testing at CloudFront URL
-      // Phase 7 will migrate DNS from Wix to CloudFront
       domain: isProduction
-        ? undefined // No custom domain - uses CloudFront URL
-        : {
-            name: "dev.idevelop.tech",
-          },
+        ? { name: "idevelop.tech", redirects: ["www.idevelop.tech"] }
+        : { name: "dev.idevelop.tech" },
       environment: {
         VITE_API_URL: $interpolate`${api.url}`,
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",
