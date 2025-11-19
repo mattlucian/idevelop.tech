@@ -1,32 +1,29 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useMeta } from "@/composables/useMeta";
+import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
+import { useServiceMeta } from "@/composables/useServiceMeta";
 import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
 import ServiceSection from "../../components/ui/ServiceSection.vue";
-import TabButton from "../../components/ui/TabButton.vue";
+import TabNavigation from "../../components/ui/TabNavigation.vue";
 import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
 import CTASection from "../../components/ui/CTASection.vue";
 import CTAForm from "../../components/ui/CTAForm.vue";
 import OutlineIcon from "../../components/elements/OutlineIcon.vue";
 import { webDesignServiceData } from "@/data/services/web-design";
-import { SITE } from "@/constants";
 import { XCircleIcon } from "@heroicons/vue/24/outline";
 import { getIconByName } from "@/utils/iconMapping";
 
 // SEO Meta Tags
-useMeta({
-  title: "Web Design & Development Services | I Develop Tech",
+useServiceMeta({
+  serviceName: "Web Design & Development Services",
+  slug: "web-design",
   description:
     "Custom web design and development for Shopify, WordPress, and custom platforms. Conversion-focused design, SEO-preserving migrations, and mobile-responsive sites that represent your brand.",
-  ogTitle: "Web Design & Development Services | I Develop Tech",
   ogDescription:
     "Professional web design and development. Custom Shopify stores, WordPress sites, and web applications. Migration services with zero SEO loss.",
-  ogUrl: `${SITE.url}/services/web-design`,
-  ogImage: `${SITE.url}/og-image-web-design.jpg`,
 });
 
-const router = useRouter();
+const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("design");
 
 // Destructure typed data
@@ -44,14 +41,6 @@ const {
   platforms,
   migrationSteps,
 } = webDesignServiceData;
-
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
-
-const handleBreadcrumbNavigate = (path: string) => {
-  router.push(path);
-};
 </script>
 
 <template>
@@ -76,21 +65,11 @@ const handleBreadcrumbNavigate = (path: string) => {
     <!-- Interactive Design Showcase with Tabs -->
     <div class="max-w-5xl mx-auto px-6 py-6">
       <!-- Tab Navigation -->
-      <div
-        class="flex flex-col md:flex-row gap-2 mb-6 md:border-b md:border-slate-700/30"
-      >
-        <TabButton
-          v-for="tab in tabs"
-          :key="tab.id"
-          :label="tab.label"
-          :active="activeTab === tab.id"
-          @click="activeTab = tab.id"
-        />
-      </div>
+      <TabNavigation v-model="activeTab" :tabs="tabs" />
 
       <!-- Tab Content -->
       <div
-        class="bg-gradient-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
+        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
         <!-- Design Process Tab -->
         <div v-if="activeTab === 'design'">
@@ -229,7 +208,7 @@ const handleBreadcrumbNavigate = (path: string) => {
       <div class="grid md:grid-cols-2 gap-6">
         <!-- Before: Generic Template -->
         <div
-          class="bg-gradient-to-br from-red-900/20 to-red-800/10 border border-red-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-red-900/20 to-red-800/10 border border-red-700/30 rounded-xl p-8"
         >
           <h3
             class="text-xl font-semibold text-red-400 mb-4 flex items-center gap-2"
@@ -259,7 +238,7 @@ const handleBreadcrumbNavigate = (path: string) => {
 
         <!-- After: Custom Brand Experience -->
         <div
-          class="bg-gradient-to-br from-emerald-900/20 to-emerald-800/10 border border-emerald-700/30 rounded-xl p-8"
+          class="bg-linear-to-br from-emerald-900/20 to-emerald-800/10 border border-emerald-700/30 rounded-xl p-8"
         >
           <h3 class="text-xl font-semibold text-emerald-400 mb-4">
             ✓ Custom Brand Experience

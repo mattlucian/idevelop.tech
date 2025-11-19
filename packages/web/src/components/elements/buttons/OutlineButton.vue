@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface OutlineButtonProps {
+interface Props {
   /** Color scheme variant */
   colorScheme?: "cyan" | "emerald" | "gray";
   /** Full width button (default: false) */
@@ -8,7 +8,7 @@ interface OutlineButtonProps {
   disabled?: boolean;
 }
 
-withDefaults(defineProps<OutlineButtonProps>(), {
+withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
   fullWidth: false,
   disabled: false,

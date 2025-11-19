@@ -6,6 +6,7 @@ import { useRecaptcha } from "@/composables/useRecaptcha";
 import { submitContactForm } from "@/services/contactApi";
 import type { ContactFormRequest } from "@/types/api";
 import { ContactFormErrorCode } from "@/types/api";
+import { logger } from "@/utils/logger";
 
 interface Props {
   serviceName?: string;
@@ -25,7 +26,7 @@ const formClasses = computed(() => {
   if (props.variant === "dark") {
     return "bg-[#0a0a0a] border border-slate-800 rounded-xl p-6";
   }
-  return "bg-gradient-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm";
+  return "bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-6 backdrop-blur-sm";
 });
 
 const serviceOptions = [
@@ -65,7 +66,7 @@ const checkCookiesEnabled = (): boolean => {
     document.cookie =
       "cookietest=1; SameSite=Strict; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     return cookiesEnabled;
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 };
@@ -157,11 +158,17 @@ const handleSubmit = async () => {
       showError.value = true;
       errorMessage.value = getErrorMessage(response.error.code);
 
-      console.error("Form submission error:", response.error);
+      logger.error("Form submission failed", response.error, {
+        component: "CTAForm",
+        errorCode: response.error.code,
+      });
     }
   } catch (error) {
     // Handle unexpected errors (reCAPTCHA load failure, network issues, etc.)
-    console.error("Form submission error:", error);
+    logger.error("Form submission error", error, {
+      component: "CTAForm",
+      action: "submit",
+    });
     showError.value = true;
     errorMessage.value =
       "Unable to submit form. Please try again or email me directly.";
@@ -186,7 +193,7 @@ const handleSubmit = async () => {
       <div class="flex items-start gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 flex-shrink-0 mt-0.5"
+          class="h-5 w-5 shrink-0 mt-0.5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -302,7 +309,7 @@ const handleSubmit = async () => {
           :href="SCHEDULING_LINK"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex-shrink-0"
+          class="shrink-0"
         >
           <button
             type="button"

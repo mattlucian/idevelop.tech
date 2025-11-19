@@ -1,0 +1,27 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: localhost:4317
+      http:
+        endpoint: localhost:4318
+
+exporters:
+  otlphttp:
+    compression: gzip
+    endpoint: https://api.axiom.co
+    headers:
+      authorization: Bearer ${env:AXIOM_TOKEN}
+      x-axiom-dataset: ${env:AXIOM_DATASET}
+
+  debug:
+    verbosity: normal
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlphttp]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug]

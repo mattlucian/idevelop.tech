@@ -1,6 +1,10 @@
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  PutCommand,
+  QueryCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
 import type {
@@ -10,17 +14,30 @@ import type {
   ContactFormErrorCode,
   RateLimitRecord,
 } from "@idevelop-tech/core";
+import { renderContactConfirmation } from "./email-templates/utils";
+import { instrumentLambda } from "./utils/instrument-lambda";
 
 // AWS Clients
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const sesClient = new SESClient({});
 const ssmClient = new SSMClient({});
 
-// Environment variables
-const RATE_LIMIT_TABLE_NAME = process.env.RATE_LIMIT_TABLE_NAME!;
-const RECAPTCHA_SECRET_PARAMETER = process.env.RECAPTCHA_SECRET_PARAMETER!;
-const SES_FROM_EMAIL = process.env.SES_FROM_EMAIL!;
-const SES_TO_EMAIL = process.env.SES_TO_EMAIL!;
+// Environment variable validation
+function getRequiredEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+}
+
+// Environment variables (validated at module load)
+const RATE_LIMIT_TABLE_NAME = getRequiredEnvVar("RATE_LIMIT_TABLE_NAME");
+const RECAPTCHA_SECRET_PARAMETER = getRequiredEnvVar(
+  "RECAPTCHA_SECRET_PARAMETER",
+);
+const SES_FROM_EMAIL = getRequiredEnvVar("SES_FROM_EMAIL");
+const SES_TO_EMAIL = getRequiredEnvVar("SES_TO_EMAIL");
 
 // Rate limiting configuration
 const RATE_LIMITS = {
@@ -66,35 +83,93 @@ async function getRecaptchaSecret(): Promise<string> {
 }
 
 /**
+ * Result types for validation and operations
+ */
+type ValidationSuccess = { valid: true };
+type ValidationError = {
+  valid: false;
+  error: { code: ContactFormErrorCode; message: string };
+};
+type ValidationResult = ValidationSuccess | ValidationError;
+
+type RecaptchaSuccess = { success: true; score?: number };
+type RecaptchaError = {
+  success: false;
+  error: { code: ContactFormErrorCode; message: string };
+};
+type RecaptchaResult = RecaptchaSuccess | RecaptchaError;
+
+type RateLimitSuccess = { allowed: true };
+type RateLimitError = {
+  allowed: false;
+  error: { code: ContactFormErrorCode; message: string };
+};
+type RateLimitResult = RateLimitSuccess | RateLimitError;
+
+type EmailSuccess = { success: true };
+type EmailError = {
+  success: false;
+  error: { code: ContactFormErrorCode; message: string };
+};
+type EmailResult = EmailSuccess | EmailError;
+
+/**
  * Validate request payload
  */
-function validateRequest(body: any): { valid: boolean; error?: { code: ContactFormErrorCode; message: string } } {
-  // Check required fields
-  if (!body.name || !body.email || !body.service || !body.recaptchaToken) {
+function validateRequest(body: unknown): ValidationResult {
+  // Type guard: ensure body is an object
+  if (!body || typeof body !== "object") {
     return {
       valid: false,
       error: {
         code: "VALIDATION_ERROR" as ContactFormErrorCode,
-        message: "Missing required fields: name, email, service, recaptchaToken",
+        message: "Invalid request body",
       },
     };
   }
 
-  // Validate name (1-100 chars, letters/spaces/hyphens/apostrophes only)
-  const nameRegex = /^[a-zA-Z\s'-]{1,100}$/;
-  if (!nameRegex.test(body.name.trim())) {
+  // Cast to Record after validation
+  const payload = body as Record<string, unknown>;
+
+  // Check required fields
+  if (
+    !payload.name ||
+    !payload.email ||
+    !payload.service ||
+    !payload.recaptchaToken
+  ) {
     return {
       valid: false,
       error: {
         code: "VALIDATION_ERROR" as ContactFormErrorCode,
-        message: "Name must be 1-100 characters and contain only letters, spaces, hyphens, and apostrophes",
+        message:
+          "Missing required fields: name, email, service, recaptchaToken",
+      },
+    };
+  }
+
+  // Type assertions after presence check
+  const name = String(payload.name);
+  const email = String(payload.email);
+  const recaptchaToken = String(payload.recaptchaToken);
+  const message = payload.message ? String(payload.message) : undefined;
+
+  // Validate name (1-100 chars, letters/spaces/hyphens/apostrophes only)
+  const nameRegex = /^[a-zA-Z\s'-]{1,100}$/;
+  if (!nameRegex.test(name.trim())) {
+    return {
+      valid: false,
+      error: {
+        code: "VALIDATION_ERROR" as ContactFormErrorCode,
+        message:
+          "Name must be 1-100 characters and contain only letters, spaces, hyphens, and apostrophes",
       },
     };
   }
 
   // Validate email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(body.email.trim())) {
+  if (!emailRegex.test(email.trim())) {
     return {
       valid: false,
       error: {
@@ -105,7 +180,7 @@ function validateRequest(body: any): { valid: boolean; error?: { code: ContactFo
   }
 
   // Validate message length (optional field, max 1000 chars)
-  if (body.message && body.message.trim().length > 1000) {
+  if (message && message.trim().length > 1000) {
     return {
       valid: false,
       error: {
@@ -116,7 +191,7 @@ function validateRequest(body: any): { valid: boolean; error?: { code: ContactFo
   }
 
   // Validate reCAPTCHA token (min 20 chars)
-  if (body.recaptchaToken.length < 20) {
+  if (recaptchaToken.length < 20) {
     return {
       valid: false,
       error: {
@@ -130,9 +205,23 @@ function validateRequest(body: any): { valid: boolean; error?: { code: ContactFo
 }
 
 /**
+ * reCAPTCHA API response type
+ */
+interface RecaptchaApiResponse {
+  success: boolean;
+  score?: number;
+  challenge_ts?: string;
+  hostname?: string;
+  "error-codes"?: string[];
+}
+
+/**
  * Verify reCAPTCHA token with Google
  */
-async function verifyRecaptcha(token: string, remoteIp: string): Promise<{ success: boolean; score?: number; error?: { code: ContactFormErrorCode; message: string } }> {
+async function verifyRecaptcha(
+  token: string,
+  remoteIp: string,
+): Promise<RecaptchaResult> {
   try {
     const secret = await getRecaptchaSecret();
 
@@ -148,7 +237,7 @@ async function verifyRecaptcha(token: string, remoteIp: string): Promise<{ succe
       }),
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as RecaptchaApiResponse;
 
     if (!data.success) {
       return {
@@ -164,7 +253,6 @@ async function verifyRecaptcha(token: string, remoteIp: string): Promise<{ succe
     if (data.score !== undefined && data.score < RECAPTCHA_THRESHOLD) {
       return {
         success: false,
-        score: data.score,
         error: {
           code: "RECAPTCHA_LOW_SCORE" as ContactFormErrorCode,
           message: `reCAPTCHA score too low: ${data.score}`,
@@ -188,10 +276,15 @@ async function verifyRecaptcha(token: string, remoteIp: string): Promise<{ succe
 /**
  * Check rate limiting for IP and email
  */
-async function checkRateLimit(ip: string, email: string): Promise<{ allowed: boolean; error?: { code: ContactFormErrorCode; message: string } }> {
+async function checkRateLimit(
+  ip: string,
+  email: string,
+): Promise<RateLimitResult> {
   const now = Date.now();
   const ipCutoff = new Date(now - RATE_LIMITS.IP_WINDOW * 1000).toISOString();
-  const emailCutoff = new Date(now - RATE_LIMITS.EMAIL_WINDOW * 1000).toISOString();
+  const emailCutoff = new Date(
+    now - RATE_LIMITS.EMAIL_WINDOW * 1000,
+  ).toISOString();
 
   try {
     // Check IP rate limit
@@ -251,7 +344,13 @@ async function checkRateLimit(ip: string, email: string): Promise<{ allowed: boo
 /**
  * Record rate limit entry in DynamoDB
  */
-async function recordRateLimit(ip: string, email: string, requestId: string, service?: string, userAgent?: string): Promise<void> {
+async function recordRateLimit(
+  ip: string,
+  email: string,
+  requestId: string,
+  service?: string,
+  userAgent?: string,
+): Promise<void> {
   const now = new Date();
   const timestamp = now.toISOString();
   const ttl = Math.floor(now.getTime() / 1000) + RATE_LIMITS.EMAIL_WINDOW; // Use longer TTL for cleanup
@@ -275,7 +374,7 @@ async function recordRateLimit(ip: string, email: string, requestId: string, ser
       new PutCommand({
         TableName: RATE_LIMIT_TABLE_NAME,
         Item: ipRecord,
-      })
+      }),
     );
 
     // Record email entry
@@ -291,7 +390,7 @@ async function recordRateLimit(ip: string, email: string, requestId: string, ser
       new PutCommand({
         TableName: RATE_LIMIT_TABLE_NAME,
         Item: emailRecord,
-      })
+      }),
     );
   } catch (error) {
     console.error("Failed to record rate limit:", error);
@@ -300,71 +399,81 @@ async function recordRateLimit(ip: string, email: string, requestId: string, ser
 }
 
 /**
- * Send email via AWS SES
+ * Send initial contact email via AWS SES
+ * Sends to both user and admin to create a shared email thread
  */
-async function sendEmail(requestData: ContactFormRequest, requestId: string): Promise<{ success: boolean; error?: { code: ContactFormErrorCode; message: string } }> {
+async function sendInitialContactEmail(
+  requestData: ContactFormRequest,
+  requestId: string,
+): Promise<EmailResult> {
   const { name, email, service, message } = requestData;
 
-  const emailBody = `
-New Contact Form Submission
-
-Request ID: ${requestId}
-Submitted: ${new Date().toISOString()}
-
----
-
-Name: ${name}
-Email: ${email}
-Service: ${service}
-Message: ${message || "(no message provided)"}
-
----
-
-Metadata:
-- User Agent: ${requestData.metadata?.userAgent || "N/A"}
-- Referrer: ${requestData.metadata?.referrer || "N/A"}
-- Timestamp: ${requestData.metadata?.timestamp || "N/A"}
-`.trim();
-
-  const command = new SendEmailCommand({
-    Source: SES_FROM_EMAIL,
-    Destination: {
-      ToAddresses: [SES_TO_EMAIL],
-    },
-    Message: {
-      Subject: {
-        Data: `[idevelop.tech] New ${service} Inquiry from ${name}`,
-        Charset: "UTF-8",
-      },
-      Body: {
-        Text: {
-          Data: emailBody,
-          Charset: "UTF-8",
-        },
-      },
-    },
-    ReplyToAddresses: [email],
+  // Format timestamp in human-friendly format with timezone
+  const timestamp = new Date().toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZoneName: "short",
   });
 
   try {
+    // Render HTML template (customer-facing confirmation with full details)
+    const htmlBody = renderContactConfirmation({
+      name,
+      email,
+      service,
+      message: message || "(no message provided)",
+      requestId,
+      timestamp,
+      userAgent: requestData.metadata?.userAgent || "N/A",
+      referrer: requestData.metadata?.referrer || "N/A",
+    });
+
+    // Send email to both user and admin
+    // This creates a shared email thread where any reply includes both parties
+    const command = new SendEmailCommand({
+      Source: SES_FROM_EMAIL,
+      Destination: {
+        ToAddresses: [email, SES_TO_EMAIL], // Both receive the same email
+      },
+      Message: {
+        Subject: {
+          Data: `Thanks for contacting I Develop Tech - ${service}`,
+          Charset: "UTF-8",
+        },
+        Body: {
+          Html: {
+            Data: htmlBody,
+            Charset: "UTF-8",
+          },
+        },
+      },
+      ReplyToAddresses: [SES_TO_EMAIL, email], // Replies go to both
+    });
+
     await sesClient.send(command);
     return { success: true };
   } catch (error) {
-    console.error("SES send email error:", error);
+    console.error("SES send initial contact email error:", error);
     return {
       success: false,
       error: {
         code: "EMAIL_SEND_FAILED" as ContactFormErrorCode,
-        message: "Failed to send email",
+        message: "Failed to send initial contact email",
       },
     };
   }
 }
 
+
 /**
- * Main Lambda handler
+ * Main Lambda handler (wrapped with New Relic APM instrumentation)
  */
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
+const contactHandler: APIGatewayProxyHandlerV2 = async (event) => {
   const requestId = crypto.randomUUID();
 
   console.log("Contact form submission received:", {
@@ -376,11 +485,11 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   let requestData: ContactFormRequest;
   try {
     requestData = JSON.parse(event.body || "{}");
-  } catch (error) {
+  } catch (_error) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
       error: {
-        code: "VALIDATION_ERROR",
+        code: "VALIDATION_ERROR" as ContactFormErrorCode,
         message: "Invalid JSON in request body",
       },
     };
@@ -399,7 +508,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   if (!validation.valid) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
-      error: validation.error!,
+      error: validation.error,
     };
 
     return {
@@ -412,11 +521,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   }
 
   // Step 2: Verify reCAPTCHA
-  const recaptchaResult = await verifyRecaptcha(requestData.recaptchaToken, event.requestContext.http.sourceIp);
+  const recaptchaResult = await verifyRecaptcha(
+    requestData.recaptchaToken,
+    event.requestContext.http.sourceIp,
+  );
   if (!recaptchaResult.success) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
-      error: recaptchaResult.error!,
+      error: recaptchaResult.error,
     };
 
     return {
@@ -429,11 +541,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
   }
 
   // Step 3: Check rate limiting
-  const rateLimitCheck = await checkRateLimit(event.requestContext.http.sourceIp, requestData.email.trim());
+  const rateLimitCheck = await checkRateLimit(
+    event.requestContext.http.sourceIp,
+    requestData.email.trim(),
+  );
   if (!rateLimitCheck.allowed) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
-      error: rateLimitCheck.error!,
+      error: rateLimitCheck.error,
     };
 
     return {
@@ -445,12 +560,14 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     };
   }
 
-  // Step 4: Send email
-  const emailResult = await sendEmail(requestData, requestId);
+  // Step 4: Send initial contact email (to both user and admin)
+  const emailResult = await sendInitialContactEmail(requestData, requestId);
+
+  // Check if email send failed
   if (!emailResult.success) {
     const errorResponse: ContactFormErrorResponse = {
       success: false,
-      error: emailResult.error!,
+      error: emailResult.error,
     };
 
     return {
@@ -468,7 +585,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     requestData.email.trim(),
     requestId,
     requestData.service,
-    requestData.metadata?.userAgent
+    requestData.metadata?.userAgent,
   );
 
   // Step 6: Return success response
@@ -476,7 +593,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     success: true,
     message: "Message sent successfully",
     requestId,
-    estimatedResponse: "within 24 hours",
+    estimatedResponse: "as soon as possible",
   };
 
   console.log("Contact form submission successful:", {
@@ -493,3 +610,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     body: JSON.stringify(successResponse),
   };
 };
+
+// Export handler wrapped with New Relic instrumentation
+export const handler = instrumentLambda(contactHandler);

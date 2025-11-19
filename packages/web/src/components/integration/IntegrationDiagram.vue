@@ -14,7 +14,7 @@ interface Props {
   mappingColorScheme?: "cyan" | "emerald" | "purple";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   caption: "",
   mappingColorScheme: "cyan",
 });

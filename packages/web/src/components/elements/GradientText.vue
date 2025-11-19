@@ -9,6 +9,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  text: undefined,
   tag: "span",
   class: "",
 });
@@ -18,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
   <component
     :is="tag"
     :class="[
-      'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-300 via-30% to-purple-400',
+      'text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-cyan-300 via-30% to-purple-400',
       props.class,
     ]"
   >

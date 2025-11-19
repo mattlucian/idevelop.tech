@@ -8,7 +8,8 @@ interface Props {
   variant?: "default" | "centered";
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
+  title: undefined,
   variant: "default",
 });
 </script>
@@ -24,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
     <div v-if="variant === 'default'" class="relative">
       <!-- Connecting line -->
       <div
-        class="absolute left-6 top-12 bottom-12 w-0.5 bg-gradient-to-b from-cyan-500/30 via-purple-500/20 to-cyan-500/10"
+        class="absolute left-6 top-12 bottom-12 w-0.5 bg-linear-to-b from-cyan-500/30 via-purple-500/20 to-cyan-500/10"
       />
 
       <div class="space-y-8">
@@ -53,7 +54,7 @@ const props = withDefaults(defineProps<Props>(), {
         >
           <!-- Icon/Year -->
           <div
-            class="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 flex items-center justify-center mb-3"
+            class="w-16 h-16 rounded-full bg-linear-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 flex items-center justify-center mb-3"
             :class="
               step.icon && !isNaN(Number(step.icon))
                 ? 'text-base font-bold text-cyan-400'
@@ -77,7 +78,7 @@ const props = withDefaults(defineProps<Props>(), {
         <!-- Arrow (except for last item) -->
         <div
           v-if="index < steps.length - 1"
-          class="flex items-center justify-center flex-shrink-0"
+          class="flex items-center justify-center shrink-0"
         >
           <!-- Mobile: Down arrow -->
           <svg

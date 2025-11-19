@@ -21,6 +21,8 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
+  customGradient: undefined,
+  customBorder: undefined,
   filterStyle: "none",
   variant: "default",
 });
@@ -118,12 +120,8 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
   <!-- Timeline variant: Horizontal layout with icon on left -->
   <div v-if="variant === 'timeline'" class="flex items-start gap-4 flex-1">
     <div
-      class="flex-shrink-0 bg-gradient-to-br flex items-center justify-center z-10 bg-[#0a0a0a]"
-      :class="[
-        `bg-gradient-to-br ${colors.gradient}`,
-        colors.border,
-        sizes.box,
-      ]"
+      class="shrink-0 bg-linear-to-br flex items-center justify-center z-10 bg-[#0a0a0a]"
+      :class="[`bg-linear-to-br ${colors.gradient}`, colors.border, sizes.box]"
       :style="!isIconName && applyToBox ? getEmojiFilterStyle() : ''"
     >
       <OutlineIcon
@@ -153,12 +151,8 @@ const applyToEmoji = props.filterStyle === "grayscale-emoji";
   <!-- Default variant: Vertical centered layout -->
   <div v-else class="flex flex-col items-center text-center flex-1">
     <div
-      class="mb-3 bg-gradient-to-br flex items-center justify-center"
-      :class="[
-        `bg-gradient-to-br ${colors.gradient}`,
-        colors.border,
-        sizes.box,
-      ]"
+      class="mb-3 bg-linear-to-br flex items-center justify-center"
+      :class="[`bg-linear-to-br ${colors.gradient}`, colors.border, sizes.box]"
       :style="!isIconName && applyToBox ? getEmojiFilterStyle() : ''"
     >
       <OutlineIcon

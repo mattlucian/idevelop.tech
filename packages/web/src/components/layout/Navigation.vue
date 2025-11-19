@@ -18,19 +18,22 @@ const isTechPage = computed(
 );
 const isHireMePage = computed(() => route.name === "hire-me");
 
-const handleBackNavigation = () => {
-  if (isHireMePage.value) {
-    router.push("/");
-  } else if (isTechPage.value) {
-    router.push("/hire-me");
-  } else {
-    router.back();
-  }
-  isMobileMenuOpen.value = false;
-};
-
 const handleKeepBrowsing = () => {
-  router.go(-2); // Go back twice to make /tech feel like a modal
+  // Smart navigation: go back if user came from same domain, otherwise go home
+  const referrer = document.referrer;
+  const currentDomain = window.location.origin;
+
+  // Check if referrer is from the same domain (internal navigation)
+  const isInternalNavigation = referrer?.startsWith(currentDomain);
+
+  if (isInternalNavigation) {
+    // Safe to go back - user navigated from another page on our site
+    router.go(-2); // Go back twice to make /tech feel like a modal
+  } else {
+    // Direct visit or external referrer - navigate to home instead
+    router.push("/");
+  }
+
   isMobileMenuOpen.value = false;
 };
 </script>
@@ -46,16 +49,24 @@ const handleKeepBrowsing = () => {
           to="/"
           class="flex items-center hover:opacity-80 transition-opacity -ml-1"
         >
-          <img
-            src="/images/brand/logo-black.png"
-            alt="idevelop.tech"
-            class="h-8 transition-all duration-300"
-            :style="
-              isTechPage
-                ? 'filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(450%) hue-rotate(95deg) brightness(95%) contrast(90%);'
-                : 'filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);'
-            "
-          />
+          <picture>
+            <source srcset="/images/brand/logo-black.webp" type="image/webp" />
+            <img
+              src="/images/brand/logo-black.png"
+              alt="idevelop.tech"
+              width="141"
+              height="32"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="h-8 transition-all duration-300"
+              :style="
+                isTechPage
+                  ? 'filter: brightness(0) saturate(100%) invert(68%) sepia(55%) saturate(450%) hue-rotate(95deg) brightness(95%) contrast(90%);'
+                  : 'filter: brightness(0) saturate(100%) invert(70%) sepia(50%) saturate(500%) hue-rotate(130deg) brightness(100%) contrast(90%);'
+              "
+            />
+          </picture>
         </router-link>
 
         <!-- Spacer -->

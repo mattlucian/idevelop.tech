@@ -1,0 +1,45 @@
+name: ESLint
+
+on:
+  push:
+    branches: [develop, main]
+    paths:
+      - 'packages/**/*.ts'
+      - 'packages/**/*.vue'
+      - 'packages/**/*.js'
+      - '.eslintrc.cjs'
+      - 'package*.json'
+  pull_request:
+    branches: [develop, main]
+    paths:
+      - 'packages/**/*.ts'
+      - 'packages/**/*.vue'
+      - 'packages/**/*.js'
+      - '.eslintrc.cjs'
+      - 'package*.json'
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Run ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: |
+          cd packages/web
+          npm run lint

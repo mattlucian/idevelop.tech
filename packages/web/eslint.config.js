@@ -1,21 +1,17 @@
-import js from '@eslint/js'
-import pluginVue from 'eslint-plugin-vue'
-import * as tsParser from '@typescript-eslint/parser'
-import vueParser from 'vue-eslint-parser'
-import globals from 'globals'
+import js from "@eslint/js";
+import pluginVue from "eslint-plugin-vue";
+import vueTsEslintConfig from "@vue/eslint-config-typescript";
+import vueEslintConfigPrettier from "@vue/eslint-config-prettier";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
-  ...pluginVue.configs['flat/recommended'],
+  ...pluginVue.configs["flat/recommended"],
+  ...vueTsEslintConfig(),
+  vueEslintConfigPrettier,
   {
-    files: ['**/*.{js,mjs,cjs,ts,vue}'],
+    files: ["**/*.{js,mjs,cjs,ts,vue}"],
     languageOptions: {
-      parser: vueParser,
-      parserOptions: {
-        parser: tsParser,
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -23,18 +19,33 @@ export default [
     },
     rules: {
       // Vue rules
-      'vue/multi-word-component-names': 'off',
-      'vue/no-v-html': 'warn',
-      'vue/require-default-prop': 'off',
-      'vue/no-required-prop-with-default': 'off',
+      "vue/multi-word-component-names": "off",
+      "vue/no-v-html": "warn",
+      "vue/require-default-prop": "warn", // Catch missing prop defaults (DeepSource JS-0682)
+      "vue/no-required-prop-with-default": "off",
 
-      // General rules
-      'no-console': 'off',
-      'no-debugger': 'off',
-      'no-unused-vars': 'off', // Vue Composition API uses props without explicit usage
+      // Code quality rules (catch DeepSource issues locally)
+      "default-case": "warn", // Catch missing default in switch statements (DeepSource JS-0047)
+      "prefer-template": "warn", // Prefer template literals over string concatenation
+      "no-useless-concat": "error", // Catch useless string concatenation
+
+      // Development rules (allow during dev, should be removed before production)
+      "no-console": "warn", // Warn but don't error (we gate these with import.meta.env.DEV)
+      "no-debugger": "warn",
+
+      // TypeScript handles unused vars better than ESLint for Vue
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
   {
-    ignores: ['dist', 'node_modules', '*.d.ts'],
+    ignores: ["dist", "dev-dist", "node_modules", "*.d.ts"],
   },
-]
+];

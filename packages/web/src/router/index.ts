@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { logger } from "@/utils/logger";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -89,6 +90,24 @@ const router = createRouter({
       component: () => import("../views/NotFoundView.vue"),
     },
   ],
+});
+
+// Handle router errors (e.g., chunk loading failures)
+router.onError((error) => {
+  logger.error("Router error", error, { module: "router" });
+
+  // Handle chunk loading errors (network failures during lazy loading)
+  if (
+    error.message.includes("Failed to fetch dynamically imported module") ||
+    error.message.includes("Importing a module script failed")
+  ) {
+    // Suggest page refresh or navigate to error page
+    logger.warn(
+      "Chunk loading failed - suggest user refresh or check network connection",
+      { module: "router", errorType: "chunk-loading" },
+    );
+    // In production, could show a toast/modal suggesting page refresh
+  }
 });
 
 export default router;

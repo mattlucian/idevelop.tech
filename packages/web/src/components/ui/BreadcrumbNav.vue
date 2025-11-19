@@ -1,19 +1,17 @@
 <script setup lang="ts">
+import { useColorScheme, type ColorScheme } from "@/composables/useColorScheme";
 import type { BreadcrumbItem } from "@/types/shared/ui";
 
 interface Props {
   items: BreadcrumbItem[];
-  colorScheme?: "cyan" | "emerald";
+  colorScheme?: ColorScheme;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
 });
 
-const colorClasses = {
-  cyan: "hover:text-cyan-400",
-  emerald: "hover:text-emerald-400",
-};
+const colors = useColorScheme(props.colorScheme);
 
 const emit = defineEmits<{
   navigate: [path: string];
@@ -33,10 +31,7 @@ const handleClick = (path?: string) => {
         <template v-for="(item, index) in items" :key="index">
           <button
             v-if="item.path"
-            :class="[
-              'text-slate-500 transition-colors',
-              colorClasses[colorScheme],
-            ]"
+            :class="['text-slate-500 transition-colors', colors.textHover]"
             @click="handleClick(item.path)"
           >
             {{ item.label }}
