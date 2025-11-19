@@ -9,6 +9,7 @@ This project uses **New Relic Lambda Extension + APM Agent** for comprehensive m
 - **APM Agent**: Code-level instrumentation and distributed tracing
 - **Lambda Extension**: Telemetry collection and transmission
 - **Event Types**: AwsLambdaInvocation, Span, and Log events
+- **Custom Instrumentation**: Automatic environment tagging via `instrumentLambda()` utility
 
 ## Architecture
 
@@ -19,8 +20,9 @@ This project uses **New Relic Lambda Extension + APM Agent** for comprehensive m
 - New Relic Lambda Extension v2.3.24
 - Provides `newrelic` package at runtime
 
-**Handler Wrapper**: `newrelic.setLambdaHandler()`
+**Handler Wrapper**: `instrumentLambda()` utility
 - Wraps Lambda handlers with APM instrumentation
+- Automatically adds custom attributes (environment, endpoint)
 - Captures transactions, spans, and errors
 - Enables distributed tracing
 
@@ -45,7 +47,7 @@ environment: {
   NEW_RELIC_LOG_LEVEL: "info",
   NR_TAGS: isProduction
     ? "environment:production"
-    : "environment:dev",  // Tags all telemetry (queryable as tags.environment)
+    : "environment:dev",  // Creates "environment" field on Log events
 
   // New Relic Lambda Extension
   NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true",
@@ -57,17 +59,26 @@ environment: {
 
 ### Handler Implementation
 
+Use the `instrumentLambda()` utility for automatic environment tagging:
+
 ```typescript
 // packages/functions/src/contact.ts
-import newrelic from "newrelic";
+import { instrumentLambda } from "./utils/instrument-lambda";
+import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
 const contactHandler: APIGatewayProxyHandlerV2 = async (event) => {
   // Handler logic
 };
 
-// Export wrapped handler
-export const handler = newrelic.setLambdaHandler(contactHandler);
+// Export wrapped handler with automatic custom attributes
+export const handler = instrumentLambda(contactHandler);
 ```
+
+**What `instrumentLambda()` does:**
+- Wraps handler with `newrelic.setLambdaHandler()` for APM instrumentation
+- Adds `environment` custom attribute (from `STAGE` env var) to AwsLambdaInvocation events
+- Adds `endpoint` custom attribute (from request path) for filtering by API endpoint
+- No need to manually add attributes in each handler
 
 ### Build Configuration
 
@@ -80,94 +91,127 @@ nodejs: {
 }
 ```
 
-## Dashboard Queries
+## Environment Filtering Strategy
 
-### Environment Filtering Strategy
+Different event types require different filtering approaches:
 
-All telemetry is automatically tagged with environment using `NR_TAGS`:
+### Log Events
+`NR_TAGS` environment variable creates a top-level `environment` field:
+```sql
+WHERE environment = 'dev'
+```
 
-**Dashboard Variable:**
+### AwsLambdaInvocation Events
+`instrumentLambda()` utility adds custom `environment` attribute:
+```sql
+WHERE environment = 'dev'
+```
+
+### Span Events
+Use JOIN to correlate with AwsLambdaInvocation via `traceId`:
+```sql
+FROM Span
+JOIN AwsLambdaInvocation ON Span.traceId = AwsLambdaInvocation.traceId
+WHERE AwsLambdaInvocation.environment = 'dev'
+```
+
+### Dashboard Variable Setup
+
+**Single Variable Approach:**
 - Name: `{{environment}}`
 - Type: String
 - Values: `dev`, `production`
 
-**Universal filtering (works for all event types):**
-```sql
-WHERE tags.environment = '{{environment}}'
-```
+This works uniformly across Log and AwsLambdaInvocation events. For Span queries, use the JOIN pattern above.
 
-This approach uses New Relic's Lambda Extension tagging feature, similar to Datadog's `DD_TAGS`. The `NR_TAGS` environment variable automatically tags all AwsLambdaInvocation, Span, and Log events with no code changes required.
+## Dashboard Queries
 
-### Key Metrics
-
-**1. Request Rate**
+### 1. Request Rate
 ```sql
 SELECT count(*)
 FROM AwsLambdaInvocation
-WHERE tags.environment = '{{environment}}'
+WHERE environment = '{{environment}}'
 FACET request.uri
 TIMESERIES AUTO
 ```
 
-**2. Response Time**
+### 2. Response Time
 ```sql
 SELECT
   average(duration * 1000) as 'Avg Response Time (ms)',
   max(duration * 1000) as 'Max Response Time (ms)',
   percentile(duration * 1000, 95) as 'P95 Response Time (ms)'
 FROM AwsLambdaInvocation
-WHERE tags.environment = '{{environment}}'
+WHERE environment = '{{environment}}'
 TIMESERIES AUTO
 ```
 
-**3. Error Rate**
+### 3. Error Rate
 ```sql
 SELECT percentage(count(*), WHERE error IS true) as 'Error Rate %'
 FROM AwsLambdaInvocation
-WHERE tags.environment = '{{environment}}'
+WHERE environment = '{{environment}}'
 TIMESERIES AUTO
 ```
 
-**4. Recent Logs**
+### 4. Recent Error Logs
 ```sql
 SELECT timestamp, message
 FROM Log
-WHERE tags.environment = '{{environment}}'
+WHERE environment = '{{environment}}'
 AND (message LIKE '%error%' OR message LIKE '%Error%')
 SINCE 1 day ago
 LIMIT 50
 ```
 
-**5. Memory Usage**
+### 5. Memory Usage
 ```sql
 SELECT
   average(provider.maxMemoryUsed.Average / provider.memorySize.Average * 100) as 'Avg Memory %',
   max(provider.maxMemoryUsed.Average / provider.memorySize.Average * 100) as 'Peak Memory %'
 FROM AwsLambdaInvocation
-WHERE tags.environment = '{{environment}}'
+WHERE environment = '{{environment}}'
 TIMESERIES AUTO
 ```
 
-**6. Request Volume by Endpoint**
+### 6. Request Volume by Endpoint
 ```sql
 SELECT count(*)
 FROM AwsLambdaInvocation
-WHERE tags.environment = '{{environment}}'
-FACET request.uri
+WHERE environment = '{{environment}}'
+FACET endpoint
 SINCE 1 day ago
+```
+
+### 7. Distributed Tracing (Spans with Environment)
+```sql
+SELECT
+  Span.name,
+  Span.duration,
+  AwsLambdaInvocation.environment,
+  AwsLambdaInvocation.endpoint
+FROM Span
+JOIN AwsLambdaInvocation ON Span.traceId = AwsLambdaInvocation.traceId
+WHERE AwsLambdaInvocation.environment = '{{environment}}'
+SINCE 1 hour ago
 ```
 
 ## Available Attributes
 
 ### AwsLambdaInvocation Events
 
+**Custom attributes (via instrumentLambda):**
+- `environment` - Environment name (e.g., `dev`, `production`)
+- `endpoint` - API endpoint path (e.g., `/v1/contact`)
+
 **Useful for filtering:**
-- `request.uri` - API endpoint (e.g., `/v1/contact`)
+- `request.uri` - Full API endpoint path
 - `request.headers.host` - API hostname (e.g., `dev-api.idevelop.tech`)
 - `request.method` - HTTP method
 - `http.statusCode` - Response status code
 - `duration` - Execution time in seconds
 - `error` - Boolean indicating error state
+- `traceId` - Distributed trace identifier
 
 **Performance metrics:**
 - `memory.heap.used.total` - Heap memory usage
@@ -176,6 +220,9 @@ SINCE 1 day ago
 - `aws.lambda.coldStart` - Boolean for cold starts
 
 ### Log Events
+
+**Custom attributes (via NR_TAGS):**
+- `environment` - Environment name (e.g., `dev`, `production`)
 
 **Useful for filtering:**
 - `faas.name` - Lambda function name (includes environment, e.g., `idevelop-tech-dev-ContactHandlerFunction-rovmkhzc`)
@@ -189,7 +236,33 @@ SINCE 1 day ago
 - `name` - Span name
 - `duration.ms` - Span duration
 - `entity.name` - Service name
-- `traceId` - Trace identifier
+- `traceId` - Trace identifier (use to JOIN with AwsLambdaInvocation)
+
+**Note:** Span events don't have `environment` attribute directly. Use JOIN with AwsLambdaInvocation to filter by environment.
+
+## Adding New Lambda Functions
+
+To add New Relic monitoring to a new Lambda function:
+
+```typescript
+// 1. Import instrumentLambda utility
+import { instrumentLambda } from "./utils/instrument-lambda";
+import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+
+// 2. Define handler
+const myHandler: APIGatewayProxyHandlerV2 = async (event) => {
+  // Handler logic
+};
+
+// 3. Export wrapped handler
+export const handler = instrumentLambda(myHandler);
+```
+
+**That's it!** The utility automatically:
+- Adds `environment` custom attribute
+- Adds `endpoint` custom attribute
+- Wraps with New Relic APM instrumentation
+- Lambda layer and environment variables are configured at infrastructure level
 
 ## Troubleshooting
 
@@ -210,48 +283,36 @@ Network latency to New Relic's API can exceed the timeout period. The extension 
 
 **Check:**
 1. Verify `newrelic` is marked as external in esbuild config
-2. Confirm handler is wrapped with `newrelic.setLambdaHandler()`
+2. Confirm handler is wrapped with `instrumentLambda()`
 3. Check CloudWatch logs for New Relic initialization messages
 4. Verify `NEW_RELIC_LICENSE_KEY` is set correctly
 
 **View traces:**
 In New Relic, navigate to: **APM & Services** → **Distributed Tracing** → Select "Root entry span" or "Root entity" (not "Trace groups")
 
-### Custom Attributes Not Showing
+### Environment Attribute Not Showing
 
-**Note:** We use `NR_TAGS` environment variable instead of custom attributes for environment filtering. This automatically tags all telemetry (AwsLambdaInvocation, Span, and Log events) with `tags.environment` that can be queried with:
-```sql
-WHERE tags.environment = '{{environment}}'
-```
+**For AwsLambdaInvocation events:**
+- Verify handler uses `instrumentLambda()` wrapper
+- Check that `STAGE` environment variable is set
+- Query: `SELECT environment FROM AwsLambdaInvocation SINCE 10 minutes ago`
 
-Custom attributes via `newrelic.addCustomAttribute()` are not needed for environment filtering and don't work reliably when called at module initialization. If you need custom attributes for other purposes, they would need to be added per-request inside the handler.
+**For Log events:**
+- Verify `NR_TAGS` environment variable is set with format `environment:dev`
+- Query: `SELECT environment FROM Log SINCE 10 minutes ago`
 
-## Adding New Lambda Functions
-
-To add New Relic monitoring to a new Lambda function:
-
-```typescript
-// 1. Import newrelic
-import newrelic from "newrelic";
-
-// 2. Define handler
-const myHandler: APIGatewayProxyHandlerV2 = async (event) => {
-  // Handler logic
-};
-
-// 3. Export wrapped handler
-export const handler = newrelic.setLambdaHandler(myHandler);
-```
-
-**That's it!** The Lambda layer and environment variables are configured at the infrastructure level.
+**For Span events:**
+- Spans don't have `environment` directly
+- Use JOIN pattern: `FROM Span JOIN AwsLambdaInvocation ON Span.traceId = AwsLambdaInvocation.traceId`
 
 ## Best Practices
 
-1. **Use consistent naming**: Include environment in function names (e.g., `idevelop-tech-dev-*`)
+1. **Use instrumentLambda()**: Always use the utility wrapper for consistent telemetry tagging
 2. **Log meaningfully**: Structure log messages for easy filtering
 3. **Monitor cold starts**: Track `aws.lambda.coldStart` attribute
 4. **Set appropriate timeouts**: Extension timeout should accommodate network latency
-5. **Dashboard organization**: Use variables for environment filtering across all queries
+5. **Dashboard organization**: Use `{{environment}}` variable for filtering across queries
+6. **Distributed tracing**: Use JOIN pattern for Span queries that need environment filtering
 
 ## References
 
