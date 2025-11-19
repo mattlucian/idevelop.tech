@@ -13,10 +13,9 @@ This is an **SST (Serverless Stack) monorepo** containing:
 - **packages/core/** - Shared TypeScript types and utilities
 - **sst.config.ts** - Infrastructure as Code (SST v3, no separate infra/ folder needed)
 
-**Current Status**: Phase 4 Complete - Production Deployed ✅
+**Current Status**: Production Deployed with Custom Domain ✅
 
-**Production URL**: https://dxeay6n8brs8g.cloudfront.net
-**Custom Domain**: Pending (Phase 5)
+**Production URL**: https://idevelop.tech
 
 ---
 
