@@ -281,8 +281,15 @@ feature/* → PR → develop → PR → main
 - Keep repository clean: Only `main`, `develop`, and 1-2 active feature branches
 - Local cleanup: `git fetch --prune` to remove stale remote references
 
+**Merge strategy (CRITICAL):**
+- ❌ **NEVER use "Squash and merge" for develop → main**
+- ✅ **ALWAYS use "Create a merge commit" for develop → main**
+- ✅ Feature branches → develop: "Squash and merge" is OK (keeps develop cleaner)
+- **Why**: Squashing develop → main breaks git history sync and causes divergence
+- **Result**: main and develop must share the same commit history to remain maintainable
+
 **Why this is critical:**
-Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), code review, and CI/CD gates.
+Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), code review, and CI/CD gates. Squashing develop → main creates divergent histories that become impossible to maintain.
 
 **See `docs/BRANCH-STRATEGY.md` for complete workflow details.**
 

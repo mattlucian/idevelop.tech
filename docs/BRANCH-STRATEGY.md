@@ -212,10 +212,41 @@ git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
 
 ## Best Practices
 
+### Merge Strategy (CRITICAL)
+
+**develop → main merges:**
+- ❌ **NEVER use "Squash and merge"**
+- ✅ **ALWAYS use "Create a merge commit"**
+- **Why:** Preserves git history sync between main and develop
+- **Result:** Prevents divergent histories that become unmaintainable
+
+**feature → develop merges:**
+- ✅ **"Squash and merge" is RECOMMENDED**
+- **Why:** Keeps develop history clean and focused
+- **Result:** One commit per feature in develop
+
+**Visual guide when merging PRs:**
+```
+develop → main PR:
+┌─────────────────────────────────────┐
+│ Merge pull request                   │
+│ ○ Create a merge commit      ← USE  │
+│ ○ Squash and merge           ← NEVER│
+│ ○ Rebase and merge           ← NEVER│
+└─────────────────────────────────────┘
+
+feature → develop PR:
+┌─────────────────────────────────────┐
+│ Merge pull request                   │
+│ ○ Create a merge commit              │
+│ ○ Squash and merge           ← USE  │
+│ ○ Rebase and merge                   │
+└─────────────────────────────────────┘
+```
+
 ### Feature Development
 - Always branch from `develop`
 - Keep feature branches short-lived (< 1 week)
-- Squash commits when merging to keep history clean
 - Open draft PR early to signal active work
 
 ### Testing
