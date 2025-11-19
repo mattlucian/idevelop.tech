@@ -93,22 +93,42 @@ export function useCookieConsent() {
       return;
     }
 
-    // Create GA script tag
-    const script = document.createElement("script");
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    // Initialize dataLayer and gtag
+    // Initialize dataLayer and gtag stub FIRST (before loading script)
+    // This is the official Google Analytics implementation pattern
     window.dataLayer = window.dataLayer || [];
     window.gtag = function gtag(...args: unknown[]) {
       window.dataLayer?.push(args);
     };
+
+    // Queue initial commands
     window.gtag("js", new Date());
     window.gtag("config", GA_MEASUREMENT_ID, {
       anonymize_ip: true, // Anonymize IP addresses for privacy
       cookie_flags: "SameSite=None;Secure", // Secure cookie settings
     });
+
+    // Create and load GA script tag
+    // The script will process queued dataLayer commands when it loads
+    const script = document.createElement("script");
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    script.async = true;
+    script.defer = true; // Add defer for better loading behavior
+    document.head.appendChild(script);
+
+    // Debug: Log when script loads
+    script.onload = () => {
+      logger.log("Google Analytics script loaded successfully", {
+        composable: "useCookieConsent",
+        measurementId: GA_MEASUREMENT_ID,
+      });
+    };
+
+    script.onerror = (error) => {
+      logger.error("Failed to load Google Analytics script", error, {
+        composable: "useCookieConsent",
+        measurementId: GA_MEASUREMENT_ID,
+      });
+    };
   };
 
   /**

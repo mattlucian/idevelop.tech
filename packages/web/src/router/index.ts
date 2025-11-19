@@ -1,6 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { logger } from "@/utils/logger";
 
+// Declare Google Analytics types for TypeScript
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
@@ -107,6 +114,19 @@ router.onError((error) => {
       { module: "router", errorType: "chunk-loading" },
     );
     // In production, could show a toast/modal suggesting page refresh
+  }
+});
+
+// Track pageviews in Google Analytics for SPA navigation
+// Only sends pageviews if GA is loaded (user accepted analytics cookies)
+router.afterEach((to) => {
+  // Check if Google Analytics is loaded
+  if (typeof window.gtag !== "undefined") {
+    // Send pageview event for the new route
+    window.gtag("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
+      page_path: to.fullPath,
+      page_title: document.title,
+    });
   }
 });
 
