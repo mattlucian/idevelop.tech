@@ -219,11 +219,12 @@ In New Relic, navigate to: **APM & Services** → **Distributed Tracing** → Se
 
 ### Custom Attributes Not Showing
 
-**Note:** We use **built-in properties** instead of custom attributes for filtering:
-- `request.uri` and `request.headers.host` for AwsLambdaInvocation/Span
-- `faas.name` for Log events
+**Note:** We use `NEW_RELIC_LABELS` environment variable instead of custom attributes for environment filtering. This automatically tags all telemetry (AwsLambdaInvocation, Span, and Log events) with `tags.environment` that can be queried with:
+```sql
+WHERE tags.environment = '{{environment}}'
+```
 
-Custom attributes via `newrelic.addCustomAttribute()` don't work when called at module initialization. They would need to be added per-request inside the handler.
+Custom attributes via `newrelic.addCustomAttribute()` are not needed for environment filtering and don't work reliably when called at module initialization. If you need custom attributes for other purposes, they would need to be added per-request inside the handler.
 
 ## Adding New Lambda Functions
 
