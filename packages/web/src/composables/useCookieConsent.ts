@@ -94,10 +94,12 @@ export function useCookieConsent() {
     }
 
     // Initialize dataLayer and gtag stub FIRST (before loading script)
-    // This is the official Google Analytics implementation pattern
+    // This is the EXACT official Google Analytics implementation pattern
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer?.push(args);
+    // Use Google's exact function signature (arguments object, not rest params)
+    window.gtag = function () {
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer?.push(arguments);
     };
 
     // Queue initial commands
@@ -111,8 +113,7 @@ export function useCookieConsent() {
     // The script will process queued dataLayer commands when it loads
     const script = document.createElement("script");
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    script.async = true;
-    script.defer = true; // Add defer for better loading behavior
+    script.async = true; // Google's standard: async only, no defer
     document.head.appendChild(script);
 
     // Debug: Log when script loads
