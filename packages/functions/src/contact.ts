@@ -15,7 +15,7 @@ import type {
   RateLimitRecord,
 } from "@idevelop-tech/core";
 import { renderContactConfirmation } from "./email-templates/utils";
-import newrelic from "newrelic";
+import { instrumentLambda } from "./utils/instrument-lambda";
 
 // AWS Clients
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -612,4 +612,4 @@ const contactHandler: APIGatewayProxyHandlerV2 = async (event) => {
 };
 
 // Export handler wrapped with New Relic instrumentation
-export const handler = newrelic.setLambdaHandler(contactHandler);
+export const handler = instrumentLambda(contactHandler);
