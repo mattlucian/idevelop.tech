@@ -63,18 +63,6 @@ const router = useRouter();
 const contentPanelRef = ref<InstanceType<typeof PanelContent> | null>(null);
 const selectedComponentId = ref<string | null>(null);
 
-// Computed property to get the currently selected component info
-const selectedComponent = computed(() => {
-  if (!selectedComponentId.value) return null;
-  for (const category of categories) {
-    const component = category.components.find(
-      (c) => c.id === selectedComponentId.value,
-    );
-    if (component) return component;
-  }
-  return null;
-});
-
 interface Component {
   id: string;
   name: string;
@@ -233,6 +221,18 @@ const categories: ComponentCategory[] = [
     ],
   },
 ];
+
+// Computed property to get the currently selected component info
+const selectedComponent = computed(() => {
+  if (!selectedComponentId.value) return null;
+  for (const category of categories) {
+    const component = category.components.find(
+      (c) => c.id === selectedComponentId.value,
+    );
+    if (component) return component;
+  }
+  return null;
+});
 
 const typewriterPhrases = [
   "component library",
