@@ -1,0 +1,75 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [develop, main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Wait for deployment to complete when testing deployed URLs
+      - name: Wait for deployment
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          echo "Waiting for deployment to complete..."
+          sleep 120  # Wait 2 minutes for SST deployment to complete
+
+          # Check if dev.idevelop.tech is accessible
+          max_attempts=10
+          attempt=0
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -sSf https://dev.idevelop.tech > /dev/null 2>&1; then
+              echo "✅ dev.idevelop.tech is accessible"
+              exit 0
+            fi
+            echo "⏳ Waiting for dev.idevelop.tech to be accessible (attempt $((attempt+1))/$max_attempts)..."
+            sleep 30
+            attempt=$((attempt+1))
+          done
+          echo "⚠️ dev.idevelop.tech not accessible after $max_attempts attempts, continuing anyway..."
+
+      - name: Run Lighthouse CI
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://dev.idevelop.tech/
+            https://dev.idevelop.tech/hire-me
+            https://dev.idevelop.tech/tech
+            https://dev.idevelop.tech/services/integration
+            https://dev.idevelop.tech/services/web-design
+          uploadArtifacts: false
+          temporaryPublicStorage: true
+          configPath: './lighthouserc-deployed.json'
+        continue-on-error: true
+
+      - name: Format Lighthouse Results
+        if: always()
+        run: |
+          echo "## 🔍 Lighthouse CI Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Testing against **dev.idevelop.tech** (deployed site with CloudFront)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Report Links" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Check the action output above for the temporary public storage links." >> $GITHUB_STEP_SUMMARY
+          echo "Each URL tested will have a corresponding report link." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📄 Pages Tested" >> $GITHUB_STEP_SUMMARY
+          echo "- Home page" >> $GITHUB_STEP_SUMMARY
+          echo "- Hire Me page" >> $GITHUB_STEP_SUMMARY
+          echo "- Tech page" >> $GITHUB_STEP_SUMMARY
+          echo "- Integration service page" >> $GITHUB_STEP_SUMMARY
+          echo "- Web Design service page" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> **Note:** This workflow runs in informational mode and will not block based on scores." >> $GITHUB_STEP_SUMMARY

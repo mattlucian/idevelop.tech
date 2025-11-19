@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useColorScheme, type ColorScheme } from "@/composables/useColorScheme";
+
 interface Props {
   from: string;
   to: string;
-  colorScheme?: "cyan" | "emerald" | "purple";
+  colorScheme?: ColorScheme;
   direction?: "forward" | "backward";
 }
 
@@ -11,11 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
   direction: "forward",
 });
 
-const colorClasses = {
-  cyan: "text-cyan-400",
-  emerald: "text-emerald-400",
-  purple: "text-purple-400",
-};
+const colors = useColorScheme(props.colorScheme);
 
 const arrowPath = {
   forward: "M13 7l5 5m0 0l-5 5m5-5H6",
@@ -31,10 +29,7 @@ const arrowPath = {
       {{ from }}
     </div>
     <svg
-      :class="[
-        'w-4 h-4 md:w-6 md:h-6 flex-shrink-0',
-        colorClasses[colorScheme],
-      ]"
+      :class="['w-4 h-4 md:w-6 md:h-6 shrink-0', colors.text]"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"

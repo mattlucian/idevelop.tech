@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useColorScheme, type ColorScheme } from "@/composables/useColorScheme";
+
 interface Props {
   name: string;
   label?: string;
   iconPath: string;
-  colorScheme?: "cyan" | "emerald" | "purple";
+  colorScheme?: ColorScheme;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -11,35 +13,19 @@ const props = withDefaults(defineProps<Props>(), {
   colorScheme: "cyan",
 });
 
-const colorClasses = {
-  cyan: {
-    border: "border-cyan-500/40",
-    iconColor: "text-cyan-400",
-  },
-  emerald: {
-    border: "border-emerald-500/40",
-    iconColor: "text-emerald-400",
-  },
-  purple: {
-    border: "border-purple-500/40",
-    iconColor: "text-purple-400",
-  },
-};
+const colors = useColorScheme(props.colorScheme);
 </script>
 
 <template>
-  <div class="flex-shrink-0 text-center">
+  <div class="shrink-0 text-center">
     <div
       :class="[
         'bg-slate-800/60 border-2 rounded-lg p-4 md:p-6 w-32 h-32 md:w-40 md:h-40 flex flex-col items-center justify-center',
-        colorClasses[colorScheme].border,
+        colors.border,
       ]"
     >
       <svg
-        :class="[
-          'w-8 h-8 md:w-12 md:h-12 mb-2 md:mb-3',
-          colorClasses[colorScheme].iconColor,
-        ]"
+        :class="['w-8 h-8 md:w-12 md:h-12 mb-2 md:mb-3', colors.text]"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

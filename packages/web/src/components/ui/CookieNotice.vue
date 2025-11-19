@@ -1,31 +1,36 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useCookieConsent } from "@/composables/useCookieConsent";
 import PrimaryButton from "../elements/buttons/PrimaryButton.vue";
 import OutlineButton from "../elements/buttons/OutlineButton.vue";
 
-const COOKIE_CONSENT_KEY = "cookie_consent";
-
-interface CookieConsent {
-  essential: boolean;
-  analytics: boolean;
-  timestamp: string;
-}
-
 const showBanner = ref(false);
+
+const {
+  hasConsent,
+  loadConsent,
+  acceptConsent,
+  declineConsent,
+  loadRecaptchaScript,
+  loadGoogleAnalytics,
+  hasAnalyticsConsent,
+} = useCookieConsent();
 
 /**
  * Check if user has already made a choice
+ * If not, show the banner
+ * If yes, load appropriate scripts based on consent
  */
 onMounted(() => {
-  const consentJson = localStorage.getItem(COOKIE_CONSENT_KEY);
-  if (!consentJson) {
+  loadConsent();
+
+  if (!hasConsent.value) {
     showBanner.value = true;
   } else {
-    const consent: CookieConsent = JSON.parse(consentJson);
     // Always load essential cookies (reCAPTCHA)
     loadRecaptchaScript();
     // Load analytics only if user accepted
-    if (consent.analytics) {
+    if (hasAnalyticsConsent.value) {
       loadGoogleAnalytics();
     }
   }
@@ -34,96 +39,18 @@ onMounted(() => {
 /**
  * Handle user declining analytics (essential only)
  */
-const declineCookies = () => {
-  const consent: CookieConsent = {
-    essential: true,
-    analytics: false,
-    timestamp: new Date().toISOString(),
-  };
-  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
+const handleDecline = () => {
+  declineConsent();
   showBanner.value = false;
-  // Load only essential cookies
-  loadRecaptchaScript();
 };
 
 /**
  * Handle user accepting all cookies
  */
-const acceptCookies = () => {
-  const consent: CookieConsent = {
-    essential: true,
-    analytics: true,
-    timestamp: new Date().toISOString(),
-  };
-  localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
+const handleAccept = () => {
+  acceptConsent();
   showBanner.value = false;
-  // Load all cookies
-  loadRecaptchaScript();
-  loadGoogleAnalytics();
 };
-
-/**
- * Load reCAPTCHA script (essential cookie)
- */
-const loadRecaptchaScript = () => {
-  // Check if script already exists
-  if (document.querySelector('script[src*="recaptcha"]')) {
-    return;
-  }
-
-  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-  if (!siteKey) {
-    console.warn("reCAPTCHA site key not configured");
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
-  script.async = true;
-  script.defer = true;
-  document.head.appendChild(script);
-};
-
-/**
- * Load Google Analytics script (non-essential cookie)
- */
-const loadGoogleAnalytics = () => {
-  // Check if GA is already loaded
-  if (document.querySelector('script[src*="googletagmanager"]')) {
-    return;
-  }
-
-  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
-  if (!measurementId) {
-    console.warn("Google Analytics measurement ID not configured");
-    return;
-  }
-
-  // Load GA script
-  const script = document.createElement("script");
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-  script.async = true;
-  document.head.appendChild(script);
-
-  // Initialize GA
-  window.dataLayer = window.dataLayer || [];
-  function gtag(...args: any[]) {
-    window.dataLayer?.push(args);
-  }
-  gtag("js", new Date());
-  gtag("config", measurementId);
-
-  // Make gtag available globally
-  window.gtag = gtag;
-};
-
-// TypeScript declarations for Google Analytics
-declare global {
-  interface Window {
-    dataLayer?: any[];
-    gtag?: (...args: any[]) => void;
-  }
-}
 </script>
 
 <template>
@@ -147,7 +74,7 @@ declare global {
           class="flex flex-col md:flex-row items-start md:items-center gap-4"
         >
           <!-- Icon -->
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-cyan-400"
@@ -173,31 +100,28 @@ declare global {
             >
               Cookie Notice
             </h3>
-            <p id="cookie-notice-description" class="text-sm text-gray-300">
+            <p id="cookie-notice-description" class="text-sm text-gray-200">
               We use essential cookies for spam protection on our contact forms.
               We also use analytics cookies to improve your experience.
               <RouterLink
                 to="/privacy"
-                class="text-cyan-400 hover:text-cyan-300 transition-colors"
+                class="text-cyan-300 hover:text-cyan-200 transition-colors"
               >
-                Learn more
+                Learn more about our privacy policy
               </RouterLink>
             </p>
           </div>
 
           <!-- Action Buttons -->
-          <div class="flex-shrink-0 w-full md:w-auto flex gap-3">
+          <div class="shrink-0 w-full md:w-auto flex gap-3">
             <OutlineButton
               color-scheme="gray"
               class="flex-1 md:flex-initial opacity-70"
-              @click="declineCookies"
+              @click="handleDecline"
             >
               Decline
             </OutlineButton>
-            <PrimaryButton
-              class="flex-1 md:flex-initial"
-              @click="acceptCookies"
-            >
+            <PrimaryButton class="flex-1 md:flex-initial" @click="handleAccept">
               Accept
             </PrimaryButton>
           </div>

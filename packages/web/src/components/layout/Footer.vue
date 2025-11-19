@@ -1,4 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<script setup lang="ts">
+import { CONTACT, SITE } from "@/constants";
+// Footer component - displays social links, navigation, and copyright
+</script>
+
 <template>
   <footer class="bg-[#0a0a0a] border-t border-[#333333] mt-auto">
     <div class="w-full max-w-[1200px] mx-auto px-6 py-8">
@@ -99,8 +104,3 @@
     </div>
   </footer>
 </template>
-
-<script setup lang="ts">
-import { CONTACT, SITE } from "@/constants";
-// Footer component - displays social links, navigation, and copyright
-</script>

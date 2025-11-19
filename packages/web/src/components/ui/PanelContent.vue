@@ -59,7 +59,7 @@ defineExpose({
         <!-- Header -->
         <div
           v-if="headerStyle === 'decorative'"
-          class="sticky lg:relative top-0 z-50 bg-gradient-to-br from-[#1a1a1a] via-[#1a1a1a] to-[#0f0f0f] pt-3 lg:pt-8 px-4 pr-14 lg:px-8 lg:pr-8 pb-3 lg:pb-6 rounded-t-xl overflow-hidden border-b border-cyan-500/20"
+          class="sticky lg:relative top-0 z-50 bg-linear-to-br from-[#1a1a1a] via-[#1a1a1a] to-[#0f0f0f] pt-3 lg:pt-8 px-4 pr-14 lg:px-8 lg:pr-8 pb-3 lg:pb-6 rounded-t-xl overflow-hidden border-b border-cyan-500/20"
         >
           <!-- Decorative background elements (desktop only) -->
           <div
@@ -72,7 +72,7 @@ defineExpose({
           <div class="relative">
             <!-- Small accent line (desktop only) -->
             <div
-              class="hidden lg:block w-16 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full mb-4"
+              class="hidden lg:block w-16 h-1 bg-linear-to-r from-cyan-400 to-purple-400 rounded-full mb-4"
             />
             <slot name="header" />
           </div>
@@ -96,7 +96,7 @@ defineExpose({
 
         <!-- Gradient overlay at bottom (desktop only) -->
         <div
-          class="hidden lg:block absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#1a1a1a] via-[#1a1a1a]/80 to-transparent pointer-events-none z-10 rounded-b-xl"
+          class="hidden lg:block absolute bottom-0 left-0 right-0 h-20 bg-linear-to-t from-[#1a1a1a] via-[#1a1a1a]/80 to-transparent pointer-events-none z-10 rounded-b-xl"
         />
       </div>
     </div>

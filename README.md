@@ -2,205 +2,286 @@
 
 [![Deploy Production](https://github.com/mattlucian/idevelop.tech/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/mattlucian/idevelop.tech/actions/workflows/deploy-production.yml)
 [![PR Checks](https://github.com/mattlucian/idevelop.tech/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/mattlucian/idevelop.tech/actions/workflows/pr-checks.yml)
+[![ESLint](https://github.com/mattlucian/idevelop.tech/actions/workflows/eslint.yml/badge.svg)](https://github.com/mattlucian/idevelop.tech/actions/workflows/eslint.yml)
+[![CodeQL](https://github.com/mattlucian/idevelop.tech/actions/workflows/codeql.yml/badge.svg)](https://github.com/mattlucian/idevelop.tech/actions/workflows/codeql.yml)
+[![DeepSource](https://app.deepsource.com/gh/mattlucian/idevelop.tech.svg/?label=active+issues&show_trend=true&token=78yqFa5jiiY8qC23puM8RAj_)](https://app.deepsource.com/gh/mattlucian/idevelop.tech/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Portfolio website and full-stack application showcasing technical consulting services, cloud infrastructure expertise, and software development capabilities.
+Full-stack portfolio application showcasing technical consulting services, cloud infrastructure expertise, and software development capabilities.
 
-**Live Site:** https://dxeay6n8brs8g.cloudfront.net (Custom domain setup in progress)
-
----
-
-## 🚀 Tech Stack
-
-**Frontend:**
-- Vue 3 (Composition API) + TypeScript
-- Vue Router for navigation
-- Tailwind CSS for styling
-- Vite for build tooling
-
-**Backend:**
-- AWS Lambda (serverless functions)
-- API Gateway (HTTP endpoints)
-- DynamoDB (rate limiting)
-- SES (email delivery)
-- AWS SSM (secrets management)
-
-**Infrastructure:**
-- SST v3 (Infrastructure as Code)
-- AWS (S3, CloudFront, Route 53)
-- GitHub Actions (CI/CD)
-- AWS OIDC (secure deployments)
+**Live Site**: https://dxeay6n8brs8g.cloudfront.net
 
 ---
 
-## 📁 Project Structure
+## Why This Project?
 
-This is an SST monorepo with multiple packages:
+Production-ready full-stack development practices:
+
+- **🏗️ Architecture** - Serverless-first, type-safe monorepo, Infrastructure as Code (SST v3)
+- **🔒 Security** - AWS OIDC auth, automated scanning (CodeQL, DeepSource), branch protection
+- **⚡ Developer Experience** - Full TypeScript, automated quality checks, hot reload, AI guidelines
+- **🚀 CI/CD** - GitHub Actions, separate dev/prod environments, automated workflows
+
+---
+
+## Quick Start
+
+<details>
+<summary><b>Prerequisites</b></summary>
+
+- Node.js 20.19.0+ or 22.12.0+
+- AWS CLI (for deployment)
+- AWS account with appropriate permissions
+
+</details>
+
+<details>
+<summary><b>Development Setup</b></summary>
+
+```bash
+# Clone repository
+git clone https://github.com/mattlucian/idevelop.tech.git
+cd idevelop.tech
+
+# Install dependencies
+npm install
+
+# Frontend development
+cd packages/web
+npm run dev          # http://localhost:5173
+npm run type-check   # TypeScript validation
+npm run lint         # ESLint + auto-fix
+npm run format       # Prettier
+npm run build        # Production build
+```
+
+</details>
+
+<details>
+<summary><b>Environment Variables</b></summary>
+
+Create `packages/web/.env.local`:
+
+```env
+VITE_API_URL=your-api-gateway-url
+VITE_RECAPTCHA_SITE_KEY=your-recaptcha-site-key
+VITE_GA_MEASUREMENT_ID=your-ga-id  # Optional
+```
+
+</details>
+
+<details>
+<summary><b>Deployment</b></summary>
+
+**Automated via GitHub Actions:**
+- Push to `develop` → Deploy to dev environment
+- Push to `main` → Deploy to production
+
+**Manual deployment:**
+```bash
+aws sso login --profile idevelop-tech
+AWS_PROFILE=idevelop-tech npx sst deploy --stage production
+```
+
+</details>
+
+---
+
+## Tech Stack
+
+```
+Frontend
+┌─────────────────────────────────────────────────────────────────┐
+│ Vue 3 • TypeScript • Tailwind CSS • Vite • Vue Router           │
+└─────────────────────────────────────────────────────────────────┘
+
+Backend & API
+┌─────────────────────────────────────────────────────────────────┐
+│ AWS Lambda • API Gateway • DynamoDB • SSM Parameters            │
+└─────────────────────────────────────────────────────────────────┘
+
+Infrastructure & Services
+┌─────────────────────────────────────────────────────────────────┐
+│ SST v3 • S3 • CloudFront • SES • GitHub Actions                 │
+└─────────────────────────────────────────────────────────────────┘
+
+Code Quality & Security
+┌─────────────────────────────────────────────────────────────────┐
+│ TypeScript (strict) • ESLint • CodeQL • DeepSource • reCAPTCHA  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Architecture
+
+### Request Flow
+
+```mermaid
+graph TB
+    A[User Browser] -->|HTTPS| B[CloudFront CDN]
+    B --> C[S3 Static Assets<br/>Vue 3 SPA]
+
+    A -->|reCAPTCHA| D[Google reCAPTCHA v3]
+
+    C -->|API Request| E[API Gateway]
+    E -->|IAM Auth| F[Lambda Functions<br/>Contact Handler]
+
+    F --> G[DynamoDB<br/>Rate Limiting]
+    F --> H[SES<br/>Email Delivery]
+    F --> I[SSM Parameter Store<br/>Secrets]
+
+    style B fill:#5b9bd5,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+```
+
+### Deployment Architecture
+
+```mermaid
+graph TB
+    A[Developer] -->|git push| B[GitHub Repository]
+    B -->|triggers| C[GitHub Actions<br/>CI/CD Pipeline]
+
+    C -->|OIDC Auth| D[AWS]
+
+    C -->|SST Deploy| E[CloudFormation]
+
+    E --> F[S3 + CloudFront<br/>Frontend]
+    E --> G[API Gateway + Lambda<br/>Backend]
+    E --> H[DynamoDB + SES<br/>Services]
+
+    style C fill:#ed7d31,stroke:#333
+    style E fill:#5b9bd5,stroke:#333
+    style F fill:#70ad47,stroke:#333
+    style G fill:#70ad47,stroke:#333
+    style H fill:#70ad47,stroke:#333
+```
+
+---
+
+## Project Structure
 
 ```
 idevelop.tech/
 ├── packages/
-│   ├── web/         # Vue 3 frontend application
-│   ├── functions/   # AWS Lambda functions (API endpoints)
+│   ├── web/         # Vue 3 frontend
+│   ├── functions/   # AWS Lambda functions
 │   └── core/        # Shared TypeScript types
-├── .github/
-│   └── workflows/   # CI/CD pipelines
 ├── sst.config.ts    # Infrastructure as Code
-└── docs/            # Project documentation
+├── docs/            # Documentation
+└── .github/         # CI/CD workflows
 ```
 
 ---
 
-## 🛠️ Development
+## CI/CD Workflow
 
-### Prerequisites
+### 1. Branch Creation & Pull Request
 
-- Node.js 20+
-- npm 10+
-- AWS CLI (for deployment)
-- AWS SSO configured (for deployment)
+```mermaid
+graph TB
+    A[develop branch] -->|create branch| B[feature/my-feature]
+    C[main branch] -->|create branch| D[hotfix/critical-fix]
 
-### Quick Start
+    B -->|code changes| E[Commit & Push]
+    D -->|code changes| F[Commit & Push]
 
-```bash
-# Install dependencies
-npm install
+    E -->|open PR| G[PR to develop]
+    F -->|open PR| H[PR to main]
 
-# Start frontend dev server
-cd packages/web
-npm run dev
-# → http://localhost:5173
+    G -->|triggers| I[Status Checks]
+    H -->|triggers| I
 
-# Type check
-npm run type-check
+    I --> J[TypeScript Check]
+    I --> K[ESLint]
+    I --> L[Build Validation]
+    I --> M[CodeQL Security]
+    I --> N[DeepSource]
 
-# Build for production
-npm run build
-
-# Lint and format
-npm run lint
-npm run format
+    style B fill:#5b9bd5,stroke:#333
+    style D fill:#e74c3c,stroke:#333
+    style I fill:#ed7d31,stroke:#333
 ```
 
-### Deployment
+**Branch Types**:
+- `feature/*` - New features (from develop)
+- `docs/*` - Documentation (from develop)
+- `hotfix/*` - Production fixes (from main)
 
-Deployments are automated via GitHub Actions:
+### 2. Development Workflow (PR → develop)
 
-- **PR Checks:** Runs on every pull request (type-check, build, lint)
-- **Production Deploy:** Auto-deploys to AWS on merge to `main` branch
+```mermaid
+graph TB
+    A[feature/* branch] -->|open PR| B[PR to develop]
+    B -->|status checks| C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D -->|push changes| B
+    C -->|Yes| E[Merge to develop]
+    E -->|auto-deploy| F[Dev Environment<br/>dev.idevelop.tech]
 
-**Manual deployment (requires AWS SSO):**
-```bash
-# Login to AWS
-aws sso login --profile idevelop-tech
-
-# Deploy to production
-AWS_PROFILE=idevelop-tech npx sst deploy --stage production
+    style C fill:#ed7d31,stroke:#333
+    style F fill:#5b9bd5,stroke:#333
 ```
 
----
+**What Happens**:
+- All status checks must pass (TypeScript, ESLint, Build, CodeQL, DeepSource)
+- After merge, automatic deployment to dev environment
+- Test changes at https://dev.idevelop.tech
 
-## 📦 Packages
+### 3. Production Deployment (develop → main)
 
-### `packages/web` - Frontend
-Vue 3 application with TypeScript, Vue Router, and Tailwind CSS. Handles all UI and user interactions.
+```mermaid
+graph TB
+    A[develop branch] -->|open PR| B[PR to main]
+    B -->|status checks| C{All Checks Pass?}
+    C -->|No| D[Fix Issues]
+    D -->|merge to develop| A
+    C -->|Yes| E[Merge to main]
+    E -->|auto-deploy| F[Production<br/>idevelop.tech]
 
-**Development:**
-```bash
-cd packages/web
-npm run dev          # Start dev server
-npm run build        # Production build
-npm run type-check   # TypeScript validation
-npm run lint         # ESLint
-npm run format       # Prettier
+    style C fill:#ed7d31,stroke:#333
+    style F fill:#70ad47,stroke:#333
 ```
 
-### `packages/functions` - Backend
-AWS Lambda functions for API endpoints. Includes contact form handler with reCAPTCHA verification, rate limiting, and email delivery.
+**What Happens**:
+- Additional CodeQL security scan required for production
+- After merge, automatic deployment to production
+- Live at https://idevelop.tech (custom domain) or CloudFront URL
 
-### `packages/core` - Shared
-Shared TypeScript types and utilities used across frontend and backend packages.
-
----
-
-## 🌐 Environment Variables
-
-**Frontend (`packages/web/.env.*`):**
-```bash
-VITE_API_URL                # API endpoint URL
-VITE_RECAPTCHA_SITE_KEY     # reCAPTCHA public site key
-VITE_GA_MEASUREMENT_ID      # Google Analytics measurement ID
-```
-
-**Note:** All values in `.env.production` and `.env.development` are public keys/IDs safe for client-side use. Secret keys (reCAPTCHA secret, AWS credentials) are managed via AWS SSM Parameter Store and GitHub Secrets.
+**Status Checks** (required for all PRs):
+- ✅ TypeScript type checking
+- ✅ ESLint code quality
+- ✅ Build validation
+- ✅ CodeQL security scan (main only)
+- ✅ DeepSource analysis
 
 ---
 
-## 🔒 Security
+## Documentation
 
-- AWS OIDC authentication (no long-lived credentials)
-- Secrets managed via AWS SSM and GitHub Secrets
-- Automated dependency scanning via Dependabot
-- See [SECURITY.md](.github/SECURITY.md) for vulnerability reporting
+**Architecture & Development**:
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - Full-stack architecture decisions
+- [CLAUDE.md](CLAUDE.md) - AI development guidelines and coding standards
+- [BRANCH-STRATEGY.md](docs/BRANCH-STRATEGY.md) - Git workflow and CI/CD
 
----
+**Frontend**:
+- [Component Rules](docs/frontend/COMPONENT-RULES.md) - Component patterns (2-3 rule)
+- [Design System](docs/frontend/DESIGN-SYSTEM.md) - Design tokens and styling
+- [Data Structure](docs/frontend/DATA-STRUCTURE.md) - Type schemas
 
-## 📚 Documentation
+**Backend**:
+- [Lambda Functions](docs/backend/FUNCTIONS.md) - API implementation
 
-- **[docs/PROJECT-PLAN.md](docs/PROJECT-PLAN.md)** - Complete project roadmap and phase breakdown
-- **[docs/NEXT-SESSION-START.md](docs/NEXT-SESSION-START.md)** - Quick start guide for next development session
-- **[docs/DEVELOPMENT-WORKFLOW.md](docs/DEVELOPMENT-WORKFLOW.md)** - Development and deployment workflow
-- **[docs/AWS-SETUP.md](docs/AWS-SETUP.md)** - AWS SSO configuration and OIDC setup
-- **[docs/CTA-FORM-IMPLEMENTATION-PLAN.md](docs/CTA-FORM-IMPLEMENTATION-PLAN.md)** - Backend API implementation guide
-- **[packages/web/docs/](packages/web/docs/)** - Frontend architecture and component documentation
+**Setup & Configuration**:
+- [SETUP.md](docs/SETUP.md) - Initial project setup and configuration
+- [TODO.md](TODO.md) - Active tasks and pending work
 
----
-
-## 🤝 Contributing
-
-This is a portfolio project showcasing full-stack development practices. Feel free to explore the code, open issues for suggestions, or reference patterns for your own projects.
+**Security**:
+- [SECURITY.md](.github/SECURITY.md) - Security policy and vulnerability reporting
 
 ---
 
-## 📄 License
+## License
 
-See [LICENSE](LICENSE) file for details.
-
----
-
-## 🏗️ Architecture
-
-**Current Infrastructure:**
-- **Frontend:** S3 + CloudFront (HTTPS, global CDN)
-- **CI/CD:** GitHub Actions (PR checks, auto-deploy to production)
-- **Authentication:** AWS OIDC (secure, credential-free deployments)
-
-**Backend Infrastructure:**
-- API Gateway + Lambda (serverless contact form API)
-- DynamoDB (rate limiting storage)
-- SES (email delivery with DKIM/SPF/DMARC)
-- AWS SSM Parameter Store (secrets management)
-
----
-
-## 📊 Project Status
-
-- ✅ **Phase 1:** SST migration complete
-- ✅ **Phase 2:** Verification and bug fixes complete
-- ✅ **Phase 3:** CI/CD pipeline configured
-- ✅ **Phase 4:** Production deployment to CloudFront
-- ✅ **Phase 4.5:** Security audit and public repo preparation
-- ✅ **Phase 5:** Backend API implementation complete
-  - ✅ Contact form API with reCAPTCHA
-  - ✅ Email authentication (DKIM, SPF, DMARC)
-  - ✅ CI/CD workflow optimizations
-  - ✅ Dependency updates
-- 🔄 **Phase 6:** Testing and validation (CURRENT)
-- 🔜 **Phase 7:** Custom domain migration (idevelop.tech)
-- 🔜 **Phase 8:** Final security audit and make repository public
-
-**See [docs/PROJECT-PLAN.md](docs/PROJECT-PLAN.md) for detailed phase breakdown.**
-
----
-
-**Built with:** Vue 3, TypeScript, Tailwind CSS, SST, AWS
+MIT License - See [LICENSE](LICENSE) for details.

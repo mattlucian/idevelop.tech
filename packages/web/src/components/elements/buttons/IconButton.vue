@@ -2,7 +2,7 @@
 type IconButtonSize = "sm" | "md" | "lg";
 type IconButtonType = "back" | "close";
 
-interface IconButtonProps {
+interface Props {
   /** Size variant */
   size?: IconButtonSize;
   /** Button type (back arrow or close X) */
@@ -11,7 +11,7 @@ interface IconButtonProps {
   absolutePosition?: boolean;
 }
 
-withDefaults(defineProps<IconButtonProps>(), {
+withDefaults(defineProps<Props>(), {
   size: "md",
   type: "close",
   absolutePosition: false,
@@ -40,8 +40,8 @@ const iconSizes = {
     :class="[
       'rounded-lg bg-[#1a1a1a] hover:bg-[#2a2a2a] border border-[#333333] hover:border-cyan-500 flex items-center justify-center transition-all group focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#0a0a0a]',
       sizeClasses[size],
-      absolutePosition ? 'absolute top-5 right-5 z-[60]' : '',
-      !absolutePosition && size === 'sm' ? 'flex-shrink-0' : '',
+      absolutePosition ? 'absolute top-5 right-5 z-60' : '',
+      !absolutePosition && size === 'sm' ? 'shrink-0' : '',
     ]"
     @click="emit('click')"
   >

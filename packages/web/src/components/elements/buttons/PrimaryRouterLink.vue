@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface PrimaryRouterLinkProps {
+interface Props {
   /** Target route path or external URL */
   to: string;
   /** Show arrow icon (default: true) */
@@ -8,7 +8,7 @@ interface PrimaryRouterLinkProps {
   external?: boolean;
 }
 
-withDefaults(defineProps<PrimaryRouterLinkProps>(), {
+withDefaults(defineProps<Props>(), {
   showArrow: true,
   external: false,
 });
@@ -27,7 +27,7 @@ const emit = defineEmits<{
   >
     <!-- Gradient border effect using pseudo-element -->
     <span
-      class="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 opacity-100 group-hover:opacity-100 transition-opacity"
+      class="absolute inset-0 rounded-lg bg-linear-to-r from-cyan-500 to-purple-500 opacity-100 group-hover:opacity-100 transition-opacity"
     />
     <span
       class="absolute inset-[2px] rounded-[6px] bg-[#0a0a0a] group-hover:bg-[#0f0f0f] transition-colors"
@@ -35,7 +35,7 @@ const emit = defineEmits<{
 
     <!-- Content -->
     <span
-      class="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:from-cyan-300 group-hover:to-purple-300"
+      class="relative text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-400 group-hover:from-cyan-300 group-hover:to-purple-300"
     >
       <slot />
     </span>
@@ -64,7 +64,7 @@ const emit = defineEmits<{
   >
     <!-- Gradient border effect using pseudo-element -->
     <span
-      class="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-500 opacity-100 group-hover:opacity-100 transition-opacity"
+      class="absolute inset-0 rounded-lg bg-linear-to-r from-cyan-500 to-purple-500 opacity-100 group-hover:opacity-100 transition-opacity"
     />
     <span
       class="absolute inset-[2px] rounded-[6px] bg-[#0a0a0a] group-hover:bg-[#0f0f0f] transition-colors"
@@ -72,7 +72,7 @@ const emit = defineEmits<{
 
     <!-- Content -->
     <span
-      class="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 group-hover:from-cyan-300 group-hover:to-purple-300"
+      class="relative text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-400 group-hover:from-cyan-300 group-hover:to-purple-300"
     >
       <slot />
     </span>

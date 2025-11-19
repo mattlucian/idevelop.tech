@@ -6,7 +6,6 @@ import TypewriterText from "../components/elements/interactive/TypewriterText.vu
 import GradientText from "../components/elements/GradientText.vue";
 import ServiceCard from "../components/cards/ServiceCard.vue";
 import PrimaryRouterLink from "../components/elements/buttons/PrimaryRouterLink.vue";
-import IconBadge from "../components/elements/badges/IconBadge.vue";
 import { SITE } from "@/constants";
 
 // Platform data
@@ -107,7 +106,7 @@ useMeta({
               </h1>
 
               <div
-                class="text-sm sm:text-base md:text-lg text-gray-400 max-w-[95%] sm:max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-0.5 sm:gap-1.5 mt-6 px-2 sm:px-0"
+                class="text-sm sm:text-base md:text-lg text-gray-300 max-w-[95%] sm:max-w-xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-0.5 sm:gap-1.5 mt-6 px-2 sm:px-0"
               >
                 <span class="text-center sm:text-right sm:whitespace-nowrap"
                   >Get expert help with</span
@@ -126,7 +125,7 @@ useMeta({
           <!-- Service Cards Grid -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <ServiceCard
-              v-for="service in serviceCards"
+              v-for="(service, index) in serviceCards"
               :key="service.name"
               :icon="service.icon"
               :label="service.label"
@@ -135,6 +134,7 @@ useMeta({
               :stats="service.stats"
               :tags="service.tags"
               :hero-image="service.heroImage"
+              :loading="index === 0 ? 'eager' : 'lazy'"
               @click="selectService(service.name)"
             />
           </div>
@@ -147,7 +147,7 @@ useMeta({
               >
                 Platforms & Tools
               </h2>
-              <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto">
+              <p class="text-sm md:text-base text-gray-300 max-w-2xl mx-auto">
                 Experience across industry-leading platforms
               </p>
             </div>
@@ -167,14 +167,22 @@ useMeta({
                 <div class="flex flex-col gap-3">
                   <!-- Logo -->
                   <div class="h-10 flex items-center justify-center">
-                    <img
-                      :src="platform.logo"
-                      :alt="platform.name"
-                      class="max-h-full max-w-[140px] w-auto object-contain"
-                    />
+                    <picture>
+                      <source
+                        :srcset="platform.logo.replace(/\.(png|jpg)$/, '.webp')"
+                        type="image/webp"
+                      />
+                      <img
+                        :src="platform.logo"
+                        :alt="platform.name"
+                        width="140"
+                        height="40"
+                        class="max-h-full max-w-[140px] w-auto object-contain"
+                      />
+                    </picture>
                   </div>
                   <!-- Description -->
-                  <p class="text-xs text-gray-400 text-center">
+                  <p class="text-xs text-gray-300 text-center">
                     {{ platform.description }}
                   </p>
                 </div>
@@ -192,12 +200,12 @@ useMeta({
                 <h2
                   class="text-2xl md:text-3xl font-bold text-white leading-tight tracking-tight"
                 >
-                  No obligations.
+                  Start Here.
                 </h2>
               </div>
 
               <!-- CTA Button -->
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <PrimaryRouterLink to="/hire-me">
                   Get in touch
                 </PrimaryRouterLink>

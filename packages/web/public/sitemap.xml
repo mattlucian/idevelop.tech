@@ -3,7 +3,7 @@
   <!-- Home Page -->
   <url>
     <loc>https://idevelop.tech/</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -11,50 +11,58 @@
   <!-- Services -->
   <url>
     <loc>https://idevelop.tech/services/tech-admin</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://idevelop.tech/services/integration</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://idevelop.tech/services/ai-enablement</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://idevelop.tech/services/ecommerce-ops</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://idevelop.tech/services/web-design</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://idevelop.tech/services/cloud-consulting</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- Flxpoint Consulting Page -->
+  <url>
+    <loc>https://idevelop.tech/flxpoint-consulting</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <!-- Tech Experience Page -->
   <url>
     <loc>https://idevelop.tech/tech</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -62,16 +70,32 @@
   <!-- Hire Me Page -->
   <url>
     <loc>https://idevelop.tech/hire-me</loc>
-    <lastmod>2025-01-23</lastmod>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- Attributions Page -->
+  <!-- Legal & Info Pages -->
   <url>
-    <loc>https://idevelop.tech/attributions</loc>
-    <lastmod>2025-01-23</lastmod>
+    <loc>https://idevelop.tech/privacy</loc>
+    <lastmod>2025-11-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <url>
+    <loc>https://idevelop.tech/accessibility</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://idevelop.tech/attributions</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Note: /components is excluded (internal development page, blocked in robots.txt) -->
 </urlset>

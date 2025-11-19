@@ -7,20 +7,21 @@ type BadgeVariant =
   | "emerald"
   | "muted";
 
-interface BadgeProps {
+interface Props {
   /** Visual variant of the badge */
   variant?: BadgeVariant;
   /** Show icon before text */
   icon?: string;
 }
 
-withDefaults(defineProps<BadgeProps>(), {
+withDefaults(defineProps<Props>(), {
   variant: "default",
+  icon: undefined,
 });
 
 const variantClasses = {
   default:
-    "px-2.5 py-1 text-[11px] font-semibold rounded-md bg-gradient-to-r from-cyan-500/15 to-purple-500/15 text-cyan-300 border border-cyan-500/30",
+    "px-2.5 py-1 text-[11px] font-semibold rounded-md bg-linear-to-r from-cyan-500/15 to-purple-500/15 text-cyan-300 border border-cyan-500/30",
   teal: "px-2 py-0.5 rounded-md text-xs border text-teal-400 bg-teal-700/10 border-teal-700/20",
   cyan: "px-2 py-0.5 rounded-md text-xs border text-cyan-400 bg-cyan-700/10 border-cyan-700/20",
   purple:
