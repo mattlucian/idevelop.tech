@@ -150,6 +150,36 @@ git branch --show-current  # Must show "feature/*" or "docs/*" or "hotfix/*", NE
 
 ---
 
+### 🔴 CRITICAL: NEVER USE GIT REBASE
+
+**FORBIDDEN**: `git rebase`
+
+**REQUIRED**: Always use `git merge` to integrate changes
+
+**Why this is critical:**
+- Rebasing rewrites commit history, causing conflicts for shared branches
+- Rebasing makes it harder to track what actually happened
+- Force pushes after rebase can lose work
+- Merge commits provide clear history of when branches were integrated
+
+**When you need to integrate develop into your feature branch:**
+```bash
+# ✅ CORRECT: Merge develop into feature branch
+git fetch origin develop
+git merge origin/develop
+
+# ❌ WRONG: Never rebase
+git rebase origin/develop  # DO NOT USE
+```
+
+**If conflicts occur:**
+1. Resolve conflicts in the affected files
+2. Stage resolved files: `git add <file>`
+3. Complete merge: `git commit`
+4. Push to remote: `git push origin <branch-name>`
+
+---
+
 ### 🔴 CRITICAL: Session Start Rules
 
 **Execute these steps when you first start working:**

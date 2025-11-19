@@ -358,16 +358,20 @@ SINCE 1 day ago
 
 ### Alerting
 
-**Alert Policies** (to be configured):
-- Lambda 5xx errors (critical)
-- High error rate >5% (warning)
-- Response time >2s p95 (warning)
-- Cold start spike (informational)
-- Rate limit hits (security)
+**Alert Policies** (configured for production):
+- **Lambda Errors**: Triggers on any error (critical, 1 min threshold)
+- **High Error Rate**: Triggers when >10% of requests fail (critical, 5 min threshold)
+
+**Future alerts** (add as needed):
+- Response time degradation (P95 >3s)
+- High memory usage (>90%)
+- No data/health check (production only)
 
 **Notification Channels**:
-- Email: matt@idevelop.tech
-- Optional: Slack, Discord, PagerDuty
+- Email: matt@idevelop.tech (configured)
+- Workflow: New Relic alert workflow with email destination
+
+**Documentation**: See `docs/OBSERVABILITY.md` for complete setup and alert configuration
 
 ### Setup Reference
 
@@ -377,7 +381,7 @@ SINCE 1 day ago
 - License Key: Stored as SST secret (encrypted in AWS Parameter Store)
 
 **Documentation**:
-- New Relic monitoring guide: `docs/NEW-RELIC-MONITORING.md`
+- Observability guide: `docs/OBSERVABILITY.md`
 - Layer versions: https://layers.newrelic-external.com/
 
 **Configuration Files**:
