@@ -174,4 +174,34 @@ npm run format      # Ensures consistent formatting
 
 ## Post-Launch Tasks
 
-*To be added as needed after domain migration completes*
+### Auto-Sync Develop After Production Deploys
+
+**Priority**: Medium
+
+**Status**: Workflow created (PR #102), needs PAT setup
+
+**Background**:
+- Created GitHub Action to automatically sync develop with main after production deploys
+- Keeps git histories perfectly in sync (no manual merging needed)
+- Prevents divergence between main and develop
+
+**Pending Tasks**:
+- [ ] Create Fine-Grained Personal Access Token (PAT)
+  - GitHub → Settings → Developer settings → Personal access tokens → Fine-grained
+  - Repository access: Only `idevelop.tech`
+  - Permissions: Contents = Read and write
+  - Generate and copy token
+- [ ] Add PAT as repository secret
+  - Repo → Settings → Secrets and variables → Actions
+  - New repository secret: `SYNC_TOKEN`
+- [ ] Update workflow to use PAT (change from `GITHUB_TOKEN` to `SYNC_TOKEN`)
+- [ ] Merge PR #102
+- [ ] Test: Re-run Deploy Production workflow to verify auto-sync works
+
+**Reference**:
+- Workflow: `.github/workflows/sync-develop.yml`
+- PR: https://github.com/mattlucian/idevelop.tech/pull/102
+
+---
+
+*Additional tasks to be added as needed*
