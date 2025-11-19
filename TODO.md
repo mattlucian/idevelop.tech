@@ -68,46 +68,21 @@ npm run format      # Ensures consistent formatting
 
 ### Monitoring & Observability
 
-**Priority**: High - Integration complete, testing pending ⏸️
+**Priority**: Medium - Alert configuration pending
 
-**Status**: New Relic integration implemented, awaiting deployment verification
+**Status**: ✅ New Relic integration complete and deployed
 
-**Solution Chosen**: New Relic (100 GB/month free tier) - Industry-standard APM platform
+**Platform**: New Relic (100 GB/month free tier)
 
-**Completed Tasks**:
-- [x] Evaluate observability platforms (Axiom, DataDog, Grafana, New Relic, CloudWatch)
-- [x] Choose New Relic for free tier + unlimited alerts + professional platform
-- [x] Create New Relic account (Account ID: 7377610)
-- [x] Generate ingest license key
-- [x] Set SST secrets for dev and production environments
-- [x] Configure New Relic Lambda Extension layer (ARM64)
-- [x] Update sst.config.ts with New Relic configuration
-- [x] Set environment-aware service names (dev-api-idevelop-tech, api-idevelop-tech)
-- [x] Remove legacy Axiom/ADOT configuration
-
-**Current Configuration**:
-- **Service Names**: Environment-aware (dev-api-idevelop-tech / api-idevelop-tech)
-- **Lambda Extension**: New Relic Lambda Extension ARM64
-- **Data Collection**: Logs, metrics, traces automatically sent to New Relic
-- **Account ID**: 7377610 (not sensitive, identifies New Relic account)
-- **License Key**: Stored as SST secret (encrypted in AWS Parameter Store)
-
-**Remaining Tasks**:
-- [ ] Deploy to dev and verify New Relic integration
-- [ ] Verify service appears in New Relic APM dashboard
-- [ ] Test with contact form submission (generate telemetry)
-- [ ] Set up alert policies (Lambda errors, high error rates, performance)
-- [ ] Test alerting with intentional errors
-- [ ] Deploy to production and verify
-- [ ] Document alerting configuration and monitoring runbook
+**Pending Tasks**:
+- [ ] Configure alert policies (Lambda errors, high error rates, performance degradation)
+- [ ] Test alerts with intentional errors
+- [ ] Document alerting runbook
 
 **Reference**:
-- Implementation: `sst.config.ts` (lines 24-82)
-- Documentation: `docs/OBSERVABILITY-COMPARISON.md` (platform evaluation)
-- Dashboard: https://one.newrelic.com
-- Account ID: 7377610
-
-**Next Steps**: Merge PR to develop → Auto-deploy to dev → Verify in New Relic → Set up alerts
+- Dashboard: https://one.newrelic.com (Account ID: 7377610)
+- Documentation: `docs/NEW-RELIC-MONITORING.md`
+- Implementation: `sst.config.ts`, `packages/functions/src/utils/instrument-lambda.ts`
 
 ---
 

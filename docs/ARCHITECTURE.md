@@ -44,10 +44,9 @@ This is an **SST (Serverless Stack) v3 monorepo** containing:
 
 ### Observability & Monitoring
 
-- **Axiom** - Log aggregation and observability platform (500GB/month free tier)
-- **AWS Distro for OpenTelemetry (ADOT)** - Distributed tracing
-- **OpenTelemetry Protocol (OTLP)** - Vendor-agnostic telemetry
-- **Axiom Lambda Extension** - Lambda logs and platform metrics
+- **New Relic** - APM and observability platform (100GB/month free tier)
+- **New Relic Lambda Layer** - APM agent + Lambda extension for auto-instrumentation
+- **Custom Instrumentation** - `instrumentLambda()` utility for automatic environment tagging
 
 ### Build & Development Tools
 
@@ -243,8 +242,31 @@ NEW_RELIC_APP_NAME: isProduction
   : "dev-api-idevelop-tech"                      // Development service name
 NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true"   // Send Lambda logs to New Relic
 NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true"       // Enable New Relic extension
-NEW_RELIC_DATA_COLLECTION_TIMEOUT: "10s"         // Timeout for data collection
+NEW_RELIC_DATA_COLLECTION_TIMEOUT: "20s"         // Increased for network latency
 NEW_RELIC_EXTENSION_LOG_LEVEL: "INFO"            // Extension log level
+NR_TAGS: isProduction
+  ? "environment:production"
+  : "environment:dev"                            // Tags Log events with environment
+```
+
+### Handler Instrumentation
+
+**`instrumentLambda()` Utility** (`packages/functions/src/utils/instrument-lambda.ts`):
+- Wraps Lambda handlers with New Relic APM instrumentation
+- Automatically adds custom attributes to AwsLambdaInvocation events:
+  - `environment` - From `STAGE` env var (dev, production)
+  - `endpoint` - From request path (e.g., `/v1/contact`)
+- Simplifies handler setup - single line per function
+
+**Usage**:
+```typescript
+import { instrumentLambda } from "./utils/instrument-lambda";
+
+const myHandler: APIGatewayProxyHandlerV2 = async (event) => {
+  // Handler logic
+};
+
+export const handler = instrumentLambda(myHandler);
 ```
 
 ### Service Architecture
@@ -355,13 +377,12 @@ SINCE 1 day ago
 - License Key: Stored as SST secret (encrypted in AWS Parameter Store)
 
 **Documentation**:
-- Platform comparison: `docs/OBSERVABILITY-COMPARISON.md`
-- Setup guide: `TODO.md` (Monitoring & Observability section)
+- New Relic monitoring guide: `docs/NEW-RELIC-MONITORING.md`
 - Layer versions: https://layers.newrelic-external.com/
 
 **Configuration Files**:
 - `sst.config.ts` - Lambda layers, environment variables, permissions
-- `packages/functions/src/collector.yaml` - OTLP collector configuration
+- `packages/functions/src/utils/instrument-lambda.ts` - Handler instrumentation utility
 
 ---
 
