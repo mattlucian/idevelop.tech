@@ -43,7 +43,7 @@ environment: {
     ? "api-idevelop-tech"
     : "dev-api-idevelop-tech",
   NEW_RELIC_LOG_LEVEL: "info",
-  NEW_RELIC_LABELS: isProduction
+  NR_TAGS: isProduction
     ? "environment:production"
     : "environment:dev",  // Tags all telemetry (queryable as tags.environment)
 
@@ -84,7 +84,7 @@ nodejs: {
 
 ### Environment Filtering Strategy
 
-All telemetry is automatically tagged with environment using `NEW_RELIC_LABELS`:
+All telemetry is automatically tagged with environment using `NR_TAGS`:
 
 **Dashboard Variable:**
 - Name: `{{environment}}`
@@ -96,7 +96,7 @@ All telemetry is automatically tagged with environment using `NEW_RELIC_LABELS`:
 WHERE tags.environment = '{{environment}}'
 ```
 
-This approach uses New Relic's built-in labels feature, similar to Datadog's `DD_ENV`. The `NEW_RELIC_LABELS` environment variable automatically tags all AwsLambdaInvocation, Span, and Log events with no code changes required.
+This approach uses New Relic's Lambda Extension tagging feature, similar to Datadog's `DD_TAGS`. The `NR_TAGS` environment variable automatically tags all AwsLambdaInvocation, Span, and Log events with no code changes required.
 
 ### Key Metrics
 
@@ -219,7 +219,7 @@ In New Relic, navigate to: **APM & Services** → **Distributed Tracing** → Se
 
 ### Custom Attributes Not Showing
 
-**Note:** We use `NEW_RELIC_LABELS` environment variable instead of custom attributes for environment filtering. This automatically tags all telemetry (AwsLambdaInvocation, Span, and Log events) with `tags.environment` that can be queried with:
+**Note:** We use `NR_TAGS` environment variable instead of custom attributes for environment filtering. This automatically tags all telemetry (AwsLambdaInvocation, Span, and Log events) with `tags.environment` that can be queried with:
 ```sql
 WHERE tags.environment = '{{environment}}'
 ```

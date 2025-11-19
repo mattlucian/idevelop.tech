@@ -79,12 +79,12 @@ export default $config({
           : "dev-api-idevelop-tech", // Development: dev-api.idevelop.tech
         NEW_RELIC_LAMBDA_HANDLER: "packages/functions/src/contact.handler", // Path to actual handler for ESM wrapper
         NEW_RELIC_LOG_LEVEL: "info", // APM agent log level (controls trace verbosity)
-        NEW_RELIC_LABELS: isProduction
+        NR_TAGS: isProduction
           ? "environment:production"
           : "environment:dev", // Tags all telemetry with environment (queryable as tags.environment)
         NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true", // Send Lambda logs to New Relic
         NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true", // Enable New Relic extension
-        NEW_RELIC_DATA_COLLECTION_TIMEOUT: "10s", // Timeout for data collection
+        NEW_RELIC_DATA_COLLECTION_TIMEOUT: "20s", // Increased for network latency
         NEW_RELIC_EXTENSION_LOG_LEVEL: "INFO", // Extension log level
       },
 
