@@ -9,7 +9,7 @@
 
 Full-stack portfolio application showcasing technical consulting services, cloud infrastructure expertise, and software development capabilities.
 
-**Live Site**: https://dxeay6n8brs8g.cloudfront.net
+**Live Site**: https://idevelop.tech
 
 ---
 

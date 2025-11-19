@@ -161,7 +161,7 @@ SSM Parameter Store (encrypted) → Lambda Environment Variables → Runtime
 3. **Deploy Production** (`.github/workflows/deploy-production.yml`):
    - Deploys to production stage
    - Trigger: Push to main branch
-   - URL: https://dxeay6n8brs8g.cloudfront.net (CloudFront)
+   - URL: https://idevelop.tech (CloudFront + Custom Domain)
 
 4. **CodeQL Security Scan** (`.github/workflows/codeql.yml`):
    - Weekly scans + PR scans
