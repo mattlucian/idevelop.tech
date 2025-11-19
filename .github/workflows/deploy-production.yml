@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production  # GitHub environment for protection rules
     # Note: Deploys to 'production' stage
-    # Frontend: CloudFront URL (until Phase 7 domain migration to idevelop.tech)
+    # Frontend: idevelop.tech (or CloudFront URL if custom domain not configured)
     # API: api.idevelop.tech
 
     steps:
