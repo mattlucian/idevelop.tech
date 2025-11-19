@@ -68,20 +68,30 @@ npm run format      # Ensures consistent formatting
 
 ### Monitoring & Observability
 
-**Priority**: Medium - Alert configuration pending
+**Priority**: Medium → ✅ **COMPLETE**
 
-**Status**: ✅ New Relic integration complete and deployed
+**Status**: ✅ New Relic integration deployed | ✅ Dashboard created | ✅ Alerts configured
 
 **Platform**: New Relic (100 GB/month free tier)
 
-**Pending Tasks**:
-- [ ] Configure alert policies (Lambda errors, high error rates, performance degradation)
-- [ ] Test alerts with intentional errors
-- [ ] Document alerting runbook
+**Completed Tasks**:
+- [x] New Relic APM and Lambda Extension integration
+- [x] Custom instrumentation with environment tagging
+- [x] Dashboard with environment filtering
+- [x] Alert policy with 2 critical conditions (Lambda Errors, High Error Rate)
+- [x] Email notification workflow configured
+- [x] Documentation complete
+
+**Alert Configuration** (Production):
+- **Policy**: Lambda error monitoring
+- **Conditions**:
+  - Lambda Errors (> 0 for 1 min)
+  - High Error Rate (> 10% for 5 min)
+- **Notifications**: Email to matt@idevelop.tech
 
 **Reference**:
 - Dashboard: https://one.newrelic.com (Account ID: 7377610)
-- Documentation: `docs/NEW-RELIC-MONITORING.md`
+- Documentation: `docs/OBSERVABILITY.md`
 - Implementation: `sst.config.ts`, `packages/functions/src/utils/instrument-lambda.ts`
 
 ---
@@ -164,37 +174,4 @@ npm run format      # Ensures consistent formatting
 
 ## Post-Launch Tasks
 
-### Production Monitoring & Observability
-
-**Priority**: High - Complete shortly after launch
-
-**Status**: ✅ Ready to deploy (same New Relic account, stage-aware config)
-
-**Solution**: New Relic (100 GB/month free tier - same account for dev and prod)
-
-**Tasks**:
-- [x] Set production SST secret: `npx sst secret set NewRelicLicenseKey LICENSE_KEY --stage production`
-- [ ] Deploy to production (observability already configured in sst.config.ts)
-- [ ] Verify `api-idevelop-tech` service appears in New Relic
-- [ ] Test with contact form submission on production domain
-- [ ] Configure production-specific alert policies (stricter thresholds than dev)
-- [ ] Set up CloudFront production monitoring (optional)
-- [ ] Set up external uptime monitoring (optional - UptimeRobot, Pingdom, etc.)
-- [ ] Establish incident response runbook
-- [ ] Document production alerting configuration
-
-**Configuration**:
-- **Same New Relic account** for both dev and prod (Account ID: 7377610)
-- **Same license key** for both environments (best practice: separate keys, but acceptable for portfolio site)
-- **Service differentiation**: Service names are environment-aware
-  - Dev: `dev-api-idevelop-tech`
-  - Prod: `api-idevelop-tech`
-- **Alert policies**: Create separate policies for dev vs prod with different thresholds
-
-**Reference**:
-- Configuration: `sst.config.ts` (lines 24-82, stage-aware)
-- Platform comparison: `docs/OBSERVABILITY-COMPARISON.md`
-- Dashboard: https://one.newrelic.com
-- Account ID: 7377610
-
-**Note**: Infrastructure is fully stage-aware and ready for production deployment
+*To be added as needed after domain migration completes*
