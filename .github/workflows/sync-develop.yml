@@ -1,0 +1,39 @@
+name: Sync Develop from Main
+
+on:
+  workflow_run:
+    workflows: ["Deploy Production"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+          # Use default token (github-actions bot must be allowed to bypass protection)
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge main into develop
+        run: |
+          git fetch origin main
+          git merge origin/main -m "chore: Sync develop with main after production deploy"
+
+      - name: Push to develop
+        run: |
+          git push origin develop
