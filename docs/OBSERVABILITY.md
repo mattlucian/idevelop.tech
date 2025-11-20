@@ -1,14 +1,27 @@
 # Observability
 
-Lambda monitoring and alerting for idevelop.tech API.
-
-**Platform**: New Relic (100 GB/month free tier)
-**Account**: 7377610
-**Dashboard**: https://one.newrelic.com
+Monitoring and analytics for idevelop.tech backend and frontend.
 
 ---
 
-## What's Monitored
+## Platforms
+
+### Backend: New Relic
+**Purpose**: Lambda monitoring and alerting
+**Tier**: Free (100 GB/month)
+**Account**: 7377610
+**Dashboard**: https://one.newrelic.com
+
+### Frontend: Google Analytics 4
+**Purpose**: User analytics and pageview tracking
+**Property**: `G-XS6QVSG7MS`
+**Dashboard**: https://analytics.google.com
+
+---
+
+## Backend Monitoring (New Relic)
+
+### What's Monitored
 
 **Lambda Metrics**:
 - Invocation count, duration, memory usage
@@ -268,9 +281,102 @@ Lambda layer and environment variables configured at infrastructure level (`sst.
 
 ---
 
+## Frontend Analytics (Google Analytics 4)
+
+### Implementation
+
+**Measurement ID**: `G-XS6QVSG7MS`
+**Type**: GA4 (Google Analytics 4)
+**Tracking**: Cookie consent-based (GDPR compliant)
+
+### What's Tracked
+
+**Pageviews**:
+- Initial page loads
+- SPA route changes (Vue Router integration)
+- Respects user cookie consent
+
+**User Behavior**:
+- Page paths and referrers
+- Device types and browsers
+- Geographic location (anonymized)
+- Session duration
+
+### Configuration
+
+**Environment-specific**:
+- Production: Enabled (`G-XS6QVSG7MS`)
+- Development: Disabled (empty string)
+
+**Privacy Settings**:
+- IP anonymization enabled
+- Secure cookies (SameSite=None;Secure)
+- User consent required before tracking
+- Cookie deletion on consent revocation
+
+### Code Location
+
+**Loading**: `packages/web/src/composables/useCookieConsent.ts`
+- Conditional script loading based on cookie consent
+- Uses Google's official gtag.js pattern
+- Dynamic script injection after user accepts cookies
+
+**Routing**: `packages/web/src/router/index.ts`
+- Vue Router `afterEach` hook for SPA pageview tracking
+- Automatically tracks route changes
+- Only fires if GA is loaded (user consented)
+
+### Testing
+
+**Production Real-Time Reports**:
+1. Go to Reports → Real-time in Google Analytics
+2. Navigate between pages on idevelop.tech
+3. Verify pageviews appear within 30 seconds
+
+**Console Debugging**:
+```javascript
+// Check if GA loaded successfully
+console.log('GA loaded:', typeof window.gtag !== 'undefined');
+console.log('DataLayer:', window.dataLayer);
+
+// Check for /collect requests in Network tab
+// Filter Network tab by: "collect"
+```
+
+**Cookie Consent Flow**:
+1. Visit site in incognito (no consent stored)
+2. Cookie banner should appear
+3. Accept cookies
+4. GA script loads and pageviews start tracking
+5. Decline cookies = no GA tracking
+
+### Troubleshooting
+
+**No data in GA**:
+1. Verify user accepted cookie consent
+2. Check console for "Google Analytics script loaded successfully" message
+3. Check Network tab for `/collect` requests to `www.google-analytics.com`
+4. Verify measurement ID in production: `G-XS6QVSG7MS`
+5. Check Real-Time reports (not historical data)
+
+**Script loads but no tracking**:
+1. Verify gtag function is not stub: `console.log(window.gtag.toString())`
+2. Check for JavaScript errors in console
+3. Verify Content Security Policy allows GA domains
+4. Check browser privacy settings (not blocking trackers)
+
+---
+
 ## References
 
-- **New Relic Dashboard**: https://one.newrelic.com (Account: 7377610)
+### Backend (New Relic)
+- **Dashboard**: https://one.newrelic.com (Account: 7377610)
 - **Lambda Layers**: https://layers.newrelic-external.com/
-- **Configuration**: `sst.config.ts` (lines 24-126)
-- **Instrumentation Utility**: `packages/functions/src/utils/instrument-lambda.ts`
+- **Configuration**: `sst.config.ts`
+- **Instrumentation**: `packages/functions/src/utils/instrument-lambda.ts`
+
+### Frontend (Google Analytics)
+- **Dashboard**: https://analytics.google.com (Property: G-XS6QVSG7MS)
+- **Configuration**: `sst.config.ts` (VITE_GA_MEASUREMENT_ID)
+- **Implementation**: `packages/web/src/composables/useCookieConsent.ts`
+- **Router Integration**: `packages/web/src/router/index.ts`
