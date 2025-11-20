@@ -4,171 +4,93 @@ Active tasks and pending work for idevelop.tech.
 
 ---
 
-## Pre-Launch Tasks
+## Completed Tasks ✅
 
----
-
-### DeepSource Issues
-
-**Priority**: Medium → ✅ **COMPLETE**
-
-**Status**: All critical issues resolved (15 issues fixed)
-
-**Solution Implemented** (2025-11-14):
-- ✅ Fixed Issue #1 (JS-0047): Added default case to switch statement in logger.ts
-- ✅ Fixed Issues #2-15 (JS-0682): Added explicit default values for 14 optional props across 8 Vue components
-- ✅ Enabled ESLint rules to catch these issues locally before PR builds
-  - `vue/require-default-prop`: "warn" - catches missing prop defaults
-  - `default-case`: "warn" - catches missing switch default cases
-- ✅ All type checks passing (0 errors)
-- ✅ All lint checks passing (0 errors, only intentional console warnings)
-
-**Local Validation Workflow**:
-```bash
-npm run lint        # Catches prop defaults, switch defaults, unused vars
-npm run type-check  # Catches TypeScript errors
-npm run format      # Ensures consistent formatting
-```
-
-**Reference**: https://app.deepsource.com/gh/mattlucian/idevelop.tech/
-
-**Remaining Tasks**:
-- [ ] Review any remaining DeepSource issues (if new ones appear)
-- [ ] Add ESLint to CI/CD pipeline (see Code Review section above)
-
----
-
-### Service Worker & PWA
-
-**Priority**: High → ✅ **COMPLETE**
-
-**Issue**: Install popup on mobile feels "scammy" and may reduce trust
-
-**Solution Implemented** (2025-11-14):
-- ✅ Added `beforeinstallprompt` event handler to suppress browser's native install popup
-- ✅ Service worker remains active for offline caching and performance benefits
-- ✅ Users can still install via browser's passive UI (Chrome: address bar icon, Safari: Share menu)
-- ✅ Industry best practice: Same approach as GitHub, Twitter, YouTube, Spotify
+### Google Analytics Integration
+**Status**: ✅ **COMPLETE** (2025-11-19)
 
 **Implementation**:
-- Modified `packages/web/src/main.ts` to prevent default install prompt
-- Stores `deferredPrompt` for potential future contextual use (not currently shown)
-- Service worker continues to provide PWA benefits without aggressive UX
+- ✅ GA4 tracking with measurement ID `G-XS6QVSG7MS`
+- ✅ Cookie consent-based (GDPR compliant)
+- ✅ SPA pageview tracking via Vue Router integration
+- ✅ Environment-specific (production only)
+- ✅ Privacy settings (IP anonymization, secure cookies)
 
-**Testing Required**:
-- [ ] Test on mobile device (iOS Safari, Chrome Android) to verify no install popup
-- [ ] Verify Lighthouse PWA check still passes (expected: yes)
-- [ ] Confirm service worker caching still works (offline functionality)
-- [ ] Check browser console for any PWA-related warnings
+**Solution**: Fixed gtag initialization by using Google's exact implementation pattern (`arguments` object instead of rest parameters).
 
-**Current Behavior**: Service worker active, install prompt suppressed
-**Result**: PWA capabilities with professional, non-intrusive experience
+**Reference**: `docs/OBSERVABILITY.md` (Frontend Analytics section)
 
 ---
 
 ### Monitoring & Observability
+**Status**: ✅ **COMPLETE**
 
-**Priority**: Medium → ✅ **COMPLETE**
+**Backend**: New Relic APM with Lambda monitoring and alerts
+**Frontend**: Google Analytics 4 with SPA tracking
 
-**Status**: ✅ New Relic integration deployed | ✅ Dashboard created | ✅ Alerts configured
-
-**Platform**: New Relic (100 GB/month free tier)
-
-**Completed Tasks**:
-- [x] New Relic APM and Lambda Extension integration
-- [x] Custom instrumentation with environment tagging
-- [x] Dashboard with environment filtering
-- [x] Alert policy with 2 critical conditions (Lambda Errors, High Error Rate)
-- [x] Email notification workflow configured
-- [x] Documentation complete
-
-**Alert Configuration** (Production):
-- **Policy**: Lambda error monitoring
-- **Conditions**:
-  - Lambda Errors (> 0 for 1 min)
-  - High Error Rate (> 10% for 5 min)
-- **Notifications**: Email to matt@idevelop.tech
-
-**Reference**:
-- Dashboard: https://one.newrelic.com (Account ID: 7377610)
-- Documentation: `docs/OBSERVABILITY.md`
-- Implementation: `sst.config.ts`, `packages/functions/src/utils/instrument-lambda.ts`
+**Reference**: `docs/OBSERVABILITY.md`
 
 ---
 
 ### GitHub Repository Management
+**Status**: ✅ **COMPLETE**
 
-**Priority**: High → ✅ **COMPLETE**
+- Branch protection for `main` and `develop`
+- Automatic branch deletion after merge
+- Branch cleanup completed (27 branches removed)
 
-**Status**: All tasks completed (2025-11-14)
-
-**Completed Tasks**:
-
-#### Branch Cleanup
-- [x] Review all existing branches
-- [x] Delete merged/stale branches (27 local + remotes deleted)
-- [x] Verify only main, develop, and 1-2 active feature branches remain
-
-#### Branch Protection Rules
-- [x] Enable branch protection for `main`
-  - [x] Require pull request before merging
-  - [x] Require status checks: PR Checks, CodeQL
-  - [x] Enforce for admins (no bypass allowed)
-  - [x] No force pushes or deletions
-- [x] Enable branch protection for `develop`
-  - [x] Require pull request before merging
-  - [x] Require status checks: PR Checks
-  - [x] Enforce for admins (no bypass allowed)
-  - [x] No force pushes or deletions
-
-#### Branch Management Strategy
-- [x] Enable automatic branch deletion after merge (via GitHub API)
-- [x] Document branch lifecycle in BRANCH-STRATEGY.md
-  - [x] Create feature branch → PR → Merge → Auto-delete
-  - [x] Only 1-2 active feature branches at a time
-- [x] Add branch naming conventions to CLAUDE.md
-- [x] Add GitHub Repository Configuration section to docs/SETUP.md
-
-**Result**: Repository now maintains clean branch structure with automated cleanup
+**Reference**: `docs/BRANCH-STRATEGY.md`
 
 ---
 
-### Documentation Review
+### DeepSource Issues
+**Status**: ✅ **COMPLETE**
 
-**Priority**: Medium
+All 15 critical issues resolved with ESLint rules enabled.
 
-**Trigger**: After code review & consolidation
-
-**Tasks**:
-- [ ] Review all documentation for accuracy after code changes
-- [ ] Update ARCHITECTURE.md if patterns changed
-- [ ] Update frontend docs if components changed
-- [ ] Verify README accuracy
-- [ ] Check CLAUDE.md for outdated patterns
-- [ ] Ensure no orphaned documentation references
+**Reference**: https://app.deepsource.com/gh/mattlucian/idevelop.tech/
 
 ---
 
-## Domain Migration
+### Service Worker & PWA
+**Status**: ✅ **COMPLETE**
 
-**Status**: ✅ Ready to proceed (AWS SES production access approved)
+Suppressed install prompt while maintaining PWA benefits.
+
+---
+
+## Active Tasks
+
+### Domain Migration
+**Priority**: High
+**Status**: Ready to proceed (AWS SES production access approved)
 
 **Tasks**:
-- [ ] Confirm AWS SES production access granted
-- [ ] Update `sst.config.ts` to enable custom domain for production
-- [ ] Deploy to production (triggers certificate request and DNS setup)
+- [ ] Deploy with custom domain enabled in `sst.config.ts`
 - [ ] Verify certificate validation complete
 - [ ] Update DNS records at registrar to point to CloudFront
-- [ ] Wait for DNS propagation (~5-30 minutes)
 - [ ] Test https://idevelop.tech loads correctly
 - [ ] Verify SSL certificate valid
 - [ ] Test contact form with production domain
-- [ ] Update `.env.production` with production domain URLs (if needed)
 - [ ] Monitor CloudFront metrics for 24 hours
 
 **Current State**:
 - Production site: https://dxeay6n8brs8g.cloudfront.net
 - Target domain: https://idevelop.tech
+
+---
+
+### Documentation Review (Optional)
+**Priority**: Low
+**Trigger**: After significant code changes
+
+**Tasks**:
+- [ ] Review ARCHITECTURE.md for accuracy
+- [ ] Update frontend docs if component patterns changed
+- [ ] Verify CLAUDE.md reflects current practices
+- [ ] Check for orphaned documentation references
+
+**Note**: Documentation is currently up-to-date with recent GA implementation and branch strategy updates.
 
 ---
 
