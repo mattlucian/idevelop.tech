@@ -122,31 +122,76 @@ When creating temporary planning or task-tracking documents:
 
 ## MANDATORY RULES
 
-### 🚨 MOST CRITICAL RULE: NEVER PUSH DIRECTLY TO PROTECTED BRANCHES 🚨
+### 🚨 MOST CRITICAL RULE: NEVER WORK ON OR PUSH TO PROTECTED BRANCHES 🚨
 
-**STOP AND READ THIS BEFORE ANY `git push` COMMAND:**
+**🛑 STOP AND READ THIS BEFORE ANY CODE CHANGES OR `git push` COMMAND:**
 
-❌ **FORBIDDEN**: `git push origin main`
-❌ **FORBIDDEN**: `git push origin develop`
-❌ **FORBIDDEN**: Direct commits to `main` or `develop`
+#### ❌ ABSOLUTELY FORBIDDEN
 
-✅ **REQUIRED**: Always create feature branch → commit → push feature branch → create PR to `develop`
+**Never checkout and work directly on protected branches:**
+```bash
+# ❌ FORBIDDEN
+git checkout main
+# Then making changes... NO!
+
+# ❌ FORBIDDEN
+git checkout develop
+# Then making changes... NO!
+
+# ❌ FORBIDDEN
+git push origin main
+
+# ❌ FORBIDDEN
+git push origin develop
+
+# ❌ FORBIDDEN
+Direct commits to `main` or `develop`
+```
+
+#### ✅ CORRECT WORKFLOW
+
+**ALWAYS create a feature branch FIRST, before making any changes:**
+```bash
+# ✅ CORRECT: Create feature branch from develop
+git checkout develop
+git pull origin develop
+git checkout -b feature/your-feature-name
+
+# Now make your changes
+# Commit and push feature branch only
+git add .
+git commit -m "your changes"
+git push origin feature/your-feature-name
+
+# Create PR to develop (NOT main)
+gh pr create --base develop
+```
+
+#### 🔒 Prevention Rules
+
+**Before making ANY file changes:**
+1. Run: `git branch --show-current`
+2. Verify output is `feature/*`, `docs/*`, or `hotfix/*`
+3. If output is `main` or `develop`: STOP and create a feature branch first
+
+**Before EVERY `git push`:**
+1. Run: `git branch --show-current`
+2. Verify output is NOT `main` or `develop`
+3. Only push feature branches
 
 **Why this is absolutely critical:**
-- Direct pushes skip ALL PR checks (CodeQL, DeepSource, build validation)
+- Direct pushes skip ALL PR checks (CodeQL, DeepSource, ESLint, build validation)
 - Direct pushes skip code review process
 - Direct pushes skip CI/CD validation gates
 - Direct pushes can break production without any safety checks
+- Working on main/develop makes it easy to accidentally push directly
 
-**Before EVERY `git push`, verify you are on a feature branch:**
-```bash
-git branch --show-current  # Must show "feature/*" or "docs/*" or "hotfix/*", NEVER "develop" or "main"
-```
-
-**If you accidentally push to develop or main:**
+**If you accidentally work on or push to main/develop:**
 1. IMMEDIATELY notify the user
-2. Create a revert commit if needed
-3. Re-apply changes through proper PR workflow
+2. Stop all further changes
+3. Create a feature branch with the changes
+4. Reset main/develop to origin state
+5. Create proper PR from feature branch
 
 ---
 

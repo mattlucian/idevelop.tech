@@ -6,3 +6,6 @@ name = "javascript"
   [analyzers.meta]
   plugins = ["vue"]
   environment = ["nodejs"]
+  exclude_patterns = [
+    ".sst/**"
+  ]
