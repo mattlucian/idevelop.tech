@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           # Queries to run: default (recommended), security-extended (more thorough), security-and-quality
@@ -68,10 +68,10 @@ jobs:
       # For JavaScript/TypeScript, this step is not strictly necessary but helps ensure
       # CodeQL can analyze all code paths including bundled/transpiled code
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+        uses: github/codeql-action/autobuild@v4
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:${{ matrix.language }}"
           # Upload results to GitHub Security tab
