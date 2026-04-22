@@ -10,7 +10,7 @@ import { join } from "path";
  * Logo URL for email templates
  * Uses production CDN URL for reliable email delivery
  */
-const LOGO_URL = process.env.LOGO_URL || "https://dxeay6n8brs8g.cloudfront.net/images/brand/logo-black.png";
+const LOGO_URL = process.env.LOGO_URL || "https://idevelop.tech/images/brand/logo-black.png";
 
 /**
  * Color scheme matching site design
