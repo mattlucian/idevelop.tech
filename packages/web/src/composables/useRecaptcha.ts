@@ -19,7 +19,7 @@ export function useRecaptcha() {
   /**
    * Execute reCAPTCHA and get token
    */
-  const executeRecaptcha = async (): Promise<string> => {
+  const executeRecaptcha = (): Promise<string> => {
     return new Promise((resolve, reject) => {
       // Check if grecaptcha is loaded
       if (typeof window === "undefined" || !window.grecaptcha) {
