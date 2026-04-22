@@ -246,11 +246,6 @@ const serviceCardExample = {
   label: "Design",
   title: "Web Design",
   tagline: "Professional websites that drive real business results",
-  stats: [
-    { value: "10+", label: "Projects" },
-    { value: "50+", label: "Components" },
-    { value: "100%", label: "Satisfaction" },
-  ],
   tags: ["Vue.js", "TypeScript", "Tailwind CSS"],
   heroImage: "https://images.unsplash.com/photo-1542744173-b3cd6377db95",
 };
