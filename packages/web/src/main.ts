@@ -1,6 +1,7 @@
 import "./assets/main.css";
 
 import { createApp } from "vue";
+// skipcq: JS-W1028 — Vue SFCs synthesize the default export at compile time; DeepSource's JS analyzer can't see it
 import App from "./App.vue";
 import router from "./router";
 import { logger } from "./utils/logger";
