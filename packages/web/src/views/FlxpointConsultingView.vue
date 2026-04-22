@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { usePageMeta } from "@/composables/usePageMeta";
 import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
 import BreadcrumbNav from "../components/ui/BreadcrumbNav.vue";
@@ -24,6 +24,7 @@ usePageMeta({
   ogImage: SITE.ogImage,
 });
 
+const route = useRoute();
 const router = useRouter();
 const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
 const activeTab = ref("catalog");
@@ -40,6 +41,26 @@ const {
   howItWorks,
   cta,
 } = flxpointConsultingData;
+
+// Sitelinks deep-link to specific tabs via URL hash (e.g. /flxpoint-consulting#orders).
+const validTabIds = tabs.map((t) => t.id);
+const syncTabFromHash = (hashValue: string): void => {
+  const tabId = hashValue.replace("#", "");
+  if (validTabIds.includes(tabId)) {
+    activeTab.value = tabId;
+  }
+};
+
+onMounted(() => {
+  syncTabFromHash(route.hash);
+});
+
+watch(
+  () => route.hash,
+  (newHash) => {
+    syncTabFromHash(newHash);
+  },
+);
 
 const goToHireMe = () => {
   router.push("/hire-me");

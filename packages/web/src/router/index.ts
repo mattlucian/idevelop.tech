@@ -16,6 +16,11 @@ const router = createRouter({
     if (savedPosition && from.name) {
       return savedPosition;
     }
+    // Smooth-scroll to hash target (e.g. /hire-me#about); gracefully no-ops
+    // if the element doesn't exist. 80px top offset clears the sticky nav.
+    if (to.hash) {
+      return { el: to.hash, behavior: "smooth", top: 80 };
+    }
     // Always scroll to top for direct navigation or initial page load
     return { top: 0 };
   },

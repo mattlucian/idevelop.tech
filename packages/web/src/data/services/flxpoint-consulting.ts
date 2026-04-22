@@ -33,7 +33,7 @@ export const flxpointConsultingData: FlxpointConsultingData = {
   tabs: [
     { id: "catalog", label: "Catalog Management" },
     { id: "orders", label: "Order Automation" },
-    { id: "technical", label: "Technical Integration" },
+    { id: "integrations", label: "Technical Integration" },
   ],
 
   // Service Areas with detailed breakdowns
@@ -78,8 +78,8 @@ export const flxpointConsultingData: FlxpointConsultingData = {
         },
       ],
     },
-    technical: {
-      id: "technical",
+    integrations: {
+      id: "integrations",
       label: "Technical Integration",
       icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
       title: "API & Integration Support",

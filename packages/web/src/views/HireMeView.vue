@@ -199,7 +199,7 @@ const openSchedulingLink = () => {
     </div>
 
     <!-- Why Work With Me - Value Propositions -->
-    <div class="max-w-5xl mx-auto px-6 py-12 pb-0">
+    <div id="about" class="max-w-5xl mx-auto px-6 py-12 pb-0">
       <div class="text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-white">
           Why Work With Me
