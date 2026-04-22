@@ -8,7 +8,6 @@ interface Props {
   label: string;
   title: string;
   tagline: string;
-  stats: { value: string; label: string }[];
   tags: string[];
   heroImage?: string;
   loading?: "lazy" | "eager";
@@ -133,11 +132,6 @@ const isIconName = computed(() => iconComponent.value !== undefined);
           {{ tag }}
         </Badge>
       </div>
-
-      <!-- Stats in boxes - toned down - hidden on mobile -->
-      <!-- <div class="hidden md:block mb-4 opacity-90">
-        <StatBox :stats="stats" layout="grid" size="md" color="gray-400" />
-      </div> -->
 
       <!-- Separator line -->
       <div class="border-t border-gray-800 mb-4" />
