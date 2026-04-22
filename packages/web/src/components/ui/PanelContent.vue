@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import IconButton from "../elements/buttons/IconButton.vue";
-import type { PanelColorScheme, PanelHeaderStyle } from "../../types/shared/ui";
+import type { PanelHeaderStyle } from "../../types/shared/ui";
 
 interface Props {
-  colorScheme?: PanelColorScheme;
   headerStyle?: PanelHeaderStyle;
 }
 
 withDefaults(defineProps<Props>(), {
-  colorScheme: "cyan",
   headerStyle: "simple",
 });
 

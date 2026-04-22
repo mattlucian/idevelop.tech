@@ -331,7 +331,6 @@ onUnmounted(() => {
       <!-- Component List Sidebar -->
       <Transition name="slide-left">
         <PanelSidebar
-          color-scheme="cyan"
           :hide-on-mobile="!!selectedComponentId"
           @click="$event.stopPropagation()"
         >

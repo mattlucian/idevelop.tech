@@ -155,7 +155,6 @@ onUnmounted(() => {
       <Transition name="slide-left">
         <PanelSidebar
           v-if="domainData"
-          color-scheme="emerald"
           :hide-on-mobile="!!selectedTopic"
           @close="goBack"
         >
@@ -211,7 +210,6 @@ onUnmounted(() => {
         <PanelContent
           v-if="domainData && selectedTopic"
           ref="contentPanelRef"
-          color-scheme="emerald"
           header-style="simple"
           @close="handlePanelClose"
         >
