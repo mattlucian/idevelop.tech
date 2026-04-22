@@ -107,6 +107,13 @@ export function useCookieConsent() {
       cookie_flags: "SameSite=None;Secure", // Secure cookie settings
     });
 
+    // Register Google Ads account so conversion events and gclid auto-tagging
+    // share the same gtag runtime.
+    const ADS_CONVERSION_ID = import.meta.env.VITE_GA_ADS_CONVERSION_ID;
+    if (ADS_CONVERSION_ID) {
+      window.gtag("config", ADS_CONVERSION_ID);
+    }
+
     // Create and load GA script tag
     // The script will process queued dataLayer commands when it loads
     const script = document.createElement("script");

@@ -141,6 +141,31 @@ const handleSubmit = async () => {
     if (response.success) {
       showSuccess.value = true;
 
+      // Fire conversion events. gtag is only defined when the visitor has
+      // accepted analytics cookies, so no-op otherwise.
+      const gtag = window.gtag;
+      if (gtag) {
+        // GA4 lead event — imports into Google Ads as a conversion when the
+        // GA4 property is linked to the Ads account.
+        gtag("event", "generate_lead", {
+          currency: "USD",
+          value: 1,
+          form_type: formData.service || props.serviceName,
+        });
+
+        // Google Ads direct conversion — works without GA4 linkage as long as
+        // the conversion ID and label are configured.
+        const adsId = import.meta.env.VITE_GA_ADS_CONVERSION_ID;
+        const adsLabel = import.meta.env.VITE_GA_ADS_CONVERSION_LABEL;
+        if (adsId && adsLabel) {
+          gtag("event", "conversion", {
+            send_to: `${adsId}/${adsLabel}`,
+            value: 1.0,
+            currency: "USD",
+          });
+        }
+      }
+
       // Reset form
       formData.name = "";
       formData.email = "";
