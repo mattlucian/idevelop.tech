@@ -9,7 +9,7 @@
 
 Full-stack portfolio application showcasing technical consulting services, cloud infrastructure expertise, and software development capabilities.
 
-**Live Site**: https://dxeay6n8brs8g.cloudfront.net
+**Live Site**: https://idevelop.tech
 
 ---
 
@@ -65,7 +65,7 @@ Create `packages/web/.env.local`:
 ```env
 VITE_API_URL=your-api-gateway-url
 VITE_RECAPTCHA_SITE_KEY=your-recaptcha-site-key
-VITE_GA_MEASUREMENT_ID=your-ga-id  # Optional
+VITE_GA_MEASUREMENT_ID=your-ga-id  # Production only (disabled in dev)
 ```
 
 </details>
@@ -105,9 +105,9 @@ Infrastructure & Services
 │ SST v3 • S3 • CloudFront • SES • GitHub Actions                 │
 └─────────────────────────────────────────────────────────────────┘
 
-Code Quality & Security
+Observability & Security
 ┌─────────────────────────────────────────────────────────────────┐
-│ TypeScript (strict) • ESLint • CodeQL • DeepSource • reCAPTCHA  │
+│ New Relic • Google Analytics 4 • CodeQL • DeepSource • reCAPTCHA│
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -270,8 +270,9 @@ graph TB
 - [Design System](docs/frontend/DESIGN-SYSTEM.md) - Design tokens and styling
 - [Data Structure](docs/frontend/DATA-STRUCTURE.md) - Type schemas
 
-**Backend**:
+**Backend & Operations**:
 - [Lambda Functions](docs/backend/FUNCTIONS.md) - API implementation
+- [Observability](docs/OBSERVABILITY.md) - Monitoring and analytics (New Relic + GA4)
 
 **Setup & Configuration**:
 - [SETUP.md](docs/SETUP.md) - Initial project setup and configuration
