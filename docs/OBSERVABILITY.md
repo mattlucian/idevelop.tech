@@ -268,9 +268,57 @@ Lambda layer and environment variables configured at infrastructure level (`sst.
 
 ---
 
+## Frontend Analytics (Google Analytics 4)
+
+**Property**: `G-XS6QVSG7MS` · **Dashboard**: https://analytics.google.com · **Tier**: Free
+
+### Tracked events
+
+- **Pageviews** — initial loads + SPA route changes (Vue Router `afterEach` hook)
+- **`generate_lead`** — fires on successful contact-form submit; imported into Google Ads as a conversion via the GA4 ↔ Ads property link
+
+### Environments
+
+- **Production** (`idevelop.tech`): Enabled
+- **Dev** (`dev.idevelop.tech`): Disabled — `VITE_GA_MEASUREMENT_ID=""` in `sst.config.ts` for the dev stage
+
+### Privacy
+
+- IP anonymization enabled
+- Cookie consent required before any tracking (GDPR-compliant)
+- Secure cookies (`SameSite=None;Secure`)
+- GA cookies deleted on consent revocation
+
+### Implementation
+
+- `packages/web/src/composables/useCookieConsent.ts` — conditional gtag.js script load after consent
+- `packages/web/src/router/index.ts` — `afterEach` hook for SPA pageview tracking
+- `packages/web/src/components/ui/CTAForm.vue` — `generate_lead` event on form submit success
+
+### Verifying data flow
+
+1. Accept cookies on the production site, navigate between pages
+2. GA4 → Reports → Realtime — pageviews appear within ~30 seconds
+3. Browser Network tab: watch for `/collect` requests to `www.google-analytics.com`
+
+### Troubleshooting no-data scenarios
+
+1. Cookie consent wasn't accepted (banner still visible)
+2. CSP blocking Google domains (check `sst.config.ts` CSP string)
+3. Browser privacy extension blocking trackers
+4. Looking at historical rather than realtime reports (realtime updates immediately; reporting lags 24h)
+
+---
+
 ## References
 
-- **New Relic Dashboard**: https://one.newrelic.com (Account: 7377610)
+### Backend (New Relic)
+- **Dashboard**: https://one.newrelic.com (Account: 7377610)
 - **Lambda Layers**: https://layers.newrelic-external.com/
-- **Configuration**: `sst.config.ts` (lines 24-126)
+- **Configuration**: `sst.config.ts`
 - **Instrumentation Utility**: `packages/functions/src/utils/instrument-lambda.ts`
+
+### Frontend (Google Analytics)
+- **Dashboard**: https://analytics.google.com (Property: `G-XS6QVSG7MS`)
+- **Configuration**: `sst.config.ts` (`VITE_GA_MEASUREMENT_ID`)
+- **Implementation**: `packages/web/src/composables/useCookieConsent.ts`, `packages/web/src/router/index.ts`
