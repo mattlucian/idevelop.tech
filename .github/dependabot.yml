@@ -1,116 +1,15 @@
 version: 2
-updates:
-  # Root workspace dependencies
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "automated"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-    groups:
-      # Group ALL minor and patch updates together
-      all-non-major:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
 
-  # Frontend package dependencies
-  - package-ecosystem: "npm"
-    directory: "/packages/web"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "frontend"
-      - "automated"
-    commit-message:
-      prefix: "chore(web)"
-      include: "scope"
-    groups:
-      # Group ALL minor and patch updates together
-      all-non-major:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # Backend functions dependencies
-  - package-ecosystem: "npm"
-    directory: "/packages/functions"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 3
-    labels:
-      - "dependencies"
-      - "backend"
-      - "automated"
-    commit-message:
-      prefix: "chore(functions)"
-      include: "scope"
-    groups:
-      # Group ALL minor and patch updates together
-      all-non-major:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # Core shared package dependencies
-  - package-ecosystem: "npm"
-    directory: "/packages/core"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 2
-    labels:
-      - "dependencies"
-      - "core"
-      - "automated"
-    commit-message:
-      prefix: "chore(core)"
-      include: "scope"
-    groups:
-      # Group ALL minor and patch updates together
-      all-non-major:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
-  # GitHub Actions workflow dependencies
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-    open-pull-requests-limit: 2
-    labels:
-      - "dependencies"
-      - "github-actions"
-      - "automated"
-    commit-message:
-      prefix: "chore(ci)"
-    groups:
-      # Group ALL GitHub Actions updates together
-      all-actions:
-        patterns:
-          - "*"
+# Dependabot version updates are intentionally disabled.
+# Dependency bumps are handled manually on a periodic review cadence to
+# reduce PR noise and batch low-priority updates with deliberate review.
+#
+# This file is kept (rather than deleted) so the disabled state is
+# discoverable and the previous ecosystem configs are recoverable from
+# git history if version updates are ever re-enabled.
+#
+# Unaffected (these remain active and are controlled via
+# Settings → Security, not this file):
+#   - Dependabot alerts (vulnerability notifications)
+#   - Dependabot security updates (auto-PRs for CVE fixes)
+updates: []
