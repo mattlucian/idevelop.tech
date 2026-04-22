@@ -1,11 +1,12 @@
 version = 1
 
+exclude_patterns = [
+  ".sst/**"
+]
+
 [[analyzers]]
 name = "javascript"
 
   [analyzers.meta]
   plugins = ["vue"]
   environment = ["nodejs"]
-  exclude_patterns = [
-    ".sst/**"
-  ]
