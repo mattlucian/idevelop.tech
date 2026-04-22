@@ -1,14 +1,27 @@
 # Observability
 
-Lambda monitoring and alerting for idevelop.tech API.
-
-**Platform**: New Relic (100 GB/month free tier)
-**Account**: 7377610
-**Dashboard**: https://one.newrelic.com
+Monitoring and analytics for idevelop.tech backend and frontend.
 
 ---
 
-## What's Monitored
+## Platforms
+
+### Backend: New Relic
+**Purpose**: Lambda monitoring and alerting
+**Tier**: Free (100 GB/month)
+**Account**: 7377610
+**Dashboard**: https://one.newrelic.com
+
+### Frontend: Google Analytics 4
+**Purpose**: User analytics and pageview tracking
+**Property**: `G-XS6QVSG7MS`
+**Dashboard**: https://analytics.google.com
+
+---
+
+## Backend Monitoring (New Relic)
+
+### What's Monitored
 
 **Lambda Metrics**:
 - Invocation count, duration, memory usage
