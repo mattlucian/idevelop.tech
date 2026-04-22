@@ -283,87 +283,43 @@ Lambda layer and environment variables configured at infrastructure level (`sst.
 
 ## Frontend Analytics (Google Analytics 4)
 
+**Property**: `G-XS6QVSG7MS` · **Dashboard**: https://analytics.google.com · **Tier**: Free
+
+### Tracked events
+
+- **Pageviews** — initial loads + SPA route changes (Vue Router `afterEach` hook)
+- **`generate_lead`** — fires on successful contact-form submit; imported into Google Ads as a conversion via the GA4 ↔ Ads property link
+
+### Environments
+
+- **Production** (`idevelop.tech`): Enabled
+- **Dev** (`dev.idevelop.tech`): Disabled — `VITE_GA_MEASUREMENT_ID=""` in `sst.config.ts` for the dev stage
+
+### Privacy
+
+- IP anonymization enabled
+- Cookie consent required before any tracking (GDPR-compliant)
+- Secure cookies (`SameSite=None;Secure`)
+- GA cookies deleted on consent revocation
+
 ### Implementation
 
-**Measurement ID**: `G-XS6QVSG7MS`
-**Type**: GA4 (Google Analytics 4)
-**Tracking**: Cookie consent-based (GDPR compliant)
+- `packages/web/src/composables/useCookieConsent.ts` — conditional gtag.js script load after consent
+- `packages/web/src/router/index.ts` — `afterEach` hook for SPA pageview tracking
+- `packages/web/src/components/ui/CTAForm.vue` — `generate_lead` event on form submit success
 
-### What's Tracked
+### Verifying data flow
 
-**Pageviews**:
-- Initial page loads
-- SPA route changes (Vue Router integration)
-- Respects user cookie consent
+1. Accept cookies on the production site, navigate between pages
+2. GA4 → Reports → Realtime — pageviews appear within ~30 seconds
+3. Browser Network tab: watch for `/collect` requests to `www.google-analytics.com`
 
-**User Behavior**:
-- Page paths and referrers
-- Device types and browsers
-- Geographic location (anonymized)
-- Session duration
+### Troubleshooting no-data scenarios
 
-### Configuration
-
-**Environment-specific**:
-- Production: Enabled (`G-XS6QVSG7MS`)
-- Development: Disabled (empty string)
-
-**Privacy Settings**:
-- IP anonymization enabled
-- Secure cookies (SameSite=None;Secure)
-- User consent required before tracking
-- Cookie deletion on consent revocation
-
-### Code Location
-
-**Loading**: `packages/web/src/composables/useCookieConsent.ts`
-- Conditional script loading based on cookie consent
-- Uses Google's official gtag.js pattern
-- Dynamic script injection after user accepts cookies
-
-**Routing**: `packages/web/src/router/index.ts`
-- Vue Router `afterEach` hook for SPA pageview tracking
-- Automatically tracks route changes
-- Only fires if GA is loaded (user consented)
-
-### Testing
-
-**Production Real-Time Reports**:
-1. Go to Reports → Real-time in Google Analytics
-2. Navigate between pages on idevelop.tech
-3. Verify pageviews appear within 30 seconds
-
-**Console Debugging**:
-```javascript
-// Check if GA loaded successfully
-console.log('GA loaded:', typeof window.gtag !== 'undefined');
-console.log('DataLayer:', window.dataLayer);
-
-// Check for /collect requests in Network tab
-// Filter Network tab by: "collect"
-```
-
-**Cookie Consent Flow**:
-1. Visit site in incognito (no consent stored)
-2. Cookie banner should appear
-3. Accept cookies
-4. GA script loads and pageviews start tracking
-5. Decline cookies = no GA tracking
-
-### Troubleshooting
-
-**No data in GA**:
-1. Verify user accepted cookie consent
-2. Check console for "Google Analytics script loaded successfully" message
-3. Check Network tab for `/collect` requests to `www.google-analytics.com`
-4. Verify measurement ID in production: `G-XS6QVSG7MS`
-5. Check Real-Time reports (not historical data)
-
-**Script loads but no tracking**:
-1. Verify gtag function is not stub: `console.log(window.gtag.toString())`
-2. Check for JavaScript errors in console
-3. Verify Content Security Policy allows GA domains
-4. Check browser privacy settings (not blocking trackers)
+1. Cookie consent wasn't accepted (banner still visible)
+2. CSP blocking Google domains (check `sst.config.ts` CSP string)
+3. Browser privacy extension blocking trackers
+4. Looking at historical rather than realtime reports (realtime updates immediately; reporting lags 24h)
 
 ---
 
@@ -373,10 +329,9 @@ console.log('DataLayer:', window.dataLayer);
 - **Dashboard**: https://one.newrelic.com (Account: 7377610)
 - **Lambda Layers**: https://layers.newrelic-external.com/
 - **Configuration**: `sst.config.ts`
-- **Instrumentation**: `packages/functions/src/utils/instrument-lambda.ts`
+- **Instrumentation Utility**: `packages/functions/src/utils/instrument-lambda.ts`
 
 ### Frontend (Google Analytics)
-- **Dashboard**: https://analytics.google.com (Property: G-XS6QVSG7MS)
-- **Configuration**: `sst.config.ts` (VITE_GA_MEASUREMENT_ID)
-- **Implementation**: `packages/web/src/composables/useCookieConsent.ts`
-- **Router Integration**: `packages/web/src/router/index.ts`
+- **Dashboard**: https://analytics.google.com (Property: `G-XS6QVSG7MS`)
+- **Configuration**: `sst.config.ts` (`VITE_GA_MEASUREMENT_ID`)
+- **Implementation**: `packages/web/src/composables/useCookieConsent.ts`, `packages/web/src/router/index.ts`
