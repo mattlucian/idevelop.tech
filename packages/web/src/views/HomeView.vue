@@ -131,7 +131,6 @@ useMeta({
               :label="service.label"
               :title="service.title"
               :tagline="service.tagline"
-              :stats="service.stats"
               :tags="service.tags"
               :hero-image="service.heroImage"
               :loading="index === 0 ? 'eager' : 'lazy'"

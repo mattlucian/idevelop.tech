@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import type { PanelColorScheme } from "../../types/shared/ui";
-
 interface Props {
-  colorScheme?: PanelColorScheme;
   hideOnMobile?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
-  colorScheme: "cyan",
   hideOnMobile: false,
 });
 

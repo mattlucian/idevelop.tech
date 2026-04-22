@@ -107,7 +107,6 @@ export interface MigrationPhase {
   items: string[];
 }
 
-export type PanelColorScheme = "cyan" | "emerald";
 export type PanelHeaderStyle = "decorative" | "simple";
 
 // General color scheme type used across the application
