@@ -23,6 +23,6 @@
     "@aws-sdk/client-ssm": "^3.928.0",
     "@aws-sdk/lib-dynamodb": "^3.928.0",
     "@idevelop-tech/core": "*",
-    "newrelic": "^13.6.5"
+    "newrelic": "^14.1.2"
   }
 }
