@@ -176,7 +176,7 @@ const openSchedulingLink = () => {
           </p>
           <ul class="space-y-3 mb-8">
             <SimpleCheckItem variant="circle" color="cyan">
-              6+ months, 10-30 hrs/month
+              6+ months, hours based on your needs
             </SimpleCheckItem>
             <SimpleCheckItem variant="circle" color="cyan">
               Burst capacity when you need it
@@ -188,7 +188,7 @@ const openSchedulingLink = () => {
               Strategic planning + hands-on work
             </SimpleCheckItem>
             <SimpleCheckItem variant="circle" color="cyan">
-              Fractional CTO services included
+              Tech stack mapping and roadmaps
             </SimpleCheckItem>
           </ul>
           <div class="flex items-center gap-2">

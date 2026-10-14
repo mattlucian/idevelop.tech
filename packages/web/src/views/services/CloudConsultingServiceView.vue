@@ -1,270 +1,97 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
 import { useServiceMeta } from "@/composables/useServiceMeta";
-import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
-import ServiceSection from "../../components/ui/ServiceSection.vue";
-import TabNavigation from "../../components/ui/TabNavigation.vue";
-import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
-import CTASection from "../../components/ui/CTASection.vue";
-import CTAForm from "../../components/ui/CTAForm.vue";
-import IconFlowStep from "../../components/display/IconFlowStep.vue";
+import { withIcons } from "@/utils/iconMapping";
+import ServicePageLayout from "../../components/layout/ServicePageLayout.vue";
+import ContentSection from "../../components/ui/ContentSection.vue";
+import OutlineIcon from "../../components/elements/OutlineIcon.vue";
+import CloudValuePillars from "../../components/cloud/CloudValuePillars.vue";
+import CloudBillBreakdown from "../../components/cloud/CloudBillBreakdown.vue";
+import CloudSpendTrend from "../../components/cloud/CloudSpendTrend.vue";
+import PerformanceFindings from "../../components/cloud/PerformanceFindings.vue";
+import ChangeRollout from "../../components/cloud/ChangeRollout.vue";
 import { cloudConsultingServiceData } from "@/data/services/cloud-consulting";
 
 // SEO Meta Tags
 useServiceMeta({
-  serviceName: "Cloud & AWS Infrastructure Consulting",
+  serviceName: "Cloud Consulting: Get More From Your AWS Spend",
   slug: "cloud-consulting",
   description:
-    "AWS cloud infrastructure consulting and migration services. Expert guidance on cloud strategy, cost optimization, and infrastructure architecture. Reduce cloud costs by 30-50% with proper architecture.",
+    "AWS cost optimization and performance consulting. Lower costs, predictable bills, and better performance, with ranked findings, estimated impact, changes rolled out safely, and a before-and-after summary.",
   ogDescription:
-    "Optimize your AWS infrastructure. Cloud strategy, low-risk migrations, and cost optimization consulting. Get control of your cloud spending with expert guidance.",
+    "Get more from your AWS spend. Lower costs, steadier bills, and better performance, with each recommendation ranked by impact.",
 });
 
-const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
-const activeTab = ref("strategy");
-
-// Destructure typed data
-const {
-  breadcrumbs,
-  hero,
-  tabs,
-  benefits,
-  expertiseBadge,
-  whatIOffer,
-  howItWorks,
-  portfolio: portfolioData,
-  cta,
-  cloudJourneys,
-} = cloudConsultingServiceData;
+const { awsServices } = cloudConsultingServiceData;
+const deliverableCards = withIcons(cloudConsultingServiceData.deliverables);
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] pt-16">
-    <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+  <ServicePageLayout
+    :page="cloudConsultingServiceData"
+    service-name="Cloud Consulting"
+  >
+    <!-- Overview -->
+    <CloudValuePillars />
 
-    <!-- Hero Section -->
-    <ServiceSection
-      variant="hero"
-      :title="hero.title"
-      :subtitle="hero.subtitle"
-      :color-scheme="hero.colorScheme"
+    <!-- Lower costs -->
+    <CloudBillBreakdown />
+
+    <!-- Predictable costs -->
+    <CloudSpendTrend />
+
+    <!-- Better performance -->
+    <PerformanceFindings />
+
+    <!-- Rollout -->
+    <ChangeRollout />
+
+    <!-- Deliverables and services -->
+    <ContentSection
+      title="Deliverables"
+      subtitle="Engagements are fixed-fee and scoped up front."
     >
-      <CTAForm
-        service-name="Cloud Consulting"
-        form-title="Request Information"
-        variant="dark"
-      />
-    </ServiceSection>
-
-    <!-- Cloud Journey Visualization with Tabs -->
-    <div class="max-w-5xl mx-auto px-6 py-6">
-      <!-- Tab Navigation -->
-      <TabNavigation v-model="activeTab" :tabs="tabs" />
-
-      <!-- Tab Content -->
-      <div
-        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
-      >
-        <!-- Strategy Tab -->
-        <div v-if="activeTab === 'strategy'">
-          <h3 class="text-xl md:text-2xl font-bold text-white mb-8 text-center">
-            {{ cloudJourneys.strategy.title }}
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <IconFlowStep
-              v-for="(step, index) in cloudJourneys.strategy.steps"
-              :key="index"
-              :emoji="step.icon"
-              :label="step.label"
-              :desc="step.description"
-              color-scheme="cyan"
-              filter-style="grayscale"
-            />
-          </div>
-        </div>
-
-        <!-- Migration Tab -->
-        <div v-if="activeTab === 'migration'">
-          <h3 class="text-xl md:text-2xl font-bold text-white mb-8 text-center">
-            {{ cloudJourneys.migration.title }}
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <IconFlowStep
-              v-for="(step, index) in cloudJourneys.migration.steps"
-              :key="index"
-              :emoji="step.icon"
-              :label="step.label"
-              :desc="step.description"
-              color-scheme="emerald"
-              filter-style="grayscale"
-            />
-          </div>
-        </div>
-
-        <!-- Optimization Tab -->
-        <div v-if="activeTab === 'optimization'">
-          <h3 class="text-xl md:text-2xl font-bold text-white mb-8 text-center">
-            {{ cloudJourneys.optimization.title }}
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <IconFlowStep
-              v-for="(step, index) in cloudJourneys.optimization.steps"
-              :key="index"
-              :emoji="step.icon"
-              :label="step.label"
-              :desc="step.description"
-              color-scheme="purple"
-              filter-style="grayscale"
-            />
-          </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div
+          v-for="item in deliverableCards"
+          :key="item.title"
+          class="rounded-xl border border-slate-800 bg-[#0f0f0f] p-4"
+        >
+          <OutlineIcon
+            v-if="item.iconComponent"
+            :icon="item.iconComponent"
+            size="md"
+            color="cyan"
+          />
+          <div class="mt-2 font-semibold text-white">{{ item.title }}</div>
+          <div class="mt-1 text-sm text-slate-400">{{ item.desc }}</div>
         </div>
       </div>
 
-      <!-- Caption below diagram -->
-      <p class="text-center text-sm text-gray-400 mt-4">
-        <span v-if="activeTab === 'strategy'"
-          >From initial assessment to ongoing optimization, get expert guidance
-          at every stage</span
+      <h3 class="mt-14 mb-6 text-center text-xl font-semibold text-white">
+        AWS Services I Work With
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div
+          v-for="group in awsServices"
+          :key="group.area"
+          class="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-center"
         >
-        <span v-else-if="activeTab === 'migration'"
-          >Minimize risk with phased migration approach and comprehensive
-          testing</span
-        >
-        <span v-else
-          >Reduce cloud costs by 20-40% without sacrificing performance</span
-        >
-      </p>
-    </div>
-
-    <!-- Key Benefits Section -->
-    <ServiceSection
-      variant="benefits"
-      title=""
-      :benefits="benefits"
-      :expertise-badge="expertiseBadge"
-      color-scheme="cyan"
-    />
-
-    <!-- What I Offer / How It Works -->
-    <TwoColumnListSection
-      :left-column="{
-        title: 'What I Offer',
-        items: whatIOffer,
-        color: 'cyan',
-        type: 'check',
-      }"
-      :right-column="{
-        title: 'How It Works',
-        items: howItWorks,
-        color: 'purple',
-        type: 'number',
-      }"
-    />
-
-    <!-- Secondary Visual: AWS Services Expertise -->
-    <div class="max-w-5xl mx-auto px-6 py-12">
-      <div
-        class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
-      >
-        <h3 class="text-2xl font-bold text-white mb-6 text-center">
-          AWS Services Expertise
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Compute -->
-          <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">Compute</h4>
-            <ul class="space-y-2 text-sm text-gray-300">
-              <li>• EC2 (Elastic Compute Cloud)</li>
-              <li>• ECS (Elastic Container Service)</li>
-              <li>• Fargate (Serverless Containers)</li>
-              <li>• Lambda (Serverless Functions)</li>
-            </ul>
+          <div
+            class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500"
+          >
+            {{ group.area }}
           </div>
-
-          <!-- Storage & Database -->
-          <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">
-              Storage & Database
-            </h4>
-            <ul class="space-y-2 text-sm text-gray-300">
-              <li>• RDS (Relational Database)</li>
-              <li>• Aurora (High-Performance DB)</li>
-              <li>• DynamoDB (NoSQL Database)</li>
-              <li>• S3 (Object Storage)</li>
-            </ul>
-          </div>
-
-          <!-- Networking & Security -->
-          <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">
-              Networking & Security
-            </h4>
-            <ul class="space-y-2 text-sm text-gray-300">
-              <li>• VPC (Virtual Private Cloud)</li>
-              <li>• Route53 (DNS Management)</li>
-              <li>• CloudFront (CDN)</li>
-              <li>• IAM (Access Management)</li>
-            </ul>
-          </div>
-
-          <!-- Monitoring & Optimization -->
-          <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">
-              Monitoring & Optimization
-            </h4>
-            <ul class="space-y-2 text-sm text-gray-300">
-              <li>• CloudWatch (Monitoring)</li>
-              <li>• Cost Explorer (Cost Analysis)</li>
-              <li>• Auto Scaling (Dynamic Scaling)</li>
-              <li>• CloudFormation (IaC)</li>
-            </ul>
-          </div>
-
-          <!-- DevOps & CI/CD -->
-          <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">
-              DevOps & CI/CD
-            </h4>
-            <ul class="space-y-2 text-sm text-gray-300">
-              <li>• CodePipeline (CI/CD)</li>
-              <li>• CodeBuild (Build Service)</li>
-              <li>• ECR (Container Registry)</li>
-              <li>• DataDog (Monitoring & APM)</li>
-            </ul>
-          </div>
-
-          <!-- Additional Services -->
-          <div>
-            <h4 class="text-lg font-semibold text-cyan-400 mb-3">
-              Additional Services
-            </h4>
-            <ul class="space-y-2 text-sm text-gray-300">
-              <li>• SNS (Notifications)</li>
-              <li>• SQS (Message Queuing)</li>
-              <li>• ElastiCache (Caching)</li>
-              <li>• Secrets Manager (Credentials)</li>
-            </ul>
+          <div class="flex flex-wrap justify-center gap-1.5">
+            <span
+              v-for="service in group.services"
+              :key="service"
+              class="rounded border border-slate-700 bg-[#0a0a0a] px-2 py-0.5 text-xs text-slate-300"
+            >
+              {{ service }}
+            </span>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Portfolio Section -->
-    <ServiceSection
-      variant="portfolio"
-      :title="portfolioData.title"
-      :items="portfolioData.items"
-      :testimonial="portfolioData.testimonial"
-      color-scheme="cyan"
-    />
-
-    <!-- CTA Section -->
-    <CTASection
-      :title="cta.title"
-      :subtitle="cta.subtitle"
-      :button-text="cta.buttonText"
-    />
-  </div>
+    </ContentSection>
+  </ServicePageLayout>
 </template>

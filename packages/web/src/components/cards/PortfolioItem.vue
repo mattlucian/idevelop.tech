@@ -68,14 +68,14 @@ const colorClasses = {
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1">
-          <h4
+          <h3
             :class="[
               'font-bold text-white text-base truncate transition-colors',
               colorClasses[colorScheme].textHover,
             ]"
           >
             {{ item.name }}
-          </h4>
+          </h3>
           <svg
             :class="[
               'w-4 h-4 text-gray-500 transition-colors shrink-0',

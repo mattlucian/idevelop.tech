@@ -4,7 +4,7 @@ import { usePageMeta } from "@/composables/usePageMeta";
  * Options for service page SEO meta tags
  */
 export interface ServiceMetaOptions {
-  /** Full service name with suffix (e.g., "AI Enablement & Team Training Services") */
+  /** Tab title before the site suffix (e.g., "AI Enablement: Adopt AI Across Your Organization") */
   serviceName: string;
   /** URL slug for the service (e.g., "ai-enablement") */
   slug: string;
@@ -26,7 +26,7 @@ export interface ServiceMetaOptions {
  * @example
  * ```ts
  * useServiceMeta({
- *   serviceName: "AI Enablement & Team Training Services",
+ *   serviceName: "AI Enablement: Adopt AI Across Your Organization",
  *   slug: "ai-enablement",
  *   description: "Practical AI adoption for your team...",
  *   ogDescription: "Help your team adopt AI effectively...",

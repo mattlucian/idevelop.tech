@@ -32,10 +32,10 @@ const formClasses = computed(() => {
 const serviceOptions = [
   "General Inquiry",
   "Integration Services",
-  "Tech Admin & Fractional CTO",
+  "Tech Admin",
   "AI Enablement",
   "eCommerce Operations",
-  "Web Design & Development",
+  "MCP Server Development",
   "Cloud & Infrastructure Consulting",
 ];
 
@@ -205,9 +205,9 @@ const handleSubmit = async () => {
 
 <template>
   <div :class="formClasses">
-    <h3 v-if="formTitle" class="text-xl font-bold text-white mb-5">
+    <p v-if="formTitle" class="text-xl font-bold text-white mb-5">
       {{ formTitle }}
-    </h3>
+    </p>
 
     <!-- Cookies Disabled Warning -->
     <div

@@ -9,57 +9,54 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
 
   // Hero Section
   hero: {
-    title: "Navigate the Cloud with Expert AWS Guidance",
+    title: "Get More From Your AWS Spend",
     subtitle:
-      "Practical AWS consulting for cost optimization, migration planning, and architecture reviews without hiring a full-time cloud team.",
+      "AWS reviews focused on lowering your bill, keeping it predictable, and improving performance, with each recommendation ranked by impact.",
     colorScheme: "cyan",
   },
 
-  // Tab Configuration
-  tabs: [
-    { id: "strategy", label: "Cloud Strategy" },
-    { id: "migration", label: "Migration Path" },
-    { id: "optimization", label: "Cost Optimization" },
-  ],
-
-  // Benefits Section
-  benefits: [
+  // What each engagement delivers
+  deliverables: [
     {
-      title: "7+ Years AWS Expertise",
-      description:
-        "Deep experience with EC2, ECS, Lambda, RDS, S3, VPC security, IAM policies, and CloudWatch monitoring.",
+      icon: "DocumentTextIcon",
+      title: "Ranked findings",
+      desc: "Each with the change and its estimated impact",
     },
     {
-      title: "Cost Optimization Expertise",
-      description:
-        "Identify waste, implement Reserved Instances and Savings Plans, configure auto-scaling without sacrificing performance.",
+      icon: "ChartBarIcon",
+      title: "Cost and performance baseline",
+      desc: "Today's numbers, so results can be measured",
     },
     {
-      title: "Low-Risk Migration Planning",
-      description:
-        "Cloud migration planning with clear rollback strategies, thorough testing, and monitoring setup.",
+      icon: "WrenchScrewdriverIcon",
+      title: "Implementation (optional)",
+      desc: "Implemented and tested, or handed to your team",
+    },
+    {
+      icon: "CheckCircleIcon",
+      title: "Before-and-after summary",
+      desc: "What changed, and its effect on cost and performance",
     },
   ],
 
-  expertiseBadge: {
-    title: "Supporting Millions of Daily Operations",
-    description:
-      "7+ years architecting and optimizing AWS infrastructure for high-traffic eCommerce platforms.",
-  },
-
-  // What I Offer / How It Works
-  whatIOffer: [
-    "7+ years AWS expertise across compute, storage, networking, and security services",
-    "Cloud migration support with minimal downtime and clear rollback strategies",
-    "Architecture reviews covering security, performance, disaster recovery, and compliance",
-    "Cost optimization through resource audits, Reserved Instances, and auto-scaling configuration",
-  ],
-
-  howItWorks: [
-    "Free consultation to assess your current infrastructure and cloud goals",
-    "Fixed-fee proposal based on scope (architecture review, migration, or optimization)",
-    "Regular updates with architecture diagrams, recommendations, and progress reports",
-    "Documentation and knowledge transfer for projects over 10 hours",
+  // AWS services grouped by area
+  awsServices: [
+    { area: "Compute", services: ["EC2", "ECS", "Fargate", "Lambda"] },
+    { area: "Data", services: ["RDS", "Aurora", "DynamoDB", "S3"] },
+    { area: "Network", services: ["VPC", "Route 53", "CloudFront", "IAM"] },
+    {
+      area: "Operations",
+      services: [
+        "CloudWatch",
+        "Cost Explorer",
+        "CloudFormation",
+        "CodePipeline",
+      ],
+    },
+    {
+      area: "Messaging",
+      services: ["SNS", "SQS", "ElastiCache", "Secrets Manager"],
+    },
   ],
 
   // Portfolio Section
@@ -79,6 +76,19 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
         logo: "/images/partners/inventorysource.gif",
         description: "Cloud-based eCommerce automation platform on AWS",
       },
+      {
+        name: "Lifestyle Laundry Club",
+        url: "https://lifestylelaundryclub.com",
+        logo: "/images/partners/llc-logo.png",
+        description:
+          "Built and deployed a pickup and delivery app for local laundry customers on AWS",
+      },
+      {
+        name: "Mr. Mochas Pet Supplies",
+        url: "https://mrmochaspet.com",
+        logo: "/images/partners/mrmochas-dark-logo.png",
+        description: "AWS hosting and infrastructure for a pet supply retailer",
+      },
     ],
     testimonial: {
       quote:
@@ -90,98 +100,9 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Optimize Your Cloud Infrastructure?",
+    title: "Want a Second Look at Your AWS Account?",
     subtitle:
-      "Let's discuss your AWS needs and how I can help reduce costs, improve performance, and support your cloud goals.",
+      "Let's talk about what you're running, what it costs, and where performance falls short.",
     buttonText: "Schedule a Free Consultation",
-  },
-
-  // Cloud Journey Visualizations
-  cloudJourneys: {
-    strategy: {
-      title: "Cloud Adoption Journey",
-      steps: [
-        {
-          icon: "MagnifyingGlassIcon",
-          label: "Assess",
-          description:
-            "Review current infrastructure, workload requirements, and cloud readiness",
-        },
-        {
-          icon: "DocumentTextIcon",
-          label: "Plan",
-          description:
-            "Design cloud architecture, select services, and create migration roadmap",
-        },
-        {
-          icon: "RocketLaunchIcon",
-          label: "Deploy",
-          description:
-            "Execute migration with minimal downtime and thorough testing",
-        },
-        {
-          icon: "ChartBarIcon",
-          label: "Optimize",
-          description:
-            "Monitor costs, right-size resources, and implement ongoing improvements",
-        },
-      ],
-    },
-    migration: {
-      title: "Low-Risk Migration Process",
-      steps: [
-        {
-          icon: "ChartBarIcon",
-          label: "Inventory",
-          description: "Map dependencies, data flows, and integration points",
-        },
-        {
-          icon: "BeakerIcon",
-          label: "Test Environment",
-          description:
-            "Set up AWS infrastructure and validate application compatibility",
-        },
-        {
-          icon: "ArrowPathIcon",
-          label: "Phased Migration",
-          description: "Move workloads in waves with clear rollback strategies",
-        },
-        {
-          icon: "CheckCircleIcon",
-          label: "Validation",
-          description:
-            "Performance testing, monitoring setup, and team training",
-        },
-      ],
-    },
-    optimization: {
-      title: "Cost Optimization Framework",
-      steps: [
-        {
-          icon: "MagnifyingGlassIcon",
-          label: "Audit",
-          description:
-            "Identify unused resources, oversized instances, and inefficient patterns",
-        },
-        {
-          icon: "LightBulbIcon",
-          label: "Recommendations",
-          description:
-            "Reserved Instances, Savings Plans, auto-scaling, and service alternatives",
-        },
-        {
-          icon: "Cog6ToothIcon",
-          label: "Implementation",
-          description:
-            "Apply optimizations with validation testing to ensure performance",
-        },
-        {
-          icon: "ChartBarIcon",
-          label: "Monitor",
-          description:
-            "Continuous cost tracking, alerts, and monthly optimization reviews",
-        },
-      ],
-    },
   },
 };
