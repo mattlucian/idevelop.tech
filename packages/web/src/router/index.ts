@@ -134,7 +134,7 @@ router.afterEach((to) => {
   // Check if Google Analytics is loaded
   if (typeof window.gtag === "undefined") return;
   // Wait for the new view to render so its useMeta has set document.title
-  void nextTick(() => {
+  nextTick(() => {
     window.gtag?.("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
       page_path: to.fullPath,
       page_title: document.title,
