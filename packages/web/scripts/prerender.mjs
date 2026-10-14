@@ -4,9 +4,10 @@
 // Crawlers and link previews that don't run JavaScript (LinkedIn, Slack, X,
 // most AI crawlers) otherwise see only index.html's homepage title and meta.
 // Each route is loaded in headless Chrome against `vite preview`, and the
-// rendered page is saved as dist/<route>.html, the file SST's CloudFront
-// router serves for an extensionless URL. The app still mounts normally on
-// top of it in the browser.
+// rendered page is saved as dist/<route>/index.html. SST's CloudFront router
+// treats each top-level dist folder as an S3 route and appends /index.html to
+// extensionless URLs under it. The app still mounts normally on top of the
+// saved page in the browser.
 //
 // The homepage is skipped: index.html already carries its meta and doubles as
 // the SPA fallback for unknown routes. Set PRERENDER=false to skip this step.
@@ -84,10 +85,10 @@ async function prerender() {
         console.error(`prerender: ${route} is missing ${missing.join(", ")}`);
       }
 
-      const file = join(dist, `${route}.html`);
+      const file = join(dist, route, "index.html");
       await mkdir(dirname(file), { recursive: true });
       await writeFile(file, html);
-      console.log(`prerender: ${route} -> dist${route}.html`);
+      console.log(`prerender: ${route} -> dist${route}/index.html`);
       await page.close();
     }
   } finally {

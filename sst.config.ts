@@ -146,6 +146,18 @@ export default $config({
       },
       transform: {
         cdn: {
+          // Prerendered pages create folders in dist (e.g. services/), which
+          // the router sends straight to S3. A missing key there returns 403;
+          // serve the app shell instead so the SPA router handles the URL
+          // (redirects like /services/web-design, and its own 404 page).
+          customErrorResponses: [
+            {
+              errorCode: 403,
+              responseCode: 200,
+              responsePagePath: "/index.html",
+              errorCachingMinTtl: 0,
+            },
+          ],
           // CloudFront response headers for security and performance
           responseHeadersPolicy: {
             customHeadersConfig: {
