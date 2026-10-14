@@ -52,7 +52,8 @@ const colorClasses = {
       >
         <picture>
           <source
-            :srcset="item.logo.replace(/\.(png|jpg)$/, '.webp')"
+            v-if="item.logoWebp"
+            :srcset="item.logoWebp"
             type="image/webp"
           />
           <img

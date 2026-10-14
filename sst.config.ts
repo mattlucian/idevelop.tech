@@ -70,6 +70,10 @@ export default $config({
         SES_FROM_EMAIL: "matt@idevelop.tech",
         SES_TO_EMAIL: "matt@idevelop.tech",
         STAGE: stage,
+        // Stable public URL (not content-hashed) so sent emails keep working
+        LOGO_URL: isProduction
+          ? "https://idevelop.tech/images/brand/logo-email.png"
+          : "https://dev.idevelop.tech/images/brand/logo-email.png",
 
         // New Relic observability configuration
         NEW_RELIC_LICENSE_KEY: newRelicLicenseKey.value,
@@ -138,6 +142,25 @@ export default $config({
       domain: isProduction
         ? { name: "idevelop.tech", redirects: ["www.idevelop.tech"] }
         : { name: "dev.idevelop.tech" },
+      assets: {
+        // Later entries take precedence. Only content-hashed build output is
+        // cached long term; everything else revalidates so a deploy shows up
+        // on the next load (images, sw.js, manifest, sitemap, robots).
+        fileOptions: [
+          {
+            files: "**",
+            cacheControl: "public,max-age=0,must-revalidate",
+          },
+          {
+            files: "assets/**",
+            cacheControl: "max-age=31536000,public,immutable",
+          },
+          {
+            files: "**/*.html",
+            cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
+          },
+        ],
+      },
       environment: {
         VITE_API_URL: $interpolate`${api.url}`,
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",
@@ -146,6 +169,18 @@ export default $config({
       },
       transform: {
         cdn: {
+          // Prerendered pages create folders in dist (e.g. services/), which
+          // the router sends straight to S3. A missing key there returns 403;
+          // serve the app shell instead so the SPA router handles the URL
+          // (redirects like /services/web-design, and its own 404 page).
+          customErrorResponses: [
+            {
+              errorCode: 403,
+              responseCode: 200,
+              responsePagePath: "/index.html",
+              errorCachingMinTtl: 0,
+            },
+          ],
           // CloudFront response headers for security and performance
           responseHeadersPolicy: {
             customHeadersConfig: {

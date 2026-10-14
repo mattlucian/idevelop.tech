@@ -32,7 +32,7 @@ Essential SEO implementation for all views in the idevelop.tech portfolio site.
 - Proper Open Graph and Twitter Card tags
 - Use application constants for all URLs
 
-**🔴 Prerendering:** `npm run build` runs `scripts/prerender.mjs` after `vite build`. It loads every route in `public/sitemap.xml` in headless Chrome and saves the rendered page as `dist/<route>.html`, which SST's CloudFront router serves for that URL. Crawlers and link previews that don't run JavaScript get each page's own title, meta, and content. Adding a public route (including a published article) to the sitemap is all that's needed. The homepage is served from `index.html` as before. `PRERENDER=false npm run build` skips the step.
+**🔴 Prerendering:** `npm run build` runs `scripts/prerender.mjs` after `vite build`. It loads every route in `public/sitemap.xml` in headless Chrome and saves the rendered page as `dist/<route>/index.html`, which SST's CloudFront router serves for that URL. CloudFront serves `index.html` (the app shell) when S3 returns 403, so unknown URLs under a prerendered folder still reach the SPA router. Crawlers and link previews that don't run JavaScript get each page's own title, meta, and content. Adding a public route (including a published article) to the sitemap is all that's needed. The homepage is served from `index.html` as before. `PRERENDER=false npm run build` skips the step.
 
 ---
 
