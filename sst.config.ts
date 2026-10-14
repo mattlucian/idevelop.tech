@@ -138,6 +138,25 @@ export default $config({
       domain: isProduction
         ? { name: "idevelop.tech", redirects: ["www.idevelop.tech"] }
         : { name: "dev.idevelop.tech" },
+      assets: {
+        // Later entries take precedence. Only content-hashed build output is
+        // cached long term; everything else revalidates so a deploy shows up
+        // on the next load (images, sw.js, manifest, sitemap, robots).
+        fileOptions: [
+          {
+            files: "**",
+            cacheControl: "public,max-age=0,must-revalidate",
+          },
+          {
+            files: "assets/**",
+            cacheControl: "max-age=31536000,public,immutable",
+          },
+          {
+            files: "**/*.html",
+            cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
+          },
+        ],
+      },
       environment: {
         VITE_API_URL: $interpolate`${api.url}`,
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",

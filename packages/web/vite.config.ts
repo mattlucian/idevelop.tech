@@ -13,6 +13,11 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     VitePWA({
+      // Self-destroying: the generated sw.js unregisters itself and reloads open
+      // tabs. A controlling service worker answers page loads before the server
+      // is contacted, so it could show visitors an older deploy. Hashed assets
+      // are already cached by the browser via immutable Cache-Control headers.
+      selfDestroying: true,
       registerType: "autoUpdate",
       includeAssets: ["images/**/*", "manifest.json", "robots.txt"],
       workbox: {
