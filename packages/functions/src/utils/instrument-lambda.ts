@@ -1,5 +1,19 @@
 import newrelic from "newrelic";
-import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import type {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyHandlerV2,
+  APIGatewayProxyResultV2,
+  Context,
+} from "aws-lambda";
+
+/**
+ * Async API Gateway handler. Narrower than APIGatewayProxyHandlerV2, which also
+ * allows callback-style handlers that return void.
+ */
+export type AsyncApiHandler = (
+  event: APIGatewayProxyEventV2,
+  context: Context,
+) => Promise<APIGatewayProxyResultV2>;
 
 /**
  * Wraps a Lambda handler with New Relic instrumentation and automatically
@@ -13,7 +27,7 @@ import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
  *
  * @example
  * ```typescript
- * const myHandler: APIGatewayProxyHandlerV2 = async (event) => {
+ * const myHandler: AsyncApiHandler = async (event) => {
  *   // Handler logic
  * };
  *
@@ -21,9 +35,9 @@ import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
  * ```
  */
 export function instrumentLambda(
-  handler: APIGatewayProxyHandlerV2,
+  handler: AsyncApiHandler,
 ): APIGatewayProxyHandlerV2 {
-  const instrumented: APIGatewayProxyHandlerV2 = async (event, context) => {
+  const instrumented: AsyncApiHandler = async (event, context) => {
     // Add custom attributes for filtering in New Relic
     newrelic.addCustomAttribute("environment", process.env.STAGE || "dev");
     newrelic.addCustomAttribute(

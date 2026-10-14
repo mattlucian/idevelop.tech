@@ -10,11 +10,11 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       # Wait for deployment to complete when testing deployed URLs
@@ -40,14 +40,14 @@ jobs:
 
       - name: Run Lighthouse CI
         id: lighthouse
-        uses: treosh/lighthouse-ci-action@v10
+        uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
             https://dev.idevelop.tech/
             https://dev.idevelop.tech/hire-me
             https://dev.idevelop.tech/tech
             https://dev.idevelop.tech/services/integration
-            https://dev.idevelop.tech/services/web-design
+            https://dev.idevelop.tech/services/mcp-development
           uploadArtifacts: false
           temporaryPublicStorage: true
           configPath: './lighthouserc-deployed.json'
