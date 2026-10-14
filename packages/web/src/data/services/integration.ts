@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { IntegrationServiceData } from "@/types/service";
 
 export const integrationServiceData: IntegrationServiceData = {
@@ -110,21 +111,21 @@ export const integrationServiceData: IntegrationServiceData = {
       {
         name: "Sage Intacct",
         url: "https://www.sage.com/en-us/sage-business-cloud/intacct/",
-        logo: "/images/partners/sageintacct.png",
+        ...partnerLogo("sageintacct.png"),
         description:
           "Integration target: eCommerce orders and accounting data synced into Sage Intacct",
       },
       {
         name: "Gordon Truck Centers",
         url: "https://gordontruckcenters.com",
-        logo: "/images/partners/gordontruckcenters_dark.png",
+        ...partnerLogo("gordontruckcenters_dark.png"),
         description:
           "Enterprise system integration for truck dealership operations",
       },
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "Built multiple supplier integrations and marketplace connections",
       },

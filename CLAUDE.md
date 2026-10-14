@@ -584,7 +584,9 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 
 **Image attribution workflow (packages/web/):**
 
-1. **Place image**: Add to appropriate `packages/web/public/` subdirectory
+1. **Place image**:
+   - 🔴 **Logos and images used by the site**: `packages/web/src/assets/images/{partners,platforms}/` (add a `.webp` copy next to `.png` files). Reference them with `partnerLogo("file.png")` / `platformLogo("file.png")` from `src/utils/imageAssets.ts`, never as `/images/...` strings. The build gives them content-hashed URLs, so they're cached long term and never stale after a deploy
+   - **Files referenced by a fixed URL from outside the site** (email logo, share image, favicons, app icons): `packages/web/public/images/brand/`. These keep stable URLs and are revalidated on each visit
 2. **Check attribution requirement**: If from Unsplash or third-party, attribution is MANDATORY
 3. **Update AttributionsView**: Add new `AttributionCard` to `packages/web/src/views/AttributionsView.vue`
    - Include: service/page name, image preview, description, photographer name + Unsplash link

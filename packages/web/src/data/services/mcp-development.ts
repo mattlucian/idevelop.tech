@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { McpDevelopmentServiceData } from "@/types/service";
 
 export const mcpDevelopmentServiceData: McpDevelopmentServiceData = {
@@ -65,7 +66,7 @@ export const mcpDevelopmentServiceData: McpDevelopmentServiceData = {
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "Planned and led development of the MCP server that lets Flxpoint customers connect AI agents to their operations data and actions",
       },

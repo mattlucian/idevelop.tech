@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { EcommerceOpsServiceData } from "@/types/service";
 
 export const ecommerceOpsServiceData: EcommerceOpsServiceData = {
@@ -94,39 +95,39 @@ export const ecommerceOpsServiceData: EcommerceOpsServiceData = {
       {
         name: "Fire Ballz",
         url: "https://fire-ballz.com/",
-        logo: "/images/partners/fire-ballz-logo.avif",
+        ...partnerLogo("fire-ballz-logo.avif"),
         description:
           "Built ecommerce automation processes to streamline operations",
       },
       {
         name: "Mr. Mochas Pet Supplies",
         url: "https://mrmochaspet.com",
-        logo: "/images/partners/mrmochas-dark-logo.png",
+        ...partnerLogo("mrmochas-dark-logo.png"),
         description: "Automated order processing and inventory management",
       },
       {
         name: "Volition America",
         url: "https://volitionamerica.com",
-        logo: "/images/partners/volition-america-dark.png",
+        ...partnerLogo("volition-america-dark.png"),
         description: "Multi-channel eCommerce operations automation",
       },
       {
         name: "Safari SA",
         url: "https://safarisa.net",
-        logo: "/images/partners/safarisa_net.avif",
+        ...partnerLogo("safarisa_net.avif"),
         description: "Streamlined eCommerce operations for optics retailer",
       },
       {
         name: "American Products 32",
         url: "https://americanproducts32.com",
-        logo: "/images/partners/ap32-logo-dark.png",
+        ...partnerLogo("ap32-logo-dark.png"),
         description:
           "Catalog and inventory sync from a product distributor to its retailers",
       },
       {
         name: "Masdun",
         url: "https://masdun.co.za",
-        logo: "/images/partners/masdun_co_za.avif",
+        ...partnerLogo("masdun_co_za.avif"),
         description:
           "eCommerce automation for frame and picture album business",
       },

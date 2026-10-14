@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { AIEnablementServiceData } from "@/types/service";
 
 export const aiEnablementServiceData: AIEnablementServiceData = {
@@ -47,14 +48,14 @@ export const aiEnablementServiceData: AIEnablementServiceData = {
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "Instruction sets and reference patterns for building and refactoring integrations with AI agents",
       },
       {
         name: "American Products 32",
         url: "https://americanproducts32.com",
-        logo: "/images/partners/ap32-logo-dark.png",
+        ...partnerLogo("ap32-logo-dark.png"),
         description:
           "AI skills and operational workflows for a product distributor",
       },

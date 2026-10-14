@@ -70,6 +70,10 @@ export default $config({
         SES_FROM_EMAIL: "matt@idevelop.tech",
         SES_TO_EMAIL: "matt@idevelop.tech",
         STAGE: stage,
+        // Stable public URL (not content-hashed) so sent emails keep working
+        LOGO_URL: isProduction
+          ? "https://idevelop.tech/images/brand/logo-email.png"
+          : "https://dev.idevelop.tech/images/brand/logo-email.png",
 
         // New Relic observability configuration
         NEW_RELIC_LICENSE_KEY: newRelicLicenseKey.value,
