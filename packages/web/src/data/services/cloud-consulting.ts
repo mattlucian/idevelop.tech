@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { CloudConsultingServiceData } from "@/types/service";
 
 export const cloudConsultingServiceData: CloudConsultingServiceData = {
@@ -66,27 +67,27 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "AWS infrastructure supporting millions of daily eCommerce operations",
       },
       {
         name: "Inventory Source",
         url: "https://inventorysource.com",
-        logo: "/images/partners/inventorysource.gif",
+        ...partnerLogo("inventorysource.gif"),
         description: "Cloud-based eCommerce automation platform on AWS",
       },
       {
         name: "Lifestyle Laundry Club",
         url: "https://lifestylelaundryclub.com",
-        logo: "/images/partners/llc-logo.png",
+        ...partnerLogo("llc-logo.png"),
         description:
           "Built and deployed a pickup and delivery app for local laundry customers on AWS",
       },
       {
         name: "Mr. Mochas Pet Supplies",
         url: "https://mrmochaspet.com",
-        logo: "/images/partners/mrmochas-dark-logo.png",
+        ...partnerLogo("mrmochas-dark-logo.png"),
         description: "AWS hosting and infrastructure for a pet supply retailer",
       },
     ],

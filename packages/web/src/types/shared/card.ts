@@ -24,7 +24,9 @@ export interface TimelineStep {
 export interface PortfolioItem {
   name: string;
   url: string;
+  /** Built image URL; see partnerLogo() in utils/imageAssets */
   logo: string;
+  logoWebp?: string;
   description: string;
 }
 

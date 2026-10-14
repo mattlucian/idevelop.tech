@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from "node:url";
 
+import { execSync } from "node:child_process";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueDevTools from "vite-plugin-vue-devtools";
@@ -7,16 +8,36 @@ import { VitePWA } from "vite-plugin-pwa";
 import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
+// Shown in the footer so a deploy can be confirmed by comparing it with the
+// latest commit
+function buildId(): string {
+  try {
+    return execSync("git rev-parse --short HEAD").toString().trim();
+  } catch {
+    return process.env.GITHUB_SHA?.slice(0, 7) ?? "local";
+  }
+}
+
 export default defineConfig({
+  define: {
+    __BUILD_ID__: JSON.stringify(buildId()),
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+  },
   plugins: [
     tailwindcss(),
     vue(),
     vueDevTools(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["images/**/*", "manifest.json", "robots.txt"],
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,webp,svg,jpg}"],
+        // Pages always come from the network so visitors get the latest deploy.
+        // Only content-hashed build output is precached: a new deploy has new
+        // filenames, so cached files can't be stale. Images and other public
+        // files use the browser cache, which revalidates them on each visit.
+        navigateFallback: null,
+        globPatterns: ["assets/**/*"],
+        // One-time reload for visitors moving off the previous cache-first worker
+        importScripts: ["/sw-handover.js"],
         runtimeCaching: [
           {
             // Cache Google Fonts stylesheets

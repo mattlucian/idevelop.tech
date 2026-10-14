@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { platformLogo } from "@/utils/imageAssets";
+import type { LogoUrls } from "@/utils/imageAssets";
 import { useRouter } from "vue-router";
 import { useServiceConfig } from "../composables/useServiceConfig";
 import { useMeta } from "../composables/useMeta";
@@ -9,36 +11,42 @@ import PrimaryRouterLink from "../components/elements/buttons/PrimaryRouterLink.
 import { SITE } from "@/constants";
 
 // Platform data
-const platforms = [
+interface Platform extends LogoUrls {
+  name: string;
+  description: string;
+  link?: string;
+}
+
+const platforms: Platform[] = [
   {
     name: "AWS",
-    logo: "/images/platforms/aws-logo.png",
+    ...platformLogo("aws-logo.png"),
     description: "Cloud infrastructure and serverless architecture",
   },
   {
     name: "DataDog",
-    logo: "/images/platforms/datadog-logo.png",
+    ...platformLogo("datadog-logo.png"),
     description: "Application monitoring and observability",
   },
   {
     name: "Jira",
-    logo: "/images/platforms/atlassian-logo.png",
+    ...platformLogo("atlassian-logo.png"),
     description: "Project management and agile workflows",
   },
   {
     name: "Flxpoint",
-    logo: "/images/platforms/flxpoint-logo.webp",
+    ...platformLogo("flxpoint-logo.webp"),
     description: "Order and inventory management integrations",
     link: "/flxpoint-consulting",
   },
   {
     name: "Shopify",
-    logo: "/images/platforms/shopify-logo.png",
+    ...platformLogo("shopify-logo.png"),
     description: "Ecommerce platform development and customization",
   },
   {
     name: "GitHub",
-    logo: "/images/platforms/github-logo.png",
+    ...platformLogo("github-logo.png"),
     description: "Version control and collaborative development",
   },
 ];
@@ -168,7 +176,8 @@ useMeta({
                   <div class="h-10 flex items-center justify-center">
                     <picture>
                       <source
-                        :srcset="platform.logo.replace(/\.(png|jpg)$/, '.webp')"
+                        v-if="platform.logoWebp"
+                        :srcset="platform.logoWebp"
                         type="image/webp"
                       />
                       <img

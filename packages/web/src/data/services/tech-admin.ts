@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { TechAdminServiceData } from "@/types/service";
 
 export const techAdminServiceData: TechAdminServiceData = {
@@ -27,35 +28,35 @@ export const techAdminServiceData: TechAdminServiceData = {
       {
         name: "Volition America",
         url: "https://volitionamerica.com",
-        logo: "/images/partners/volition-america-dark.png",
+        ...partnerLogo("volition-america-dark.png"),
         description:
           "Patriotic eCommerce brand leveraging multiple backend tech systems",
       },
       {
         name: "Mr. Mochas Pet Supplies",
         url: "https://mrmochaspet.com",
-        logo: "/images/partners/mrmochas-dark-logo.png",
+        ...partnerLogo("mrmochas-dark-logo.png"),
         description:
           "Healthy Pet Supplies eCommerce brand with physical storefront",
       },
       {
         name: "Safari SA",
         url: "https://safarisa.net",
-        logo: "/images/partners/safarisa_net.avif",
+        ...partnerLogo("safarisa_net.avif"),
         description:
           "Technical administration for Optics & Safari Products provider",
       },
       {
         name: "Lifestyle Laundry Club",
         url: "https://lifestylelaundryclub.com",
-        logo: "/images/partners/llc-logo.png",
+        ...partnerLogo("llc-logo.png"),
         description:
           "Technical administration and a custom pickup and delivery app for a local laundry service",
       },
       {
         name: "American Products 32",
         url: "https://americanproducts32.com",
-        logo: "/images/partners/ap32-logo-dark.png",
+        ...partnerLogo("ap32-logo-dark.png"),
         description:
           "Technical administration and reporting for a product distributor",
       },

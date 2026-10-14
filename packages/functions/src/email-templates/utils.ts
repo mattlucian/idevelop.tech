@@ -7,10 +7,12 @@ import { readFileSync } from "fs";
 import { join } from "path";
 
 /**
- * Logo URL for email templates
- * Uses production CDN URL for reliable email delivery
+ * Logo URL for email templates. Pre-colored teal PNG: email clients ignore
+ * CSS filters, so a recolored black logo rendered black on the dark header.
+ * Set per stage in sst.config.ts; defaults to the production site.
  */
-const LOGO_URL = process.env.LOGO_URL || "https://idevelop.tech/images/brand/logo-black.png";
+const LOGO_URL =
+  process.env.LOGO_URL || "https://idevelop.tech/images/brand/logo-email.png";
 
 /**
  * Color scheme matching site design

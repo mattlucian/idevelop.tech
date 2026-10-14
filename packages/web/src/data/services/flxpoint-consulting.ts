@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { FlxpointConsultingData } from "@/types/service";
 
 export const flxpointConsultingData: FlxpointConsultingData = {
@@ -163,28 +164,28 @@ export const flxpointConsultingData: FlxpointConsultingData = {
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "Former CTO: Led platform architecture, enterprise implementations, and integration development",
       },
       {
         name: "Inventory Source",
         url: "https://inventorysource.com",
-        logo: "/images/partners/inventorysource.gif",
+        ...partnerLogo("inventorysource.gif"),
         description:
           "Built supplier network integrations for dropshipping and inventory management",
       },
       {
         name: "American Products 32",
         url: "https://americanproducts32.com",
-        logo: "/images/partners/ap32-logo-dark.png",
+        ...partnerLogo("ap32-logo-dark.png"),
         description:
           "Flxpoint operations, reporting, and AI workflows for a product distributor",
       },
       {
         name: "Volition America",
         url: "https://volitionamerica.com",
-        logo: "/images/partners/volition-america-dark.png",
+        ...partnerLogo("volition-america-dark.png"),
         description:
           "Flxpoint setup and operations for a multi-channel eCommerce brand",
       },
