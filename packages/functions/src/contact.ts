@@ -1,4 +1,3 @@
-import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
@@ -16,6 +15,7 @@ import type {
 } from "@idevelop-tech/core";
 import { renderContactConfirmation } from "./email-templates/utils";
 import { instrumentLambda } from "./utils/instrument-lambda";
+import type { AsyncApiHandler } from "./utils/instrument-lambda";
 
 // AWS Clients
 const dynamoClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
@@ -469,11 +469,10 @@ async function sendInitialContactEmail(
   }
 }
 
-
 /**
  * Main Lambda handler (wrapped with New Relic APM instrumentation)
  */
-const contactHandler: APIGatewayProxyHandlerV2 = async (event) => {
+const contactHandler: AsyncApiHandler = async (event) => {
   const requestId = crypto.randomUUID();
 
   console.log("Contact form submission received:", {
