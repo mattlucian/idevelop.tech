@@ -13,15 +13,16 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     VitePWA({
-      // Self-destroying: the generated sw.js unregisters itself and reloads open
-      // tabs. A controlling service worker answers page loads before the server
-      // is contacted, so it could show visitors an older deploy. Hashed assets
-      // are already cached by the browser via immutable Cache-Control headers.
-      selfDestroying: true,
       registerType: "autoUpdate",
-      includeAssets: ["images/**/*", "manifest.json", "robots.txt"],
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,webp,svg,jpg}"],
+        // Pages always come from the network so visitors get the latest deploy.
+        // Only content-hashed build output is precached: a new deploy has new
+        // filenames, so cached files can't be stale. Images and other public
+        // files use the browser cache, which revalidates them on each visit.
+        navigateFallback: null,
+        globPatterns: ["assets/**/*"],
+        // One-time reload for visitors moving off the previous cache-first worker
+        importScripts: ["/sw-handover.js"],
         runtimeCaching: [
           {
             // Cache Google Fonts stylesheets
