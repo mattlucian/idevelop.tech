@@ -7,9 +7,7 @@ import {
   BeakerIcon,
   ArrowPathIcon,
   CheckCircleIcon,
-  LightBulbIcon,
   Cog6ToothIcon,
-  PaintBrushIcon,
   CodeBracketIcon,
   WrenchScrewdriverIcon,
   LinkIcon,
@@ -21,6 +19,13 @@ import {
   TruckIcon,
   ClockIcon,
   UserGroupIcon,
+  ServerStackIcon,
+  BoltIcon,
+  CommandLineIcon,
+  TagIcon,
+  BuildingStorefrontIcon,
+  CalculatorIcon,
+  ArrowsRightLeftIcon,
 } from "@heroicons/vue/24/outline";
 
 /**
@@ -35,9 +40,7 @@ export const iconMap: Record<string, Component> = {
   BeakerIcon,
   ArrowPathIcon,
   CheckCircleIcon,
-  LightBulbIcon,
   Cog6ToothIcon,
-  PaintBrushIcon,
   CodeBracketIcon,
   WrenchScrewdriverIcon,
   LinkIcon,
@@ -49,6 +52,13 @@ export const iconMap: Record<string, Component> = {
   TruckIcon,
   ClockIcon,
   UserGroupIcon,
+  ServerStackIcon,
+  BoltIcon,
+  CommandLineIcon,
+  TagIcon,
+  BuildingStorefrontIcon,
+  CalculatorIcon,
+  ArrowsRightLeftIcon,
 };
 
 /**
@@ -57,4 +67,16 @@ export const iconMap: Record<string, Component> = {
  */
 export function getIconByName(iconName: string): Component | undefined {
   return iconMap[iconName];
+}
+
+/**
+ * Resolve each item's icon name to its component, keeping the other fields
+ */
+export function withIcons<T extends { icon: string }>(
+  items: T[],
+): (T & { iconComponent: Component | undefined })[] {
+  return items.map((item) => ({
+    ...item,
+    iconComponent: getIconByName(item.icon),
+  }));
 }

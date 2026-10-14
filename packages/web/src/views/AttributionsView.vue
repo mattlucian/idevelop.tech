@@ -19,15 +19,15 @@ useMeta({
 // Attribution data
 const attributions: Attribution[] = [
   {
-    title: "Web Design",
-    imageUrl: "https://images.unsplash.com/photo-1542744173-b3cd6377db95",
-    imageAlt: "Silver iMac displaying design work",
-    description: "Silver iMac displaying design work on screen",
-    photographer: "Tran Mau Tri Tam ✪",
+    title: "MCP Server Development",
+    imageUrl: "https://images.unsplash.com/photo-1683322499436-f4383dd59f5a",
+    imageAlt: "Blue network cables connected to each other",
+    description: "Blue network cables connected to each other",
+    photographer: "Scott Rodgerson",
     photographerUrl:
-      "https://unsplash.com/@tranmautritam?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
+      "https://unsplash.com/@scottrodgerson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
     photoUrl:
-      "https://unsplash.com/photos/a-desk-with-two-computer-monitors-and-a-keyboard-pd-Hekt6naQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
+      "https://unsplash.com/photos/a-bunch-of-blue-wires-connected-to-each-other-PSpf_XgOM5w?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
   },
   {
     title: "Tech Admin",

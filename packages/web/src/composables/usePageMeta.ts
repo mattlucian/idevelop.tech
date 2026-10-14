@@ -15,7 +15,7 @@ export interface PageMetaOptions {
   ogDescription: string;
   /** Base path (default: '/') */
   basePath?: string;
-  /** Custom OG image filename (default: 'og-image-{slug}.jpg') */
+  /** Custom OG image URL (default: the site-wide share image) */
   ogImage?: string;
   /** Twitter card type (default: 'summary_large_image') */
   twitterCard?: "summary" | "summary_large_image";
@@ -55,7 +55,7 @@ export function usePageMeta(options: PageMetaOptions): void {
   const url = basePath
     ? `${SITE.url}${basePath}/${slug}`
     : `${SITE.url}/${slug}`;
-  const image = ogImage || `${SITE.url}/og-image-${slug}.jpg`;
+  const image = ogImage ?? SITE.ogImage;
 
   useMeta({
     title: fullTitle,

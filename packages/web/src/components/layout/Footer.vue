@@ -46,12 +46,6 @@ import { CONTACT, SITE } from "@/constants";
             Code
           </a>
           <router-link
-            to="/components"
-            class="text-gray-400 hover:text-teal-400 transition-colors"
-          >
-            Components
-          </router-link>
-          <router-link
             to="/privacy"
             class="text-gray-400 hover:text-teal-400 transition-colors"
           >

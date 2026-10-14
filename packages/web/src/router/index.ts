@@ -1,3 +1,4 @@
+import { nextTick } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { logger } from "@/utils/logger";
 
@@ -51,9 +52,14 @@ const router = createRouter({
       component: () => import("../views/services/EcommerceOpsServiceView.vue"),
     },
     {
+      path: "/services/mcp-development",
+      name: "mcp-development-service",
+      component: () =>
+        import("../views/services/McpDevelopmentServiceView.vue"),
+    },
+    {
       path: "/services/web-design",
-      name: "web-design-service",
-      component: () => import("../views/services/WebDesignServiceView.vue"),
+      redirect: "/",
     },
     {
       path: "/services/cloud-consulting",
@@ -67,14 +73,14 @@ const router = createRouter({
       component: () => import("../views/FlxpointConsultingView.vue"),
     },
     {
+      path: "/notes/:slug",
+      name: "article",
+      component: () => import("../views/ArticleView.vue"),
+    },
+    {
       path: "/hire-me",
       name: "hire-me",
       component: () => import("../views/HireMeView.vue"),
-    },
-    {
-      path: "/components",
-      name: "components",
-      component: () => import("../views/ComponentView.vue"),
     },
     {
       path: "/tech",
@@ -126,13 +132,14 @@ router.onError((error) => {
 // Only sends pageviews if GA is loaded (user accepted analytics cookies)
 router.afterEach((to) => {
   // Check if Google Analytics is loaded
-  if (typeof window.gtag !== "undefined") {
-    // Send pageview event for the new route
-    window.gtag("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
+  if (typeof window.gtag === "undefined") return;
+  // Wait for the new view to render so its useMeta has set document.title
+  nextTick(() => {
+    window.gtag?.("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
       page_path: to.fullPath,
       page_title: document.title,
     });
-  }
+  });
 });
 
 export default router;

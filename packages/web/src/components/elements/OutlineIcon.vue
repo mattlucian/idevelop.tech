@@ -4,7 +4,7 @@ import type { Component } from "vue";
 interface Props {
   icon: Component;
   size?: "sm" | "md" | "lg" | "xl";
-  color?: "cyan" | "purple" | "emerald" | "slate" | "white";
+  color?: "cyan" | "purple" | "emerald" | "orange" | "slate" | "white";
   className?: string;
 }
 
@@ -25,6 +25,7 @@ const colorClasses = {
   cyan: "text-cyan-400",
   purple: "text-purple-400",
   emerald: "text-emerald-400",
+  orange: "text-orange-400",
   slate: "text-slate-400",
   white: "text-white",
 };

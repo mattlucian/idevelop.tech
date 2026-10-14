@@ -58,8 +58,8 @@ const selectService = (serviceName: string) => {
     router.push({ name: "ai-enablement-service" });
   } else if (serviceName === "ecommerce-ops") {
     router.push({ name: "ecommerce-ops-service" });
-  } else if (serviceName === "web-design") {
-    router.push({ name: "web-design-service" });
+  } else if (serviceName === "mcp-development") {
+    router.push({ name: "mcp-development-service" });
   } else if (serviceName === "cloud-consulting") {
     router.push({ name: "cloud-consulting-service" });
   } else {
@@ -72,10 +72,10 @@ const selectService = (serviceName: string) => {
 useMeta({
   title: "I Develop Tech - Technical Consulting Services",
   description:
-    "Expert technical consulting for cloud infrastructure, AI enablement, systems integration, eCommerce operations, and web design. Affordable, on-demand tech expertise without full-time costs.",
+    "Technical consulting for AI adoption, MCP servers, systems integration, eCommerce operations, tech stack strategy, and AWS. Project-based or on a monthly retainer.",
   ogTitle: "I Develop Tech - Technical Consulting Services",
   ogDescription:
-    "Expert technical consulting for cloud infrastructure, AI enablement, systems integration, and more. Affordable, on-demand tech expertise.",
+    "Technical consulting for AI adoption, MCP servers, systems integration, eCommerce operations, and AWS.",
   ogUrl: `${SITE.url}/`,
   ogImage: SITE.ogImage,
 });

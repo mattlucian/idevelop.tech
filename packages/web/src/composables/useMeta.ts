@@ -1,4 +1,4 @@
-import { onUnmounted } from "vue";
+import { SITE } from "@/constants";
 
 export interface MetaOptions {
   title?: string;
@@ -13,23 +13,24 @@ export interface MetaOptions {
 /**
  * Composable for managing document meta tags
  * Updates title, description, Open Graph, and Twitter Card tags
+ *
+ * No unmount cleanup: on route change the next view's setup runs before the
+ * previous view unmounts, so restoring here would overwrite the new page's
+ * title and tags. Each routed view sets its own meta instead.
  */
 export function useMeta(options: MetaOptions) {
-  const originalTitle = document.title;
-  const createdTags: HTMLMetaElement[] = [];
-
   // Helper to set or update a meta tag
   const setMetaTag = (name: string, content: string, useProperty = false) => {
     const attribute = useProperty ? "property" : "name";
-    let tag = document.querySelector(
-      `meta[${attribute}="${name}"]`,
-    ) as HTMLMetaElement;
+    // index.html declares twitter:* with `property`, so match either attribute
+    let tag = document.querySelector<HTMLMetaElement>(
+      `meta[name="${name}"], meta[property="${name}"]`,
+    );
 
     if (!tag) {
       tag = document.createElement("meta");
       tag.setAttribute(attribute, name);
       document.head.appendChild(tag);
-      createdTags.push(tag);
     }
 
     tag.setAttribute("content", content);
@@ -62,6 +63,20 @@ export function useMeta(options: MetaOptions) {
     setMetaTag("og:url", options.ogUrl, true);
   }
 
+  // Canonical URL follows the page; index.html's default points at the homepage
+  let canonical = document.querySelector<HTMLLinkElement>(
+    'link[rel="canonical"]',
+  );
+  if (!canonical) {
+    canonical = document.createElement("link");
+    canonical.setAttribute("rel", "canonical");
+    document.head.appendChild(canonical);
+  }
+  canonical.setAttribute(
+    "href",
+    options.ogUrl ?? `${SITE.url}${window.location.pathname}`,
+  );
+
   // Always set og:type for pages
   setMetaTag("og:type", "website", true);
 
@@ -80,10 +95,4 @@ export function useMeta(options: MetaOptions) {
   if (options.ogImage) {
     setMetaTag("twitter:image", options.ogImage);
   }
-
-  // Cleanup on unmount: restore original title and remove created tags
-  onUnmounted(() => {
-    document.title = originalTitle;
-    createdTags.forEach((tag) => tag.remove());
-  });
 }

@@ -1,23 +1,14 @@
 <script setup lang="ts">
-// This component displays a detailed field-by-field entity mapping example
-// showing how data transforms from one system to another with direct mappings,
-// lookups, and custom business rules
+// Field-by-field mapping example: direct mappings, lookups, and custom rules
+import ContentSection from "../ui/ContentSection.vue";
 </script>
 
 <template>
-  <!-- Detailed Entity Mapping Example -->
-  <div class="max-w-5xl mx-auto px-6 py-16">
-    <!-- Section Header -->
-    <div class="text-center mb-12">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-        Transparent Data Mapping
-      </h2>
-      <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-        See exactly how your data transforms between systems. Every field
-        mapping is documented and configurable.
-      </p>
-    </div>
-
+  <ContentSection
+    banded
+    title="Field Mapping You Can Read"
+    subtitle="Each field is documented, including lookups and business rules, so your team can see how data changes between systems and adjust it later."
+  >
     <!-- Entity Mapping Container -->
     <div
       class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
@@ -439,5 +430,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </ContentSection>
 </template>
