@@ -1,5 +1,5 @@
 // Logos live in src/assets/images so the build gives them content-hashed URLs
-// (cached long term and by the service worker, never stale after a deploy).
+// (cached long term by browsers, never stale after a deploy).
 // Files referenced by a fixed URL from outside the site (email logo, share
 // image, favicons, app icons) stay in public/images/brand instead.
 const imageUrls = import.meta.glob<string>("../assets/images/**/*", {
