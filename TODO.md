@@ -53,9 +53,9 @@ All 15 critical issues resolved with ESLint rules enabled.
 ---
 
 ### Service Worker & PWA
-**Status**: ✅ **COMPLETE**
+**Status**: Removed (2026-10)
 
-Suppressed install prompt while maintaining PWA benefits.
+The cache-first service worker served pages without checking the server, so visitors saw the previous deploy. Replaced by plain HTTP caching (pages `no-store`, hashed assets immutable). `public/sw.js` only retires the old worker in returning visitors' browsers; delete it once those registrations have aged out (2027).
 
 ---
 
