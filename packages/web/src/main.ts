@@ -6,9 +6,7 @@ import App from "./App.vue";
 import router from "./router";
 import { logger } from "./utils/logger";
 
-// Prevent aggressive PWA install prompt (industry best practice)
-// Service worker still provides offline caching and performance benefits
-// Users can install via browser menu (Chrome: address bar, Safari: Share menu)
+// Suppress the browser's install prompt that manifest.json can trigger
 let _deferredPrompt: BeforeInstallPromptEvent | null = null;
 
 interface BeforeInstallPromptEvent extends Event {
