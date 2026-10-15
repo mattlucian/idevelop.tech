@@ -78,9 +78,26 @@
 ├── cards/           # Card-based components
 ├── ui/              # Complex UI components
 ├── display/         # Data display components
-├── layout/          # Global layout components (Navigation, Footer)
-└── integration/     # Integration-specific visualizations
+├── layout/          # Global layout (Navigation, Footer, ServicePageLayout)
+└── {feature}/       # One folder per service page's sections:
+                     # ai-enablement/, mcp/, integration/, tech-admin/,
+                     # ecommerce/, cloud/, flxpoint/
 ```
+
+**Shared building blocks for service pages** (use these before writing new markup):
+
+| Component | Folder | Use |
+|---|---|---|
+| `ServicePageLayout` | `layout/` | Breadcrumb, hero with contact form, portfolio, and CTA around a page's sections |
+| `ContentSection` | `ui/` | Section shell: heading (title, subtitle, eyebrow), width, padding, optional `banded` background |
+| `SectionHeading` | `elements/` | Centered section heading on its own |
+| `VisualFeatureCard` | `cards/` | Icon, title, description, and a mini mockup slot (`visualLabel` for screen readers, `#footer` for links) |
+| `Pill` | `elements/badges/` | Small status or label chip with a color tone |
+| `FlowArrow` | `elements/` | Arrow between steps: right on desktop, down on mobile |
+| `CalloutStrip` | `elements/` | Dashed note under a diagram |
+| `SegmentedToggle` | `elements/` | Two or three option toggle (`aria-pressed` buttons) |
+
+Feature-folder components hold their example data inline; page copy that an owner edits stays in the data file.
 
 **Naming conventions:**
 

@@ -70,6 +70,6 @@ jobs:
           echo "- Hire Me page" >> $GITHUB_STEP_SUMMARY
           echo "- Tech page" >> $GITHUB_STEP_SUMMARY
           echo "- Integration service page" >> $GITHUB_STEP_SUMMARY
-          echo "- Web Design service page" >> $GITHUB_STEP_SUMMARY
+          echo "- MCP Server Development service page" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "> **Note:** This workflow runs in informational mode and will not block based on scores." >> $GITHUB_STEP_SUMMARY

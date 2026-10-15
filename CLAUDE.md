@@ -414,6 +414,19 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
   - Start directly with value proposition instead
   - ❌ Bad: "Stop settling for cookie-cutter templates" or "Stop copying data between systems"
   - ✅ Good: "Professional, custom design tailored to your brand" or "Automate data flows between systems"
+- ✅ **Plain, descriptive headings** - Titles and subtitles read as normal phrases, not slogans
+  - Avoid comma-chained cadence: "Fixed Fee, Scoped Up Front", "Your Store, Your Register, and Your Books"
+  - Avoid "good thing, not bad thing" constructions: "...starts from your priorities, not a fixed package"
+  - Avoid clipped punchy sentences and informal labels: "What You Walk Away With", "Decisions Like These"
+  - ✅ Good: "In-Store POS Connected to Your Online Store and Accounting", "Analysis and Recommendations", "Deliverables"
+  - When fixing one instance, sweep every page for the same pattern
+- ✅ **Describe retainer scope accurately** - Retainers are typically around 10 hours a month
+  - Don't promise leadership or ownership ("Fractional CTO", "technical lead", "someone to own your stack")
+  - Don't imply day-to-day or always-available support
+  - Don't state an hour cap; describe a typical month and say busier months depend on the work
+  - ✅ Good: clarity (stack mapping, workflows, gaps), a roadmap built on the client's priorities, hands-on help
+- ✅ **Label example data** - Numbers in mockups (costs, savings, counts) are illustrative; mark charts "Example" and never present them as client results
+- ✅ **Show a range of help, not one client's use case** - Present problems as examples ("Common Challenges", "Where Clients Start") so visitors with different needs see themselves
 
 **Content review checklist:**
 
@@ -433,6 +446,9 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 - [ ] No absolute quantifiers (avoid "all", "every", "any", "exactly" unless truly accurate)
 - [ ] No technical promises (avoid "real-time", "instant", "immediate", "zero downtime", "100% uptime")
 - [ ] No casual imperatives (avoid "Stop...", "Don't wait", specific examples: "Stop settling", "Stop guessing", "Stop juggling", "Stop copying")
+- [ ] Headings are plain phrases (no comma-chained slogans, no "X, not Y", no informal labels)
+- [ ] Retainer copy promises no leadership, ownership, day-to-day availability, or hour caps
+- [ ] Example numbers in mockups are labeled as examples
 
 **Why this matters**: Authentic, actionable content builds trust. Over-promising damages credibility and creates unrealistic expectations.
 
@@ -565,8 +581,8 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 **Data structure and content rules (packages/web/):**
 
 - ✅ **Service data**: TypeScript files in `packages/web/src/data/services/*.ts`
-  - Follow `ServicePageData` type from `packages/web/src/types/servicePage.ts`
-- ✅ **Tech data**: JSON file `packages/web/src/data/tech.json`
+  - Typed with an interface extending `ServicePageBase` from `packages/web/src/types/service.ts`
+- ✅ **Tech data**: TypeScript file `packages/web/src/data/tech.ts`
   - Follow `TechContent` type from `packages/web/src/types/tech.ts`
 - ✅ **Use constants from `packages/web/src/constants/index.ts`**:
   - Never hardcode: URLs, contact info, site config, scheduling links
@@ -586,7 +602,7 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 
 1. **Place image**:
    - 🔴 **Logos and images used by the site**: `packages/web/src/assets/images/{partners,platforms}/` (add a `.webp` copy next to `.png` files). Reference them with `partnerLogo("file.png")` / `platformLogo("file.png")` from `src/utils/imageAssets.ts`, never as `/images/...` strings. The build gives them content-hashed URLs, so they're cached long term and never stale after a deploy
-   - **Files referenced by a fixed URL from outside the site** (email logo, share image, favicons, app icons): `packages/web/public/images/brand/`. These keep stable URLs and are revalidated on each visit
+   - **Files referenced by a fixed URL from outside the site** (email logo, share image, favicons, `apple-touch-icon`): `packages/web/public/images/brand/`. These keep stable URLs and are revalidated on each visit
 2. **Check attribution requirement**: If from Unsplash or third-party, attribution is MANDATORY
 3. **Update AttributionsView**: Add new `AttributionCard` to `packages/web/src/views/AttributionsView.vue`
    - Include: service/page name, image preview, description, photographer name + Unsplash link
@@ -598,24 +614,31 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 
 ### When Creating Service Pages
 
-**Service detail page workflow (packages/web/):**
+**Service page workflow (packages/web/):**
 
-1. **Create data file**: `packages/web/src/data/services/{service-name}.ts`
-   - Export `ServicePageData` object
-   - Follow type schema from `packages/web/src/types/servicePage.ts`
-2. **Create view component**: `packages/web/src/views/services/{ServiceName}ServiceView.vue`
-   - Use `ServiceSection` component with `variant` prop (hero/benefits/process/portfolio/testimonials)
-   - Add `BreadcrumbNav` for navigation
-   - Support mobile/desktop responsive layouts
-3. **Add route**: Update `packages/web/src/router/index.ts` with new route
-   - Path: `/services/{service-name}`
-   - Component: lazy-loaded view
-4. **Update service config**: Add to service list if needed
+1. **Data file**: `src/data/services/{service-name}.ts`
+   - Interface in `src/types/service.ts` extending `ServicePageBase` (breadcrumbs, hero, portfolio, cta) plus page-specific fields
+   - Logos via `partnerLogo()` (see "When Adding Images")
+2. **View**: `src/views/services/{ServiceName}ServiceView.vue`
+   - Wrap sections in `ServicePageLayout` (breadcrumb, hero with contact form, portfolio, CTA)
+   - `useServiceMeta` with a tab title of the form "Service Name: Main Message"
+3. **Sections**: one component per section in `src/components/{service}/`, built on `ContentSection` (title, subtitle, eyebrow, `banded`). Alternate `banded` between consecutive sections
+4. **Route, sitemap, card**: lazy route in `src/router/index.ts`; add the URL to `public/sitemap.xml` (the build prerenders sitemap routes); card in `src/data/services.ts`; Offer entry in `index.html` JSON-LD
+
+**🔴 Design approach: visual and scan-first**
+
+- Each section makes one point with a small mockup (flow, checklist, mini dashboard, table) instead of paragraphs or bullet lists
+- Order from high-level to detail: who it's for and the value, then how it works, then examples, then proof
+- Process sections are specific to the offering. No generic Consult / Scope / Build / Hand Off row
+- Design each page for its offering; don't copy another page's layout with new text
+- Keep real text in headings, subtitles, and descriptions with the terms people search for. Mockups alone don't rank
+- Content cut for readability goes in `planning/` (git-excluded) for later articles, not deleted outright
 
 **References**:
 
 - `docs/frontend/DATA-STRUCTURE.md` - Service data type schemas
-- `docs/frontend/COMPONENT-RULES.md` - Component creation patterns
+- `docs/frontend/COMPONENT-RULES.md` - Shared section components
+- `docs/frontend/SEO.md` - Meta tags, sitemap, prerendering
 
 ---
 
@@ -701,23 +724,28 @@ const template = readFileSync(
 
 ### When Working with SST Config
 
-**SST configuration patterns (root sst.config.ts):**
+**Frontend hosting rules (`sst.config.ts`, `sst.aws.StaticSite`):**
 
-_To be documented in Phase 3 when adding infrastructure_
+- 🔴 **No service worker or PWA caching.** A cache-first service worker serves pages without contacting the server, so visitors see old deploys. Don't add `vite-plugin-pwa` or any worker that handles page loads. `public/sw.js` only retires the worker earlier versions installed; delete it in 2027
+- **Caching** (`assets.fileOptions`): HTML and `version.json` are `no-store`; content-hashed `assets/**` are immutable for a year; everything else revalidates on each request. Every page load gets the current deploy
+- **Prerendering**: `npm run build` runs `packages/web/scripts/prerender.mjs`, which renders each `public/sitemap.xml` route to `dist/<route>/index.html`
+- **Routing**: SST's CloudFront function sends each top-level `dist` folder straight to S3. The `edge.viewerRequest.injection` rewrites page URLs that aren't prerendered to `/` (the app shell)
+  - 🔴 Don't use CloudFront `customErrorResponses`: error-page fetches skip the routing function and return 502 whenever the edge cache is cold
+  - The injection is a template literal, so `\/` becomes `/`. Avoid backslash escapes, and test the generated code, not the source text
+- **Open tabs across a deploy**: each build writes `/version.json`. `utils/deployCheck.ts` checks it on in-app navigation and loads the destination as a full page when a newer build is live
+- **Deploy workflows** use a per-stage `concurrency` group, so overlapping deploys queue instead of failing on SST's lock
+- 🔴 **Check SST's behavior before relying on it.** Before changing build output, routing, or caching, read SST's implementation in `.sst/platform/src/components/aws/` (`static-site.ts`, `router.ts`), then simulate it locally: build, run a Node script that applies the same routing rules to a list of URLs, and confirm each resolves to a file in `packages/web/dist/`. This only reads local files. Never use `sst deploy` or `sst dev` to try out an infrastructure change
 
-**Planned components:**
+**Verifying a deploy:**
 
-- S3 + CloudFront for static hosting
-- API Gateway + Lambda for backend
-- DynamoDB for rate limiting
-- SES for email sending
-- Route 53 DNS configuration
-- Environment variable management
+- The footer shows `Build <commit>` and `/version.json` returns the same ID. Compare it with the merge commit on the deployed branch
+- Check prerendered routes return their own HTML (`curl https://dev.idevelop.tech/services/integration`), unknown URLs return 200, and Cache-Control headers match the rules above
+- Lighthouse CI reports are temporary public links in the "Run Lighthouse CI" step log (look for "Open the report at"). The check uses `continue-on-error`, so it's green whatever the scores
 
 **References**:
 
 - `README.md` - SST project structure and commands
-- `docs/DEPLOYMENT-PLAN.md` - Infrastructure deployment strategy
+- `docs/ARCHITECTURE.md` - Frontend hosting and deploy lifecycle
 
 ---
 
@@ -786,6 +814,7 @@ export interface ContactFormResponse {
 - NEVER use `--no-verify` or skip hooks
 - NEVER force push to main/master
 - NEVER amend commits from other developers
+- 🔴 The root `.gitignore` ignores `*.js` (a leftover CDK rule). A new `.js` file is silently left out of `git add` unless it's added to the allow-list below that rule. Check `git status` after adding files
 
 ### PR Creation
 
