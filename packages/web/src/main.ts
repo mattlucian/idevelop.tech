@@ -6,25 +6,6 @@ import App from "./App.vue";
 import router from "./router";
 import { logger } from "./utils/logger";
 
-// Suppress the browser's install prompt that manifest.json can trigger
-let _deferredPrompt: BeforeInstallPromptEvent | null = null;
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
-
-window.addEventListener("beforeinstallprompt", (e: Event) => {
-  // Prevent browser's default install prompt
-  e.preventDefault();
-
-  // Store event for potential future use (e.g., contextual prompt after engagement)
-  _deferredPrompt = e as BeforeInstallPromptEvent;
-
-  // For now, we suppress the prompt entirely for better UX
-  // Users can still install via browser's native UI
-});
-
 /**
  * Validate required environment variables before app initialization
  * Prevents runtime failures from missing configuration

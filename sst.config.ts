@@ -151,7 +151,7 @@ export default $config({
       assets: {
         // Later entries take precedence. Only content-hashed build output is
         // cached long term; everything else revalidates so a deploy shows up
-        // on the next load (images, sw.js, manifest, sitemap, robots).
+        // on the next load (images, sw.js, sitemap, robots).
         fileOptions: [
           {
             files: "**",
