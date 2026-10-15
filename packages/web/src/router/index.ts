@@ -1,5 +1,6 @@
 import { nextTick } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, START_LOCATION } from "vue-router";
+import { fetchDeployedBuild, loadPageFresh } from "@/utils/deployCheck";
 import { logger } from "@/utils/logger";
 
 // Declare Google Analytics types for TypeScript
@@ -110,21 +111,35 @@ const router = createRouter({
   ],
 });
 
+// Before an in-app navigation, load the destination as a full page if a newer
+// deploy is live (see utils/deployCheck.ts). Skipped for the first page load,
+// same-page hash changes, and the local dev server.
+router.beforeEach(async (to, from) => {
+  if (import.meta.env.DEV || from === START_LOCATION || to.path === from.path) {
+    return true;
+  }
+  const deployedBuild = await fetchDeployedBuild();
+  if (deployedBuild && deployedBuild !== __BUILD_ID__) {
+    return !loadPageFresh(to.fullPath);
+  }
+  return true;
+});
+
 // Handle router errors (e.g., chunk loading failures)
-router.onError((error) => {
+router.onError((error, to) => {
   logger.error("Router error", error, { module: "router" });
 
-  // Handle chunk loading errors (network failures during lazy loading)
+  // A page file failed to download, e.g. a deploy removed it between the
+  // version check and the download. Load the destination as a full page.
   if (
     error.message.includes("Failed to fetch dynamically imported module") ||
     error.message.includes("Importing a module script failed")
   ) {
-    // Suggest page refresh or navigate to error page
-    logger.warn(
-      "Chunk loading failed - suggest user refresh or check network connection",
-      { module: "router", errorType: "chunk-loading" },
-    );
-    // In production, could show a toast/modal suggesting page refresh
+    logger.warn("Page file failed to load; loading the page fresh", {
+      module: "router",
+      errorType: "chunk-loading",
+    });
+    loadPageFresh(to.fullPath);
   }
 });
 

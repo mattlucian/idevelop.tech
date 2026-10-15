@@ -17,12 +17,30 @@ function buildId(): string {
   }
 }
 
+const BUILD_ID = buildId();
+
 export default defineConfig({
   define: {
-    __BUILD_ID__: JSON.stringify(buildId()),
+    __BUILD_ID__: JSON.stringify(BUILD_ID),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
   },
-  plugins: [tailwindcss(), vue(), vueDevTools()],
+  plugins: [
+    tailwindcss(),
+    vue(),
+    vueDevTools(),
+    {
+      // /version.json lets open tabs detect a newer deploy (utils/deployCheck.ts)
+      name: "build-version",
+      apply: "build",
+      generateBundle() {
+        this.emitFile({
+          type: "asset",
+          fileName: "version.json",
+          source: JSON.stringify({ build: BUILD_ID }),
+        });
+      },
+    },
+  ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

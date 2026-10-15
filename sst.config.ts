@@ -165,6 +165,11 @@ export default $config({
             files: "**/*.html",
             cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
           },
+          {
+            // Build ID the app checks on route changes; must always be current
+            files: "version.json",
+            cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
+          },
         ],
       },
       environment: {
@@ -182,7 +187,9 @@ export default $config({
           // (redirects like /services/web-design, and its own 404 page).
           injection: `
             const pageRoutes = ${JSON.stringify(pageRoutes)};
-            const requestPath = event.request.uri.replace(/\/$/, "") || "/";
+            const uri = event.request.uri;
+            const requestPath =
+              uri.length > 1 && uri.endsWith("/") ? uri.slice(0, -1) : uri;
             const isFile = requestPath.split("/").pop().includes(".");
             if (!isFile && !pageRoutes.includes(requestPath)) {
               event.request.uri = "/";
