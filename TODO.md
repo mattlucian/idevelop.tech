@@ -82,6 +82,7 @@ The `transform.cdn.responseHeadersPolicy` block in `sst.config.ts` isn't a recog
 **Tasks**:
 - [ ] Apply the headers through a mechanism SST supports (e.g. a CloudFront response headers policy attached to the distribution)
 - [ ] Verify Google Analytics, reCAPTCHA, and the contact form still work under the CSP on dev before production
+- [ ] Add a CI type-check for `sst.config.ts` so errors like this one surface. A scoped tsconfig (`include: ["sst.config.ts"]`) works locally, but CI needs SST's generated types (`npx sst install` creates `.sst/platform`), and SST's own `remix.ts` currently reports an unused `@ts-expect-error` that must be filtered or skipped
 
 ---
 

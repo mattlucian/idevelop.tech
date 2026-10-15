@@ -734,6 +734,13 @@ const template = readFileSync(
   - The injection is a template literal, so `\/` becomes `/`. Avoid backslash escapes, and test the generated code, not the source text
 - **Open tabs across a deploy**: each build writes `/version.json`. `utils/deployCheck.ts` checks it on in-app navigation and loads the destination as a full page when a newer build is live
 - **Deploy workflows** use a per-stage `concurrency` group, so overlapping deploys queue instead of failing on SST's lock
+- 🔴 **Check SST's behavior before relying on it.** Before changing build output, routing, or caching, read SST's implementation in `.sst/platform/src/components/aws/` (`static-site.ts`, `router.ts`), then simulate it locally: build, run a Node script that applies the same routing rules to a list of URLs, and confirm each resolves to a file in `packages/web/dist/`. This only reads local files. Never use `sst deploy` or `sst dev` to try out an infrastructure change
+
+**Verifying a deploy:**
+
+- The footer shows `Build <commit>` and `/version.json` returns the same ID. Compare it with the merge commit on the deployed branch
+- Check prerendered routes return their own HTML (`curl https://dev.idevelop.tech/services/integration`), unknown URLs return 200, and Cache-Control headers match the rules above
+- Lighthouse CI reports are temporary public links in the "Run Lighthouse CI" step log (look for "Open the report at"). The check uses `continue-on-error`, so it's green whatever the scores
 
 **References**:
 
@@ -807,6 +814,7 @@ export interface ContactFormResponse {
 - NEVER use `--no-verify` or skip hooks
 - NEVER force push to main/master
 - NEVER amend commits from other developers
+- 🔴 The root `.gitignore` ignores `*.js` (a leftover CDK rule). A new `.js` file is silently left out of `git add` unless it's added to the allow-list below that rule. Check `git status` after adding files
 
 ### PR Creation
 
