@@ -53,13 +53,27 @@ All 15 critical issues resolved with ESLint rules enabled.
 ---
 
 ### Service Worker & PWA
-**Status**: ✅ **COMPLETE**
+**Status**: Removed (2026-10)
 
-Suppressed install prompt while maintaining PWA benefits.
+The cache-first service worker served pages without checking the server, so visitors saw the previous deploy. Replaced by plain HTTP caching (pages `no-store`, hashed assets immutable). `public/sw.js` only retires the old worker in returning visitors' browsers; delete it once those registrations have aged out (2027).
 
 ---
 
 ## Active Tasks
+
+### Offerings Detail & Notes Section
+**Priority**: High
+**Status**: Service pages redesigned and prerendering added on `feature/offerings-and-notes`; verifying on dev
+
+**Tasks**:
+- [ ] Verify on dev.idevelop.tech: service pages at mobile/tablet/desktop, prerendered HTML, link previews
+- [ ] Confirm client permissions and testimonial wording before production deploy
+- [ ] Write the AI Enablement guide ("Levels of AI Adoption"), then publish it and add it to the sitemap
+- [ ] Later guides for the other services (MCP next)
+
+**Reference**: local working plan in `planning/` (git-excluded)
+
+---
 
 ### Domain Migration
 **Priority**: High

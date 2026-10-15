@@ -1,183 +1,145 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { ArrowRightIcon, CheckBadgeIcon } from "@heroicons/vue/24/outline";
 import { usePageMeta } from "@/composables/usePageMeta";
-import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
-import BreadcrumbNav from "../components/ui/BreadcrumbNav.vue";
-import ServiceSection from "../components/ui/ServiceSection.vue";
-import TabNavigation from "../components/ui/TabNavigation.vue";
-import ServiceAreaCard from "../components/cards/ServiceAreaCard.vue";
-import TwoColumnListSection from "../components/ui/TwoColumnListSection.vue";
-import CTASection from "../components/ui/CTASection.vue";
-import CTAForm from "../components/ui/CTAForm.vue";
+import { withIcons } from "@/utils/iconMapping";
+import ServicePageLayout from "../components/layout/ServicePageLayout.vue";
+import ContentSection from "../components/ui/ContentSection.vue";
+import OutlineIcon from "../components/elements/OutlineIcon.vue";
+import Pill from "../components/elements/badges/Pill.vue";
+import FlxpointValue from "../components/flxpoint/FlxpointValue.vue";
+import FlxpointStages from "../components/flxpoint/FlxpointStages.vue";
 import { flxpointConsultingData } from "@/data/services/flxpoint-consulting";
 import { SITE } from "@/constants";
 
 // SEO Meta Tags
 usePageMeta({
-  title: "Flxpoint Consulting - Former CTO",
+  title: "Flxpoint Consulting: Help From Its Former CTO",
   slug: "flxpoint-consulting",
   description:
-    "Expert Flxpoint consulting from their former CTO. Technical assistance for onboarding, configuration, order routing, catalog management, and custom integrations.",
+    "Flxpoint consulting from the platform's former CTO. Help with onboarding, sources and vendor files, catalog setup, listings and pricing, order routing, fulfillment, and custom integrations on the Flxpoint API.",
   ogDescription:
-    "Technical assistance and consulting for Flxpoint from their former CTO. Catalog management, order routing, integrations, and strategic guidance.",
+    "Flxpoint consulting from the platform's former CTO. Onboarding, configuration, order routing, and integrations.",
   ogImage: SITE.ogImage,
 });
 
-const route = useRoute();
-const router = useRouter();
-const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
-const activeTab = ref("catalog");
-
-// Destructure typed data
-const {
-  breadcrumbs,
-  hero,
-  tabs,
-  serviceAreas,
-  benefits,
-  expertiseBadge,
-  whatIOffer,
-  howItWorks,
-  cta,
-} = flxpointConsultingData;
-
-// Sitelinks deep-link to specific tabs via URL hash (e.g. /flxpoint-consulting#orders).
-const validTabIds = tabs.map((t) => t.id);
-const syncTabFromHash = (hashValue: string): void => {
-  const tabId = hashValue.replace("#", "");
-  if (validTabIds.includes(tabId)) {
-    activeTab.value = tabId;
-  }
-};
-
-onMounted(() => {
-  syncTabFromHash(route.hash);
-});
-
-watch(
-  () => route.hash,
-  (newHash) => {
-    syncTabFromHash(newHash);
-  },
-);
-
-const goToHireMe = () => {
-  router.push("/hire-me");
-};
+const { expertiseBadge, stages, experience } = flxpointConsultingData;
+const startingCards = withIcons(flxpointConsultingData.startingPoints);
+const serviceCards = withIcons(flxpointConsultingData.services);
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] pt-16">
-    <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
+  <ServicePageLayout
+    :page="flxpointConsultingData"
+    service-name="Flxpoint Consulting"
+    form-title="Request Consultation"
+  >
+    <template #badge>
+      <div
+        class="inline-flex items-center gap-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg px-4 py-3"
+      >
+        <CheckBadgeIcon class="w-5 h-5 text-cyan-400 shrink-0" />
+        <div>
+          <div class="text-sm font-semibold text-cyan-400">
+            {{ expertiseBadge.title }}
+          </div>
+          <div class="text-xs text-slate-400">
+            {{ expertiseBadge.description }}
+          </div>
+        </div>
+      </div>
+    </template>
 
-    <!-- Hero Section -->
-    <ServiceSection
-      variant="hero"
-      :title="hero.title"
-      :subtitle="hero.subtitle"
-      :color-scheme="hero.colorScheme"
+    <!-- Starting points -->
+    <ContentSection
+      banded
+      title="Where Clients Start"
+      subtitle="Help is available whether you're new to Flxpoint, already live, or building on it."
     >
-      <template #badge>
+      <div class="grid gap-4 md:grid-cols-3">
         <div
-          class="inline-flex items-center gap-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg px-4 py-3"
+          v-for="card in startingCards"
+          :key="card.title"
+          class="flex items-start gap-3 rounded-xl border border-slate-800 bg-[#0f0f0f] p-4"
         >
-          <svg
-            class="w-5 h-5 text-cyan-400 shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-            />
-          </svg>
+          <OutlineIcon
+            v-if="card.iconComponent"
+            :icon="card.iconComponent"
+            size="md"
+            color="cyan"
+          />
           <div>
-            <div class="text-sm font-semibold text-cyan-400">
-              {{ expertiseBadge.title }}
-            </div>
-            <div class="text-xs text-slate-400">
-              {{ expertiseBadge.description }}
+            <h3 class="font-semibold text-white">{{ card.title }}</h3>
+            <p class="text-sm text-slate-400">{{ card.desc }}</p>
+            <div class="mt-2 flex flex-wrap gap-1.5">
+              <Pill v-for="project in card.projects" :key="project">
+                {{ project }}
+              </Pill>
             </div>
           </div>
         </div>
-      </template>
-
-      <CTAForm
-        service-name="Flxpoint Consulting"
-        form-title="Request Consultation"
-        variant="dark"
-      />
-    </ServiceSection>
-
-    <!-- Service Areas with Tabs -->
-    <div class="max-w-5xl mx-auto px-6 py-12">
-      <!-- Section Header -->
-      <div class="text-center mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
-          How I Help
-        </h2>
-        <p class="text-sm md:text-base text-slate-300 max-w-2xl mx-auto">
-          Technical assistance and consulting across key Flxpoint operational
-          areas
-        </p>
       </div>
+    </ContentSection>
 
-      <!-- Tab Navigation -->
-      <TabNavigation v-model="activeTab" :tabs="tabs" />
+    <!-- Value -->
+    <FlxpointValue />
 
-      <!-- Tab Content -->
-      <div>
-        <ServiceAreaCard
-          v-for="area in serviceAreas"
-          v-show="activeTab === area.id"
-          :key="area.id"
-          :icon="area.icon"
-          :title="area.title"
-          :description="area.description"
-          :items="area.items"
-          color-scheme="cyan"
-        />
+    <!-- Platform stages -->
+    <FlxpointStages :stages="stages" />
+
+    <!-- Services for Flxpoint customers -->
+    <ContentSection
+      title="Services for Flxpoint Customers"
+      subtitle="Other services, and how they apply to a business running on Flxpoint."
+    >
+      <div class="grid gap-4 md:grid-cols-2">
+        <router-link
+          v-for="service in serviceCards"
+          :key="service.path"
+          :to="service.path"
+          class="group flex items-start gap-4 rounded-xl border border-slate-700/50 bg-[#0f0f0f] p-5 transition-colors hover:border-cyan-500/40"
+        >
+          <OutlineIcon
+            v-if="service.iconComponent"
+            :icon="service.iconComponent"
+            size="lg"
+            color="cyan"
+          />
+          <span class="flex-1">
+            <span class="block font-semibold text-white">{{
+              service.title
+            }}</span>
+            <span class="mt-1 block text-sm text-slate-400">{{
+              service.desc
+            }}</span>
+          </span>
+          <ArrowRightIcon
+            class="mt-1 h-5 w-5 shrink-0 text-slate-600 transition-colors group-hover:text-cyan-400"
+          />
+        </router-link>
       </div>
-    </div>
+    </ContentSection>
 
-    <!-- Key Benefits Section -->
-    <ServiceSection
-      variant="benefits"
-      title=""
-      :benefits="benefits"
-      color-scheme="cyan"
-    />
-
-    <!-- What I Offer / How It Works -->
-    <TwoColumnListSection
-      :left-column="{
-        title: 'What I Offer',
-        items: whatIOffer,
-        color: 'cyan',
-        type: 'check',
-      }"
-      :right-column="{
-        title: 'How It Works',
-        items: howItWorks,
-        color: 'cyan',
-        type: 'number',
-      }"
-      color-scheme="cyan"
-    />
-
-    <!-- Call to Action -->
-    <CTASection
-      :title="cta.title"
-      :subtitle="cta.subtitle"
-      :button-text="cta.buttonText"
-      color-scheme="cyan"
-      @click="goToHireMe"
-    />
-  </div>
+    <!-- Experience -->
+    <ContentSection
+      banded
+      title="Platform Experience"
+      subtitle="Background from building and running Flxpoint, not just using it."
+    >
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div
+          v-for="item in experience"
+          :key="item.value"
+          class="rounded-xl border border-cyan-500/30 bg-linear-to-br from-slate-900/40 to-slate-800/40 p-5"
+        >
+          <div class="text-2xl font-bold text-white">{{ item.value }}</div>
+          <div
+            class="mt-1 text-xs font-semibold uppercase tracking-wider text-cyan-400"
+          >
+            {{ item.label }}
+          </div>
+          <p class="mt-3 text-sm text-slate-400">{{ item.desc }}</p>
+        </div>
+      </div>
+    </ContentSection>
+  </ServicePageLayout>
 </template>

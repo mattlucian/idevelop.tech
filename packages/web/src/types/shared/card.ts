@@ -19,47 +19,14 @@ export interface TimelineStep {
 }
 
 /**
- * Visual step for ecommerce order flow
- */
-export interface VisualStep {
-  emoji: string;
-  label: string;
-  desc: string;
-}
-
-/**
- * Journey step for cloud consulting processes
- */
-export interface JourneyStep {
-  icon: string;
-  label: string;
-  description: string;
-}
-
-/**
- * Design process step
- */
-export interface DesignProcessStep {
-  icon: string;
-  title: string;
-  description: string;
-}
-
-/**
- * Benefit item displayed in benefits section
- */
-export interface BenefitItem {
-  title: string;
-  description: string;
-}
-
-/**
  * Portfolio item with client work
  */
 export interface PortfolioItem {
   name: string;
   url: string;
+  /** Built image URL; see partnerLogo() in utils/imageAssets */
   logo: string;
+  logoWebp?: string;
   description: string;
 }
 

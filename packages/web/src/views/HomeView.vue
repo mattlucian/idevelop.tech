@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { platformLogo } from "@/utils/imageAssets";
+import type { LogoUrls } from "@/utils/imageAssets";
 import { useRouter } from "vue-router";
 import { useServiceConfig } from "../composables/useServiceConfig";
 import { useMeta } from "../composables/useMeta";
@@ -9,36 +11,42 @@ import PrimaryRouterLink from "../components/elements/buttons/PrimaryRouterLink.
 import { SITE } from "@/constants";
 
 // Platform data
-const platforms = [
+interface Platform extends LogoUrls {
+  name: string;
+  description: string;
+  link?: string;
+}
+
+const platforms: Platform[] = [
   {
     name: "AWS",
-    logo: "/images/platforms/aws-logo.png",
+    ...platformLogo("aws-logo.png"),
     description: "Cloud infrastructure and serverless architecture",
   },
   {
     name: "DataDog",
-    logo: "/images/platforms/datadog-logo.png",
+    ...platformLogo("datadog-logo.png"),
     description: "Application monitoring and observability",
   },
   {
     name: "Jira",
-    logo: "/images/platforms/atlassian-logo.png",
+    ...platformLogo("atlassian-logo.png"),
     description: "Project management and agile workflows",
   },
   {
     name: "Flxpoint",
-    logo: "/images/platforms/flxpoint-logo.webp",
+    ...platformLogo("flxpoint-logo.webp"),
     description: "Order and inventory management integrations",
     link: "/flxpoint-consulting",
   },
   {
     name: "Shopify",
-    logo: "/images/platforms/shopify-logo.png",
+    ...platformLogo("shopify-logo.png"),
     description: "Ecommerce platform development and customization",
   },
   {
     name: "GitHub",
-    logo: "/images/platforms/github-logo.png",
+    ...platformLogo("github-logo.png"),
     description: "Version control and collaborative development",
   },
 ];
@@ -58,8 +66,8 @@ const selectService = (serviceName: string) => {
     router.push({ name: "ai-enablement-service" });
   } else if (serviceName === "ecommerce-ops") {
     router.push({ name: "ecommerce-ops-service" });
-  } else if (serviceName === "web-design") {
-    router.push({ name: "web-design-service" });
+  } else if (serviceName === "mcp-development") {
+    router.push({ name: "mcp-development-service" });
   } else if (serviceName === "cloud-consulting") {
     router.push({ name: "cloud-consulting-service" });
   } else {
@@ -72,10 +80,10 @@ const selectService = (serviceName: string) => {
 useMeta({
   title: "I Develop Tech - Technical Consulting Services",
   description:
-    "Expert technical consulting for cloud infrastructure, AI enablement, systems integration, eCommerce operations, and web design. Affordable, on-demand tech expertise without full-time costs.",
+    "Technical consulting for AI adoption, MCP servers, systems integration, eCommerce operations, tech stack strategy, and AWS. Project-based or on a monthly retainer.",
   ogTitle: "I Develop Tech - Technical Consulting Services",
   ogDescription:
-    "Expert technical consulting for cloud infrastructure, AI enablement, systems integration, and more. Affordable, on-demand tech expertise.",
+    "Technical consulting for AI adoption, MCP servers, systems integration, eCommerce operations, and AWS.",
   ogUrl: `${SITE.url}/`,
   ogImage: SITE.ogImage,
 });
@@ -168,7 +176,8 @@ useMeta({
                   <div class="h-10 flex items-center justify-center">
                     <picture>
                       <source
-                        :srcset="platform.logo.replace(/\.(png|jpg)$/, '.webp')"
+                        v-if="platform.logoWebp"
+                        :srcset="platform.logoWebp"
                         type="image/webp"
                       />
                       <img

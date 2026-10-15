@@ -2,6 +2,8 @@
 <script setup lang="ts">
 import { CONTACT, SITE } from "@/constants";
 // Footer component - displays social links, navigation, and copyright
+
+const build = `Build ${__BUILD_ID__} · ${__BUILD_DATE__}`;
 </script>
 
 <template>
@@ -19,6 +21,7 @@ import { CONTACT, SITE } from "@/constants";
             <span class="text-red-500 animate-pulse">❤️</span>
             alongside Claude AI
           </p>
+          <p class="text-xs text-gray-600">{{ build }}</p>
         </div>
 
         <!-- Center: Links -->
@@ -45,12 +48,6 @@ import { CONTACT, SITE } from "@/constants";
           >
             Code
           </a>
-          <router-link
-            to="/components"
-            class="text-gray-400 hover:text-teal-400 transition-colors"
-          >
-            Components
-          </router-link>
           <router-link
             to="/privacy"
             class="text-gray-400 hover:text-teal-400 transition-colors"

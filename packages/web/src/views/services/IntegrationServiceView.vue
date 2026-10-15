@@ -1,156 +1,69 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useBreadcrumbNavigation } from "@/composables/useBreadcrumbNavigation";
 import { useServiceMeta } from "@/composables/useServiceMeta";
-import BreadcrumbNav from "../../components/ui/BreadcrumbNav.vue";
-import ServiceSection from "../../components/ui/ServiceSection.vue";
+import ServicePageLayout from "../../components/layout/ServicePageLayout.vue";
+import ContentSection from "../../components/ui/ContentSection.vue";
 import TabNavigation from "../../components/ui/TabNavigation.vue";
 import IntegrationDiagram from "../../components/integration/IntegrationDiagram.vue";
 import DetailedEntityMapping from "../../components/integration/DetailedEntityMapping.vue";
-import TwoColumnListSection from "../../components/ui/TwoColumnListSection.vue";
-import CTASection from "../../components/ui/CTASection.vue";
-import CTAForm from "../../components/ui/CTAForm.vue";
+import IntegrationRunLog from "../../components/integration/IntegrationRunLog.vue";
+import IntegrationScopeSheet from "../../components/integration/IntegrationScopeSheet.vue";
 import { integrationServiceData } from "@/data/services/integration";
 
 // SEO Meta Tags
 useServiceMeta({
-  serviceName: "System Integration Services",
+  serviceName: "System Integrations: Documented and Fixed-Fee",
   slug: "integration",
   description:
-    "Expert system integration services connecting Shopify, NetSuite, 3PLs, and more. Custom API integrations, data mapping, and automation for seamless business operations. 100+ integrations delivered.",
+    "Fixed-fee integrations between Shopify, NetSuite, Sage Intacct, 3PLs, marketplaces, and custom APIs. Documented field mapping, automatic retries, and alerts for errors that need a person. 100+ integrations built.",
   ogDescription:
-    "Connect your business systems seamlessly. Expert integration services for Shopify, NetSuite, 3PLs, and custom APIs. Field-level data mapping and real-time synchronization.",
+    "Connect your business systems with documented, fixed-fee integrations. Field-level mapping your team can read, plus alerts when a record can't sync.",
 });
 
-const { handleBreadcrumbNavigate } = useBreadcrumbNavigation();
+const { tabs, stats, integrationDiagrams } = integrationServiceData;
 const activeTab = ref("accounting");
-
-// Destructure typed data
-const {
-  breadcrumbs,
-  hero,
-  tabs,
-  integrationDiagrams,
-  benefits,
-  expertiseBadge,
-  whatIOffer,
-  howItWorks,
-  portfolio: portfolioData,
-  cta,
-} = integrationServiceData;
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0a0a0a] pt-16">
-    <!-- Breadcrumb -->
-    <BreadcrumbNav :items="breadcrumbs" @navigate="handleBreadcrumbNavigate" />
-
-    <!-- Hero Section -->
-    <ServiceSection
-      variant="hero"
-      :title="hero.title"
-      :subtitle="hero.subtitle"
-      :color-scheme="hero.colorScheme"
+  <ServicePageLayout :page="integrationServiceData" service-name="Integration">
+    <!-- Common connections -->
+    <ContentSection
+      title="Common Connections"
+      subtitle="Data flows I build often, between platforms like Shopify, NetSuite, Sage Intacct, 3PLs, and marketplaces."
     >
-      <CTAForm
-        service-name="Integration"
-        form-title="Request Information"
-        variant="dark"
-      />
-    </ServiceSection>
-
-    <!-- Integration Examples with Tabs -->
-    <div class="max-w-5xl mx-auto px-6 py-6">
-      <!-- Tab Navigation -->
       <TabNavigation v-model="activeTab" :tabs="tabs" />
 
-      <!-- Tab Content -->
       <div
         class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-8 md:p-12"
       >
-        <!-- Accounting Integration Tab -->
-        <div v-if="activeTab === 'accounting'">
+        <!-- v-show keeps each diagram's text in the page for search engines -->
+        <div v-for="tab in tabs" v-show="activeTab === tab.id" :key="tab.id">
           <IntegrationDiagram
-            :left-system="integrationDiagrams.accounting.leftSystem"
-            :right-system="integrationDiagrams.accounting.rightSystem"
-            :mappings="integrationDiagrams.accounting.mappings"
-            :caption="integrationDiagrams.accounting.caption"
+            :left-system="integrationDiagrams[tab.id].leftSystem"
+            :right-system="integrationDiagrams[tab.id].rightSystem"
+            :mappings="integrationDiagrams[tab.id].mappings"
+            :caption="integrationDiagrams[tab.id].caption"
             :mapping-color-scheme="
-              integrationDiagrams.accounting.mappingColorScheme
-            "
-          />
-        </div>
-
-        <!-- Fulfillment Integration Tab -->
-        <div v-if="activeTab === 'fulfillment'">
-          <IntegrationDiagram
-            :left-system="integrationDiagrams.fulfillment.leftSystem"
-            :right-system="integrationDiagrams.fulfillment.rightSystem"
-            :mappings="integrationDiagrams.fulfillment.mappings"
-            :caption="integrationDiagrams.fulfillment.caption"
-            :mapping-color-scheme="
-              integrationDiagrams.fulfillment.mappingColorScheme
-            "
-          />
-        </div>
-
-        <!-- Marketplace Integration Tab -->
-        <div v-if="activeTab === 'marketplace'">
-          <IntegrationDiagram
-            :left-system="integrationDiagrams.marketplace.leftSystem"
-            :right-system="integrationDiagrams.marketplace.rightSystem"
-            :mappings="integrationDiagrams.marketplace.mappings"
-            :caption="integrationDiagrams.marketplace.caption"
-            :mapping-color-scheme="
-              integrationDiagrams.marketplace.mappingColorScheme
+              integrationDiagrams[tab.id].mappingColorScheme
             "
           />
         </div>
       </div>
-    </div>
 
-    <!-- Key Benefits Section -->
-    <ServiceSection
-      variant="benefits"
-      title=""
-      :benefits="benefits"
-      :expertise-badge="expertiseBadge"
-      color-scheme="cyan"
-    />
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div
+          v-for="stat in stats"
+          :key="stat.label"
+          class="rounded-lg border border-slate-800 bg-slate-900/40 px-4 py-3"
+        >
+          <div class="font-semibold text-white">{{ stat.value }}</div>
+          <div class="text-xs text-slate-400">{{ stat.label }}</div>
+        </div>
+      </div>
+    </ContentSection>
 
-    <!-- What I Offer / How It Works -->
-    <TwoColumnListSection
-      :left-column="{
-        title: 'What I Offer',
-        items: whatIOffer,
-        color: 'cyan',
-        type: 'check',
-      }"
-      :right-column="{
-        title: 'How It Works',
-        items: howItWorks,
-        color: 'purple',
-        type: 'number',
-      }"
-    />
-
-    <!-- Detailed Entity Mapping Example -->
     <DetailedEntityMapping />
-
-    <!-- Portfolio Section -->
-    <ServiceSection
-      variant="portfolio"
-      :title="portfolioData.title"
-      :items="portfolioData.items"
-      :testimonial="portfolioData.testimonial"
-      color-scheme="cyan"
-    />
-
-    <!-- CTA Section -->
-    <CTASection
-      :title="cta.title"
-      :subtitle="cta.subtitle"
-      :button-text="cta.buttonText"
-    />
-  </div>
+    <IntegrationRunLog />
+    <IntegrationScopeSheet />
+  </ServicePageLayout>
 </template>

@@ -21,6 +21,12 @@ export default $config({
     const stage = $app.stage;
     const isProduction = stage === "production";
 
+    // Prerendered page routes, from the same sitemap the build prerenders
+    const { readFileSync } = await import("node:fs");
+    const sitemap = readFileSync("packages/web/public/sitemap.xml", "utf8");
+    const pageRoutes = [...sitemap.matchAll(/<loc>[^<]*?\/\/[^/<]+([^<]*)<\/loc>/g)]
+      .map(([, path]) => path.replace(/\/$/, "") || "/");
+
     // New Relic observability configuration
     const newRelicLicenseKey = new sst.Secret("NewRelicLicenseKey");
     const newRelicAccountId = "7377610"; // New Relic account ID (not sensitive)
@@ -70,6 +76,10 @@ export default $config({
         SES_FROM_EMAIL: "matt@idevelop.tech",
         SES_TO_EMAIL: "matt@idevelop.tech",
         STAGE: stage,
+        // Stable public URL (not content-hashed) so sent emails keep working
+        LOGO_URL: isProduction
+          ? "https://idevelop.tech/images/brand/logo-email.png"
+          : "https://dev.idevelop.tech/images/brand/logo-email.png",
 
         // New Relic observability configuration
         NEW_RELIC_LICENSE_KEY: newRelicLicenseKey.value,
@@ -138,11 +148,54 @@ export default $config({
       domain: isProduction
         ? { name: "idevelop.tech", redirects: ["www.idevelop.tech"] }
         : { name: "dev.idevelop.tech" },
+      assets: {
+        // Later entries take precedence. Only content-hashed build output is
+        // cached long term; everything else revalidates so a deploy shows up
+        // on the next load (images, sw.js, sitemap, robots).
+        fileOptions: [
+          {
+            files: "**",
+            cacheControl: "public,max-age=0,must-revalidate",
+          },
+          {
+            files: "assets/**",
+            cacheControl: "max-age=31536000,public,immutable",
+          },
+          {
+            files: "**/*.html",
+            cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
+          },
+          {
+            // Build ID the app checks on route changes; must always be current
+            files: "version.json",
+            cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
+          },
+        ],
+      },
       environment: {
         VITE_API_URL: $interpolate`${api.url}`,
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",
         // Only enable Google Analytics in production
         VITE_GA_MEASUREMENT_ID: isProduction ? "G-XS6QVSG7MS" : "",
+      },
+      edge: {
+        viewerRequest: {
+          // Runs before SST's router. Prerendered pages live in dist folders
+          // (e.g. services/), which the router sends straight to S3, so an
+          // unknown URL under one would 403. Send page URLs that aren't
+          // prerendered to the app shell, which the SPA router handles
+          // (redirects like /services/web-design, and its own 404 page).
+          injection: `
+            const pageRoutes = ${JSON.stringify(pageRoutes)};
+            const uri = event.request.uri;
+            const requestPath =
+              uri.length > 1 && uri.endsWith("/") ? uri.slice(0, -1) : uri;
+            const isFile = requestPath.split("/").pop().includes(".");
+            if (!isFile && !pageRoutes.includes(requestPath)) {
+              event.request.uri = "/";
+            }
+          `,
+        },
       },
       transform: {
         cdn: {

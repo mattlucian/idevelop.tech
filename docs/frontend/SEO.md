@@ -12,6 +12,7 @@ Essential SEO implementation for all views in the idevelop.tech portfolio site.
 - [ ] Have clean URLs (no query parameters)
 - [ ] Include one H1 heading
 - [ ] Use semantic HTML elements
+- [ ] Be listed in `public/sitemap.xml` if it's public; the build only prerenders sitemap routes
 
 **Meta tags:**
 - [ ] Title: ~60 chars, unique, includes site name
@@ -27,8 +28,11 @@ Essential SEO implementation for all views in the idevelop.tech portfolio site.
 
 - Clean, semantic URL structure (no query parameters)
 - Dynamic meta tags on every view via `useServiceMeta` or `usePageMeta` composables
+- `useMeta` also sets `<link rel="canonical">` per page (from `ogUrl`, or the current path)
 - Proper Open Graph and Twitter Card tags
 - Use application constants for all URLs
+
+**🔴 Prerendering:** `npm run build` runs `scripts/prerender.mjs` after `vite build`. It loads every route in `public/sitemap.xml` in headless Chrome and saves the rendered page as `dist/<route>/index.html`, which SST's CloudFront router serves for that URL. A small injection in the CloudFront viewer-request function (`sst.config.ts`, `edge.viewerRequest`) sends any page URL that isn't in the sitemap to the app shell, so unknown URLs under a prerendered folder still reach the SPA router. It reads the same `sitemap.xml` at deploy time. Crawlers and link previews that don't run JavaScript get each page's own title, meta, and content. Adding a public route (including a published article) to the sitemap is all that's needed. The homepage is served from `index.html` as before. `PRERENDER=false npm run build` skips the step.
 
 ---
 
@@ -58,7 +62,7 @@ usePageMeta({
   slug: "page-slug",
   description: "Clear, value-focused description (150-160 chars)",
   ogDescription: "Social sharing description",
-  ogImage: SITE.ogImage, // Optional: defaults to og-image-{slug}.jpg
+  ogImage: SITE.ogImage, // Optional: defaults to SITE.ogImage
 });
 ```
 
@@ -76,8 +80,7 @@ usePageMeta({
 - Length: 150-160 characters
 
 **Open Graph Image:**
-- Default: `SITE.ogImage` from constants
-- Service-specific: `${SITE.url}/og-image-{service}.jpg`
+- Default: `SITE.ogImage` from constants (used unless a page passes `ogImage`)
 - Dimensions: 1200×630px
 
 **Twitter Cards:**

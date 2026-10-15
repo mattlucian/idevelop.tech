@@ -1,21 +1,5 @@
-import type { ServicePageData } from "@/types/service";
-
-interface FlxpointServiceArea {
-  id: string;
-  label: string;
-  icon: string;
-  title: string;
-  description: string;
-  items: Array<{
-    title: string;
-    description: string;
-  }>;
-}
-
-export interface FlxpointConsultingData extends ServicePageData {
-  tabs: Array<{ id: string; label: string }>;
-  serviceAreas: Record<string, FlxpointServiceArea>;
-}
+import { partnerLogo } from "@/utils/imageAssets";
+import type { FlxpointConsultingData } from "@/types/service";
 
 export const flxpointConsultingData: FlxpointConsultingData = {
   // Navigation
@@ -23,123 +7,154 @@ export const flxpointConsultingData: FlxpointConsultingData = {
 
   // Hero Section
   hero: {
-    title: "Flxpoint Expert Consulting & Technical Support",
+    title: "Flxpoint Consulting From the Platform's Former CTO",
     subtitle:
-      "Technical assistance and consulting for Flxpoint onboarding, configuration, and integrations from their former CTO.",
+      "Onboarding, configuration, order routing, and integrations for Flxpoint customers, from someone who led the platform's architecture.",
     colorScheme: "cyan",
   },
-
-  // Tab Configuration
-  tabs: [
-    { id: "catalog", label: "Catalog Management" },
-    { id: "orders", label: "Order Automation" },
-    { id: "integrations", label: "Technical Integration" },
-  ],
-
-  // Service Areas with detailed breakdowns
-  serviceAreas: {
-    catalog: {
-      id: "catalog",
-      label: "Catalog Management",
-      icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
-      title: "Inventory & Catalog Management",
-      description:
-        "Define and implement inventory and catalog management strategies that align with your business needs.",
-      items: [
-        {
-          title: "Inventory Strategy",
-          description:
-            "Configure Vendor integrations to run inventory operations smoothly, including rules to compensate for data structures and protection against inconsistencies.",
-        },
-        {
-          title: "Product Management",
-          description:
-            "Organize catalog management processes that align with your business needs, whether managing from Sales Channels or Vendors.",
-        },
-      ],
-    },
-    orders: {
-      id: "orders",
-      label: "Order Automation",
-      icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
-      title: "Order Routing & Automation",
-      description:
-        "Handle complex Order Routing scenarios and increase automation capabilities for your fulfillment operations.",
-      items: [
-        {
-          title: "Routing Configuration",
-          description:
-            "Assess business rules and configure routing rules for complex scenarios that require specific results.",
-        },
-        {
-          title: "Order Flows",
-          description:
-            "Ensure Flxpoint Order flows work as intended with automated data ingestion from Sales Channels and appropriate data passing to downstream Sources.",
-        },
-      ],
-    },
-    integrations: {
-      id: "integrations",
-      label: "Technical Integration",
-      icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
-      title: "API & Integration Support",
-      description:
-        "Technical guidance and implementation support for Flxpoint's API, webhooks, and custom integrations.",
-      items: [
-        {
-          title: "API Implementation",
-          description:
-            "Guidance and implementation support for Flxpoint API & webhooks, including operations, listeners, and strategic recommendations.",
-        },
-        {
-          title: "Integration Development",
-          description:
-            "Support for troubleshooting existing integrations, implementing connectors, or building custom integrations to meet specific requirements.",
-        },
-      ],
-    },
-  },
-
-  // Benefits Section (reduced to 3 for better layout)
-  benefits: [
-    {
-      title: "Platform Expertise",
-      description:
-        "Former CTO at Flxpoint with extensive knowledge of platform architecture, capabilities, and implementation strategies.",
-    },
-    {
-      title: "Advanced Use Cases",
-      description:
-        "Evaluate limitations and develop strategies for advanced use-cases, from problematic Vendor files to increased automation capabilities.",
-    },
-    {
-      title: "Strategic Implementation",
-      description:
-        "Serve as a dedicated technical resource for issues, strategic improvements, and navigating modern eCommerce complexity.",
-    },
-  ],
 
   expertiseBadge: {
     title: "Former Flxpoint CTO",
     description:
-      "5+ years of Flxpoint platform experience, including platform architecture and enterprise implementations.",
+      "7+ years of Flxpoint platform experience, including platform architecture and enterprise implementations.",
   },
 
-  // What I Offer
-  whatIOffer: [
-    "Technical assistance for Flxpoint onboarding, configuration, and daily operations",
-    "Custom integration development for suppliers, marketplaces, and internal systems",
-    "Complex routing scenarios and workflow automation optimization",
-    "API and webhook implementation guidance and support",
-    "Strategic consulting on implementation strategy and platform configuration",
+  // Where clients usually are when they reach out
+  startingPoints: [
+    {
+      icon: "RocketLaunchIcon",
+      title: "Getting started",
+      desc: "New to Flxpoint or moving onto it",
+      projects: ["Onboarding plan", "Moving from another platform"],
+    },
+    {
+      icon: "WrenchScrewdriverIcon",
+      title: "Already running",
+      desc: "Live, with issues to sort out or more to automate",
+      projects: ["Troubleshooting", "More automation"],
+    },
+    {
+      icon: "CodeBracketIcon",
+      title: "Building on Flxpoint",
+      desc: "Suppliers, platforms, and developers using the API",
+      projects: ["Custom connectors", "Webhooks"],
+    },
   ],
 
-  // How It Works
-  howItWorks: [
-    "Free consultation to assess your Flxpoint needs and current setup",
-    "Detailed proposal with scope and fixed-fee pricing",
-    "Regular progress updates and collaborative implementation",
-    "Documentation and training for team handoff",
+  // How data moves through the platform (ids double as URL hashes for sitelinks)
+  stages: [
+    {
+      id: "sources",
+      icon: "BuildingStorefrontIcon",
+      label: "Sources",
+      summary:
+        "Suppliers and warehouses send products, stock, and costs by API, file, or EDI.",
+      issue: "A feed that suddenly reports zero stock",
+      help: "Rules that hold back bad or partial updates",
+      projects: ["Adding a source", "Feed troubleshooting"],
+    },
+    {
+      id: "catalog",
+      icon: "CubeIcon",
+      label: "Catalog & Inventory",
+      summary:
+        "Products from each source are linked into one catalog, with stock and cost combined.",
+      issue: "The same product offered by more than one source",
+      help: "Catalog and quantity rules that match how you manage products",
+      projects: ["Catalog cleanup", "Variant setup"],
+    },
+    {
+      id: "listings",
+      icon: "ShoppingBagIcon",
+      label: "Listings & Pricing",
+      summary:
+        "Products are listed to your channels with pricing and quantity rules for each.",
+      issue: "Prices that slip below margin as costs change",
+      help: "Pricing rules with margin protection for each channel",
+      projects: ["Channel setup", "Listing troubleshooting"],
+    },
+    {
+      id: "orders",
+      icon: "ArrowsRightLeftIcon",
+      label: "Orders & Routing",
+      summary:
+        "Orders are imported and routed to a source based on stock, cost, and location.",
+      issue: "Orders that need to split or fall back to another source",
+      help: "Routing rules that match your business rules",
+      projects: ["Routing review", "Stuck order fixes"],
+    },
+    {
+      id: "fulfillment",
+      icon: "TruckIcon",
+      label: "Fulfillment & Tracking",
+      summary:
+        "Sources receive orders, ship them, and send tracking back to your channels.",
+      issue: "Sources that confirm orders by email",
+      help: "Connecting sources that lack a standard integration",
+      projects: ["Tracking automation", "Invoice reconciliation"],
+    },
+    {
+      id: "integrations",
+      icon: "CodeBracketIcon",
+      label: "API & Webhooks",
+      summary:
+        "Flxpoint connects to systems without a built-in integration through its API and webhooks.",
+      issue: "Flxpoint data needed in accounting or reporting",
+      help: "Custom connectors and webhook listeners",
+      projects: ["Custom connector", "Accounting and reporting"],
+    },
+  ],
+
+  // Other services, framed for Flxpoint customers
+  services: [
+    {
+      icon: "WrenchScrewdriverIcon",
+      title: "Tech Admin",
+      path: "/services/tech-admin",
+      desc: "A monthly retainer for your Flxpoint setup and the tools around it, with a roadmap built on your priorities.",
+    },
+    {
+      icon: "ShoppingCartIcon",
+      title: "eCommerce Operations",
+      path: "/services/ecommerce-ops",
+      desc: "POS, accounting, platform migrations, and the other systems that work alongside Flxpoint.",
+    },
+    {
+      icon: "LinkIcon",
+      title: "Integration Services",
+      path: "/services/integration",
+      desc: "Fixed-fee connectors for sources, channels, and internal systems without a built-in Flxpoint integration.",
+    },
+    {
+      icon: "SparklesIcon",
+      title: "AI Enablement",
+      path: "/services/ai-enablement",
+      desc: "Coaching your team to use the Flxpoint MCP server with AI agents to look into orders, inventory, and shipping questions.",
+    },
+  ],
+
+  // Background on the platform
+  experience: [
+    {
+      value: "Former CTO",
+      label: "Flxpoint",
+      desc: "Led the architecture behind the platform's core features, including how settings interact underneath.",
+    },
+    {
+      value: "7+ years",
+      label: "On the platform",
+      desc: "Enterprise implementations for suppliers, distributors, and retailers.",
+    },
+    {
+      value: "Integrations",
+      label: "Flxpoint and Inventory Source",
+      desc: "Built supplier and channel integrations at both companies.",
+    },
+    {
+      value: "MCP server",
+      label: "For Flxpoint customers",
+      desc: "Planned and led development of the MCP server that connects Flxpoint accounts to AI agents.",
+    },
   ],
 
   // Portfolio Section
@@ -149,31 +164,39 @@ export const flxpointConsultingData: FlxpointConsultingData = {
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "Former CTO: Led platform architecture, enterprise implementations, and integration development",
       },
       {
         name: "Inventory Source",
         url: "https://inventorysource.com",
-        logo: "/images/partners/inventorysource-logo-dark.png",
+        ...partnerLogo("inventorysource.gif"),
         description:
           "Built supplier network integrations for dropshipping and inventory management",
       },
+      {
+        name: "American Products 32",
+        url: "https://americanproducts32.com",
+        ...partnerLogo("ap32-logo-dark.png"),
+        description:
+          "Flxpoint operations, reporting, and AI workflows for a product distributor",
+      },
+      {
+        name: "Volition America",
+        url: "https://volitionamerica.com",
+        ...partnerLogo("volition-america-dark.png"),
+        description:
+          "Flxpoint setup and operations for a multi-channel eCommerce brand",
+      },
     ],
-    testimonial: {
-      quote:
-        "Matt's deep understanding of Flxpoint and integration architecture helped us scale our operations significantly.",
-      author: "Enterprise Client",
-      role: "Operations Director",
-    },
   },
 
   // CTA Section
   cta: {
-    title: "Ready to Improve Your Flxpoint Operations?",
+    title: "Ready to Improve Your Flxpoint Setup?",
     subtitle:
-      "Whether you're getting started with Flxpoint, facing technical challenges, or looking to optimize your current setup — let's discuss how I can help.",
+      "Whether you're getting started, working through a specific problem, or ready to automate more, let's talk through your setup.",
     buttonText: "Schedule a Free Consultation",
   },
 };

@@ -27,7 +27,7 @@ function renderTemplate(templateName: string, variables: Record<string, string>)
 }
 
 // Sample data for preview
-const logoUrl = "https://dxeay6n8brs8g.cloudfront.net/images/brand/logo-black.png";
+const logoUrl = "https://dev.idevelop.tech/images/brand/logo-email.png";
 
 const contactConfirmationData = {
   logoUrl,

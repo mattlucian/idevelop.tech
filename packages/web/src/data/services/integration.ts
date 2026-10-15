@@ -1,3 +1,4 @@
+import { partnerLogo } from "@/utils/imageAssets";
 import type { IntegrationServiceData } from "@/types/service";
 
 export const integrationServiceData: IntegrationServiceData = {
@@ -9,9 +10,9 @@ export const integrationServiceData: IntegrationServiceData = {
 
   // Hero Section
   hero: {
-    title: "Connect Your Systems with Transparent, Fixed-Fee Integrations",
+    title: "Connect Your Systems With Documented, Fixed-Fee Integrations",
     subtitle:
-      "Custom API and file integrations with clear documentation, fixed-fee pricing, and regular progress updates.",
+      "Orders, inventory, and customer data moving between your platforms on a schedule, with a written field mapping your team can read and adjust.",
     colorScheme: "cyan",
   },
 
@@ -97,43 +98,10 @@ export const integrationServiceData: IntegrationServiceData = {
     },
   },
 
-  // Benefits Section
-  benefits: [
-    {
-      title: "No Black Box Integrations",
-      description:
-        "Detailed data mapping documentation that lets you adjust configurations independently.",
-    },
-    {
-      title: "Fixed-Fee Pricing",
-      description:
-        "Fixed-fee project pricing with regular updates. You know the cost upfront.",
-    },
-    {
-      title: "Tailored to Your Systems",
-      description: "Built for your specific platforms and business workflows.",
-    },
-  ],
-
-  expertiseBadge: {
-    title: "100+ Integrations Built",
-    description:
-      "Handling 1M+ daily operations across REST, SOAP, GraphQL, and file-based integrations.",
-  },
-
-  // What I Offer / How It Works
-  whatIOffer: [
-    "Experienced integration professional with 100+ integrations handling 1M+ daily operations",
-    "Support for REST, SOAP, GraphQL APIs and file-based integrations",
-    "Transparent data mapping with configuration options for self-service",
-    "Optional hosting and ongoing support for maintaining integrations",
-  ],
-
-  howItWorks: [
-    "Free consultation to understand your integration needs",
-    "Fixed-fee proposal with clear scope",
-    "Regular progress updates during development",
-    "Documentation and training included for 10+ hour projects",
+  stats: [
+    { value: "100+", label: "Integrations built" },
+    { value: "REST · SOAP · GraphQL", label: "APIs" },
+    { value: "CSV · SFTP", label: "File-based" },
   ],
 
   // Portfolio Section
@@ -143,21 +111,21 @@ export const integrationServiceData: IntegrationServiceData = {
       {
         name: "Sage Intacct",
         url: "https://www.sage.com/en-us/sage-business-cloud/intacct/",
-        logo: "/images/partners/sageintacct.png",
+        ...partnerLogo("sageintacct.png"),
         description:
-          "Built an integration into Sage Intacct for eCommerce accounting purposes",
+          "Integration target: eCommerce orders and accounting data synced into Sage Intacct",
       },
       {
         name: "Gordon Truck Centers",
         url: "https://gordontruckcenters.com",
-        logo: "/images/partners/gordontruckcenters_dark.png",
+        ...partnerLogo("gordontruckcenters_dark.png"),
         description:
           "Enterprise system integration for truck dealership operations",
       },
       {
         name: "Flxpoint",
         url: "https://flxpoint.com",
-        logo: "/images/partners/flxpoint-logo-dark.png",
+        ...partnerLogo("flxpoint-logo-dark.png"),
         description:
           "Built multiple supplier integrations and marketplace connections",
       },
@@ -172,9 +140,9 @@ export const integrationServiceData: IntegrationServiceData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Get Started?",
+    title: "Ready to Connect Your Systems?",
     subtitle:
-      "Discuss your integration needs and explore how we can connect your systems.",
+      "Let's talk about which systems you use and what needs to move between them.",
     buttonText: "Schedule a Free Consultation",
   },
 };

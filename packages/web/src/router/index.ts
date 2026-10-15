@@ -1,4 +1,6 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { nextTick } from "vue";
+import { createRouter, createWebHistory, START_LOCATION } from "vue-router";
+import { fetchDeployedBuild, loadPageFresh } from "@/utils/deployCheck";
 import { logger } from "@/utils/logger";
 
 // Declare Google Analytics types for TypeScript
@@ -51,9 +53,14 @@ const router = createRouter({
       component: () => import("../views/services/EcommerceOpsServiceView.vue"),
     },
     {
+      path: "/services/mcp-development",
+      name: "mcp-development-service",
+      component: () =>
+        import("../views/services/McpDevelopmentServiceView.vue"),
+    },
+    {
       path: "/services/web-design",
-      name: "web-design-service",
-      component: () => import("../views/services/WebDesignServiceView.vue"),
+      redirect: "/",
     },
     {
       path: "/services/cloud-consulting",
@@ -67,14 +74,14 @@ const router = createRouter({
       component: () => import("../views/FlxpointConsultingView.vue"),
     },
     {
+      path: "/notes/:slug",
+      name: "article",
+      component: () => import("../views/ArticleView.vue"),
+    },
+    {
       path: "/hire-me",
       name: "hire-me",
       component: () => import("../views/HireMeView.vue"),
-    },
-    {
-      path: "/components",
-      name: "components",
-      component: () => import("../views/ComponentView.vue"),
     },
     {
       path: "/tech",
@@ -104,21 +111,35 @@ const router = createRouter({
   ],
 });
 
+// Before an in-app navigation, load the destination as a full page if a newer
+// deploy is live (see utils/deployCheck.ts). Skipped for the first page load,
+// same-page hash changes, and the local dev server.
+router.beforeEach(async (to, from) => {
+  if (import.meta.env.DEV || from === START_LOCATION || to.path === from.path) {
+    return true;
+  }
+  const deployedBuild = await fetchDeployedBuild();
+  if (deployedBuild && deployedBuild !== __BUILD_ID__) {
+    return !loadPageFresh(to.fullPath);
+  }
+  return true;
+});
+
 // Handle router errors (e.g., chunk loading failures)
-router.onError((error) => {
+router.onError((error, to) => {
   logger.error("Router error", error, { module: "router" });
 
-  // Handle chunk loading errors (network failures during lazy loading)
+  // A page file failed to download, e.g. a deploy removed it between the
+  // version check and the download. Load the destination as a full page.
   if (
     error.message.includes("Failed to fetch dynamically imported module") ||
     error.message.includes("Importing a module script failed")
   ) {
-    // Suggest page refresh or navigate to error page
-    logger.warn(
-      "Chunk loading failed - suggest user refresh or check network connection",
-      { module: "router", errorType: "chunk-loading" },
-    );
-    // In production, could show a toast/modal suggesting page refresh
+    logger.warn("Page file failed to load; loading the page fresh", {
+      module: "router",
+      errorType: "chunk-loading",
+    });
+    loadPageFresh(to.fullPath);
   }
 });
 
@@ -126,13 +147,14 @@ router.onError((error) => {
 // Only sends pageviews if GA is loaded (user accepted analytics cookies)
 router.afterEach((to) => {
   // Check if Google Analytics is loaded
-  if (typeof window.gtag !== "undefined") {
-    // Send pageview event for the new route
-    window.gtag("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
+  if (typeof window.gtag === "undefined") return;
+  // Wait for the new view to render so its useMeta has set document.title
+  nextTick(() => {
+    window.gtag?.("config", import.meta.env.VITE_GA_MEASUREMENT_ID, {
       page_path: to.fullPath,
       page_title: document.title,
     });
-  }
+  });
 });
 
 export default router;
