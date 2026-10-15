@@ -67,4 +67,13 @@ if (import.meta.env.DEV) {
 
 app.use(router);
 
-app.mount("#app");
+// Mount once the first route's page code has loaded, so the prerendered HTML
+// is replaced by the same fully rendered page in one step instead of an empty
+// layout (which shifted the footer: Cumulative Layout Shift in Lighthouse).
+// Mounts even if the first navigation fails, so the page is never left blank.
+router
+  .isReady()
+  .catch((error: unknown) => {
+    logger.error("Initial navigation failed", error, { module: "main" });
+  })
+  .finally(() => app.mount("#app"));
