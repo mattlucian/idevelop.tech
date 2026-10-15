@@ -9,16 +9,12 @@ const route = useRoute();
 
 // Hide footer on fullscreen panel pages
 const showFooter = computed(
-  () =>
-    route.name !== "hire-me" &&
-    route.name !== "tech" &&
-    route.name !== "components",
+  () => route.name !== "hire-me" && route.name !== "tech",
 );
 </script>
 
 <template>
   <div
-    id="app"
     class="min-h-screen w-full flex flex-col bg-[#0a0a0a] text-gray-100 overflow-x-hidden"
   >
     <!-- Skip Navigation Link for Accessibility -->
