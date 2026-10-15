@@ -121,7 +121,7 @@ export const servicesConfig: ServicesConfig = {
     "building MCP servers",
     "adopting AI solutions",
     "managing your tech stack",
-    "AI-ready platforms",
+    "making your API AI-ready",
     "eCommerce automation",
     "integrating your systems",
     "cloud infrastructure",
