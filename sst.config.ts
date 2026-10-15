@@ -21,6 +21,12 @@ export default $config({
     const stage = $app.stage;
     const isProduction = stage === "production";
 
+    // Prerendered page routes, from the same sitemap the build prerenders
+    const { readFileSync } = await import("node:fs");
+    const sitemap = readFileSync("packages/web/public/sitemap.xml", "utf8");
+    const pageRoutes = [...sitemap.matchAll(/<loc>[^<]*?\/\/[^/<]+([^<]*)<\/loc>/g)]
+      .map(([, path]) => path.replace(/\/$/, "") || "/");
+
     // New Relic observability configuration
     const newRelicLicenseKey = new sst.Secret("NewRelicLicenseKey");
     const newRelicAccountId = "7377610"; // New Relic account ID (not sensitive)
@@ -159,6 +165,11 @@ export default $config({
             files: "**/*.html",
             cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
           },
+          {
+            // Build ID the app checks on route changes; must always be current
+            files: "version.json",
+            cacheControl: "max-age=0,no-cache,no-store,must-revalidate",
+          },
         ],
       },
       environment: {
@@ -167,20 +178,27 @@ export default $config({
         // Only enable Google Analytics in production
         VITE_GA_MEASUREMENT_ID: isProduction ? "G-XS6QVSG7MS" : "",
       },
+      edge: {
+        viewerRequest: {
+          // Runs before SST's router. Prerendered pages live in dist folders
+          // (e.g. services/), which the router sends straight to S3, so an
+          // unknown URL under one would 403. Send page URLs that aren't
+          // prerendered to the app shell, which the SPA router handles
+          // (redirects like /services/web-design, and its own 404 page).
+          injection: `
+            const pageRoutes = ${JSON.stringify(pageRoutes)};
+            const uri = event.request.uri;
+            const requestPath =
+              uri.length > 1 && uri.endsWith("/") ? uri.slice(0, -1) : uri;
+            const isFile = requestPath.split("/").pop().includes(".");
+            if (!isFile && !pageRoutes.includes(requestPath)) {
+              event.request.uri = "/";
+            }
+          `,
+        },
+      },
       transform: {
         cdn: {
-          // Prerendered pages create folders in dist (e.g. services/), which
-          // the router sends straight to S3. A missing key there returns 403;
-          // serve the app shell instead so the SPA router handles the URL
-          // (redirects like /services/web-design, and its own 404 page).
-          customErrorResponses: [
-            {
-              errorCode: 403,
-              responseCode: 200,
-              responsePagePath: "/index.html",
-              errorCachingMinTtl: 0,
-            },
-          ],
           // CloudFront response headers for security and performance
           responseHeadersPolicy: {
             customHeadersConfig: {
