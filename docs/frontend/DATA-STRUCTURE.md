@@ -10,14 +10,16 @@ This document defines the data schemas used in the idevelop.tech portfolio websi
 
 ```
 /src/data/
-├── services/          # Individual service data files (TypeScript)
+├── services/          # One data file per service page (TypeScript)
 │   ├── ai-enablement.ts
 │   ├── cloud-consulting.ts
 │   ├── ecommerce-ops.ts
+│   ├── flxpoint-consulting.ts
 │   ├── integration.ts
-│   ├── tech-admin.ts
-│   └── web-design.ts
-├── services.ts        # Service configuration (HomeView cards)
+│   ├── mcp-development.ts
+│   └── tech-admin.ts
+├── articles.ts        # Notes article metadata (drafts render only in dev)
+├── services.ts        # Service configuration (HomeView cards, typewriter phrases)
 └── tech.ts            # Technical expertise content
 ```
 
@@ -30,13 +32,14 @@ Types are organized in `/src/types/`:
 **Shared Types** (`/types/shared/`):
 
 - `element.ts` - Basic UI elements (Badge)
-- `card.ts` - Card components (Step, BenefitItem, PortfolioItem, Testimonial, etc.)
+- `card.ts` - Card components (Step, TimelineStep, PortfolioItem, Testimonial, ExpertiseBadge)
 - `ui.ts` - UI components (Topic, BreadcrumbItem, TabConfig, ColorScheme, etc.)
 - `integration.ts` - Integration diagrams (IntegrationDiagramConfig, IntegrationSystem, etc.)
 
 **Domain Types** (`/types/`):
 
-- `service.ts` - Service configuration types (ServicePageData with all service-specific interfaces)
+- `service.ts` - Service page types (`ServicePageBase` plus one interface per page)
+- `article.ts` - Notes article metadata
 - `tech.ts` - Technical expertise types (TechContent, Expertise, Category)
 - `attribution.ts` - Image attribution data
 
@@ -44,30 +47,37 @@ Types are organized in `/src/types/`:
 
 ## Service Page Data Structure
 
-### ServicePageData (Base Interface)
+### ServicePageBase
 
 **Location:** `src/types/service.ts`
 
-All service pages use `ServicePageData` interface with these core sections:
+Fields every service page shares, rendered by `ServicePageLayout`:
 
-- Navigation (breadcrumbs)
-- Hero section (title, subtitle, colorScheme)
-- Benefits section (benefits array, expertiseBadge)
-- Two-column lists (whatIOffer, howItWorks)
-- Portfolio section (items, testimonial)
-- CTA section (title, subtitle, buttonText)
-- Optional tabs for service-specific content
+- `breadcrumbs`
+- `hero` (title, subtitle, colorScheme)
+- `portfolio` (title, items, optional testimonial)
+- `cta` (title, subtitle, buttonText)
 
-### Service-Specific Extensions
+### Page-Specific Interfaces
 
-Each service extends `ServicePageData` with unique content:
+Each page's interface extends `ServicePageBase` with only what its sections need, for example:
 
-- **IntegrationServiceData** - Integration diagrams for accounting/fulfillment/marketplace
-- **TechAdminServiceData** - Timeline steps for process visualization
-- **AIEnablementServiceData** - Comparison tab content (workflow/training/implementation)
-- **CloudConsultingServiceData** - Cloud journey configurations
-- **EcommerceOpsServiceData** - Ecommerce operations tab content
-- **WebDesignServiceData** - Design process steps, platforms, migration phases
+- **IntegrationServiceData**: connection diagrams per tab, stats
+- **TechAdminServiceData**: common challenges
+- **EcommerceOpsServiceData**: challenge areas (with typed links to example sections), platforms
+- **CloudConsultingServiceData**: deliverables, AWS services
+- **FlxpointConsultingData**: starting points, platform stages, related services, credentials
+
+### Where Content Lives
+
+- **Data files**: copy a page owner edits (hero, lists of challenges or deliverables, portfolio, CTA)
+- **Section components**: example values that only make sense with their mockup markup (sample orders, bills, timelines)
+- **Views**: composition only
+
+### Icons and Images in Data
+
+- Icons are stored by name (`"TruckIcon"`) and resolved with `getIconByName()` or `withIcons()` from `src/utils/iconMapping.ts`
+- Logos use `partnerLogo("file.png")` / `platformLogo("file.png")` from `src/utils/imageAssets.ts`, which return content-hashed URLs plus the `.webp` copy
 
 ---
 
@@ -130,11 +140,7 @@ Simple interface for image credits:
 
 ### Add a Service
 
-1. Create TypeScript data file: `src/data/services/{name}.ts`
-2. Create view component: `src/views/services/{Name}ServiceView.vue`
-3. Add route to `src/router/index.ts`
-4. Add service card to `src/data/services.ts` for HomeView
-5. If custom data needed, extend interface in `src/types/service.ts`
+See "When Creating Service Pages" in `CLAUDE.md` for the full workflow: data file, view on `ServicePageLayout`, section components, route, sitemap entry, and home page card.
 
 ### Add Tech Expertise
 

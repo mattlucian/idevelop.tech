@@ -63,15 +63,25 @@ The cache-first service worker served pages without checking the server, so visi
 
 ### Offerings Detail & Notes Section
 **Priority**: High
-**Status**: Service pages redesigned and prerendering added on `feature/offerings-and-notes`; verifying on dev
+**Status**: Service pages redesigned and released to production (Oct 2026)
 
 **Tasks**:
-- [ ] Verify on dev.idevelop.tech: service pages at mobile/tablet/desktop, prerendered HTML, link previews
-- [ ] Confirm client permissions and testimonial wording before production deploy
-- [ ] Write the AI Enablement guide ("Levels of AI Adoption"), then publish it and add it to the sitemap
+- [ ] Write the AI Enablement guide ("Levels of AI Adoption"), publish it, and add it to `public/sitemap.xml`
 - [ ] Later guides for the other services (MCP next)
 
 **Reference**: local working plan in `planning/` (git-excluded)
+
+---
+
+### Security Headers Not Applied
+**Priority**: Medium
+**Status**: Not started
+
+The `transform.cdn.responseHeadersPolicy` block in `sst.config.ts` isn't a recognized `CdnArgs` field (TypeScript error), so CloudFront sends none of the configured headers (CSP, HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy) on dev or production.
+
+**Tasks**:
+- [ ] Apply the headers through a mechanism SST supports (e.g. a CloudFront response headers policy attached to the distribution)
+- [ ] Verify Google Analytics, reCAPTCHA, and the contact form still work under the CSP on dev before production
 
 ---
 
