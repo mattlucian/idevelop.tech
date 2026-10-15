@@ -119,9 +119,9 @@ export const servicesConfig: ServicesConfig = {
   ],
   expertisePhrases: [
     "building MCP servers",
-    "AI adoption & agent workflows",
+    "adopting AI solutions",
     "managing your tech stack",
-    "opening your platform to AI agents",
+    "AI-ready platforms",
     "eCommerce automation",
     "integrating your systems",
     "cloud infrastructure",
