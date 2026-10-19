@@ -79,11 +79,6 @@ const router = createRouter({
       component: () => import("../views/ArticleView.vue"),
     },
     {
-      // Earlier prefix for articles
-      path: "/notes/:slug",
-      redirect: (to) => `/articles/${String(to.params.slug)}`,
-    },
-    {
       path: "/hire-me",
       name: "hire-me",
       component: () => import("../views/HireMeView.vue"),
