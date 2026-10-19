@@ -21,6 +21,11 @@ export interface ArticleMeta {
   published?: string;
   updated?: string;
   readMinutes?: number;
+  /**
+   * Site path of the link preview image, made with `npm run share-image`.
+   * The site-wide share image is used when omitted.
+   */
+  ogImage?: string;
   relatedService: {
     label: string;
     path: string;
