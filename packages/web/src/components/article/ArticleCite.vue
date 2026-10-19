@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { computed, inject, nextTick, onBeforeUnmount, ref, useId } from "vue";
+import {
+  computed,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  useId,
+  watch,
+} from "vue";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/vue/24/outline";
 import { articleSourcesKey } from "./articleSources";
 
@@ -37,6 +45,10 @@ const place = () => {
   position.value = { top, left };
 };
 
+const close = () => {
+  open.value = false;
+};
+
 const onPointerDown = (event: PointerEvent) => {
   const target = event.target as Node;
   if (trigger.value?.contains(target) || popover.value?.contains(target)) {
@@ -66,11 +78,8 @@ const listen = (on: boolean) => {
   }
 };
 
-const close = () => {
-  if (!open.value) return;
-  open.value = false;
-  listen(false);
-};
+// Page listeners exist only while the popover is open
+watch(open, listen);
 
 const toggle = async () => {
   if (open.value) {
@@ -79,7 +88,6 @@ const toggle = async () => {
   }
   place();
   open.value = true;
-  listen(true);
   await nextTick();
   place();
 };

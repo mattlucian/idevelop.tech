@@ -1,17 +1,31 @@
 import { markRaw } from "vue";
 import type { ArticleExampleItem } from "@/types/article";
+// Vue SFCs synthesize the default export at compile time; DeepSource's JS analyzer can't see it
+// skipcq: JS-W1028
 import PurchaseOrderDiagram from "@/components/articles/ai-adoption/PurchaseOrderDiagram.vue";
+// skipcq: JS-W1028
 import TicketIntakeDiagram from "@/components/articles/ai-adoption/TicketIntakeDiagram.vue";
+// skipcq: JS-W1028
 import ScheduledChecksDiagram from "@/components/articles/ai-adoption/ScheduledChecksDiagram.vue";
+// skipcq: JS-W1028
 import PaybackChart from "@/components/articles/ai-adoption/PaybackChart.vue";
+// skipcq: JS-W1028
 import DraftingDiagram from "@/components/articles/ai-adoption/DraftingDiagram.vue";
+// skipcq: JS-W1028
 import SharedDocsDiagram from "@/components/articles/ai-adoption/SharedDocsDiagram.vue";
+// skipcq: JS-W1028
 import ProtocolSummaryDiagram from "@/components/articles/ai-adoption/ProtocolSummaryDiagram.vue";
+// skipcq: JS-W1028
 import InHouseScreeningDiagram from "@/components/articles/ai-adoption/InHouseScreeningDiagram.vue";
+// skipcq: JS-W1028
 import InventorySyncDiagram from "@/components/articles/ai-adoption/InventorySyncDiagram.vue";
+// skipcq: JS-W1028
 import MaintenanceTriageDiagram from "@/components/articles/ai-adoption/MaintenanceTriageDiagram.vue";
+// skipcq: JS-W1028
 import SupportChatbotDiagram from "@/components/articles/ai-adoption/SupportChatbotDiagram.vue";
+// skipcq: JS-W1028
 import StudyIntakeDiagram from "@/components/articles/ai-adoption/StudyIntakeDiagram.vue";
+// skipcq: JS-W1028
 import DeidentifiedScreeningDiagram from "@/components/articles/ai-adoption/DeidentifiedScreeningDiagram.vue";
 
 export const assistantExamples: ArticleExampleItem[] = [
