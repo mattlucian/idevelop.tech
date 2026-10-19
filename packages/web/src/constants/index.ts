@@ -18,6 +18,15 @@ export const CONTACT = {
 } as const;
 
 /**
+ * Article author byline and bio
+ */
+export const AUTHOR = {
+  name: "Matt Myers",
+  company: "I Develop Tech",
+  bio: "Matt Myers has built software since 2013 and has led engineering teams since 2016, including CTO roles since 2020. Through I Develop Tech, Matt helps small businesses with system integrations, cloud infrastructure, and AI adoption.",
+} as const;
+
+/**
  * Site configuration
  */
 export const SITE = {

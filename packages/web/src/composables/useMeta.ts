@@ -7,8 +7,13 @@ export interface MetaOptions {
   ogDescription?: string;
   ogImage?: string;
   ogUrl?: string;
+  ogType?: "website" | "article";
   twitterCard?: "summary" | "summary_large_image";
+  /** Page-specific schema.org data, added beside index.html's Organization block */
+  jsonLd?: Record<string, unknown>;
 }
+
+const PAGE_JSON_LD_ATTR = "data-page-json-ld";
 
 /**
  * Composable for managing document meta tags
@@ -77,8 +82,19 @@ export function useMeta(options: MetaOptions) {
     options.ogUrl ?? `${SITE.url}${window.location.pathname}`,
   );
 
-  // Always set og:type for pages
-  setMetaTag("og:type", "website", true);
+  setMetaTag("og:type", options.ogType ?? "website", true);
+
+  // Replace the previous page's structured data so it doesn't carry over
+  document.head
+    .querySelectorAll(`script[${PAGE_JSON_LD_ATTR}]`)
+    .forEach((script) => script.remove());
+  if (options.jsonLd) {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.setAttribute(PAGE_JSON_LD_ATTR, "");
+    script.textContent = JSON.stringify(options.jsonLd);
+    document.head.appendChild(script);
+  }
 
   // Update Twitter Card tags
   const twitterCard = options.twitterCard || "summary_large_image";
@@ -95,4 +111,10 @@ export function useMeta(options: MetaOptions) {
   if (options.ogImage) {
     setMetaTag("twitter:image", options.ogImage);
   }
+
+  // index.html's twitter:url points at the homepage
+  setMetaTag(
+    "twitter:url",
+    options.ogUrl ?? `${SITE.url}${window.location.pathname}`,
+  );
 }

@@ -110,7 +110,7 @@ const openSchedulingLink = () => {
           </div>
         </div>
         <div class="w-full md:w-[340px] lg:w-[400px] shrink-0">
-          <div class="md:sticky md:top-24">
+          <div>
             <CTAForm show-service-selector variant="dark" />
           </div>
         </div>

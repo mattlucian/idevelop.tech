@@ -32,6 +32,12 @@ const label = computed(() => articleTypeLabels[props.article.type]);
         >
           Draft
         </span>
+        <span
+          v-else-if="article.status === 'review'"
+          class="ml-auto px-2 py-0.5 rounded-md text-[11px] font-semibold border border-purple-500/40 text-purple-300 bg-purple-500/10"
+        >
+          In review
+        </span>
       </div>
       <p class="text-lg md:text-xl font-bold text-white mb-2">
         {{ article.title }}
