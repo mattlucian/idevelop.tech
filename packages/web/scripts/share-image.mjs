@@ -98,15 +98,13 @@ function cardHtml({ eyebrow, title, summary, byline, logo }) {
 
 const slug = process.argv[2];
 if (!slug) {
-  console.error("usage: npm run share-image -- <slug>");
-  process.exit(1);
+  throw new Error("usage: npm run share-image -- <slug>");
 }
 
 const { articles, articleTypeLabels, AUTHOR } = await loadSiteData();
 const article = articles.find((a) => a.slug === slug);
 if (!article) {
-  console.error(`share-image: no article with slug "${slug}"`);
-  process.exit(1);
+  throw new Error(`share-image: no article with slug "${slug}"`);
 }
 
 const logoPng = await readFile(
