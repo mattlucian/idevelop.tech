@@ -74,9 +74,14 @@ const router = createRouter({
       component: () => import("../views/FlxpointConsultingView.vue"),
     },
     {
-      path: "/notes/:slug",
+      path: "/articles/:slug",
       name: "article",
       component: () => import("../views/ArticleView.vue"),
+    },
+    {
+      // Earlier prefix for articles
+      path: "/notes/:slug",
+      redirect: (to) => `/articles/${String(to.params.slug)}`,
     },
     {
       path: "/hire-me",

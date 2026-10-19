@@ -11,6 +11,12 @@ export interface MetaOptions {
   twitterCard?: "summary" | "summary_large_image";
   /** Page-specific schema.org data, added beside index.html's Organization block */
   jsonLd?: Record<string, unknown>;
+  /** Open Graph article tags, used with `ogType: "article"` */
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+  };
 }
 
 const PAGE_JSON_LD_ATTR = "data-page-json-ld";
@@ -83,6 +89,20 @@ export function useMeta(options: MetaOptions) {
   );
 
   setMetaTag("og:type", options.ogType ?? "website", true);
+
+  // Article tags only belong on article pages, so clear the previous page's
+  document.head
+    .querySelectorAll('meta[property^="article:"]')
+    .forEach((tag) => tag.remove());
+  if (options.article?.publishedTime) {
+    setMetaTag("article:published_time", options.article.publishedTime, true);
+  }
+  if (options.article?.modifiedTime) {
+    setMetaTag("article:modified_time", options.article.modifiedTime, true);
+  }
+  if (options.article?.author) {
+    setMetaTag("article:author", options.article.author, true);
+  }
 
   // Replace the previous page's structured data so it doesn't carry over
   document.head

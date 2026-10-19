@@ -1,6 +1,6 @@
 import type { Component } from "vue";
 
-export type ArticleType = "case-study" | "field-notes" | "guide";
+export type ArticleType = "article" | "case-study" | "field-notes" | "guide";
 
 /**
  * `draft` renders only in local development. `review` is live and shareable

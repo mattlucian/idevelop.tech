@@ -3,7 +3,7 @@ import type { ArticleMeta, ArticleType } from "@/types/article";
 export const articles: ArticleMeta[] = [
   {
     slug: "ai-adoption-in-small-businesses",
-    type: "guide",
+    type: "article",
     status: "review",
     published: "2026-10-19",
     title: "AI Adoption in Small Businesses",
@@ -29,10 +29,14 @@ export const articleTypeLabels: Record<
   ArticleType,
   { eyebrow: string; action: string }
 > = {
+  article: { eyebrow: "Article", action: "Read the article" },
   "case-study": { eyebrow: "Case Study", action: "Read the case study" },
   "field-notes": { eyebrow: "Field Notes", action: "Read the field notes" },
   guide: { eyebrow: "Guide", action: "Read the guide" },
 };
+
+/** Site path for an article page */
+export const articlePath = (slug: string) => `/articles/${slug}`;
 
 const isVisible = (article: ArticleMeta) =>
   article.status !== "draft" || import.meta.env.DEV;

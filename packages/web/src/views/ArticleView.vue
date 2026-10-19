@@ -11,7 +11,7 @@ import ArticleAuthor from "../components/article/ArticleAuthor.vue";
 import ArticleSources from "../components/article/ArticleSources.vue";
 import ArticleToc from "../components/article/ArticleToc.vue";
 import { articleSourcesKey } from "../components/article/articleSources";
-import { getArticle, articleTypeLabels } from "@/data/articles";
+import { getArticle, articlePath, articleTypeLabels } from "@/data/articles";
 import {
   aiAdoptionSources,
   aiAdoptionSourcesNote,
@@ -51,7 +51,8 @@ watch(
   article,
   (current) => {
     if (!current) return;
-    const url = `${SITE.url}/notes/${current.slug}`;
+    const url = `${SITE.url}${articlePath(current.slug)}`;
+    const modified = current.updated ?? current.published;
     useMeta({
       title: `${current.title} | I Develop Tech`,
       description: current.summary,
@@ -60,18 +61,23 @@ watch(
       ogUrl: url,
       ogImage: SITE.ogImage,
       ogType: "article",
+      article: {
+        publishedTime: current.published,
+        modifiedTime: modified,
+        author: AUTHOR.name,
+      },
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: current.title,
         description: current.summary,
         url,
-        mainEntityOfPage: url,
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
         image: SITE.ogImage,
+        inLanguage: "en-US",
+        isAccessibleForFree: true,
         ...(current.published && { datePublished: current.published }),
-        ...((current.updated ?? current.published) && {
-          dateModified: current.updated ?? current.published,
-        }),
+        ...(modified && { dateModified: modified }),
         author: {
           "@type": "Person",
           name: AUTHOR.name,

@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { BookOpenIcon, ArrowRightIcon } from "@heroicons/vue/24/outline";
 import type { ArticleMeta } from "@/types/article";
-import { articleTypeLabels } from "@/data/articles";
+import { articlePath, articleTypeLabels } from "@/data/articles";
 
 interface Props {
   article: ArticleMeta;
@@ -15,7 +15,7 @@ const label = computed(() => articleTypeLabels[props.article.type]);
 
 <template>
   <router-link
-    :to="`/notes/${article.slug}`"
+    :to="articlePath(article.slug)"
     class="group block rounded-xl p-px bg-linear-to-r from-cyan-500/60 to-purple-500/60 hover:from-cyan-400 hover:to-purple-400 transition-colors"
   >
     <div class="rounded-xl bg-[#0f0f0f] p-6">
