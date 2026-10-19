@@ -191,6 +191,29 @@ All base styles target 320px mobile screens, then progressively enhance for larg
 
 ---
 
+## Service Page Sections
+
+Service pages are built from visual, scan-first sections (see "When Creating Service Pages" in `CLAUDE.md`).
+
+**Section shell**: `ContentSection` (`max-w-5xl`, `px-6 py-16`, centered heading). Alternate `banded` (`bg-slate-900/30 border-y border-slate-800/30`) between consecutive sections.
+
+**Mockup surfaces**:
+- Card: `rounded-xl border border-slate-700/50 bg-[#0f0f0f] p-5`
+- Inner panel or mini mockup: `rounded-lg border border-slate-800 bg-[#0a0a0a] p-3`, `text-xs`
+- Accent card: `border-cyan-500/30` (or purple/emerald) on the same backgrounds
+
+**Status colors** (always paired with an icon or text label, never color alone):
+- Good / done: emerald (`CheckCircleIcon`)
+- Needs attention: amber (`ExclamationTriangleIcon`)
+- Priority / risk: red
+- Neutral label: `Pill` with the `slate` tone
+
+**Example data**: mark charts and mockups with made-up numbers as "Example" in the mockup header.
+
+**Flows**: steps in a row with `FlowArrow` between them; the arrow turns downward when the row stacks on mobile.
+
+---
+
 ## Best Practices
 
 ### Styling Guidelines

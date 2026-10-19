@@ -130,8 +130,15 @@ This is an **SST (Serverless Stack) v3 monorepo** containing:
 
 **Frontend Deployment**:
 ```
-Build (Vite) → S3 Bucket → CloudFront (CDN) → Users
+Build (Vite) → Prerender (sitemap routes) → S3 Bucket → CloudFront (CDN) → Users
 ```
+
+**Frontend hosting decisions** (details in `CLAUDE.md`, "When Working with SST Config"):
+- **Plain HTTP caching, no service worker**: pages and `version.json` are `no-store`, content-hashed `assets/**` are immutable, other files revalidate. A cache-first service worker was removed because it served old deploys
+- **Prerendering**: `scripts/prerender.mjs` renders each sitemap route to `dist/<route>/index.html`, so crawlers and link previews get each page's own HTML
+- **Routing**: SST's CloudFront function routes requests; a viewer-request injection sends page URLs that aren't prerendered to the app shell. CloudFront custom error responses aren't used, because error-page fetches skip the function
+- **Deploy order** (SST): upload new files, delete files not in the new build, update the routing data, then invalidate the CloudFront cache. Pages are overwritten in place, so new visits get the new build; open tabs are handled by the version check
+- **Deploys queue per stage** via GitHub Actions `concurrency`
 
 **API Deployment**:
 ```
@@ -394,15 +401,17 @@ SINCE 1 day ago
 
 ### Component Organization Pattern
 
-**Decision**: Organize components into 6 functional categories rather than flat structure.
+**Decision**: Organize shared components into functional categories, plus one folder per service page for its sections.
 
 **Categories**:
-- `elements/` - Atomic UI building blocks (buttons, badges, utilities)
+- `elements/` - Atomic UI building blocks (buttons, badges, arrows, toggles)
 - `cards/` - Card-based content containers
-- `ui/` - Complex, reusable UI components (panels, sections)
+- `ui/` - Complex, reusable UI components (sections, panels, forms)
 - `display/` - Data visualization components
-- `layout/` - Global application layout
-- `integration/` - Integration diagram visualizations
+- `layout/` - Global application layout and the service page shell
+- Feature folders (`ai-enablement/`, `mcp/`, `integration/`, `tech-admin/`, `ecommerce/`, `cloud/`, `flxpoint/`) - Sections specific to one page
+
+See `docs/frontend/COMPONENT-RULES.md` for the shared section building blocks.
 
 **Rationale**:
 - Clear separation of concerns by component complexity
@@ -425,7 +434,8 @@ SINCE 1 day ago
 
 - Composables in `src/composables/`:
   - `useServiceConfig.ts` - Service configuration and data access
-  - `useMeta.ts` - Meta tag management
+  - `useMeta.ts` - Meta tags and per-page canonical URL
+  - `usePageMeta.ts` / `useServiceMeta.ts` - Standard page and service page meta
 
 ### View Architecture Pattern
 
@@ -466,6 +476,8 @@ SINCE 1 day ago
 
 **Rationale**: Optimizes initial bundle size and loads pages on demand.
 
+**Consequence**: an open tab keeps running the build it loaded, and a deploy deletes that build's page files. `src/utils/deployCheck.ts` checks `/version.json` on in-app navigation and loads the destination as a full page when a newer build is live. The app mounts after `router.isReady()`, so the prerendered page is replaced in one step without a layout shift.
+
 ### Data Strategy
 
 **Decision**: Migrate from JSON to TypeScript for all data files.
@@ -482,7 +494,7 @@ SINCE 1 day ago
 - Shared types in `/src/types/shared/` aligned with component categories
 
 **Type System Pattern**:
-- Base interfaces for common patterns (`ServicePageData`)
+- Base interface for every service page (`ServicePageBase`)
 - Service-specific extensions for unique content
 - Separation of shared component types vs domain types
 

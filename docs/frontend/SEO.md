@@ -206,6 +206,9 @@ description: "Practical AI adoption for your team. Hands-on training workshops, 
 
 ## Testing & Validation
 
+**Lighthouse CI** (`.github/workflows/lighthouse-ci.yml`) runs after deploys to dev. Reports are uploaded to Lighthouse's temporary public storage: open the run, expand "Run Lighthouse CI", and find the "Open the report at" links (they expire after about a week). The step uses `continue-on-error`, so the check is green regardless of scores; read the reports.
+
+
 **Before deployment, validate with:**
 
 1. **Google Rich Results Test** - https://search.google.com/test/rich-results

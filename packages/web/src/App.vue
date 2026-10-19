@@ -15,7 +15,7 @@ const showFooter = computed(
 
 <template>
   <div
-    class="min-h-screen w-full flex flex-col bg-[#0a0a0a] text-gray-100 overflow-x-hidden"
+    class="min-h-screen w-full flex flex-col bg-[#0a0a0a] text-gray-100 overflow-x-clip"
   >
     <!-- Skip Navigation Link for Accessibility -->
     <a

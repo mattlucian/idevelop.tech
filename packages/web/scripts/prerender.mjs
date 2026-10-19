@@ -70,6 +70,11 @@ async function prerender() {
           if (src ? !keepScripts.includes(src) : !isJsonLd) script.remove();
         });
         document.querySelectorAll("iframe").forEach((frame) => frame.remove());
+        // Per-visitor UI such as the cookie notice depends on the visitor's
+        // stored state; saving the crawler's version flashes it for everyone
+        document
+          .querySelectorAll("[data-prerender-skip]")
+          .forEach((el) => el.remove());
         // Keep only the app root in <body>; third-party widgets attach outside it
         const app = document.getElementById("app");
         [...document.body.children].forEach((child) => {

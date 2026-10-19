@@ -7,8 +7,19 @@ export interface MetaOptions {
   ogDescription?: string;
   ogImage?: string;
   ogUrl?: string;
+  ogType?: "website" | "article";
   twitterCard?: "summary" | "summary_large_image";
+  /** Page-specific schema.org data, added beside index.html's Organization block */
+  jsonLd?: Record<string, unknown>;
+  /** Open Graph article tags, used with `ogType: "article"` */
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+  };
 }
+
+const PAGE_JSON_LD_ATTR = "data-page-json-ld";
 
 /**
  * Composable for managing document meta tags
@@ -77,8 +88,33 @@ export function useMeta(options: MetaOptions) {
     options.ogUrl ?? `${SITE.url}${window.location.pathname}`,
   );
 
-  // Always set og:type for pages
-  setMetaTag("og:type", "website", true);
+  setMetaTag("og:type", options.ogType ?? "website", true);
+
+  // Article tags only belong on article pages, so clear the previous page's
+  document.head
+    .querySelectorAll('meta[property^="article:"]')
+    .forEach((tag) => tag.remove());
+  if (options.article?.publishedTime) {
+    setMetaTag("article:published_time", options.article.publishedTime, true);
+  }
+  if (options.article?.modifiedTime) {
+    setMetaTag("article:modified_time", options.article.modifiedTime, true);
+  }
+  if (options.article?.author) {
+    setMetaTag("article:author", options.article.author, true);
+  }
+
+  // Replace the previous page's structured data so it doesn't carry over
+  document.head
+    .querySelectorAll(`script[${PAGE_JSON_LD_ATTR}]`)
+    .forEach((script) => script.remove());
+  if (options.jsonLd) {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.setAttribute(PAGE_JSON_LD_ATTR, "");
+    script.textContent = JSON.stringify(options.jsonLd);
+    document.head.appendChild(script);
+  }
 
   // Update Twitter Card tags
   const twitterCard = options.twitterCard || "summary_large_image";
@@ -95,4 +131,10 @@ export function useMeta(options: MetaOptions) {
   if (options.ogImage) {
     setMetaTag("twitter:image", options.ogImage);
   }
+
+  // index.html's twitter:url points at the homepage
+  setMetaTag(
+    "twitter:url",
+    options.ogUrl ?? `${SITE.url}${window.location.pathname}`,
+  );
 }

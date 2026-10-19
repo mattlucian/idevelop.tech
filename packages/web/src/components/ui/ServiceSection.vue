@@ -56,7 +56,7 @@ const colors = computed(() => useColorScheme(props.colorScheme));
         v-if="$slots.default"
         class="w-full md:w-[340px] lg:w-[400px] shrink-0"
       >
-        <div class="md:sticky md:top-24">
+        <div>
           <slot />
         </div>
       </div>

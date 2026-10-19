@@ -64,6 +64,7 @@ const handleAccept = () => {
   >
     <div
       v-if="showBanner"
+      data-prerender-skip
       class="fixed bottom-0 left-0 right-0 z-50 bg-[#0f0f0f] border-t border-slate-700 shadow-2xl"
       role="dialog"
       aria-labelledby="cookie-notice-title"
