@@ -33,7 +33,6 @@ export function useArticleOutline(root: Ref<HTMLElement | null>) {
   const activeId = ref("");
   let elements: HTMLElement[] = [];
   let observer: MutationObserver | null = null;
-  let frame = 0;
   let initialHashHandled = false;
 
   const updateActive = () => {
@@ -100,11 +99,22 @@ export function useArticleOutline(root: Ref<HTMLElement | null>) {
     updateActive();
   };
 
-  const schedule = (fn: () => void) => {
-    cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(fn);
+  // Each task gets its own frame. With a shared one, a scroll event right
+  // after the body loaded cancelled the pending rebuild and left the outline
+  // with only the sections outside the body
+  const perFrame = (fn: () => void) => {
+    let frame = 0;
+    return {
+      run: () => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(fn);
+      },
+      cancel: () => cancelAnimationFrame(frame),
+    };
   };
-  const onScroll = () => schedule(updateActive);
+  const rebuild = perFrame(build);
+  const refreshActive = perFrame(updateActive);
+  const onScroll = () => refreshActive.run();
 
   // Route heading links through the router so they get its smooth scroll and offset
   const onClick = (event: MouseEvent) => {
@@ -127,7 +137,7 @@ export function useArticleOutline(root: Ref<HTMLElement | null>) {
       previous?.removeEventListener("click", onClick);
       if (!container) return;
       // The article body loads asynchronously, so rebuild when its content lands
-      observer = new MutationObserver(() => schedule(build));
+      observer = new MutationObserver(() => rebuild.run());
       observer.observe(container, { childList: true, subtree: true });
       container.addEventListener("click", onClick);
       build();
@@ -140,7 +150,8 @@ export function useArticleOutline(root: Ref<HTMLElement | null>) {
   onBeforeUnmount(() => {
     observer?.disconnect();
     root.value?.removeEventListener("click", onClick);
-    cancelAnimationFrame(frame);
+    rebuild.cancel();
+    refreshActive.cancel();
     window.removeEventListener("scroll", onScroll);
   });
 
