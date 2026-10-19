@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./base.css";
+@plugin "@tailwindcss/typography";
 
 /* Hide reCAPTCHA badge (we have text disclosure on forms per Google's terms) */
 .grecaptcha-badge {

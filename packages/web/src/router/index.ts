@@ -74,7 +74,7 @@ const router = createRouter({
       component: () => import("../views/FlxpointConsultingView.vue"),
     },
     {
-      path: "/notes/:slug",
+      path: "/articles/:slug",
       name: "article",
       component: () => import("../views/ArticleView.vue"),
     },
