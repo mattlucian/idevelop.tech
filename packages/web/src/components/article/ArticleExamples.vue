@@ -25,8 +25,6 @@ const go = (step: number) => {
 <template>
   <section
     :id="`${slug}-examples`"
-    data-toc-label="Examples"
-    data-toc-nested
     class="not-prose my-12 rounded-xl border border-cyan-900/50 bg-linear-to-br from-cyan-950/20 to-purple-950/10 p-4 md:p-6"
     :aria-label="title"
   >
