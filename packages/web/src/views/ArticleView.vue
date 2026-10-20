@@ -54,7 +54,7 @@ watch(
     const url = `${SITE.url}${articlePath(current.slug)}`;
     const modified = current.updated ?? current.published;
     const image = current.ogImage
-      ? `${SITE.url}${current.ogImage}`
+      ? `${SITE.shareOrigin}${current.ogImage}`
       : SITE.ogImage;
     useMeta({
       title: `${current.title} | I Develop Tech`,

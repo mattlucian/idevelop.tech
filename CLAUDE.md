@@ -904,7 +904,7 @@ SITE.name; // idevelop.tech
 SITE.url; // https://idevelop.tech
 SITE.companyName; // I Develop Tech LLC
 SITE.repository; // https://github.com/mattlucian/idevelop.tech
-SITE.ogImage; // https://idevelop.tech/images/brand/og-image.png
+SITE.ogImage; // <stage origin>/images/brand/og-image.png (dev pages use dev.idevelop.tech)
 ```
 
 **When to use constants:**

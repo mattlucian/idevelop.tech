@@ -7,8 +7,6 @@ export interface ArticleOutlineItem {
   id: string;
   label: string;
   nested: boolean;
-  /** A labeled section (such as an examples carousel) rather than a heading */
-  section: boolean;
 }
 
 // Headings inside `[data-toc-root]` blocks, so the CTA and author headings stay
@@ -86,12 +84,10 @@ export function useArticleOutline(root: Ref<HTMLElement | null>) {
     items.value = elements.map((el) => {
       const label = el.dataset.tocLabel ?? el.textContent?.trim() ?? "";
       if (!el.id) el.id = slugify(label);
-      const heading = el.tagName === "H2" || el.tagName === "H3";
       return {
         id: el.id,
         label,
         nested: el.tagName === "H3" || el.dataset.tocNested !== undefined,
-        section: !heading,
       };
     });
     linkHeadings(container);
