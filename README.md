@@ -66,6 +66,7 @@ Create `packages/web/.env.local`:
 VITE_API_URL=your-api-gateway-url
 VITE_RECAPTCHA_SITE_KEY=your-recaptcha-site-key
 VITE_GA_MEASUREMENT_ID=your-ga-id  # Production only (disabled in dev)
+VITE_SHARE_ORIGIN=https://idevelop.tech  # Origin for link preview images; SST sets it per stage
 ```
 
 </details>

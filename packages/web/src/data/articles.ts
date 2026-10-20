@@ -8,7 +8,7 @@ export const articles: ArticleMeta[] = [
     published: "2026-10-19",
     title: "AI Adoption in Small Businesses",
     summary:
-      "Four practical ways a small business can use AI, from drafting with an assistant to letting an agent handle routine decisions, and the safeguards each one needs.",
+      "A practical way for small businesses to improve their operations by gradually incorporating AI.",
     ogImage: "/images/articles/ai-adoption-in-small-businesses.png",
     relatedService: {
       label: "AI Enablement",

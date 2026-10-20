@@ -3,10 +3,13 @@ import { ArrowRightIcon, ArrowDownIcon } from "@heroicons/vue/24/outline";
 
 interface Props {
   size?: "sm" | "md" | "lg";
+  /** Always point down, for flows that stack at every width */
+  vertical?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   size: "lg",
+  vertical: false,
 });
 
 const sizeClasses = {
@@ -19,7 +22,10 @@ const sizeClasses = {
 <template>
   <!-- Points right on desktop and down when the flow stacks on mobile -->
   <span class="flex justify-center text-slate-600" aria-hidden="true">
-    <ArrowRightIcon :class="['hidden md:block', sizeClasses[size]]" />
-    <ArrowDownIcon :class="['md:hidden', sizeClasses[size]]" />
+    <ArrowRightIcon
+      v-if="!vertical"
+      :class="['hidden md:block', sizeClasses[size]]"
+    />
+    <ArrowDownIcon :class="[{ 'md:hidden': !vertical }, sizeClasses[size]]" />
   </span>
 </template>

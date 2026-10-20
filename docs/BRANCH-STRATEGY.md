@@ -166,6 +166,7 @@ Both stages use environment-specific configuration:
 - **DynamoDB tables:** Stage-specific table names
 - **API URLs:** Injected at build time via `VITE_API_URL`
 - **Google Analytics:** Production only (`VITE_GA_MEASUREMENT_ID`)
+- **Link preview images:** Loaded from the stage's own domain (`VITE_SHARE_ORIGIN`)
 
 ---
 

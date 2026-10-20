@@ -14,7 +14,7 @@ export const aiAdoptionSources: ArticleSource[] = [
     ],
   },
   {
-    text: "US Census Bureau, Business Trends and Outlook Survey, Nov 2025 to Oct 2026",
+    text: "US Census Bureau, Business Trends and Outlook Survey, Oct 2026",
     links: [
       { label: "data", href: "https://www.census.gov/hfp/btos/data" },
       {
