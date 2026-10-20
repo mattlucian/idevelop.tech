@@ -3,7 +3,7 @@ interface Props {
   title: string;
   subtitle?: string;
   caption?: string;
-  /** Show the "AI step" legend for diagrams that highlight AI steps */
+  /** Show the "Done by AI" legend for diagrams that highlight AI steps */
   aiLegend?: boolean;
 }
 
@@ -34,7 +34,7 @@ withDefaults(defineProps<Props>(), {
         <span
           class="h-3 w-3 rounded-sm border border-purple-500/60 bg-purple-500/20"
         />
-        AI step
+        Done by AI
       </span>
     </div>
     <slot />

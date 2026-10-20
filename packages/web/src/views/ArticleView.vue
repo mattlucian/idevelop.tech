@@ -44,6 +44,20 @@ const content = computed(() =>
   article.value ? contents[article.value.slug] : undefined,
 );
 const sources = computed(() => content.value?.sources ?? []);
+
+// ISO dates render as "October 2026"; UTC keeps the month from shifting by time zone
+const monthYear = (iso: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${iso}T00:00:00Z`));
+
+const dateLabel = computed(() => {
+  if (article.value?.updated)
+    return `Updated ${monthYear(article.value.updated)}`;
+  return article.value?.published ? monthYear(article.value.published) : "";
+});
 provide(articleSourcesKey, sources);
 
 // The view is reused when moving between articles, so update meta per slug
@@ -145,9 +159,7 @@ watch(
           <p class="text-sm text-slate-500 mt-6">
             By <span class="text-slate-200">{{ AUTHOR.name }}</span> ·
             {{ AUTHOR.company
-            }}<template v-if="article.updated">
-              · Updated {{ article.updated }}</template
-            >
+            }}<template v-if="dateLabel"> · {{ dateLabel }}</template>
           </p>
         </header>
 

@@ -17,7 +17,7 @@ export interface ArticleMeta {
   status: ArticleStatus;
   title: string;
   summary: string;
-  /** ISO date for structured data; not shown on the page */
+  /** ISO date for structured data; the byline shows its month and year */
   published?: string;
   updated?: string;
   readMinutes?: number;
@@ -64,4 +64,18 @@ export interface ArticleExampleItem {
   body: ArticleExampleParagraph[];
   list?: string[];
   figures?: Component[];
+}
+
+/** One benefit or challenge in an article's tradeoffs card */
+export interface ArticleTradeoffItem {
+  label: string;
+  detail: string;
+  /** Source number from the article's Sources list */
+  cite?: number;
+}
+
+export interface ArticleTradeoffs {
+  title: string;
+  benefits: ArticleTradeoffItem[];
+  challenges: ArticleTradeoffItem[];
 }
