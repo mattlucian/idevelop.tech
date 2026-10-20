@@ -81,6 +81,8 @@ usePageMeta({
 
 **Open Graph Image:**
 - Default: `SITE.ogImage` from constants (used unless a page passes `ogImage`)
+- Articles: `npm run share-image -- <slug>` (in `packages/web/`) renders `public/images/articles/<slug>.png` from the article's metadata; set the article's `ogImage` to that path
+- Images load from the deployed stage's domain (`VITE_SHARE_ORIGIN`), so a dev link previews with dev's images. Page URLs and canonical links stay on production
 - Dimensions: 1200×630px
 
 **Twitter Cards:**
