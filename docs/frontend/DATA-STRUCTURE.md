@@ -18,6 +18,7 @@ This document defines the data schemas used in the idevelop.tech portfolio websi
 │   ├── integration.ts
 │   ├── mcp-development.ts
 │   └── tech-admin.ts
+├── articles/          # Per-article data: sources, examples, benefits and challenges cards
 ├── articles.ts        # Notes article metadata (drafts render only in dev)
 ├── services.ts        # Service configuration (HomeView cards, typewriter phrases)
 └── tech.ts            # Technical expertise content
@@ -39,7 +40,7 @@ Types are organized in `/src/types/`:
 **Domain Types** (`/types/`):
 
 - `service.ts` - Service page types (`ServicePageBase` plus one interface per page)
-- `article.ts` - Notes article metadata
+- `article.ts` - Article metadata, sources, examples, and benefits and challenges cards
 - `tech.ts` - Technical expertise types (TechContent, Expertise, Category)
 - `attribution.ts` - Image attribution data
 

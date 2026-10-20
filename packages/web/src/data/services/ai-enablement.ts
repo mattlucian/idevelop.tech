@@ -59,6 +59,13 @@ export const aiEnablementServiceData: AIEnablementServiceData = {
         description:
           "AI skills and operational workflows for a product distributor",
       },
+      {
+        name: "Mr. Mochas Pet Supplies",
+        url: "https://mrmochaspet.com",
+        ...partnerLogo("mrmochas-dark-logo.png"),
+        description:
+          "Automated processes built with AI, including integrations and purchase order generation",
+      },
     ],
     testimonial: {
       quote:

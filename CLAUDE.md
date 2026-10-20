@@ -519,6 +519,7 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
    - `display/` - Data display components (timelines, charts)
    - `layout/` - Global layout components (Navigation, Footer)
    - `integration/` - Integration-specific visualizations
+   - `article/` - Shared article building blocks; `articles/{topic}/` - one article's body and diagrams
 4. **Support dual theming**: Add `colorScheme` or `color` prop
    - `cyan` for services/business pages
    - `emerald` for tech/experience pages
