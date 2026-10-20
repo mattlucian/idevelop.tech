@@ -79,6 +79,8 @@
 ├── ui/              # Complex UI components
 ├── display/         # Data display components
 ├── layout/          # Global layout (Navigation, Footer, ServicePageLayout)
+├── article/         # Shared article building blocks (figures, flows, cards, citations)
+├── articles/{topic}/ # One folder per article: body, charts, and diagrams
 └── {feature}/       # One folder per service page's sections:
                      # ai-enablement/, mcp/, integration/, tech-admin/,
                      # ecommerce/, cloud/, flxpoint/
@@ -93,6 +95,19 @@
 | `SectionHeading` | `elements/` | Centered section heading on its own |
 | `VisualFeatureCard` | `cards/` | Icon, title, description, and a mini mockup slot (`visualLabel` for screen readers, `#footer` for links) |
 | `Pill` | `elements/badges/` | Small status or label chip with a color tone |
+
+**Shared building blocks for articles** (in `article/`):
+
+| Component | Use |
+|---|---|
+| `ArticleFigure` | Figure shell: finding as the title, subtitle, caption, optional "Done by AI" legend |
+| `ArticleFlow` / `ArticleBranchFlow` | Straight or branching step flows |
+| `ArticleScenarioBox` | One stage of a scenario diagram (`neutral`, `ai`, or `person` tone, optional icon and fields) |
+| `ArticleAiChecks` | The systems AI looks at in a scenario and what it finds |
+| `ArticleCycle` | Numbered person/AI loop, such as building an automation |
+| `ArticleTradeoffs` | Benefits and challenges card, with data in `src/data/articles/` |
+| `ArticleExamples` | Examples carousel at the end of a section |
+| `ArticleCite` | Numbered citation with a source popup |
 | `FlowArrow` | `elements/` | Arrow between steps: right on desktop, down on mobile |
 | `CalloutStrip` | `elements/` | Dashed note under a diagram |
 | `SegmentedToggle` | `elements/` | Two or three option toggle (`aria-pressed` buttons) |
