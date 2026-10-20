@@ -8,11 +8,9 @@ import TicketIntakeDiagram from "@/components/articles/ai-adoption/TicketIntakeD
 // skipcq: JS-W1028
 import ScheduledChecksDiagram from "@/components/articles/ai-adoption/ScheduledChecksDiagram.vue";
 // skipcq: JS-W1028
-import PaybackChart from "@/components/articles/ai-adoption/PaybackChart.vue";
-// skipcq: JS-W1028
 import DraftingDiagram from "@/components/articles/ai-adoption/DraftingDiagram.vue";
 // skipcq: JS-W1028
-import SharedDocsDiagram from "@/components/articles/ai-adoption/SharedDocsDiagram.vue";
+import ReleaseNotesDiagram from "@/components/articles/ai-adoption/ReleaseNotesDiagram.vue";
 // skipcq: JS-W1028
 import ProtocolSummaryDiagram from "@/components/articles/ai-adoption/ProtocolSummaryDiagram.vue";
 // skipcq: JS-W1028
@@ -32,11 +30,7 @@ export const assistantExamples: ArticleExampleItem[] = [
   {
     business: "Local Store",
     title: "Writing jobs that tend to get postponed",
-    body: [
-      {
-        text: "Good first tasks for a local store are the writing jobs that tend to get postponed:",
-      },
-    ],
+    body: [],
     list: [
       "Onboarding and training guides",
       "Store policies and procedures",
@@ -47,13 +41,16 @@ export const assistantExamples: ArticleExampleItem[] = [
   },
   {
     business: "Tech Company",
-    title: "One documentation fix reaches the support team",
+    title: "Drafting release notes from the team's documentation",
     body: [
       {
-        text: "At a tech company, a developer might find and fix an error in the documentation for an automated process. If the support team's AI assistant draws on the same documentation, the next answer it drafts about that process should reflect the fix.",
+        text: "At a tech company, a developer might ask an AI assistant to turn a release's list of code changes into release notes for customers. If the assistant draws on the team's product documentation and writing instructions, the draft can use the feature names customers know and the format the team has agreed on. It could also point out where the documentation no longer matches the change.",
+      },
+      {
+        text: "The developer checks each item for accuracy, corrects the documentation where needed, and publishes the notes.",
       },
     ],
-    figures: [markRaw(SharedDocsDiagram)],
+    figures: [markRaw(ReleaseNotesDiagram)],
   },
   {
     business: "Research Lab",
@@ -63,7 +60,7 @@ export const assistantExamples: ArticleExampleItem[] = [
         text: "A research lab that runs clinical studies might receive a long protocol document for each new study, with the eligibility requirements spread across dozens of pages. Study coordinators could use an AI assistant to turn each protocol into a short summary of who qualifies, such as the age range, the required diagnoses, and the medications that rule a candidate out.",
       },
       {
-        text: "A protocol describes the study rather than any participant, so coordinators can share these documents with an AI model without exposing candidate information. Shared instructions that set the summary's format give every coordinator summaries with the same sections, and the person who knows each study best checks its summary against the protocol before the team relies on it.",
+        text: "A protocol describes the study rather than any participant, so coordinators can share these documents with an AI model without exposing candidate information. Instructions that set the summary's format give every coordinator summaries with the same sections, and the person who knows each study best checks its summary against the protocol before the team relies on it.",
       },
     ],
     figures: [markRaw(ProtocolSummaryDiagram)],
@@ -82,10 +79,10 @@ export const builderExamples: ArticleExampleItem[] = [
         text: "After launch, staff can still override an order when a supplier is late or a seasonal item sells faster than expected, and those cases get added to the rules over time.",
       },
       {
-        text: "Suppose staff spend about four hours every week building purchase orders. With the ordering rules written down, the store's technical employee or contractor might spend around ten hours working with AI to build the automation. If a person still spends about 30 minutes a week reviewing the orders, the store recovers those ten hours in about three weeks and saves roughly three and a half hours every week after that.",
+        text: "Suppose staff spend about four hours every week building purchase orders. With the ordering rules written down, the store's technical employee or contractor might spend around ten hours working with AI to build the automation. If a person still spends about 30 minutes a week reviewing the orders, the store recovers those ten hours in about three weeks and saves roughly three and a half hours every week after that. If a contractor builds it, compare their fee with the staff time saved each week.",
       },
     ],
-    figures: [markRaw(PurchaseOrderDiagram), markRaw(PaybackChart)],
+    figures: [markRaw(PurchaseOrderDiagram)],
   },
   {
     business: "Research Lab",
@@ -124,10 +121,10 @@ export const teammateExamples: ArticleExampleItem[] = [
     title: "Matching new bug tickets to earlier reports",
     body: [
       {
-        text: "At a tech company, a new bug ticket often starts with little more than a title and one line of description. Whoever picks it up may spend time working out whether the same problem has been reported before. An AI step could read the ticket as soon as it's created and look through the support inbox, past issues, and the backlog for earlier reports of the same problem, even when they use different words. It could then add the likely matches and a short summary to the ticket.",
+        text: "At a tech company, a new bug ticket often starts with little more than a title and one line of description. Whoever picks it up may spend time working out whether the same problem has been reported before. AI could read the ticket as soon as it's created and look through the support inbox, past issues, and the backlog for earlier reports of the same problem, even when they use different words, and check the CRM for affected customers. It could then add the likely matches, the affected customers, and a short summary to the ticket.",
       },
       {
-        text: "Developers would still review the ticket and decide what to do, but the AI step could cut the time they spend searching. Half of developers surveyed said they lose 10 or more hours a week to non-coding tasks, and finding information was the top time-waster they named.",
+        text: "Developers and product owners would still review the ticket and decide what to do, such as when to schedule the fix, but AI could cut the time they spend searching. Half of developers surveyed said they lose 10 or more hours a week to non-coding tasks, and finding information was the top time-waster they named.",
         cite: 11,
       },
     ],
@@ -141,7 +138,7 @@ export const teammateExamples: ArticleExampleItem[] = [
         text: "A screening script works well for criteria with clear values, such as an age range. Other criteria are written in language a script can't apply reliably, such as a requirement that a condition be well controlled, or depend on notes in an applicant's history that need interpretation.",
       },
       {
-        text: "A research lab could use AI as a builder again to create a step that removes names, contact details, and other identifying information from each new application, leaving the medical facts. The lab's privacy and compliance requirements set which details that step must remove. An AI step then reads the de-identified record alongside the open studies' criteria and recommends the studies the applicant may fit, with the reasons for each recommendation.",
+        text: "A research lab could use AI as a builder again to create a step that removes names, contact details, and other identifying information from each new application, leaving the medical facts. The lab's privacy and compliance requirements set which details that step must remove. AI then reads the de-identified record alongside the open studies' criteria and recommends the studies the applicant may fit, with the reasons for each recommendation.",
       },
       {
         text: "Coordinators decide which candidates to contact. Because recommendations arrive as each application comes in, candidates are sorted into studies as they apply, instead of waiting for someone to work through the backlog on a set schedule.",
@@ -157,7 +154,7 @@ export const teammateExamples: ArticleExampleItem[] = [
         text: "A property management company might receive maintenance requests by email, text message, and an online form, each written in the tenant's own words. One tenant reports water under the sink, and the tenant in the unit below writes that water is dripping from the kitchen ceiling. The two requests might describe the same leak.",
       },
       {
-        text: "An AI step could read each new request, suggest the type of repair and how urgent the problem seems, and point out when a request might relate to another open request in the same building. The AI step could also draft a reply to the tenant. The maintenance coordinator reviews the suggestions, assigns the work, and approves the reply before it's sent.",
+        text: "AI could read each new request, suggest the type of repair and how urgent the problem seems, and, using building records and past requests, point out when a request might relate to another open request in the same building. It could also draft a reply to the tenant. The maintenance coordinator reviews the suggestions, assigns the work, and approves the reply before it's sent.",
       },
     ],
     figures: [markRaw(MaintenanceTriageDiagram)],
@@ -183,7 +180,10 @@ export const operatorExamples: ArticleExampleItem[] = [
     title: "A support chatbot",
     body: [
       {
-        text: "A tech company's support chatbot might answer questions from the company's help content and let customers ask for a person at any time.",
+        text: "A tech company's support chatbot might answer questions from the company's help content and documentation, and let customers ask for a person at any time. Because the chatbot answers from the same documentation the team maintains, a correction a developer makes there reaches the chatbot's next answer.",
+      },
+      {
+        text: "Questions outside the approved content, such as billing problems, go to the support team. When the chatbot hands a conversation to a person, it could include a summary so the customer doesn't have to repeat the problem.",
       },
     ],
     figures: [markRaw(SupportChatbotDiagram)],
