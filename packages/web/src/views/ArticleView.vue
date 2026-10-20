@@ -53,13 +53,16 @@ watch(
     if (!current) return;
     const url = `${SITE.url}${articlePath(current.slug)}`;
     const modified = current.updated ?? current.published;
+    const image = current.ogImage
+      ? `${SITE.shareOrigin}${current.ogImage}`
+      : SITE.ogImage;
     useMeta({
       title: `${current.title} | I Develop Tech`,
       description: current.summary,
       ogTitle: current.title,
       ogDescription: current.summary,
       ogUrl: url,
-      ogImage: SITE.ogImage,
+      ogImage: image,
       ogType: "article",
       article: {
         publishedTime: current.published,
@@ -73,7 +76,7 @@ watch(
         description: current.summary,
         url,
         mainEntityOfPage: { "@type": "WebPage", "@id": url },
-        image: SITE.ogImage,
+        image,
         inLanguage: "en-US",
         isAccessibleForFree: true,
         ...(current.published && { datePublished: current.published }),

@@ -26,6 +26,11 @@ export const AUTHOR = {
   bio: "Matt Myers has built software since 2013 and has led engineering teams since 2016, including CTO roles since 2020. Through I Develop Tech, Matt helps small businesses with system integrations, cloud infrastructure, and AI adoption.",
 } as const;
 
+// Link previews load images from the stage that served the page, so a dev
+// link shows dev's images before they reach production
+const SHARE_ORIGIN =
+  import.meta.env.VITE_SHARE_ORIGIN || "https://idevelop.tech";
+
 /**
  * Site configuration
  */
@@ -34,5 +39,6 @@ export const SITE = {
   url: "https://idevelop.tech",
   companyName: "I Develop Tech LLC",
   repository: "https://github.com/mattlucian/idevelop.tech",
-  ogImage: "https://idevelop.tech/images/brand/og-image.png",
+  shareOrigin: SHARE_ORIGIN,
+  ogImage: `${SHARE_ORIGIN}/images/brand/og-image.png`,
 } as const;

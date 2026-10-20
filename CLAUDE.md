@@ -603,6 +603,7 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 1. **Place image**:
    - 🔴 **Logos and images used by the site**: `packages/web/src/assets/images/{partners,platforms}/` (add a `.webp` copy next to `.png` files). Reference them with `partnerLogo("file.png")` / `platformLogo("file.png")` from `src/utils/imageAssets.ts`, never as `/images/...` strings. The build gives them content-hashed URLs, so they're cached long term and never stale after a deploy
    - **Files referenced by a fixed URL from outside the site** (email logo, share image, favicons, `apple-touch-icon`): `packages/web/public/images/brand/`. These keep stable URLs and are revalidated on each visit
+   - **Article share images**: when adding an article, run `npm run share-image -- <slug>` in `packages/web/`. It writes `public/images/articles/<slug>.png` from the article's metadata; set the article's `ogImage` to that path. Rerun it when the title, summary, or type changes
 2. **Check attribution requirement**: If from Unsplash or third-party, attribution is MANDATORY
 3. **Update AttributionsView**: Add new `AttributionCard` to `packages/web/src/views/AttributionsView.vue`
    - Include: service/page name, image preview, description, photographer name + Unsplash link
@@ -903,7 +904,7 @@ SITE.name; // idevelop.tech
 SITE.url; // https://idevelop.tech
 SITE.companyName; // I Develop Tech LLC
 SITE.repository; // https://github.com/mattlucian/idevelop.tech
-SITE.ogImage; // https://idevelop.tech/images/brand/og-image.png
+SITE.ogImage; // <stage origin>/images/brand/og-image.png (dev pages use dev.idevelop.tech)
 ```
 
 **When to use constants:**

@@ -26,9 +26,7 @@ defineProps<Props>();
             item.nested ? 'pl-7' : 'pl-4',
             item.id === activeId
               ? 'border-cyan-400 text-white'
-              : item.section && item.nested
-                ? 'border-transparent text-cyan-400/80 hover:text-cyan-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200',
+              : 'border-transparent text-slate-400 hover:text-slate-200',
           ]"
         >
           {{ item.label }}
