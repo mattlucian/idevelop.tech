@@ -532,7 +532,7 @@ import {
       After years of wide availability, it seems that few small businesses have
       successfully integrated AI into their operations,<ArticleCite :n="3" />
       even though the businesses seeing the largest financial gains are far more
-      likely to have built AI into their core operations.<ArticleCite :n="4" />
+      likely to have done so.<ArticleCite :n="4" />
     </p>
     <p>
       This appears to follow an existing trend where the most intricate
