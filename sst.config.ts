@@ -177,6 +177,10 @@ export default $config({
         VITE_RECAPTCHA_SITE_KEY: "6Lc2tf0rAAAAADcg5fae_hlq6hWoUUdtu_CQsjcw",
         // Only enable Google Analytics in production
         VITE_GA_MEASUREMENT_ID: isProduction ? "G-XS6QVSG7MS" : "",
+        // Link preview images load from this stage's domain
+        VITE_SHARE_ORIGIN: isProduction
+          ? "https://idevelop.tech"
+          : "https://dev.idevelop.tech",
       },
       edge: {
         viewerRequest: {
