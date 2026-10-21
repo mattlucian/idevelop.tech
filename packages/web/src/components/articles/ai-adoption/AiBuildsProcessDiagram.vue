@@ -6,7 +6,7 @@ import ArticleFlow from "../../article/ArticleFlow.vue";
 
 <template>
   <ArticleFigure
-    title="When AI helps build the automation, orders run without it"
+    title="Using AI to build a standard automation"
     subtitle="Example: the same online order"
     ai-legend
   >

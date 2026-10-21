@@ -16,7 +16,7 @@ useServiceMeta({
   serviceName: "Cloud Consulting: Get More From Your AWS Spend",
   slug: "cloud-consulting",
   description:
-    "AWS cost optimization and performance consulting. Lower costs, predictable bills, and better performance, with ranked findings, estimated impact, changes rolled out safely, and a before-and-after summary.",
+    "AWS cost optimization and performance consulting. Lower costs, predictable bills, and better performance, with ranked findings, estimated impact, staged rollouts, and a before-and-after summary.",
   ogDescription:
     "Get more from your AWS spend. Lower costs, steadier bills, and better performance, with each recommendation ranked by impact.",
 });

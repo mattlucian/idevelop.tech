@@ -41,8 +41,8 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
     id="orders"
     banded
     eyebrow="Example: Orders and fulfillment"
-    title="Order Routing Across Warehouses and Suppliers"
-    subtitle="Your rules decide where each item ships from. Orders can split across warehouses and suppliers."
+    title="Order Routing Configurations"
+    subtitle="Routing rules decide where each item ships from, and orders can split across warehouses and suppliers."
   >
     <div
       class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1.1fr)_auto_minmax(0,1fr)] items-center gap-3 md:gap-4"

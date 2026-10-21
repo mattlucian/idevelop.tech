@@ -33,12 +33,12 @@ const columns = [
   },
   {
     icon: DocumentTextIcon,
-    title: "Written down as an AI skill",
+    title: "Written as AI instructions",
     color: "purple" as const,
   },
   {
     icon: CheckCircleIcon,
-    title: "Work that gets done",
+    title: "Result",
     color: "cyan" as const,
   },
 ];
@@ -47,8 +47,8 @@ import FlowArrow from "../elements/FlowArrow.vue";
 
 <template>
   <ContentSection
-    title="From What Your Team Knows to Work That Gets Done"
-    subtitle="AI works from what your people already know. Your team keeps the skills and updates them as things change."
+    title="Turn Your Team's Knowledge Into Results"
+    subtitle="Your team's knowledge is written down as instructions AI follows. Your team owns them and updates them as things change."
   >
     <!-- Column headers (desktop) -->
     <div

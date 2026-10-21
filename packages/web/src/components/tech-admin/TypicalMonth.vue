@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 import ContentSection from "../ui/ContentSection.vue";
 
 type WorkKind = "plan" | "build" | "support" | "vendor";
-type MonthMode = "steady" | "initiative";
+type MonthMode = "steady" | "busy";
 
 const kindStyles: Record<WorkKind, { label: string; tone: PillTone }> = {
   plan: {
@@ -30,14 +30,16 @@ const months: Record<
     label: string;
     hours: string;
     fill: string;
+    /** Width of the extra-hours segment, shown past the agreed hours */
+    extra?: string;
     note: string;
     log: { day: string; text: string; kind: WorkKind }[];
   }
 > = {
   steady: {
     label: "Steady month",
-    hours: "About 10 hours",
-    fill: "w-1/2",
+    hours: "Within your agreed hours",
+    fill: "w-3/4",
     note: "Regular upkeep, questions, and small improvements.",
     log: [
       {
@@ -58,11 +60,12 @@ const months: Record<
       { day: "Mar 27", text: "Monthly roadmap check-in", kind: "plan" },
     ],
   },
-  initiative: {
-    label: "Initiative month",
-    hours: "More hours, as the work needs",
-    fill: "w-full",
-    note: "When a larger project is underway, like a platform move or a new integration. Hours depend on the work and availability.",
+  busy: {
+    label: "Busier month",
+    hours: "Agreed hours plus extra hours",
+    fill: "w-4/5",
+    extra: "w-1/5",
+    note: "During a larger project, like a platform move or a new integration, extra hours are sometimes available at a higher rate.",
     log: [
       {
         day: "Apr 2",
@@ -104,7 +107,7 @@ import SegmentedToggle from "../elements/SegmentedToggle.vue";
   <ContentSection
     eyebrow="Ongoing"
     title="Ongoing Hands-On Work"
-    subtitle="Monthly hours to work through the roadmap and the questions that come up along the way. Hours flex with the work."
+    subtitle="A set number of monthly hours, agreed up front, to work through the roadmap and the questions that come up along the way."
   >
     <div class="mx-auto max-w-3xl">
       <!-- Mode toggle -->
@@ -123,12 +126,17 @@ import SegmentedToggle from "../elements/SegmentedToggle.vue";
           <span class="font-semibold text-white">{{ month.hours }}</span>
           <span class="text-slate-500">{{ month.note }}</span>
         </div>
-        <div class="mt-2 h-2 rounded-full bg-slate-800">
+        <div class="mt-2 flex h-2 rounded-full bg-slate-800">
           <div
             :class="[
-              'h-2 rounded-full bg-cyan-400 transition-all duration-300',
+              'h-2 bg-cyan-400 transition-all duration-300',
+              month.extra ? 'rounded-l-full' : 'rounded-full',
               month.fill,
             ]"
+          />
+          <div
+            v-if="month.extra"
+            :class="['h-2 rounded-r-full bg-amber-400', month.extra]"
           />
         </div>
 

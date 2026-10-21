@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RecentArticles from "../components/ui/RecentArticles.vue";
 import { platformLogo } from "@/utils/imageAssets";
 import type { LogoUrls } from "@/utils/imageAssets";
 import { useRouter } from "vue-router";
@@ -197,6 +198,9 @@ useMeta({
               </component>
             </div>
           </div>
+
+          <!-- Recent articles -->
+          <RecentArticles heading-tag="h2" class="mt-16 max-w-4xl mx-auto" />
 
           <!-- Call to Action Section -->
           <div class="mt-16 mb-8">

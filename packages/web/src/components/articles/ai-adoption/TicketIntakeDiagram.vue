@@ -40,7 +40,7 @@ const ticketNotes = [
 
 <template>
   <ArticleFigure
-    title="AI gathers context for each new ticket, and people decide what to do"
+    title="AI gathers context for each new ticket"
     subtitle="Example: a one-line bug report"
     ai-legend
   >

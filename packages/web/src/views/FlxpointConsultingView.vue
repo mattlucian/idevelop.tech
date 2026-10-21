@@ -80,11 +80,11 @@ const serviceCards = withIcons(flxpointConsultingData.services);
       </div>
     </ContentSection>
 
-    <!-- Value -->
-    <FlxpointValue />
-
-    <!-- Platform stages -->
+    <!-- Help at each stage -->
     <FlxpointStages :stages="stages" />
+
+    <!-- Common projects -->
+    <FlxpointValue />
 
     <!-- Services for Flxpoint customers -->
     <ContentSection
@@ -123,7 +123,7 @@ const serviceCards = withIcons(flxpointConsultingData.services);
     <ContentSection
       banded
       title="Platform Experience"
-      subtitle="Background from building and running Flxpoint, not just using it."
+      subtitle="Background from building and running the Flxpoint platform."
     >
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <div

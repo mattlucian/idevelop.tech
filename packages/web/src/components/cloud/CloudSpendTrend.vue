@@ -52,8 +52,8 @@ const controls = [
     id="predictable"
     banded
     eyebrow="Predictable costs"
-    title="A Bill That Stays Close to Plan"
-    subtitle="Spikes usually have a simple cause. Once it's found, a few controls keep the next one from surprising you."
+    title="Spend Monitoring and Controls"
+    subtitle="Spikes usually have a simple cause. Once it's found, a few controls help catch the next one early."
   >
     <div class="grid gap-6 md:grid-cols-5">
       <!-- Spend by month -->

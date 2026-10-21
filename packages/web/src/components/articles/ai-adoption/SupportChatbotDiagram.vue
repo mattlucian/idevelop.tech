@@ -31,7 +31,7 @@ const messages = [
 
 <template>
   <ArticleFigure
-    title="The chatbot answers from approved content and hands off the rest"
+    title="A chatbot that answers from approved content"
     subtitle="Example: a documentation fix, then two questions in one chat"
     ai-legend
   >

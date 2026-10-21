@@ -33,7 +33,7 @@ const findings = [
   <ContentSection
     id="performance"
     eyebrow="Better performance"
-    title="Find Where Performance Is Lost"
+    title="Performance Findings"
     subtitle="Slow pages and timeouts usually trace back to a few causes. Each one gets a specific change, often with a cost impact noted alongside."
   >
     <!-- Desktop table -->

@@ -11,12 +11,12 @@ import { aiEnablementServiceData } from "@/data/services/ai-enablement";
 
 // SEO Meta Tags
 useServiceMeta({
-  serviceName: "AI Enablement: Adopt AI Across Your Organization",
+  serviceName: "AI Enablement: Improve Your Operations With AI",
   slug: "ai-enablement",
   description:
-    "Adopt AI across your organization. Hands-on AI training workshops for support and operations teams, AI workflows that run on a schedule, and agent instructions for engineering teams using tools like Claude and ChatGPT.",
+    "Improve your business operations with AI. Hands-on AI training workshops, automations built with AI, and AI workflows that flag items for your team to review, using tools like Claude and ChatGPT.",
   ogDescription:
-    "Adopt AI across your organization. AI training workshops, scheduled AI workflows, and agent instructions your team owns.",
+    "Practical ways to improve your operations with AI: team workshops, automations built with AI, and AI workflows your team reviews.",
 });
 
 const featuredArticle = getFeaturedArticle("/services/ai-enablement");

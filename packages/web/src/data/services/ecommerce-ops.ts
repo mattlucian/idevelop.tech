@@ -142,9 +142,9 @@ export const ecommerceOpsServiceData: EcommerceOpsServiceData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Automate Your eCommerce Operations?",
+    title: "Get Help With Your eCommerce Operations",
     subtitle:
-      "Let's talk about what's taking the most time in your operations and where technology could help.",
+      "Let's talk about what takes the most time in your operations and where technology could help.",
     buttonText: "Schedule a Free Consultation",
   },
 };

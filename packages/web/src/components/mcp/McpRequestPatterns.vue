@@ -20,7 +20,7 @@ const patternColors = {
   <ContentSection
     banded
     title="Optimized for AI"
-    subtitle="For large data sets, the heavy work runs on your server, so agents get small, useful answers. Examples:"
+    subtitle="For large data sets, your server does the heavy work, so agents receive short, focused results. Examples:"
   >
     <div class="space-y-6">
       <div

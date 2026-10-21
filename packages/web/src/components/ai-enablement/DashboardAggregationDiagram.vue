@@ -46,8 +46,8 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
 <template>
   <ContentSection
     banded
-    title="Pulling Scattered Data Into One Dashboard"
-    subtitle="AI skills gather data from where it lives, cross-check it, and pull it into one dashboard your team can act on."
+    title="Combine Scattered Data Into One Dashboard"
+    subtitle="AI gathers data from several sources, checks them against each other, and summarizes the results in one place."
   >
     <div
       class="grid grid-cols-1 md:grid-cols-[minmax(0,0.9fr)_auto_minmax(0,0.7fr)_auto_minmax(0,1.6fr)] items-center gap-3 md:gap-4"
@@ -57,7 +57,7 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
         <div
           class="mb-1 text-center text-xs font-semibold uppercase tracking-wider text-slate-500"
         >
-          Where it lives
+          Sources
         </div>
         <div
           v-for="source in sources"
@@ -81,7 +81,7 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
         <div
           class="mb-3 text-xs font-semibold uppercase tracking-wider text-purple-300"
         >
-          AI skills
+          AI
         </div>
         <div class="flex md:flex-col justify-center gap-2">
           <span
@@ -104,7 +104,7 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
       >
         <div class="mb-3 flex items-center justify-between text-xs">
           <span class="font-semibold text-white">Weekly Operations</span>
-          <span class="text-slate-500">Updated Mon 7:00</span>
+          <span class="text-slate-500">Example · Updated Mon 7:00</span>
         </div>
 
         <!-- KPI tiles -->
@@ -167,8 +167,8 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
 
     <!-- Refresh -->
     <CalloutStrip :icon="ArrowPathIcon" icon-class="text-emerald-400">
-      Re-run daily or weekly to keep it current. Your team reads one page
-      instead of checking five places.
+      It runs daily or weekly, so your team checks one page instead of five
+      places.
     </CalloutStrip>
   </ContentSection>
 </template>

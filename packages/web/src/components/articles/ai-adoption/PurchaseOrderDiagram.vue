@@ -52,7 +52,7 @@ const order = [
 
 <template>
   <ArticleFigure
-    title="AI helps define and build the automation, then stays out of the weekly run"
+    title="AI builds a weekly purchase order automation"
     subtitle="Example: a store's weekly purchase order"
     ai-legend
   >

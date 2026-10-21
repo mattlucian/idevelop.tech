@@ -11,7 +11,12 @@ import ArticleAuthor from "../components/article/ArticleAuthor.vue";
 import ArticleSources from "../components/article/ArticleSources.vue";
 import ArticleToc from "../components/article/ArticleToc.vue";
 import { articleSourcesKey } from "../components/article/articleSources";
-import { getArticle, articlePath, articleTypeLabels } from "@/data/articles";
+import {
+  getArticle,
+  articleDateLabel,
+  articlePath,
+  articleTypeLabels,
+} from "@/data/articles";
 import {
   aiAdoptionSources,
   aiAdoptionSourcesNote,
@@ -45,19 +50,9 @@ const content = computed(() =>
 );
 const sources = computed(() => content.value?.sources ?? []);
 
-// ISO dates render as "October 2026"; UTC keeps the month from shifting by time zone
-const monthYear = (iso: string) =>
-  new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${iso}T00:00:00Z`));
-
-const dateLabel = computed(() => {
-  if (article.value?.updated)
-    return `Updated ${monthYear(article.value.updated)}`;
-  return article.value?.published ? monthYear(article.value.published) : "";
-});
+const dateLabel = computed(() =>
+  article.value ? articleDateLabel(article.value) : "",
+);
 provide(articleSourcesKey, sources);
 
 // The view is reused when moving between articles, so update meta per slug
@@ -159,7 +154,14 @@ watch(
           <p class="text-sm text-slate-500 mt-6">
             By <span class="text-slate-200">{{ AUTHOR.name }}</span> ·
             {{ AUTHOR.company
-            }}<template v-if="dateLabel"> · {{ dateLabel }}</template>
+            }}<template v-if="dateLabel">
+              · <span class="whitespace-nowrap">{{ dateLabel }}</span></template
+            ><template v-if="article.readMinutes">
+              ·
+              <span class="whitespace-nowrap"
+                >{{ article.readMinutes }} min read</span
+              ></template
+            >
           </p>
         </header>
 
@@ -178,7 +180,7 @@ watch(
           class="mt-16 rounded-xl border border-cyan-900/40 bg-linear-to-br from-cyan-950/30 to-purple-950/20 p-8"
         >
           <h2 class="text-2xl font-bold mb-3">
-            {{ article.cta?.title ?? "Working on something similar?" }}
+            {{ article.cta?.title ?? "Get Technical Help" }}
           </h2>
           <p class="text-slate-300 mb-6">
             <template v-if="article.cta">{{ article.cta.body }}</template>
