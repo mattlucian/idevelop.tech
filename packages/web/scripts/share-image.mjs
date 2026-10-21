@@ -1,5 +1,5 @@
 /* eslint-disable no-console -- CLI tool; console is its output */
-// Render an article's link preview image (1200x630) from its metadata in
+// Render an article's link preview image (1200x630 layout, saved at 2x) from its metadata in
 // src/data/articles.ts, in the style of the site-wide share image.
 //
 //   npm run share-image -- <slug>
@@ -125,7 +125,8 @@ const browser = await puppeteer.launch({
 });
 try {
   const page = await browser.newPage();
-  await page.setViewport({ width: 1200, height: 630 });
+  // 2x so previews stay sharp when LinkedIn and others scale them up
+  await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 2 });
   await page.setContent(html, { waitUntil: "load" });
   await page.screenshot({ path: out, type: "png" });
 } finally {
