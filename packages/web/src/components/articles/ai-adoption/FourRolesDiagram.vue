@@ -11,8 +11,6 @@ const roles: {
   name: string;
   does: string;
   scenario: ScenarioLine[];
-  checks: string;
-  improves: string;
 }[] = [
   {
     name: "Assistant",
@@ -22,8 +20,6 @@ const roles: {
       { text: "AI drafts or answers", ai: true },
       { text: "Person reviews and uses the result" },
     ],
-    checks: "A person reads every result",
-    improves: "Refinements update centralized knowledge",
   },
   {
     name: "Builder",
@@ -33,8 +29,6 @@ const roles: {
       { text: "AI helps build the automation", ai: true },
       { text: "Automation runs without AI" },
     ],
-    checks: "A person tests the build once",
-    improves: "Manual edits adjust the codified rules",
   },
   {
     name: "Teammate",
@@ -44,8 +38,6 @@ const roles: {
       { text: "AI interprets and recommends", ai: true },
       { text: "Person decides and acts" },
     ],
-    checks: "People use, adjust, or set it aside",
-    improves: "Feedback refines what AI looks for",
   },
   {
     name: "Operator",
@@ -55,17 +47,12 @@ const roles: {
       { text: "AI decides and acts within limits", ai: true },
       { text: "Exceptions go to a person" },
     ],
-    checks: "People check exceptions and samples",
-    improves: "Exceptions shape the next rules",
   },
 ];
 </script>
 
 <template>
-  <ArticleFigure
-    title="Each role trusts AI with more, and changes how people check and improve it"
-    ai-legend
-  >
+  <ArticleFigure title="The four roles at a glance" ai-legend>
     <ol class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <li
         v-for="(role, i) in roles"
@@ -94,18 +81,6 @@ const roles: {
             </span>
           </template>
         </div>
-        <dl class="mt-4 space-y-3 border-t border-slate-800 pt-3 text-xs">
-          <div>
-            <dt class="uppercase tracking-wider text-slate-500">Checked by</dt>
-            <dd class="mt-0.5 text-slate-300">{{ role.checks }}</dd>
-          </div>
-          <div>
-            <dt class="uppercase tracking-wider text-slate-500">
-              Improves through
-            </dt>
-            <dd class="mt-0.5 text-slate-300">{{ role.improves }}</dd>
-          </div>
-        </dl>
       </li>
     </ol>
   </ArticleFigure>

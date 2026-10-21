@@ -77,7 +77,7 @@ import FlowArrow from "../elements/FlowArrow.vue";
   <ContentSection
     eyebrow="Step 2"
     title="Understand Your Workflows"
-    subtitle="Following real work from start to finish, like an order, shows the details that never make it into a diagram."
+    subtitle="Following an order or another task from start to finish shows details that diagrams often miss."
   >
     <div
       class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] items-stretch gap-3"

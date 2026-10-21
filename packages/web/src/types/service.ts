@@ -148,9 +148,7 @@ export interface FlxpointStage {
   icon: string;
   label: string;
   summary: string;
-  issue: string;
-  help: string;
-  projects: string[];
+  help: string[];
 }
 
 export interface FlxpointStartingPoint extends IconCardContent {

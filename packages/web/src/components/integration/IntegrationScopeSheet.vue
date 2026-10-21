@@ -43,7 +43,7 @@ const steps = [
 <template>
   <ContentSection
     banded
-    title="Fixed-Fee Projects Scoped Before Work Starts"
+    title="Fixed-Fee Projects"
     subtitle="You see the scope and the price in writing first."
   >
     <div class="grid gap-8 md:grid-cols-2 items-start">

@@ -11,16 +11,11 @@ const build = `Build ${__BUILD_ID__} · ${__BUILD_DATE__}`;
     <div class="w-full max-w-[1200px] mx-auto px-6 py-8">
       <!-- Main Footer Content -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
-        <!-- Left: Copyright & Credit -->
+        <!-- Left: Copyright & Build -->
         <div
           class="flex flex-col items-center sm:items-start gap-2 text-center sm:text-left"
         >
           <p class="text-sm text-gray-400">© 2025 {{ SITE.companyName }}</p>
-          <p class="text-sm text-gray-500 flex items-center gap-1.5">
-            Made with
-            <span class="text-red-500 animate-pulse">❤️</span>
-            alongside Claude AI
-          </p>
           <p class="text-xs text-gray-600">{{ build }}</p>
         </div>
 
@@ -33,6 +28,12 @@ const build = `Build ${__BUILD_ID__} · ${__BUILD_DATE__}`;
             class="text-gray-400 hover:text-teal-400 transition-colors"
           >
             Accessibility
+          </router-link>
+          <router-link
+            to="/articles"
+            class="text-gray-400 hover:text-teal-400 transition-colors"
+          >
+            Articles
           </router-link>
           <router-link
             to="/attributions"

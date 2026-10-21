@@ -28,13 +28,13 @@ const routingOptions: Record<
     label: "Lowest cost",
     cost: "$5.80",
     transit: "4.2 days",
-    sources: "Mostly Supplier B",
+    sources: "Supplier B",
   },
   distance: {
     label: "Closest to customer",
     cost: "$6.10",
     transit: "2.1 days",
-    sources: "Split across 3 sources",
+    sources: "3 sources",
   },
 };
 const routingOptionList = (
@@ -59,15 +59,16 @@ import SegmentedToggle from "../elements/SegmentedToggle.vue";
 
 <template>
   <ContentSection
-    title="How I Help Flxpoint Customers"
-    subtitle="The most common reasons customers reach out, and what they get from it."
+    banded
+    title="Common Projects"
+    subtitle="Work Flxpoint customers often bring to me."
   >
     <div class="grid gap-6 md:grid-cols-2">
       <!-- Setup confidence -->
       <VisualFeatureCard
         :icon="ClipboardDocumentCheckIcon"
-        title="A Setup That Matches How You Operate"
-        description="Your workflows are written down, then checked against how Flxpoint and your connected systems are configured. You get a recommended setup and confirmation it's in place."
+        title="Configuration Review"
+        description="Your workflows checked against how Flxpoint and your connected systems are set up."
         color="cyan"
       >
         <div class="mb-2 uppercase tracking-wider text-slate-500">
@@ -98,8 +99,8 @@ import SegmentedToggle from "../elements/SegmentedToggle.vue";
       <!-- Understand the options -->
       <VisualFeatureCard
         :icon="AdjustmentsHorizontalIcon"
-        title="Know What Each Setting Changes"
-        description="The options available to you, explained in terms of how each one affects cost, delivery speed, and your team's workload."
+        title="Settings Explained"
+        description="How each option affects cost, delivery speed, and your team's workload."
         color="purple"
       >
         <div class="mb-2 uppercase tracking-wider text-slate-500">
@@ -135,8 +136,8 @@ import SegmentedToggle from "../elements/SegmentedToggle.vue";
       <!-- Systems that agree -->
       <VisualFeatureCard
         :icon="ScaleIcon"
-        title="Systems That Reconcile"
-        description="When accounting or another connected system doesn't match Flxpoint, find where the numbers diverge, such as costs or GL accounts, and align the integration."
+        title="System Reconciliation"
+        description="Find where Flxpoint and your accounting numbers differ, and fix the cause."
         color="emerald"
       >
         <table class="w-full">
@@ -176,8 +177,8 @@ import SegmentedToggle from "../elements/SegmentedToggle.vue";
       <!-- Automation -->
       <VisualFeatureCard
         :icon="BoltIcon"
-        title="Automations You Haven't Set Up Yet"
-        description="Flxpoint has many features that setups often leave unused. The right ones can remove manual steps from pricing, stocking, and invoicing."
+        title="Automation Setup"
+        description="Flxpoint features that remove manual steps from pricing, stocking, and invoicing."
         color="cyan"
       >
         <div class="mb-2 uppercase tracking-wider text-slate-500">Examples</div>

@@ -22,8 +22,8 @@ const findings = [
   <ContentSection
     id="costs"
     eyebrow="Lower costs"
-    title="Where Your AWS Bill Goes"
-    subtitle="AWS cost optimization starts with a line-by-line look at what you're paying for, and what can be turned off, resized, or committed to for a lower rate."
+    title="Cost Breakdown and Savings"
+    subtitle="AWS cost optimization starts with a line-by-line review of your spend to find what can be turned off, resized, or committed to for a lower rate."
   >
     <div class="grid gap-6 md:grid-cols-2">
       <!-- Spend by service -->

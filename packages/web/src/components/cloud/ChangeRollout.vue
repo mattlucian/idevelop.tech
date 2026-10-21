@@ -30,7 +30,7 @@ const stages = [
   <ContentSection
     banded
     eyebrow="Implementation"
-    title="Implementing the Changes"
+    title="Staged Rollout"
     subtitle="Changes are prioritized by impact, effort, and your goals, then tested and rolled out with a way to reverse them. Commitments like Savings Plans wait until usage settles."
   >
     <ol class="grid gap-4 md:grid-cols-4">

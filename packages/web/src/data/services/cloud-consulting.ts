@@ -101,9 +101,9 @@ export const cloudConsultingServiceData: CloudConsultingServiceData = {
 
   // CTA Section
   cta: {
-    title: "Want a Second Look at Your AWS Account?",
+    title: "Get Help With Your AWS Account",
     subtitle:
-      "Let's talk about what you're running, what it costs, and where performance falls short.",
+      "Let's talk about what you're running, what it costs, and where performance could improve.",
     buttonText: "Schedule a Free Consultation",
   },
 };

@@ -42,7 +42,7 @@ const channels = ["Online store", "Marketplace"];
 
 <template>
   <ArticleFigure
-    title="AI helps build one integration that keeps both sales channels in step"
+    title="AI builds an integration to sync sales channels"
     subtitle="Example: the last blue mug sells"
     ai-legend
   >

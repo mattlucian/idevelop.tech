@@ -28,8 +28,8 @@ const performance = [
 <template>
   <ContentSection
     banded
-    title="What an AWS Review Focuses On"
-    subtitle="A review of your AWS account focused on the three things that show up on your invoice and in your users' experience."
+    title="AWS Review Areas"
+    subtitle="Each review covers three areas: cost, predictability, and performance."
   >
     <div class="grid gap-6 md:grid-cols-3">
       <VisualFeatureCard

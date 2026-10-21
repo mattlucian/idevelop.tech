@@ -7,7 +7,7 @@ export const flxpointConsultingData: FlxpointConsultingData = {
 
   // Hero Section
   hero: {
-    title: "Flxpoint Consulting From the Platform's Former CTO",
+    title: "Get More From Your Flxpoint Setup",
     subtitle:
       "Onboarding, configuration, order routing, and integrations for Flxpoint customers, from someone who led the platform's architecture.",
     colorScheme: "cyan",
@@ -41,67 +41,57 @@ export const flxpointConsultingData: FlxpointConsultingData = {
     },
   ],
 
-  // How data moves through the platform (ids double as URL hashes for sitelinks)
+  // Help at each stage of a Flxpoint setup (ids double as URL hashes for sitelinks)
   stages: [
     {
       id: "sources",
       icon: "BuildingStorefrontIcon",
       label: "Sources",
-      summary:
-        "Suppliers and warehouses send products, stock, and costs by API, file, or EDI.",
-      issue: "A feed that suddenly reports zero stock",
-      help: "Rules that hold back bad or partial updates",
-      projects: ["Adding a source", "Feed troubleshooting"],
+      summary: "Supplier and warehouse feeds",
+      help: ["Adding sources", "Feed troubleshooting", "Rules for bad updates"],
     },
     {
       id: "catalog",
       icon: "CubeIcon",
       label: "Catalog & Inventory",
-      summary:
-        "Products from each source are linked into one catalog, with stock and cost combined.",
-      issue: "The same product offered by more than one source",
-      help: "Catalog and quantity rules that match how you manage products",
-      projects: ["Catalog cleanup", "Variant setup"],
+      summary: "Products combined into one catalog",
+      help: ["Catalog cleanup", "Variant setup", "Quantity rules"],
     },
     {
       id: "listings",
       icon: "ShoppingBagIcon",
       label: "Listings & Pricing",
-      summary:
-        "Products are listed to your channels with pricing and quantity rules for each.",
-      issue: "Prices that slip below margin as costs change",
-      help: "Pricing rules with margin protection for each channel",
-      projects: ["Channel setup", "Listing troubleshooting"],
+      summary: "Products listed to each channel",
+      help: ["Channel setup", "Pricing rules", "Margin protection"],
     },
     {
       id: "orders",
       icon: "ArrowsRightLeftIcon",
       label: "Orders & Routing",
-      summary:
-        "Orders are imported and routed to a source based on stock, cost, and location.",
-      issue: "Orders that need to split or fall back to another source",
-      help: "Routing rules that match your business rules",
-      projects: ["Routing review", "Stuck order fixes"],
+      summary: "Orders sent to a source",
+      help: ["Routing review", "Split and backup rules", "Stuck order fixes"],
     },
     {
       id: "fulfillment",
       icon: "TruckIcon",
       label: "Fulfillment & Tracking",
-      summary:
-        "Sources receive orders, ship them, and send tracking back to your channels.",
-      issue: "Sources that confirm orders by email",
-      help: "Connecting sources that lack a standard integration",
-      projects: ["Tracking automation", "Invoice reconciliation"],
+      summary: "Shipping and tracking updates",
+      help: [
+        "Tracking automation",
+        "Email-only sources",
+        "Invoice reconciliation",
+      ],
     },
     {
       id: "integrations",
       icon: "CodeBracketIcon",
       label: "API & Webhooks",
-      summary:
-        "Flxpoint connects to systems without a built-in integration through its API and webhooks.",
-      issue: "Flxpoint data needed in accounting or reporting",
-      help: "Custom connectors and webhook listeners",
-      projects: ["Custom connector", "Accounting and reporting"],
+      summary: "Systems without a built-in integration",
+      help: [
+        "Custom connectors",
+        "Webhook listeners",
+        "Accounting and reporting",
+      ],
     },
   ],
 
@@ -194,7 +184,7 @@ export const flxpointConsultingData: FlxpointConsultingData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Improve Your Flxpoint Setup?",
+    title: "Get Help With Your Flxpoint Setup",
     subtitle:
       "Whether you're getting started, working through a specific problem, or ready to automate more, let's talk through your setup.",
     buttonText: "Schedule a Free Consultation",

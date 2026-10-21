@@ -28,8 +28,8 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
   <ContentSection
     id="inventory"
     eyebrow="Example: Inventory"
-    title="Inventory Kept in Sync Across Your Channels"
-    subtitle="Stock from warehouses and suppliers is combined and sent to each channel, with rules like safety buffers adjusting what each one shows."
+    title="Syncing Inventory Across Channels"
+    subtitle="Stock from warehouses and suppliers is combined and sent to each sales channel, with rules like safety buffers adjusting what each one shows."
   >
     <div
       class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 md:gap-4"

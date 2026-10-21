@@ -43,7 +43,7 @@ const items = [
 
 <template>
   <ArticleFigure
-    title="Routine orders run on their own; exceptions go to a person"
+    title="AI handles routine orders on a schedule"
     subtitle="Example: one morning's scheduled check"
     ai-legend
   >

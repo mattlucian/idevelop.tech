@@ -51,7 +51,7 @@ const submissions: {
 
 <template>
   <ArticleFigure
-    title="Complete study requests move forward; incomplete ones go back with questions"
+    title="AI checks new study requests for completeness"
     subtitle="Example: three new study requests"
     ai-legend
   >

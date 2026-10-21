@@ -19,7 +19,7 @@ This document defines the data schemas used in the idevelop.tech portfolio websi
 │   ├── mcp-development.ts
 │   └── tech-admin.ts
 ├── articles/          # Per-article data: sources, examples, benefits and challenges cards
-├── articles.ts        # Notes article metadata (drafts render only in dev)
+├── articles.ts        # Article metadata; drives /articles, Recent Articles, and service-page cards (drafts render only in dev)
 ├── services.ts        # Service configuration (HomeView cards, typewriter phrases)
 └── tech.ts            # Technical expertise content
 ```

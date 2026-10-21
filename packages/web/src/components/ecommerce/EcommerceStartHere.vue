@@ -31,7 +31,7 @@ const plan = [
   <ContentSection
     banded
     eyebrow="Start here"
-    title="Start With What Matters Most"
+    title="Starting With Your Priorities"
     subtitle="Stores run in different ways, so work starts from your priorities."
   >
     <div class="grid gap-6 md:grid-cols-3">

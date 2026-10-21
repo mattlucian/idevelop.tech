@@ -12,7 +12,7 @@ const usedHigh = 36;
 
 <template>
   <ArticleFigure
-    title="Far more small businesses say they use AI than use it in their operations"
+    title="Reported AI use compared with recent use"
     subtitle="Share of US small businesses"
     caption="US Chamber of Commerce, Empowering Small Business 2026 · US Census Bureau, Business Trends and Outlook Survey, two weeks ending Oct 4, 2026, businesses with fewer than 250 employees · separate surveys"
   >

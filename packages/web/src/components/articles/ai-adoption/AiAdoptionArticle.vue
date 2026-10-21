@@ -7,6 +7,7 @@ import AiIntegrationLevelsChart from "./AiIntegrationLevelsChart.vue";
 import FourRolesDiagram from "./FourRolesDiagram.vue";
 import CentralizedKnowledgeDiagram from "./CentralizedKnowledgeDiagram.vue";
 import AiRunsProcessDiagram from "./AiRunsProcessDiagram.vue";
+import AiRunsConcernsDiagram from "./AiRunsConcernsDiagram.vue";
 import AiBuildsProcessDiagram from "./AiBuildsProcessDiagram.vue";
 import OperatorPathDiagram from "./OperatorPathDiagram.vue";
 import {
@@ -54,8 +55,8 @@ import {
       Research suggests the businesses seeing the largest financial gains from
       AI are far more likely to have redesigned core workflows around
       it.<ArticleCite :n="4" />
-      With about half of small businesses that use AI still experimenting, many
-      may not have seen those gains yet.
+      Since nearly half of small businesses using AI are still experimenting,
+      many have not realized those gains yet.
     </p>
     <p>
       For a small business, this can be a daunting and unclear step. What does
@@ -184,8 +185,8 @@ import {
     <CentralizedKnowledgeDiagram />
 
     <p>
-      Most importantly, what one employee learns becomes available to everyone,
-      from new hires to experienced staff.
+      Most importantly, new hires and less experienced staff can work from the
+      knowledge of the business's most experienced people.
     </p>
     <p>
       A related study measured the effect of using AI to spread top performers'
@@ -195,7 +196,8 @@ import {
       for less experienced staff.<ArticleCite :n="9" />
     </p>
     <p>
-      Whatever tool a business uses, centralized knowledge needs five things:
+      Whatever tool a business uses, centralized knowledge generally has five
+      elements:
     </p>
     <ul>
       <li>
@@ -244,9 +246,8 @@ import {
 
     <p>
       Refined over time, this knowledge becomes useful beyond the assistant
-      role. A well-documented process can serve as the requirements for an
-      automated process, and AI can use that documentation to build the
-      automation, which leads us to discussing the builder role.
+      role. A well-documented process can serve as requirements that instruct AI
+      to build out an automation, which leads to discussing the builder role.
     </p>
 
     <h2>AI as a Builder</h2>
@@ -260,34 +261,43 @@ import {
     <ArticleTradeoffs v-bind="builderTradeoffs" />
 
     <p>
-      To see where these benefits come from, it helps to compare this approach
-      with the way many people first picture automating a process with AI: AI
-      handling each order or request as it comes in. That approach raises a few
-      concerns I often hear about incorporating AI into operations:
+      To better understand the builder role, let's walk through an example
+      scenario:
     </p>
 
     <AiRunsProcessDiagram />
 
     <p>
-      However, there's a more predictable way to use AI in this process. Instead
-      of reacting to each order and making decisions, AI can be used to discuss,
-      plan, and build a standard automation that runs on well-defined rules and
-      alerts staff when something falls outside of those rules:
+      This seems simple enough. However, there are some subtle concerns that can
+      make this approach less desirable:
+    </p>
+
+    <AiRunsConcernsDiagram />
+
+    <p>
+      This is where using AI as a builder may be relevant. Instead of using AI
+      to interpret and make decisions on each order as it comes in, AI can be
+      used to plan and build out a standard automated process that aligns with
+      your fulfillment rules:
     </p>
 
     <AiBuildsProcessDiagram />
 
-    <h3>Testing Before Launch</h3>
-    <p>
-      Because an automation behaves the same way every time, a business can test
-      exactly what will run before the automation goes live. AI can also help
-      write the documentation, so the business depends less on technical
-      resources for upkeep or questions.
-    </p>
-    <p>
-      Before launch, AI can help find a process's exceptions by asking about
-      situations the written rules don't cover yet.
-    </p>
+    <h3>Testing and Analysis</h3>
+    <p>By using AI in this capacity, we can:</p>
+    <ul>
+      <li>
+        Analyze the rules and uncover gaps that the known rules don't cover
+      </li>
+      <li>
+        Validate the automation using test data before launch to increase
+        confidence
+      </li>
+      <li>
+        Generate up-to-date documentation so staff can understand and inspect
+        the workflows
+      </li>
+    </ul>
     <p>
       As new scenarios are uncovered, staff can use AI to refine the automated
       process's rules to better handle these situations. Using AI as a builder
@@ -318,19 +328,20 @@ import {
 
     <h2>AI as a Teammate</h2>
     <p>
-      As a teammate, AI handles a step that requires interpretation each time a
-      process runs. The AI's output helps the people working on a task, and they
-      can use it, adjust it, or set it aside. The output should generally be
-      internal, such as context added to an internal work item or a drafted
-      reply (needing review) to a customer inquiry.
+      As a teammate, AI can interpret dynamic inputs and make recommendations as
+      they arrive. In this capacity, AI's output generally aims to enrich a
+      person's task with context or recommend actions to streamline it. A person
+      can then use this output as a draft or discard it if it isn't helpful. The
+      output should generally be internal, such as context added to an internal
+      work item or a drafted reply (needing review) to a customer inquiry.
     </p>
 
     <ArticleTradeoffs v-bind="teammateTradeoffs" />
 
     <p>
       Used this way, AI can support staff by gathering context and recommending
-      actions for each item. However, because AI runs every time the process
-      does, its challenges need to be managed with care.
+      actions for each item. However, because teammate workflows rely on AI
+      models, it's important to mitigate some of these challenges.
     </p>
 
     <h3>Keeping People in Control</h3>
@@ -384,13 +395,14 @@ import {
     <ArticleExamples title="AI as a teammate" :examples="teammateExamples" />
 
     <p>
-      In the teammate role, people still carry out every action. That keeps risk
-      low, but for high-volume tasks, waiting on people can become a bottleneck.
-      Once a process is stable and AI's output no longer needs frequent
-      refinement, the business can let AI take the action itself. In that sense,
-      an operator is a more mature teammate. It builds on the teammate role, but
-      letting AI act raises the stakes, so it comes once AI has proven to be
-      reliable.
+      In the teammate role a person is still responsible for approving each
+      action. While this approval step lowers risk, it can also bottleneck
+      certain high-volume tasks. Once a process is stable and AI's output no
+      longer needs frequent refinement, the business can let AI take the action
+      itself as an operator. An operator can be viewed as a more experienced
+      teammate, since it builds on the recommendations generated in that role.
+      However, letting AI act without approval raises the stakes, so it comes
+      once AI has proven to be reliable within a specific task.
     </p>
 
     <h2>AI as an Operator</h2>
@@ -478,10 +490,10 @@ import {
       to tell a customer.
     </p>
     <p>
-      Customer-facing agents carry two risks. The first is legal liability.
-      Tribunals and courts have started holding businesses responsible for what
-      their chatbots tell customers. In 2024, a Canadian tribunal ruled against
-      an airline on this point.<ArticleCite :n="13" />
+      Customer-facing agents often have to address two primary risks. The first
+      is legal liability. Tribunals and courts have started holding businesses
+      responsible for what their chatbots tell customers. In 2024, a Canadian
+      tribunal ruled against an airline on this point.<ArticleCite :n="13" />
     </p>
     <blockquote>
       <p>

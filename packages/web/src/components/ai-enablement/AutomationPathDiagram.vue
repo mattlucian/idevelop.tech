@@ -12,6 +12,8 @@ import {
 } from "@heroicons/vue/24/outline";
 import OutlineIcon from "../elements/OutlineIcon.vue";
 import ContentSection from "../ui/ContentSection.vue";
+import FlowArrow from "../elements/FlowArrow.vue";
+import CalloutStrip from "../elements/CalloutStrip.vue";
 
 interface PathStep {
   icon: Component;
@@ -30,8 +32,7 @@ interface WorkflowType {
   color: "cyan" | "purple";
   border: string;
   flow: FlowChip[];
-  flowCaption: string;
-  details: { label: string; text: string }[];
+  summary: string;
 }
 
 const steps: PathStep[] = [
@@ -42,13 +43,13 @@ const steps: PathStep[] = [
   },
   {
     icon: MagnifyingGlassIcon,
-    title: "Work It by Hand",
-    desc: "Map the steps and agree on expected results",
+    title: "Map It by Hand",
+    desc: "Document the steps and the expected results",
   },
   {
     icon: BeakerIcon,
-    title: "Prototype",
-    desc: "AI builds a first version your team reviews",
+    title: "Build a Prototype",
+    desc: "Built with AI and reviewed by your team",
   },
 ];
 
@@ -66,22 +67,12 @@ const workflowTypes: WorkflowType[] = [
     color: "cyan",
     border: "border-cyan-500/40",
     flow: [
-      { label: "AI", style: "faded" },
-      { label: "Automation", style: "plain" },
+      { label: "AI helps build", style: "faded" },
+      { label: "Automation runs", style: "plain" },
       { label: "Results", style: "plain" },
     ],
-    flowCaption: "AI is only used while building",
-    details: [
-      { label: "Best for", text: "Work with clear, consistent rules" },
-      {
-        label: "Once it's live",
-        text: "Runs like any other automated process, with no AI usage costs",
-      },
-      {
-        label: "Example",
-        text: "Syncing orders into your accounting system",
-      },
-    ],
+    summary:
+      "For tasks with clear rules. AI helps build the automation, which then runs without AI.",
   },
   {
     icon: UserGroupIcon,
@@ -89,37 +80,21 @@ const workflowTypes: WorkflowType[] = [
     color: "purple",
     border: "border-purple-500/40",
     flow: [
-      { label: "New case", style: "plain" },
-      { label: "AI", style: "ai" },
-      { label: "Review", style: "person" },
-      { label: "Done", style: "plain" },
+      { label: "New item", style: "plain" },
+      { label: "AI recommends", style: "ai" },
+      { label: "Person decides", style: "person" },
     ],
-    flowCaption: "AI handles each case, a person approves",
-    details: [
-      {
-        label: "Best for",
-        text: "Work that needs reading or judgment, like emails, product data, or exceptions",
-      },
-      {
-        label: "Once it's live",
-        text: "AI handles each case as it comes in, and a person approves the results",
-      },
-      {
-        label: "Example",
-        text: "Reviewing late shipments each morning and drafting supplier follow-ups",
-      },
-    ],
+    summary:
+      "For tasks that need interpretation. AI recommends an action, and a person decides.",
   },
 ];
-import FlowArrow from "../elements/FlowArrow.vue";
-import CalloutStrip from "../elements/CalloutStrip.vue";
 </script>
 
 <template>
   <ContentSection
     banded
-    title="From Manual to Automated"
-    subtitle="One problem at a time, with your team reviewing each step."
+    title="Automating One Process at a Time"
+    subtitle="We start with one problem, and your team reviews each step."
   >
     <!-- Steps -->
     <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3">
@@ -143,7 +118,7 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
     <div class="my-6 flex flex-col items-center text-slate-500">
       <ArrowDownIcon class="w-6 h-6" aria-hidden="true" />
       <span class="mt-2 text-xs uppercase tracking-wider">
-        The prototype becomes one of two kinds of workflow
+        Then, depending on the task
       </span>
     </div>
 
@@ -180,28 +155,16 @@ import CalloutStrip from "../elements/CalloutStrip.vue";
               </span>
             </template>
           </div>
-          <p class="mt-3 text-center text-xs text-slate-500">
-            {{ type.flowCaption }}
-          </p>
         </div>
 
-        <dl class="mt-5 space-y-3 text-sm">
-          <div v-for="detail in type.details" :key="detail.label">
-            <dt
-              class="text-xs font-semibold uppercase tracking-wider text-slate-500"
-            >
-              {{ detail.label }}
-            </dt>
-            <dd class="mt-0.5 text-slate-300">{{ detail.text }}</dd>
-          </div>
-        </dl>
+        <p class="mt-4 text-sm text-slate-300">{{ type.summary }}</p>
       </div>
     </div>
 
     <!-- Feedback loop -->
     <CalloutStrip :icon="ArrowPathIcon" icon-class="text-emerald-400">
-      Cases it can't handle yet are logged and used to improve it. Then on to
-      the next problem.
+      Cases it doesn't handle yet are used to improve it. Then we move on to the
+      next problem.
     </CalloutStrip>
   </ContentSection>
 </template>
