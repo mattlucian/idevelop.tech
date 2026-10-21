@@ -52,7 +52,7 @@ const results = [
 
 <template>
   <ArticleFigure
-    title="AI helps build the screening script, and applicant records stay in-house"
+    title="AI builds an in-house screening script"
     subtitle="Example: built with made-up applicants, run on real ones"
     ai-legend
   >

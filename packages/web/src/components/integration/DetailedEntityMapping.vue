@@ -6,7 +6,7 @@ import ContentSection from "../ui/ContentSection.vue";
 <template>
   <ContentSection
     banded
-    title="Field Mapping You Can Read"
+    title="Documented Field Mapping"
     subtitle="Each field is documented, including lookups and business rules, so your team can see how data changes between systems and adjust it later."
   >
     <!-- Entity Mapping Container -->

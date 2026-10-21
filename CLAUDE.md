@@ -418,12 +418,14 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
   - Avoid comma-chained cadence: "Fixed Fee, Scoped Up Front", "Your Store, Your Register, and Your Books"
   - Avoid "good thing, not bad thing" constructions: "...starts from your priorities, not a fixed package"
   - Avoid clipped punchy sentences and informal labels: "What You Walk Away With", "Decisions Like These"
-  - ✅ Good: "In-Store POS Connected to Your Online Store and Accounting", "Analysis and Recommendations", "Deliverables"
+  - Keep titles short; put detail in the subtitle ("POS and Accounting Integration", not "In-Store POS Connected to Your Online Store and Accounting")
+  - ✅ Good: "Error Handling and Recovery", "Analysis and Recommendations", "Deliverables"
   - When fixing one instance, sweep every page for the same pattern
-- ✅ **Describe retainer scope accurately** - Retainers are typically around 10 hours a month
+- ✅ **Describe retainer scope accurately** - Each client agrees up front to a set number of monthly hours, generally 10 to 30, based on what they need
   - Don't promise leadership or ownership ("Fractional CTO", "technical lead", "someone to own your stack")
   - Don't imply day-to-day or always-available support
-  - Don't state an hour cap; describe a typical month and say busier months depend on the work
+  - Extra hours in a busy month are sometimes available at a higher rate; don't promise them
+  - Projects have a 10-hour minimum; retainers can start after a project or with a one-time paid onboarding
   - ✅ Good: clarity (stack mapping, workflows, gaps), a roadmap built on the client's priorities, hands-on help
 - ✅ **Label example data** - Numbers in mockups (costs, savings, counts) are illustrative; mark charts "Example" and never present them as client results
 - ✅ **Show a range of help, not one client's use case** - Present problems as examples ("Common Challenges", "Where Clients Start") so visitors with different needs see themselves
@@ -447,7 +449,7 @@ Direct pushes skip PR checks (ESLint, CodeQL, DeepSource, build validation), cod
 - [ ] No technical promises (avoid "real-time", "instant", "immediate", "zero downtime", "100% uptime")
 - [ ] No casual imperatives (avoid "Stop...", "Don't wait", specific examples: "Stop settling", "Stop guessing", "Stop juggling", "Stop copying")
 - [ ] Headings are plain phrases (no comma-chained slogans, no "X, not Y", no informal labels)
-- [ ] Retainer copy promises no leadership, ownership, day-to-day availability, or hour caps
+- [ ] Retainer copy promises no leadership, ownership, day-to-day availability, or guaranteed extra hours
 - [ ] Example numbers in mockups are labeled as examples
 
 **Why this matters**: Authentic, actionable content builds trust. Over-promising damages credibility and creates unrealistic expectations.

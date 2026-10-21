@@ -36,15 +36,15 @@ const schedule = [
 
 <template>
   <ContentSection
-    title="Three Paths to Adoption"
-    subtitle="Choose the path that fits your team. Many organizations combine them."
+    title="Ways I Can Help"
+    subtitle="Many organizations combine these."
   >
     <div class="grid gap-6 md:grid-cols-3">
       <!-- Team adoption -->
       <VisualFeatureCard
         :icon="UserGroupIcon"
-        title="Team Adoption"
-        description="Hands-on AI training workshops built on your team's real work, with tools like Claude and ChatGPT."
+        title="Team Training"
+        description="Hands-on workshops built around your team's real tasks, using tools like Claude and ChatGPT."
         color="cyan"
         tag="Any team"
       >
@@ -73,8 +73,8 @@ const schedule = [
       <!-- AI operations -->
       <VisualFeatureCard
         :icon="ClockIcon"
-        title="AI Operations"
-        description="AI tasks that run on a schedule next to your existing jobs."
+        title="Operational Workflows"
+        description="Scheduled AI checks that flag items for your team to review."
         color="emerald"
         tag="Operations"
       >
@@ -108,8 +108,8 @@ const schedule = [
       <!-- Agent-assisted development -->
       <VisualFeatureCard
         :icon="CodeBracketIcon"
-        title="Agent-Assisted Development"
-        description="Instructions your engineers hand to an agent to build integrations and refactors."
+        title="AI-Assisted Development"
+        description="Instructions and reference patterns that help your engineers build integrations with AI."
         color="purple"
         tag="Engineering"
       >

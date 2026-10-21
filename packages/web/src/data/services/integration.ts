@@ -10,9 +10,9 @@ export const integrationServiceData: IntegrationServiceData = {
 
   // Hero Section
   hero: {
-    title: "Connect Your Systems With Documented, Fixed-Fee Integrations",
+    title: "Connect Your Systems With Documented Integrations",
     subtitle:
-      "Orders, inventory, and customer data moving between your platforms on a schedule, with a written field mapping your team can read and adjust.",
+      "Move orders, inventory, and customer data between your platforms on a schedule, with a written field mapping your team can read and adjust.",
     colorScheme: "cyan",
   },
 
@@ -140,9 +140,9 @@ export const integrationServiceData: IntegrationServiceData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Connect Your Systems?",
+    title: "Get Help Connecting Your Systems",
     subtitle:
-      "Let's talk about which systems you use and what needs to move between them.",
+      "Let's talk about the systems you use and what needs to move between them.",
     buttonText: "Schedule a Free Consultation",
   },
 };

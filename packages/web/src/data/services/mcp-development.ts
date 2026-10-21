@@ -19,7 +19,7 @@ export const mcpDevelopmentServiceData: McpDevelopmentServiceData = {
   // Example request patterns for optimizing agent access
   requestPatterns: [
     {
-      name: "Return Only What's Needed",
+      name: "Filtered Searches",
       question: "Is anything stuck? What's been waiting the longest?",
       code: `search:
   domain:  orders
@@ -32,7 +32,7 @@ export const mcpDevelopmentServiceData: McpDevelopmentServiceData = {
       color: "cyan",
     },
     {
-      name: "Aggregate on the Server",
+      name: "Summaries Calculated on the Server",
       question: "Which suppliers ship late most often?",
       code: `analyze:
   domain:     shipments
@@ -44,7 +44,7 @@ export const mcpDevelopmentServiceData: McpDevelopmentServiceData = {
       color: "purple",
     },
     {
-      name: "Act in Bulk",
+      name: "Bulk Actions",
       question:
         "Pause listings from that supplier while we sort out the problem.",
       code: `act:
@@ -81,9 +81,9 @@ export const mcpDevelopmentServiceData: McpDevelopmentServiceData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Open Your Platform to AI Agents?",
+    title: "Get Help Building an MCP Server",
     subtitle:
-      "Let's talk about what your customers want agents to do and what an MCP server for your platform would need.",
+      "Let's talk about your platform and what your customers want to do with AI agents.",
     buttonText: "Schedule a Free Consultation",
   },
 };

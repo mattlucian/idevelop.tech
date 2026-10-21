@@ -71,9 +71,9 @@ export const techAdminServiceData: TechAdminServiceData = {
 
   // CTA Section
   cta: {
-    title: "Have a Tech Decision Coming Up?",
+    title: "Get Help With Technology Decisions",
     subtitle:
-      "Let's talk it through, along with the tools you run on and where a retainer would help.",
+      "Let's talk about the tools you use and where a monthly retainer could help.",
     buttonText: "Schedule a Free Consultation",
   },
 };

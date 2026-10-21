@@ -2,15 +2,23 @@
 import { computed } from "vue";
 import { BookOpenIcon, ArrowRightIcon } from "@heroicons/vue/24/outline";
 import type { ArticleMeta } from "@/types/article";
-import { articlePath, articleTypeLabels } from "@/data/articles";
+import {
+  articleDateLabel,
+  articlePath,
+  articleTypeLabels,
+} from "@/data/articles";
+import { AUTHOR } from "@/constants";
 
 interface Props {
   article: ArticleMeta;
+  /** Show the author and date, as on the /articles index */
+  byline?: boolean;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), { byline: false });
 
 const label = computed(() => articleTypeLabels[props.article.type]);
+const dateLabel = computed(() => articleDateLabel(props.article));
 </script>
 
 <template>
@@ -44,6 +52,18 @@ const label = computed(() => articleTypeLabels[props.article.type]);
       </p>
       <p class="text-sm text-slate-400 leading-relaxed mb-4">
         {{ article.summary }}
+      </p>
+      <p v-if="byline" class="text-sm text-slate-500 mb-4">
+        By <span class="text-slate-200">{{ AUTHOR.name }}</span> ·
+        {{ AUTHOR.company
+        }}<template v-if="dateLabel">
+          · <span class="whitespace-nowrap">{{ dateLabel }}</span></template
+        ><template v-if="article.readMinutes">
+          ·
+          <span class="whitespace-nowrap"
+            >{{ article.readMinutes }} min read</span
+          ></template
+        >
       </p>
       <span
         class="inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 group-hover:text-cyan-300"

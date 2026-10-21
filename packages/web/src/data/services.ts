@@ -27,10 +27,10 @@ export const servicesConfig: ServicesConfig = {
       icon: "SparklesIcon",
       label: "AI Enablement",
       title: "AI Enablement",
-      tagline: "Adopt AI across your organization",
+      tagline: "Improve your operations with AI",
       stats: [
         { value: "Hands-on", label: "Workshops" },
-        { value: "Agent", label: "Patterns" },
+        { value: "AI-Built", label: "Automations" },
         { value: "Operational", label: "Workflows" },
       ],
       tags: ["AI Training", "AI Workflows", "Agent Instruction Sets"],
@@ -84,7 +84,7 @@ export const servicesConfig: ServicesConfig = {
       icon: "LinkIcon",
       label: "Integration",
       title: "Integration Services",
-      tagline: "Connect your systems with documented, fixed-fee integrations",
+      tagline: "Connect your systems with documented integrations",
       stats: [
         { value: "100+", label: "Integrations" },
         { value: "Documented", label: "Mapping" },

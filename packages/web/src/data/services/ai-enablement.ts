@@ -7,9 +7,9 @@ export const aiEnablementServiceData: AIEnablementServiceData = {
 
   // Hero Section
   hero: {
-    title: "Adopt AI Across Your Organization",
+    title: "Improve Your Operations With AI",
     subtitle:
-      "From automating routine work to taking on projects that weren't practical before. Workshops and AI workflows for support, operations, and engineering teams, with your people reviewing the output.",
+      "I help evaluate, plan, and implement practical ways to incorporate AI into your business operations, with your team involved at each step.",
     colorScheme: "cyan",
   },
 
@@ -25,7 +25,7 @@ export const aiEnablementServiceData: AIEnablementServiceData = {
       title: "Operations",
       icon: "BoltIcon",
       color: "orange",
-      items: ["Repetitive tasks", "Data analysis", "Exception reports"],
+      items: ["Purchase orders", "Data analysis", "Exception reports"],
     },
     {
       title: "Documentation",
@@ -77,9 +77,9 @@ export const aiEnablementServiceData: AIEnablementServiceData = {
 
   // CTA Section
   cta: {
-    title: "Ready to Plan Your AI Adoption?",
+    title: "Get Technical Help With AI",
     subtitle:
-      "Let's talk about where your organization is with AI today and where it makes sense to start.",
+      "Let's talk about how your team works today and where AI could help your operations.",
     buttonText: "Schedule a Free Consultation",
   },
 };

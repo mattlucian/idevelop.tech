@@ -5,12 +5,14 @@ import CTAForm from "../components/ui/CTAForm.vue";
 import PrimaryButton from "../components/elements/buttons/PrimaryButton.vue";
 import OutlineRouterLink from "../components/elements/buttons/OutlineRouterLink.vue";
 import SimpleTestimonial from "../components/cards/SimpleTestimonial.vue";
-import SimpleCheckItem from "../components/elements/SimpleCheckItem.vue";
-import Badge from "../components/elements/badges/Badge.vue";
-import Timeline from "../components/display/Timeline.vue";
+import ContentSection from "../components/ui/ContentSection.vue";
+import EngagementModelCard from "../components/hire-me/EngagementModelCard.vue";
+import RecentArticles from "../components/ui/RecentArticles.vue";
 import OutlineIcon from "../components/elements/OutlineIcon.vue";
 import Footer from "../components/layout/Footer.vue";
 import { SCHEDULING_LINK, CONTACT, SITE } from "@/constants";
+import { serviceCards } from "@/composables/useServiceConfig";
+import { getIconByName } from "@/utils/iconMapping";
 import {
   ClipboardDocumentIcon,
   ArrowPathIcon,
@@ -19,40 +21,95 @@ import {
   CalendarIcon,
   EnvelopeIcon,
   BookOpenIcon,
+  ArrowRightIcon,
+  BriefcaseIcon,
 } from "@heroicons/vue/24/outline";
 
-// Work experience timeline data
 const workExperience = [
+  { years: "2014 – 2016", title: "Senior Developer", company: "EverBank" },
   {
-    icon: "2014",
-    label: "Senior Developer",
-    desc: "Senior Developer at EverBank",
+    years: "2016 – 2020",
+    title: "Lead Developer",
+    company: "Inventory Source",
   },
   {
-    icon: "2016",
-    label: "Lead Developer",
-    desc: "Lead Developer at Inventory Source",
+    years: "2020 – 2024",
+    title: "Startup CTO",
+    company: "Inventory Source and Flxpoint",
   },
   {
-    icon: "2019",
-    label: "Startup CTO",
-    desc: "CTO at Inventory Source and Flxpoint",
-  },
-  {
-    icon: "2024",
-    label: "CTO & Founder",
-    desc: "CTO & Founder at I Develop Tech LLC",
+    years: "2024 – Present",
+    title: "Independent",
+    company: "I Develop Tech",
+    current: true,
   },
 ];
 
-// Set meta tags for Hire Me page
+const credentials = [
+  {
+    title: "Technical Achievements",
+    icon: RocketLaunchIcon,
+    stats: [
+      {
+        value: "Billions",
+        label: "of transactions handled by systems I built",
+      },
+      { value: "50%", label: "infrastructure cost reduction delivered" },
+      { value: "100+", label: "integrations delivered" },
+      { value: "AWS", label: "cloud-native architectures designed" },
+      { value: "Full-stack", label: "development across several languages" },
+    ],
+  },
+  {
+    title: "Leadership Experience",
+    icon: UserGroupIcon,
+    stats: [
+      { value: "5 → 20", label: "engineering team scaled" },
+      { value: "$1M+", label: "annual technology budgets managed" },
+      { value: "SOC 2", label: "compliance efforts led" },
+      { value: "10+", label: "engineers mentored, from junior to senior" },
+      {
+        value: "Process",
+        label: "engineering culture and processes established",
+      },
+    ],
+  },
+];
+
+const rateExamples = [
+  { task: "Data automation", hours: "~10 hours" },
+  { task: "AI workflow", hours: "~20 hours" },
+  { task: "System integration", hours: "~40–60 hours" },
+];
+
+const projectSteps = [
+  { text: "Short scoping call" },
+  { text: "Proposal and contract" },
+  { text: "Build, with progress updates" },
+  { text: "Review and hand off" },
+  { text: "Optional retainer afterward", optional: true },
+];
+
+const retainerSteps = [
+  { text: "Start after a project, or with a one-time paid onboarding" },
+  { text: "Agree on the month's priorities" },
+  { text: "Work through them, with progress updates" },
+  { text: "Review the month" },
+];
+
+const services = serviceCards.map((card) => ({
+  ...card,
+  to: `/services/${card.name}`,
+  iconComponent: getIconByName(card.icon),
+}));
+
 usePageMeta({
-  title: "Hire Me - Matt Myers | Technical Consulting",
+  title: "Hire Me: Technical Consulting With Matt Myers",
   slug: "hire-me",
   description:
-    "CTO, full-stack engineer, and technology leader available for technical consulting. 10+ years experience in cloud architecture, software engineering, and team leadership.",
+    "Technical consulting with Matt Myers for small and mid-size businesses: system integrations, automation, cloud infrastructure, and AI adoption. Project-based work or a monthly retainer.",
   ogDescription:
-    "Schedule a consultation with an experienced CTO and full-stack engineer. Expert in cloud infrastructure, DevOps, and technical leadership.",
+    "Technical consulting for small and mid-size businesses, as project-based work or a monthly retainer.",
   ogImage: SITE.ogImage,
 });
 
@@ -82,29 +139,24 @@ const openSchedulingLink = () => {
               class="bg-slate-900/40 border border-slate-700/40 rounded-lg p-4 text-sm text-gray-400"
             >
               <div class="flex items-center justify-between mb-3">
-                <span class="font-semibold text-gray-300"
-                  >Starting at $100/hour</span
-                >
-                <span class="text-xs text-gray-500">Examples</span>
+                <span class="font-semibold text-gray-300">$100–125/hour</span>
+                <span class="text-xs text-gray-500">Example sizes</span>
               </div>
               <div class="space-y-1.5 text-xs mb-3">
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Data Automation</span>
-                  <span class="text-gray-400">~10 hours</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Simple Website</span>
-                  <span class="text-gray-400">~40 hours</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Enterprise Integration</span>
-                  <span class="text-gray-400">~60 hours</span>
+                <div
+                  v-for="example in rateExamples"
+                  :key="example.task"
+                  class="flex justify-between"
+                >
+                  <span class="text-gray-500">{{ example.task }}</span>
+                  <span class="text-gray-400">{{ example.hours }}</span>
                 </div>
               </div>
               <p
                 class="text-xs text-gray-500 italic text-center pt-2 border-t border-slate-700/30"
               >
-                Discounted rates available for larger projects
+                Simplified examples. Each project is scoped and quoted before
+                work starts, and larger projects can get a discounted rate.
               </p>
             </div>
           </div>
@@ -117,167 +169,99 @@ const openSchedulingLink = () => {
       </div>
     </div>
 
-    <!-- Engagement Options - Moved to top -->
-    <div class="max-w-5xl mx-auto px-6 py-12 border-t border-slate-800/50">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-          Flexible Engagement Models
-        </h2>
-        <p class="text-gray-400 text-lg">
-          Choose the model that fits your needs
-        </p>
+    <!-- Engagement models -->
+    <ContentSection
+      banded
+      title="Flexible Engagement Models"
+      subtitle="Choose the model that fits your needs."
+    >
+      <div class="grid gap-6 md:grid-cols-2">
+        <EngagementModelCard
+          :icon="ClipboardDocumentIcon"
+          title="Project-Based"
+          description="Focused work toward a specific goal, for a fixed fee agreed up front."
+          :facts="['10-hour minimum', 'Fixed fee', 'Documentation included']"
+          :steps="projectSteps"
+        />
+        <EngagementModelCard
+          :icon="ArrowPathIcon"
+          title="Retainer"
+          description="A set number of monthly hours for ongoing technical needs, guided by a roadmap built on your priorities."
+          :facts="[
+            'Monthly hours agreed up front',
+            'Typically 10 to 30 hours',
+            'Extra hours sometimes available at a higher rate',
+          ]"
+          :steps="retainerSteps"
+          repeat="Repeats each month"
+        />
       </div>
+    </ContentSection>
 
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- Project-Based -->
-        <div
-          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
-        >
-          <div class="flex items-center gap-3 mb-4">
-            <OutlineIcon :icon="ClipboardDocumentIcon" size="lg" />
-            <h3 class="text-2xl font-bold text-white">Project-Based</h3>
-          </div>
-          <p class="text-gray-400 mb-6">
-            Focused engagements for specific goals and deliverables
-          </p>
-          <ul class="space-y-3 mb-8">
-            <SimpleCheckItem variant="circle" color="cyan">
-              Starting at 10+ hours
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Fixed-fee pricing
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Clear milestones and deliverables
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Regular progress updates
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Documentation included
-            </SimpleCheckItem>
-          </ul>
-          <div class="flex items-center gap-2">
-            <Badge variant="cyan"> Perfect for one-time builds </Badge>
-          </div>
-        </div>
-
-        <!-- Retainer Model -->
-        <div
-          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-cyan-500/30 rounded-xl p-8"
-        >
-          <div class="flex items-center gap-3 mb-4">
-            <OutlineIcon :icon="ArrowPathIcon" size="lg" />
-            <h3 class="text-2xl font-bold text-white">Retainer Model</h3>
-            <Badge variant="purple"> Popular </Badge>
-          </div>
-          <p class="text-gray-400 mb-6">
-            Ongoing partnership for evolving technical needs
-          </p>
-          <ul class="space-y-3 mb-8">
-            <SimpleCheckItem variant="circle" color="cyan">
-              6+ months, hours based on your needs
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Burst capacity when you need it
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Responsive communication
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Strategic planning + hands-on work
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Tech stack mapping and roadmaps
-            </SimpleCheckItem>
-          </ul>
-          <div class="flex items-center gap-2">
-            <Badge variant="cyan"> Best for ongoing support </Badge>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Why Work With Me - Value Propositions -->
-    <div id="about" class="max-w-5xl mx-auto px-6 py-12 pb-0">
-      <div class="text-center">
-        <h2 class="text-3xl md:text-4xl font-bold text-white">
-          Why Work With Me
-        </h2>
-        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
-          Technical expertise delivering solutions for growing businesses
-        </p>
-      </div>
-    </div>
-
-    <!-- Credentials & Trust Indicators -->
-    <div class="max-w-5xl mx-auto px-6 py-12 pt-10">
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- Technical Achievements -->
-        <div
-          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
-        >
-          <div class="flex items-center gap-3 mb-6">
-            <OutlineIcon :icon="RocketLaunchIcon" size="lg" />
-            <h3 class="text-2xl font-bold text-white">
-              Technical Achievements
+    <!-- Why work with me -->
+    <ContentSection
+      id="about"
+      title="Why Work With Me"
+      subtitle="Background in software engineering and technical leadership."
+    >
+      <div class="space-y-8">
+        <div v-for="group in credentials" :key="group.title">
+          <div class="mb-3 flex items-center gap-2">
+            <OutlineIcon :icon="group.icon" size="md" />
+            <h3
+              class="text-sm font-semibold uppercase tracking-wider text-slate-300"
+            >
+              {{ group.title }}
             </h3>
           </div>
-          <ul class="space-y-3">
-            <SimpleCheckItem variant="circle" color="cyan">
-              Built systems handling billions of transactions
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Delivered 50% infrastructure cost reduction
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Designed cloud-native architectures (AWS)
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Full-stack expertise across several languages
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              100+ successful integrations delivered
-            </SimpleCheckItem>
-          </ul>
-        </div>
-
-        <!-- Leadership Experience -->
-        <div
-          class="bg-linear-to-br from-slate-900/60 to-slate-800/60 border border-slate-700/30 rounded-xl p-8"
-        >
-          <div class="flex items-center gap-3 mb-6">
-            <OutlineIcon :icon="UserGroupIcon" size="lg" />
-            <h3 class="text-2xl font-bold text-white">Leadership Experience</h3>
-          </div>
-          <ul class="space-y-3">
-            <SimpleCheckItem variant="circle" color="cyan">
-              Scaled engineering teams 5→20 people
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Managed $1M+ annual technology budgets
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Led SOC2 compliance efforts
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Established engineering culture & processes
-            </SimpleCheckItem>
-            <SimpleCheckItem variant="circle" color="cyan">
-              Mentored 10+ junior to senior engineers
-            </SimpleCheckItem>
+          <ul class="grid grid-cols-2 gap-3 md:grid-cols-5">
+            <li
+              v-for="stat in group.stats"
+              :key="stat.label"
+              class="rounded-xl border border-cyan-500/20 bg-[#0f0f0f] p-4 last:col-span-2 md:last:col-span-1"
+            >
+              <div class="text-2xl font-bold text-white">{{ stat.value }}</div>
+              <div class="mt-1 text-xs text-slate-400">{{ stat.label }}</div>
+            </li>
           </ul>
         </div>
       </div>
-    </div>
 
-    <!-- Work Experience Timeline (no heading) -->
-    <div class="max-w-5xl mx-auto px-6 py-12 pt-8">
-      <Timeline :steps="workExperience" variant="centered" />
-    </div>
+      <div class="py-12">
+        <div class="mb-3 flex items-center gap-2">
+          <OutlineIcon :icon="BriefcaseIcon" size="md" />
+          <h3
+            class="text-sm font-semibold uppercase tracking-wider text-slate-300"
+          >
+            Work History
+          </h3>
+        </div>
+        <ol class="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+          <li
+            v-for="role in workExperience"
+            :key="role.years"
+            :class="[
+              'rounded-xl border bg-[#0f0f0f] p-4',
+              role.current ? 'border-cyan-500/50' : 'border-slate-700/50',
+            ]"
+          >
+            <div class="flex h-5 items-center justify-between gap-2">
+              <span class="font-mono text-xs text-cyan-400">{{
+                role.years
+              }}</span>
+              <span
+                v-if="role.current"
+                class="rounded-full border border-cyan-500/40 px-2 text-[10px] leading-4 text-cyan-300"
+              >
+                Current
+              </span>
+            </div>
+            <div class="mt-2 font-semibold text-white">{{ role.title }}</div>
+            <div class="text-sm text-slate-400">{{ role.company }}</div>
+          </li>
+        </ol>
+      </div>
 
-    <!-- Tech Skills Link Section -->
-    <div class="max-w-5xl mx-auto px-6 py-8">
       <div
         class="bg-linear-to-br from-slate-900/40 to-slate-800/40 border border-slate-700/30 rounded-xl p-6 md:p-8"
       >
@@ -305,16 +289,10 @@ const openSchedulingLink = () => {
           </div>
         </div>
       </div>
-    </div>
+    </ContentSection>
 
-    <!-- Social Proof - Testimonials (Updated with real quotes) -->
-    <div class="max-w-5xl mx-auto px-6 py-8">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-3">
-          What Clients Say
-        </h2>
-      </div>
-
+    <!-- Testimonials -->
+    <ContentSection banded title="What Clients Say">
       <div class="grid md:grid-cols-3 gap-6">
         <SimpleTestimonial
           quote="Matt was able to help us accelerate our roadmap by efficiently executing on multiple supplier integrations!"
@@ -335,16 +313,51 @@ const openSchedulingLink = () => {
           color-scheme="cyan"
         />
       </div>
-    </div>
+    </ContentSection>
 
-    <!-- CTA: Schedule a Call -->
+    <!-- Services and articles -->
+    <ContentSection
+      title="Services"
+      subtitle="Details on each type of work, with examples."
+    >
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <router-link
+          v-for="service in services"
+          :key="service.name"
+          :to="service.to"
+          class="group flex items-start gap-3 rounded-xl border border-slate-700/50 bg-[#0f0f0f] p-4 transition-colors hover:border-cyan-500/40"
+        >
+          <OutlineIcon
+            v-if="service.iconComponent"
+            :icon="service.iconComponent"
+            size="md"
+            color="cyan"
+          />
+          <span class="flex-1">
+            <span class="block font-semibold text-white">{{
+              service.title
+            }}</span>
+            <span class="mt-0.5 block text-sm text-slate-400">{{
+              service.tagline
+            }}</span>
+          </span>
+          <ArrowRightIcon
+            class="mt-1 h-4 w-4 shrink-0 text-slate-600 transition-colors group-hover:text-cyan-400"
+          />
+        </router-link>
+      </div>
+
+      <RecentArticles class="mt-12" />
+    </ContentSection>
+
+    <!-- Contact -->
     <div
       class="bg-linear-to-br from-cyan-950/30 to-purple-950/20 border-y border-cyan-900/30"
     >
       <div class="max-w-5xl mx-auto px-6 py-20">
         <div class="text-center">
           <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Get Started? Let's Talk.
+            Schedule a Consultation
           </h2>
           <p class="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
             Schedule a free 30-minute consultation to discuss your project. No
@@ -362,7 +375,7 @@ const openSchedulingLink = () => {
               <span class="flex items-center gap-2 whitespace-nowrap">
                 <OutlineIcon :icon="CalendarIcon" size="sm" color="white" />
                 <span class="text-sm md:text-base"
-                  >Schedule Free Consultation</span
+                  >Schedule a Free Consultation</span
                 >
               </span>
             </PrimaryButton>
@@ -379,44 +392,14 @@ const openSchedulingLink = () => {
             </OutlineRouterLink>
           </div>
           <div
-            class="flex flex-wrap justify-center gap-4 text-sm text-slate-400"
+            class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-slate-400"
           >
-            <div class="flex items-center gap-2">
-              <span>✓</span>
-              <span>No sales pitch</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span>✓</span>
-              <span>Free consultation</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span>✓</span>
-              <span>Responsive during business hours</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contact Information Footer -->
-    <div class="max-w-5xl mx-auto px-6 py-12 border-t border-slate-800/50">
-      <div class="text-center">
-        <h3 class="text-xl font-semibold text-white mb-4">
-          Prefer to Reach Out Directly?
-        </h3>
-        <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-300"
-        >
-          <a
-            :href="`mailto:${CONTACT.email}`"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-2 hover:text-cyan-400 transition-colors"
-          >
-            <OutlineIcon :icon="EnvelopeIcon" size="sm" color="cyan" />
-            <span>{{ CONTACT.email }}</span>
-          </a>
-          <div class="flex items-center gap-4">
+            <a
+              :href="`mailto:${CONTACT.email}`"
+              class="hover:text-cyan-400 transition-colors"
+            >
+              {{ CONTACT.email }}
+            </a>
             <a
               :href="CONTACT.linkedin"
               target="_blank"

@@ -79,23 +79,23 @@ const considerations = [
 const phases = [
   {
     icon: LightBulbIcon,
-    title: "Find the Value",
-    desc: "Start with what your customers would ask an agent. The most valuable questions often mean analyzing and correlating data across your platform.",
+    title: "Identify Customer Questions",
+    desc: "Start with the questions your customers would ask an agent.",
   },
   {
     icon: MapIcon,
     title: "Plan the Approach",
-    desc: "For each capability: does it map to an existing endpoint, or need new functionality? Decide how sign-in works and where the server runs.",
+    desc: "Decide which capabilities use existing endpoints and which need new ones, along with sign-in and hosting.",
   },
   {
     icon: CodeBracketIcon,
     title: "Build It",
-    desc: "Built with patterns your developers already know. Scope decides whether it's a separate package or part of an existing API. Documentation and agent instructions are part of the build.",
+    desc: "Built with your team's existing patterns, along with documentation and agent instructions.",
   },
   {
     icon: BeakerIcon,
     title: "Test With Real Agents",
-    desc: "Real customer questions run in Claude and ChatGPT. When an agent gets something wrong, the tools or documentation are adjusted until it gets it right.",
+    desc: "Run real customer questions in Claude and ChatGPT, and adjust the tools or documentation when an agent gets something wrong.",
   },
 ];
 </script>
@@ -103,8 +103,8 @@ const phases = [
 <template>
   <ContentSection
     banded
-    title="How an MCP Server Gets Built"
-    subtitle="Scope varies from platform to platform. The work moves through these phases."
+    title="Build Process"
+    subtitle="Scope varies by platform. The work generally moves through these phases."
   >
     <ol class="space-y-6">
       <li
@@ -212,7 +212,7 @@ const phases = [
       <div
         class="mb-3 text-center text-xs font-semibold uppercase tracking-wider text-slate-500"
       >
-        Also part of the build
+        Other considerations, depending on the platform
       </div>
       <ul class="flex flex-wrap justify-center gap-2">
         <li

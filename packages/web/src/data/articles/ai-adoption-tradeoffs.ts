@@ -135,17 +135,18 @@ export const operatorTradeoffs: ArticleTradeoffs = {
   ],
   challenges: [
     {
-      label: "Results can vary",
-      detail: "The same situation can lead to a different decision.",
-    },
-    {
-      label: "Costs are hard to predict",
-      detail: "Token use depends on how much work each decision takes.",
-    },
-    {
-      label: "Mistakes take effect",
+      label: "Mistakes go unnoticed",
       detail:
         "With no one approving each decision, a mistake can reach a customer or another system before anyone notices.",
+    },
+    {
+      label: "Results still can vary",
+      detail:
+        "Even stable rules can encounter unknowns and produce different outcomes than expected.",
+    },
+    {
+      label: "Costs still can be hard to predict",
+      detail: "Token use depends on how much work each decision takes.",
     },
   ],
 };

@@ -53,7 +53,7 @@ const suggestions = [
 
 <template>
   <ArticleFigure
-    title="AI connects the requests, and the coordinator decides"
+    title="AI connects related maintenance requests"
     subtitle="Example: two tenants describe one leak"
     ai-legend
   >

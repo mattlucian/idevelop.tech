@@ -48,7 +48,7 @@ const steps: ScopeStep[] = [
 
 <template>
   <ContentSection
-    title="Scope That Grows With Your Platform"
+    title="Typical Scope"
     subtitle="Scope depends on your data and what your customers need from it."
   >
     <div class="grid gap-4 md:grid-cols-3 md:items-end">

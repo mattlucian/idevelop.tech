@@ -28,7 +28,7 @@ const checks = [
 
 <template>
   <ArticleFigure
-    title="AI turns rough notes into a first draft that staff finish"
+    title="AI turns rough notes into a first draft"
     subtitle="Example: a store's return policy"
     ai-legend
   >

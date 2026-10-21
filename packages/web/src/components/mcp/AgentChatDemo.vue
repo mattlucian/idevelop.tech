@@ -35,7 +35,7 @@ const messages: ChatMessage[] = [
 <template>
   <ContentSection
     banded
-    title="See It in Action"
+    title="Example Conversation"
     subtitle="A customer asks a question, and their agent uses your platform to answer it or take action."
   >
     <div

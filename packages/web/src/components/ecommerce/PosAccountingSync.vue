@@ -20,8 +20,8 @@ import FlowArrow from "../elements/FlowArrow.vue";
   <ContentSection
     id="pos"
     eyebrow="Example: In-store and accounting"
-    title="In-Store POS Connected to Your Online Store and Accounting"
-    subtitle="For businesses selling online and in person, the POS, online store, and accounting system can share the same products, stock, and sales."
+    title="POS and Accounting Integration"
+    subtitle="For businesses selling online and in person, an in-store POS can share products, stock, and sales with the online store and accounting system."
   >
     <div
       class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 md:gap-4"

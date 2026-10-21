@@ -83,7 +83,7 @@
 ├── articles/{topic}/ # One folder per article: body, charts, and diagrams
 └── {feature}/       # One folder per service page's sections:
                      # ai-enablement/, mcp/, integration/, tech-admin/,
-                     # ecommerce/, cloud/, flxpoint/
+                     # ecommerce/, cloud/, flxpoint/, hire-me/
 ```
 
 **Shared building blocks for service pages** (use these before writing new markup):
@@ -95,6 +95,10 @@
 | `SectionHeading` | `elements/` | Centered section heading on its own |
 | `VisualFeatureCard` | `cards/` | Icon, title, description, and a mini mockup slot (`visualLabel` for screen readers, `#footer` for links) |
 | `Pill` | `elements/badges/` | Small status or label chip with a color tone |
+| `RecentArticles` | `ui/` | The two newest articles from `data/articles.ts` with an "All articles" link (home and Hire Me pages) |
+| `FlowArrow` | `elements/` | Arrow between steps: right on desktop, down on mobile |
+| `CalloutStrip` | `elements/` | Dashed note under a diagram |
+| `SegmentedToggle` | `elements/` | Two or three option toggle (`aria-pressed` buttons) |
 
 **Shared building blocks for articles** (in `article/`):
 
@@ -108,9 +112,6 @@
 | `ArticleTradeoffs` | Benefits and challenges card, with data in `src/data/articles/` |
 | `ArticleExamples` | Examples carousel at the end of a section |
 | `ArticleCite` | Numbered citation with a source popup |
-| `FlowArrow` | `elements/` | Arrow between steps: right on desktop, down on mobile |
-| `CalloutStrip` | `elements/` | Dashed note under a diagram |
-| `SegmentedToggle` | `elements/` | Two or three option toggle (`aria-pressed` buttons) |
 
 Feature-folder components hold their example data inline; page copy that an owner edits stays in the data file.
 

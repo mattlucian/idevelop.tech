@@ -52,7 +52,7 @@ const parts = ["Sign-in", "Tools", "Docs"];
 
 <template>
   <ContentSection
-    title="How It Fits"
+    title="How It Works"
     subtitle="A layer between your customers' AI agents and the platform you already run."
   >
     <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3">

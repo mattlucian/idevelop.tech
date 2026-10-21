@@ -61,7 +61,7 @@ const safeguards = [
 
 <template>
   <ContentSection
-    title="Durable Integrations That Recover From Common Errors"
+    title="Error Handling and Recovery"
     subtitle="Temporary problems like timeouts and rate limits are retried automatically. Alerts are reserved for errors that need a person, like a SKU that doesn't exist."
   >
     <div class="grid gap-6 md:grid-cols-2 items-center">

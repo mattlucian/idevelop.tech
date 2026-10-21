@@ -35,7 +35,7 @@ const drafts = [
 
 <template>
   <ArticleFigure
-    title="People and AI assistants work from the same centralized knowledge"
+    title="People and AI work from the same centralized knowledge"
     subtitle="Example: a store changes its return window"
     ai-legend
   >

@@ -29,8 +29,8 @@ import FlowArrow from "../elements/FlowArrow.vue";
     id="product-data"
     banded
     eyebrow="Example: Product data"
-    title="Enriching Product Data From Suppliers and Warehouses"
-    subtitle="Product data arrives in different formats from suppliers, warehouse systems, and spreadsheets. It's cleaned, enriched, and checked before it reaches your store."
+    title="Enriching Product Data"
+    subtitle="Product data from suppliers, warehouse systems, and spreadsheets arrives in different formats. It's cleaned, enriched, and checked before it reaches your store."
   >
     <div
       class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 md:gap-6"
