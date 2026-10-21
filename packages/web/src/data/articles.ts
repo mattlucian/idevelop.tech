@@ -10,7 +10,8 @@ export const articles: ArticleMeta[] = [
     title: "AI Adoption in Small Businesses",
     summary:
       "A practical way for small businesses to improve their operations by gradually incorporating AI.",
-    ogImage: "/images/articles/ai-adoption-in-small-businesses.png",
+    // ?v=2 makes LinkedIn fetch the 2x image instead of its cached 1x copy
+    ogImage: "/images/articles/ai-adoption-in-small-businesses.png?v=2",
     relatedService: {
       label: "AI Enablement",
       path: "/services/ai-enablement",
