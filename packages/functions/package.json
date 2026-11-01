@@ -15,7 +15,7 @@
     "@types/aws-lambda": "^8.10.164",
     "@types/newrelic": "^9.14.8",
     "tsx": "^4.23.15",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1152.0",
