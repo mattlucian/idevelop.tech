@@ -24,8 +24,9 @@ export default $config({
     // Prerendered page routes, from the same sitemap the build prerenders
     const { readFileSync } = await import("node:fs");
     const sitemap = readFileSync("packages/web/public/sitemap.xml", "utf8");
-    const pageRoutes = [...sitemap.matchAll(/<loc>[^<]*?\/\/[^/<]+([^<]*)<\/loc>/g)]
-      .map(([, path]) => path.replace(/\/$/, "") || "/");
+    const pageRoutes = [
+      ...sitemap.matchAll(/<loc>[^<]*?\/\/[^/<]+([^<]*)<\/loc>/g),
+    ].map(([, path]) => path.replace(/\/$/, "") || "/");
 
     // New Relic observability configuration
     const newRelicLicenseKey = new sst.Secret("NewRelicLicenseKey");
@@ -89,9 +90,7 @@ export default $config({
           : "dev-api-idevelop-tech", // Development: dev-api.idevelop.tech
         NEW_RELIC_LAMBDA_HANDLER: "packages/functions/src/contact.handler", // Path to actual handler for ESM wrapper
         NEW_RELIC_LOG_LEVEL: "info", // APM agent log level (controls trace verbosity)
-        NR_TAGS: isProduction
-          ? "environment:production"
-          : "environment:dev", // Tags all telemetry with environment (queryable as tags.environment)
+        NR_TAGS: isProduction ? "environment:production" : "environment:dev", // Tags all telemetry with environment (queryable as tags.environment)
         NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: "true", // Send Lambda logs to New Relic
         NEW_RELIC_LAMBDA_EXTENSION_ENABLED: "true", // Enable New Relic extension
         NEW_RELIC_DATA_COLLECTION_TIMEOUT: "20s", // Increased for network latency
@@ -137,6 +136,56 @@ export default $config({
 
     // API Routes
     api.route("POST /v1/contact", contactHandler.arn);
+
+    // Google Analytics and Ads hosts follow Google's CSP guide:
+    // https://developers.google.com/tag-platform/security/guides/csp
+    const contentSecurityPolicy = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: https:",
+      isProduction
+        ? "connect-src 'self' https://api.idevelop.tech https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.googleadservices.com"
+        : "connect-src 'self' https://dev-api.idevelop.tech",
+      "frame-src https://www.google.com https://td.doubleclick.net https://www.googletagmanager.com https://www.youtube-nocookie.com",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; ");
+
+    const securityHeaders = new aws.cloudfront.ResponseHeadersPolicy(
+      "WebSecurityHeaders",
+      {
+        comment: `idevelop.tech ${stage} security headers`,
+        securityHeadersConfig: {
+          contentSecurityPolicy: {
+            contentSecurityPolicy,
+            override: true,
+          },
+          contentTypeOptions: { override: true },
+          frameOptions: { frameOption: "SAMEORIGIN", override: true },
+          referrerPolicy: {
+            referrerPolicy: "strict-origin-when-cross-origin",
+            override: true,
+          },
+          strictTransportSecurity: {
+            accessControlMaxAgeSec: 31536000,
+            includeSubdomains: false,
+            preload: false,
+            override: true,
+          },
+        },
+        customHeadersConfig: {
+          items: [
+            {
+              header: "Permissions-Policy",
+              value: "geolocation=(), microphone=(), camera=(), payment=()",
+              override: true,
+            },
+          ],
+        },
+      },
+    );
 
     // Frontend Static Site
     const web = new sst.aws.StaticSite("Web", {
@@ -202,48 +251,16 @@ export default $config({
         },
       },
       transform: {
-        cdn: {
-          // CloudFront response headers for security and performance
-          responseHeadersPolicy: {
-            customHeadersConfig: {
-              items: [
-                {
-                  header: "Content-Security-Policy",
-                  value: `default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' ${isProduction ? 'https://api.idevelop.tech https://www.google-analytics.com https://analytics.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net' : 'https://dev-api.idevelop.tech http://localhost:5173'}; frame-src https://www.google.com https://td.doubleclick.net; base-uri 'self'; form-action 'self';`,
-                  override: true,
-                },
-                {
-                  header: "X-Content-Type-Options",
-                  value: "nosniff",
-                  override: true,
-                },
-                {
-                  header: "X-Frame-Options",
-                  value: "SAMEORIGIN",
-                  override: true,
-                },
-                {
-                  header: "Referrer-Policy",
-                  value: "strict-origin-when-cross-origin",
-                  override: true,
-                },
-                {
-                  header: "Permissions-Policy",
-                  value:
-                    "geolocation=(), microphone=(), camera=(), payment=()",
-                  override: true,
-                },
-              ],
-            },
-            securityHeadersConfig: {
-              strictTransportSecurity: {
-                accessControlMaxAgeSec: 31536000,
-                includeSubdomains: true,
-                preload: true,
-                override: true,
-              },
-            },
-          },
+        // A Distribution has no responseHeadersPolicy argument (anything put
+        // there is silently dropped); it only takes a policy ID on each cache
+        // behavior.
+        cdn: (args) => {
+          args.defaultCacheBehavior = $output(args.defaultCacheBehavior).apply(
+            (behavior) => ({
+              ...behavior,
+              responseHeadersPolicyId: securityHeaders.id,
+            }),
+          );
         },
       },
     });
