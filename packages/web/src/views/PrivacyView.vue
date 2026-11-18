@@ -70,7 +70,9 @@ const handleEnableConsent = () => {
           Simple, transparent privacy. We don't sell your data. Marketing emails
           require your consent.
         </p>
-        <p class="text-sm text-gray-400 mt-2">Last Updated: October 31, 2025</p>
+        <p class="text-sm text-gray-400 mt-2">
+          Last Updated: November 18, 2026
+        </p>
       </div>
     </div>
 
@@ -247,6 +249,26 @@ const handleEnableConsent = () => {
             We use Google Analytics to understand how visitors use our site and
             improve the experience. Google Analytics may track your activity
             across websites. See
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              Google's Privacy Policy
+            </a>
+            for details.
+          </p>
+
+          <h3 class="text-xl font-semibold text-white mt-6 mb-3">
+            Embedded Videos
+          </h3>
+          <p class="text-gray-300">
+            Some pages include videos hosted on YouTube. Each one shows a
+            preview image stored on our site, and nothing is loaded from YouTube
+            until you press play. When you do, the video plays in YouTube's
+            privacy-enhanced mode (youtube-nocookie.com), and YouTube may store
+            data on your device and collect information about your viewing. See
             <a
               href="https://policies.google.com/privacy"
               target="_blank"

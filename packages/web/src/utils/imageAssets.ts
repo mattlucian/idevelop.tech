@@ -33,3 +33,7 @@ export const partnerLogo = (file: string): LogoUrls =>
 /** Platform logo from src/assets/images/platforms, with its .webp copy if present */
 export const platformLogo = (file: string): LogoUrls =>
   resolveLogo("platforms", file);
+
+/** Video thumbnail from src/assets/images/videos, with its .webp copy if present */
+export const videoThumbnail = (file: string): LogoUrls =>
+  resolveLogo("videos", file);
