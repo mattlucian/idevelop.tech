@@ -8,6 +8,7 @@ import OutlineIcon from "../components/elements/OutlineIcon.vue";
 import Pill from "../components/elements/badges/Pill.vue";
 import FlxpointValue from "../components/flxpoint/FlxpointValue.vue";
 import FlxpointStages from "../components/flxpoint/FlxpointStages.vue";
+import FlxpointMcp from "../components/flxpoint/FlxpointMcp.vue";
 import { flxpointConsultingData } from "@/data/services/flxpoint-consulting";
 import { SITE } from "@/constants";
 
@@ -86,8 +87,12 @@ const serviceCards = withIcons(flxpointConsultingData.services);
     <!-- Common projects -->
     <FlxpointValue />
 
+    <!-- Flxpoint MCP server -->
+    <FlxpointMcp />
+
     <!-- Services for Flxpoint customers -->
     <ContentSection
+      banded
       title="Services for Flxpoint Customers"
       subtitle="Other services, and how they apply to a business running on Flxpoint."
     >
@@ -121,7 +126,6 @@ const serviceCards = withIcons(flxpointConsultingData.services);
 
     <!-- Experience -->
     <ContentSection
-      banded
       title="Platform Experience"
       subtitle="Background from building and running the Flxpoint platform."
     >
