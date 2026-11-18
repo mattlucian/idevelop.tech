@@ -23,6 +23,7 @@ const help = [
   "Team training on asking AI about orders, listings, and shipping",
   "Dashboards and reports built from your Flxpoint data",
   "Automations that act on what the agent finds",
+  "Custom development on the Flxpoint API for tasks the MCP server doesn't cover",
 ];
 
 const video = ref<InstanceType<typeof VideoEmbed> | null>(null);
@@ -95,17 +96,6 @@ const video = ref<InstanceType<typeof VideoEmbed> | null>(null);
             >
               <CheckCircleIcon class="h-5 w-5 shrink-0 text-cyan-400" />
               {{ item }}
-            </li>
-            <li class="flex items-start gap-2 text-sm text-slate-300">
-              <CheckCircleIcon class="h-5 w-5 shrink-0 text-cyan-400" />
-              <span>
-                <router-link
-                  to="/services/mcp-development"
-                  class="text-cyan-400 transition-colors hover:text-cyan-300"
-                  >Custom MCP tools</router-link
-                >
-                for needs the Flxpoint server doesn't cover
-              </span>
             </li>
           </ul>
         </div>

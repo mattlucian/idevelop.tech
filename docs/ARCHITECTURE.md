@@ -52,7 +52,6 @@ This is an **SST (Serverless Stack) v3 monorepo** containing:
 
 - **vue-tsc** - TypeScript checker for Vue
 - **ESLint + Prettier** - Code quality and formatting
-- **Dependabot** - Automated dependency updates
 - **CodeQL + DeepSource** - Security and quality scanning
 
 ---
