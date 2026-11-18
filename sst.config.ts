@@ -146,7 +146,7 @@ export default $config({
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https:",
       isProduction
-        ? "connect-src 'self' https://api.idevelop.tech https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.googleadservices.com"
+        ? "connect-src 'self' https://api.idevelop.tech https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.googleadservices.com"
         : "connect-src 'self' https://dev-api.idevelop.tech",
       "frame-src https://www.google.com https://td.doubleclick.net https://www.googletagmanager.com https://www.youtube-nocookie.com",
       "base-uri 'self'",
